@@ -21,51 +21,80 @@ CREATE TABLE IF NOT EXISTS "shop_tags" (
 	FOREIGN KEY("shop.ID") REFERENCES "shop "("ID"),
 	FOREIGN KEY("tag.name") REFERENCES "tag"("name")
 );
-
-CREATE TABLE "dish" (
-	"shop.ID"	INTEGER NOT NULL ,
+DROP TABLE IF EXISTS "reward";
+CREATE TABLE IF NOT EXISTS "reward" (
+	"date"	INTEGER NOT NULL UNIQUE,
+	"amount"	INTEGER NOT NULL,
+	PRIMARY KEY("date")
+);
+DROP TABLE IF EXISTS "customer_logins";
+CREATE TABLE IF NOT EXISTS "customer_logins" (
+	"reward.date"	INTEGER NOT NULL UNIQUE,
+	"customer.email"	INTEGER NOT NULL UNIQUE COLLATE NOCASE,
+	"chain"	INTEGER,
+<<<<<<< HEAD
+	FOREIGN KEY("customer.email") REFERENCES "customer"("email"),
+	FOREIGN KEY("reward.date") REFERENCES "reward"("date")
+=======
+	FOREIGN KEY("reward.date") REFERENCES "reward"("date"),
+	FOREIGN KEY("customer.email") REFERENCES "customer"("email")
+>>>>>>> f396101 (change primary key  structuce)
+);
+DROP TABLE IF EXISTS "customer_ratings";
+CREATE TABLE IF NOT EXISTS "customer_ratings" (
+	"customer.email"	TEXT NOT NULL UNIQUE COLLATE NOCASE,
+	"shop.ID"	INTEGER NOT NULL UNIQUE,
+	"date"	INTEGER NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	"rating"	INTEGER NOT NULL,
+	"comments"	TEXT,
+<<<<<<< HEAD
+	FOREIGN KEY("shop.ID") REFERENCES "shop "("ID"),
+	FOREIGN KEY("customer.email") REFERENCES "customer"("email")
+=======
+	FOREIGN KEY("customer.email") REFERENCES "customer"("email"),
+	FOREIGN KEY("shop.ID") REFERENCES "shop "("ID")
+);
+DROP TABLE IF EXISTS "dish";
+CREATE TABLE IF NOT EXISTS "dish" (
+	"shop.ID"	TEXT NOT NULL UNIQUE,
 	"name"	TEXT NOT NULL UNIQUE COLLATE NOCASE,
 	"description"	TEXT,
 	"price"	INTEGER NOT NULL,
 	"picture"	BLOB,
 	"Is available"	INTEGER NOT NULL,
-	FOREIGN KEY("shop.ID") REFERENCES "shop"("ID"),
+	FOREIGN KEY("shop.ID") REFERENCES "shop "("ID"),
 	PRIMARY KEY("name")
 );
-
-CREATE TABLE "order" (
-	"ID"	INTEGER NOT NULL UNIQUE ,
-	"customer.email"	TEXT NOT NULL UNIQUE COLLATE NOCASE,
-	"address"	TEXT NOT NULL,
-	"date"	INTEGER NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	FOREIGN KEY("customer.email") REFERENCES "customer"("email"),
-	PRIMARY KEY("ID")
-);
-
-CREATE TABLE "order_items" (
-	"shop.ID"	INTEGER NOT NULL UNIQUE ,
+DROP TABLE IF EXISTS "order_items";
+CREATE TABLE IF NOT EXISTS "order_items" (
+	"shop.ID"	TEXT NOT NULL UNIQUE,
 	"dish.name"	TEXT NOT NULL UNIQUE COLLATE NOCASE,
-	"order.ID"	INTEGER NOT NULL UNIQUE ,
+	"order.ID"	INTEGER NOT NULL UNIQUE,
 	"quantity"	INTEGER NOT NULL,
-	FOREIGN KEY("shop.ID") REFERENCES "dish"("shop.ID"),
-	FOREIGN KEY("order.ID") REFERENCES "order"("ID"),
-	FOREIGN KEY("dish.name") REFERENCES "dish"("name")
-);
-
-CREATE TABLE "cart_items" (
-	"shop.ID"	INTEGER NOT NULL UNIQUE ,
-	"dish.name"	TEXT NOT NULL UNIQUE COLLATE NOCASE,
-	"customer.email"	TEXT NOT NULL UNIQUE COLLATE NOCASE,
-	"quantity"	INTEGER NOT NULL,
+	FOREIGN KEY("shop.ID") REFERENCES "shop "("ID"),
 	FOREIGN KEY("dish.name") REFERENCES "dish"("name"),
-	FOREIGN KEY("customer.email") REFERENCES "customer"("email"),
-	FOREIGN KEY("shop.ID") REFERENCES "dish"("shop.ID")
+	FOREIGN KEY("order.ID") REFERENCES "order"("ID")
 );
-
-CREATE TABLE "reward" (
-	"date"	INTEGER NOT NULL UNIQUE,
-	"amount"	INTEGER NOT NULL,
-	PRIMARY KEY("date")
+DROP TABLE IF EXISTS "cart_items";
+CREATE TABLE IF NOT EXISTS "cart_items" (
+	"shop.ID"	TEXT NOT NULL UNIQUE,
+	"dish.name"	TEXT NOT NULL UNIQUE COLLATE NOCASE,
+	"customer.email"	TEXT NOT NULL UNIQUE COLLATE NOCASE,
+	"quantity"	INTEGER NOT NULL,
+	FOREIGN KEY("shop.ID") REFERENCES "shop "("ID"),
+	FOREIGN KEY("customer.email") REFERENCES "customer"("email"),
+	FOREIGN KEY("dish.name") REFERENCES "dish"("name")
+>>>>>>> f396101 (change primary key  structuce)
+);
+DROP TABLE IF EXISTS "comment";
+CREATE TABLE IF NOT EXISTS "comment" (
+	"customer.email"	TEXT NOT NULL UNIQUE COLLATE NOCASE,
+	"ID"	TEXT NOT NULL UNIQUE,
+	"post.ID"	INTEGER NOT NULL UNIQUE,
+	"picture"	BLOB,
+	"text"	TEXT,
+	"date"	INTEGER NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY("ID")
 );
 DROP TABLE IF EXISTS "order";
 CREATE TABLE IF NOT EXISTS "order" (
@@ -97,13 +126,36 @@ CREATE TABLE IF NOT EXISTS "shop " (
 	"closing time"	INTEGER NOT NULL,
 	PRIMARY KEY("ID")
 );
-
-CREATE TABLE "customer_ratings" (
-	"customer.email"	TEXT NOT NULL UNIQUE COLLATE NOCASE,
-	"shop.ID"	INTEGER NOT NULL UNIQUE ,
-	"date"	INTEGER NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	"rating" INTEGER NOT NULL,
-	"comments" TEXT,
-	FOREIGN KEY("customer.email") REFERENCES "customer"("email"),
-	FOREIGN KEY("shop.ID") REFERENCES "shop"("ID")
+<<<<<<< HEAD
+DROP TABLE IF EXISTS "dish";
+CREATE TABLE IF NOT EXISTS "dish" (
+	"shop.ID"	TEXT NOT NULL,
+	"name"	TEXT NOT NULL COLLATE NOCASE,
+	"description"	TEXT,
+	"price"	INTEGER NOT NULL,
+	"picture"	BLOB,
+	"Is available"	INTEGER NOT NULL,
+	FOREIGN KEY("shop.ID") REFERENCES "shop "("ID"),
+	PRIMARY KEY("name","shop.ID")
 );
+DROP TABLE IF EXISTS "cart_items";
+CREATE TABLE IF NOT EXISTS "cart_items" (
+	"shop.ID"	TEXT NOT NULL UNIQUE,
+	"dish.name"	TEXT NOT NULL UNIQUE COLLATE NOCASE,
+	"customer.email"	TEXT NOT NULL UNIQUE COLLATE NOCASE,
+	"quantity"	INTEGER NOT NULL,
+	FOREIGN KEY("customer.email") REFERENCES "customer"("email"),
+	FOREIGN KEY("shop.ID","dish.name") REFERENCES "dish"("shop.ID","name")
+);
+DROP TABLE IF EXISTS "order_items";
+CREATE TABLE IF NOT EXISTS "order_items" (
+	"shop.ID"	TEXT NOT NULL UNIQUE,
+	"dish.name"	TEXT NOT NULL UNIQUE COLLATE NOCASE,
+	"order.ID"	INTEGER NOT NULL UNIQUE,
+	"quantity"	INTEGER NOT NULL,
+	FOREIGN KEY("shop.ID","dish.name") REFERENCES "dish"("shop.ID","name"),
+	FOREIGN KEY("order.ID") REFERENCES "order"("ID")
+);
+=======
+>>>>>>> f396101 (change primary key  structuce)
+COMMIT;
