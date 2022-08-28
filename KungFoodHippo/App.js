@@ -70,6 +70,26 @@ styles = StyleSheet.create({
     justifyContent: 'center',
   },
 
+  h1: {
+    marginTop: 16,
+    paddingVertical: 8,
+    color: "#111111",
+    textAlign: "center",
+    fontSize: 60,
+    fontFamily: "Roboto-Regular",
+    fontWeight: "bold"
+  },
+  
+  h2: {
+    marginTop: 16,
+    paddingVertical: 8,
+    color: "#111111",
+    textAlign: "center",
+    fontSize: 40,
+    fontFamily: "Roboto-Regular",
+    fontWeight: "bold"
+  },
+
   text: {
     marginTop: 16,
     paddingVertical: 8,
@@ -124,9 +144,9 @@ styles = StyleSheet.create({
     borderRadius: 5
   },
 
-  primColor: "#E76766",
-
-  secColor: "#E76766"
+  color_red: "#E76766",
+  color_yellow: "#FCD077",
+  color_red_shallow:'rgba(91,40,40,0.25)' 
 
 });
 
