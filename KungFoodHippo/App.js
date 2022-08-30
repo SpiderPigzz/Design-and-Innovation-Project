@@ -2,7 +2,45 @@ import * as React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Pressable, Image } from 'react-native';
 import * as Font from 'expo-font';
-import { Card, ListItem, Button, Icon } from 'react-native-elements'
+import { Card, ListItem, Button, Icon } from 'react-native-elements';
+
+import * as FileSystem from 'expo-file-system';
+import { Asset } from "expo-asset";
+import * as SQLite from 'expo-sqlite';
+
+async function openDatabase() {
+  if (!(await FileSystem.getInfoAsync(FileSystem.documentDirectory + 'SQLite')).exists) {
+    await FileSystem.makeDirectoryAsync(FileSystem.documentDirectory + 'SQLite');
+  }
+  await FileSystem.makeDirectoryAsync(FileSystem.documentDirectory + "SQLite/", {intermediates: true});
+  const dbAsset = Asset.fromModule(require("./assets/kungfoodhippo.db"));
+  await FileSystem.deleteAsync(
+    FileSystem.documentDirectory + "SQLite/db.db", {idempotent : true})
+/*   FileSystem.readDirectoryAsync(FileSystem.documentDirectory+ "SQLite").then( t =>
+    console.log(t)
+  ) */
+  await FileSystem.downloadAsync(
+    dbAsset.uri, FileSystem.documentDirectory + "SQLite/db.db"
+  ); 
+  return SQLite.openDatabase("db.db");
+}
+
+openDatabase().then(
+  db => {
+    db.transaction(
+      tx => {
+        tx.executeSql("select name from 'shop' ", [], 
+          (trans, result) => {
+            console.log(result.rows)
+          },
+          (trans, err) => {
+            console.error(err)
+          }
+        );
+      }
+    );   
+  }
+)
 
 
 export default class App extends React.Component {
