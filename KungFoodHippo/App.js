@@ -12,14 +12,16 @@ async function openDatabase() {
   const workingDir = FileSystem.documentDirectory + 'SQLite';
   const dbFile = "db.db"
   const dbUri = workingDir + "/" + dbFile
-  if (!(await FileSystem.getInfoAsync(workingDir)).exists) {
+  if (((await FileSystem.getInfoAsync(workingDir)).exists)===false) {
     await FileSystem.makeDirectoryAsync(workingDir);
   }
  
   await FileSystem.readDirectoryAsync(FileSystem.documentDirectory+ "SQLite").then( t =>
     console.info(t)
   ) 
-  if (!(await FileSystem.getInfoAsync(dbUri).exists)){
+  const x = await FileSystem.getInfoAsync(dbUri);
+  console.info(x);
+  if ((await FileSystem.getInfoAsync(dbUri).exists)===false){
     const dbAsset = Asset.fromModule(require("./assets/kungfoodhippo.db"));
     console.warn("database file not found downloading new")
     await FileSystem.downloadAsync(
@@ -33,79 +35,88 @@ async function openDatabase() {
 
 openDatabase().then(
   async db => {
-    await db.transaction(
-      tx => {
-        //example non-conditional select
-        tx.executeSql(
-            "SELECT name, address FROM 'shop' LIMIT 3", [], 
-          (trans, result) => {
-            console.log("select:")
-            console.log(result.rows)
-          },
-          (trans, err) => {
+    transactions = new Promise(
+      () => {db.transaction(
+        tx => {
 
-            console.error(err)
-            //return true //this will rollback the transaction if uncommented
-          }
-        );
-        // example conditional select statment
-        tx.executeSql(
-          "SELECT s.'name', d.'name', d.'price'" 
-          +"FROM 'dish' AS d INNER JOIN 'shop' "
-          +"AS s ON s.'ID' = d.'shop.ID' "
-          +"WHERE s.'name' like ?"
-          +"ORDER BY d.'price'",
-          ['A&W%'],
-          (trans, result) => {
-            console.log("select statement with where clause:")
-            console.log(result.rows)
-          },
-          (trans, err) => {
-            console.error(err)
-            //return true //this will rollback the transaction if uncommented
-          });
 
-        tx.executeSql(
+          //example non-conditional select
+          tx.executeSql(
+              "SELECT name, address FROM 'shop' LIMIT 3", [], 
+            (trans, result) => {
+              console.log("select:")
+              console.log(result.rows)
+            },
+            (trans, err) => {
+  
+              console.error(err)
+              //return true //this will rollback the transaction if uncommented
+            }
+          );
+
+
+          // example conditional select statment
+          tx.executeSql(
+            "SELECT s.'name', d.'name', d.'price'" 
+            +"FROM 'dish' AS d INNER JOIN 'shop' "
+            +"AS s ON s.'ID' = d.'shop.ID' "
+            +"WHERE s.'name' like ?"
+            +"ORDER BY d.'price'",
+            ['A&W%'],
+            (trans, result) => {
+              console.log("select statement with where clause:")
+              console.log(result.rows)
+            },
+            (trans, err) => {
+              console.error(err)
+              //return true //this will rollback the transaction if uncommented
+            });
+  
+          tx.executeSql(
+              "SELECT * FROM 'cart_items'", [], 
+            (trans, result) => {
+              console.log("before insert:")
+              console.log(result.rows)
+            },
+            (trans, err) => {
+              console.error(err)
+              //return true //this will rollback the transaction if uncommented
+            }
+          );
+  
+
+          //example insert statment
+          tx.executeSql(
+              "INSERT INTO 'main'.'cart_items' ('shop.ID', 'dish.name', 'customer.email', 'quantity') "
+              +"VALUES (?, ?, ?, ?);", 
+              ['78141afc6a384ddb936457abf89ca56c', 'Fried Bun', 'realperson@sharklasers.com', 5], 
+            (trans, result) => {
+              console.log(result.rows)
+            },
+            (trans, err) => {
+  
+              console.error(err)
+              //return true //this will rollback the transaction if uncommented
+            }
+          );
+  
+  
+          tx.executeSql(
             "SELECT * FROM 'cart_items'", [], 
-          (trans, result) => {
-            console.log("before insert:")
-            console.log(result.rows)
-          },
-          (trans, err) => {
-            console.error(err)
-            //return true //this will rollback the transaction if uncommented
-          }
-        );
-
-        //example insert statment
-        tx.executeSql(
-            "INSERT INTO 'main'.'cart_items' ('shop.ID', 'dish.name', 'customer.email', 'quantity') "
-            +"VALUES (?, ?, ?, ?);", 
-            ['78141afc6a384ddb936457abf89ca56c', 'Fried Bun', 'realperson@sharklasers.com', 5], 
-          (trans, result) => {
-            console.log(result.rows)
-          },
-          (trans, err) => {
-
-            console.error(err)
-            //return true //this will rollback the transaction if uncommented
-          }
-        );
-
-
-        tx.executeSql(
-          "SELECT * FROM 'cart_items'", [], 
-          (trans, result) => {
-            console.log("after insert:")
-            console.log(result.rows)
-          },
-          (trans, err) => {
-            console.error(err)
-            //return true //this will rollback the transaction if uncommented
-          }
-        );
-      });
-      db.closeAsync();
+            (trans, result) => {
+              console.log("after insert:")
+              console.log(result.rows)
+            },
+            (trans, err) => {
+              console.error(err)
+              //return true //this will rollback the transaction if uncommented
+            }
+          );
+        });
+      }
+    )
+    await transactions()
+    db.closeAsync();
   }
 )
 
