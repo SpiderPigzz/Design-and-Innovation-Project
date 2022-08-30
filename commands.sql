@@ -18,7 +18,7 @@ DROP TABLE IF EXISTS "shop_tags";
 CREATE TABLE IF NOT EXISTS "shop_tags" (
 	"shop.ID"	INTEGER NOT NULL UNIQUE,
 	"tag.name"	TEXT NOT NULL UNIQUE,
-	FOREIGN KEY("shop.ID") REFERENCES "shop "("ID"),
+	FOREIGN KEY("shop.ID") REFERENCES "shop"("ID"),
 	FOREIGN KEY("tag.name") REFERENCES "tag"("name")
 );
 
@@ -67,6 +67,7 @@ CREATE TABLE "reward" (
 	"amount"	INTEGER NOT NULL,
 	PRIMARY KEY("date")
 );
+>>>>>>> 4bcb1f6 (fixed cart primary key issue)
 DROP TABLE IF EXISTS "order";
 CREATE TABLE IF NOT EXISTS "order" (
 	"ID"	TEXT NOT NULL UNIQUE,
