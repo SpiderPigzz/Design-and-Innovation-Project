@@ -9,34 +9,43 @@ import { Asset } from "expo-asset";
 import * as SQLite from 'expo-sqlite';
 
 async function openDatabase() {
-  if (!(await FileSystem.getInfoAsync(FileSystem.documentDirectory + 'SQLite')).exists) {
-    await FileSystem.makeDirectoryAsync(FileSystem.documentDirectory + 'SQLite');
+  const workingDir = FileSystem.documentDirectory + 'SQLite';
+  const dbFile = "db.db"
+  const dbUri = workingDir + "/" + dbFile
+  if (!(await FileSystem.getInfoAsync(workingDir)).exists) {
+    await FileSystem.makeDirectoryAsync(workingDir);
   }
-  await FileSystem.makeDirectoryAsync(FileSystem.documentDirectory + "SQLite/", {intermediates: true});
-  const dbAsset = Asset.fromModule(require("./assets/kungfoodhippo.db"));
-  await FileSystem.deleteAsync(
-    FileSystem.documentDirectory + "SQLite/db.db", {idempotent : true})
-/*   FileSystem.readDirectoryAsync(FileSystem.documentDirectory+ "SQLite").then( t =>
-    console.log(t)
-  ) */
-  await FileSystem.downloadAsync(
-    dbAsset.uri, FileSystem.documentDirectory + "SQLite/db.db"
-  ); 
-  return SQLite.openDatabase("db.db");
+ 
+  await FileSystem.readDirectoryAsync(FileSystem.documentDirectory+ "SQLite").then( t =>
+    console.info(t)
+  ) 
+  if (!(await FileSystem.getInfoAsync(dbUri).exists)){
+    const dbAsset = Asset.fromModule(require("./assets/kungfoodhippo.db"));
+    console.warn("database file not found downloading new")
+    await FileSystem.downloadAsync(
+      dbAsset.uri, dbUri
+    ); 
+  }
+  SQLite.openDatabase(dbFile)._db.close()//to fix SQLITE_READONLY_DBMOVED that occurs with prepopulated db
+  return SQLite.openDatabase(dbFile);
 }
 
+
 openDatabase().then(
-  db => {
-    db.transaction(
+  async db => {
+    await db.transaction(
       tx => {
         //example non-conditional select
         tx.executeSql(
             "SELECT name, address FROM 'shop' LIMIT 3", [], 
           (trans, result) => {
+            console.log("select:")
             console.log(result.rows)
           },
           (trans, err) => {
+
             console.error(err)
+            //return true //this will rollback the transaction if uncommented
           }
         );
         // example conditional select statment
@@ -46,16 +55,57 @@ openDatabase().then(
           +"AS s ON s.'ID' = d.'shop.ID' "
           +"WHERE s.'name' like ?"
           +"ORDER BY d.'price'",
-          ['arnold%'],
+          ['A&W%'],
           (trans, result) => {
+            console.log("select statement with where clause:")
             console.log(result.rows)
           },
           (trans, err) => {
             console.error(err)
+            //return true //this will rollback the transaction if uncommented
           });
-      }
 
-    );   
+        tx.executeSql(
+            "SELECT * FROM 'cart_items'", [], 
+          (trans, result) => {
+            console.log("before insert:")
+            console.log(result.rows)
+          },
+          (trans, err) => {
+            console.error(err)
+            //return true //this will rollback the transaction if uncommented
+          }
+        );
+
+        //example insert statment
+        tx.executeSql(
+            "INSERT INTO 'main'.'cart_items' ('shop.ID', 'dish.name', 'customer.email', 'quantity') "
+            +"VALUES (?, ?, ?, ?);", 
+            ['78141afc6a384ddb936457abf89ca56c', 'Fried Bun', 'realperson@sharklasers.com', 5], 
+          (trans, result) => {
+            console.log(result.rows)
+          },
+          (trans, err) => {
+
+            console.error(err)
+            //return true //this will rollback the transaction if uncommented
+          }
+        );
+
+
+        tx.executeSql(
+          "SELECT * FROM 'cart_items'", [], 
+          (trans, result) => {
+            console.log("after insert:")
+            console.log(result.rows)
+          },
+          (trans, err) => {
+            console.error(err)
+            //return true //this will rollback the transaction if uncommented
+          }
+        );
+      });
+      db.closeAsync();
   }
 )
 
