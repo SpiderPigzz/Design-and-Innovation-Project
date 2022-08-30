@@ -29,7 +29,9 @@ openDatabase().then(
   db => {
     db.transaction(
       tx => {
-        tx.executeSql("select name from 'shop' ", [], 
+        //example non-conditional select
+        tx.executeSql(
+            "SELECT name, address FROM 'shop' LIMIT 3", [], 
           (trans, result) => {
             console.log(result.rows)
           },
@@ -37,7 +39,22 @@ openDatabase().then(
             console.error(err)
           }
         );
+        // example conditional select statment
+        tx.executeSql(
+          "SELECT s.'name', d.'name', d.'price'" 
+          +"FROM 'dish' AS d INNER JOIN 'shop' "
+          +"AS s ON s.'ID' = d.'shop.ID' "
+          +"WHERE s.'name' like ?"
+          +"ORDER BY d.'price'",
+          ['arnold%'],
+          (trans, result) => {
+            console.log(result.rows)
+          },
+          (trans, err) => {
+            console.error(err)
+          });
       }
+
     );   
   }
 )
