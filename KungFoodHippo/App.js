@@ -89,7 +89,7 @@ openDatabase().then(
           tx.executeSql(
               "INSERT INTO 'main'.'cart_items' ('shop.ID', 'dish.name', 'customer.email', 'quantity') "
               +"VALUES (?, ?, ?, ?);", 
-              ['78141afc6a384ddb936457abf89ca56c', 'Fried Bun', 'realperson@sharklasers.com', 5], 
+              ['78141afc6a384ddb936457abf89ca56c', 'Mashed Potato', 'realperson@sharklasers.com', 5], 
             (trans, result) => {
               console.log(result.rows)
             },
@@ -115,8 +115,9 @@ openDatabase().then(
         });
       }
     )
-    await transactions()
-    db.closeAsync();
+    transactions.then(
+      () => db.closeAsync()
+    )
   }
 )
 
