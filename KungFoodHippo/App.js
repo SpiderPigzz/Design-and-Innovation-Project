@@ -29,9 +29,13 @@ export default function KungFoodHippo() {
         <Menu.Navigator initialRouteName="Home">
           <Menu.Screen name="Home" component={TemplateScreen} />
           <Menu.Screen name="Notifications" component={DemoScreen} />
+          <Menu.Screen name="Hello" component={DemoScreen} />
         </Menu.Navigator>
       </NavigationContainer>
+
     </PaperProvider>
+
+    
   );
 }
 
