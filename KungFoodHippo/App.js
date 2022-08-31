@@ -41,7 +41,7 @@ export default class App extends React.Component {
 
           <Card containerStyle={styles.cardSec}>
             <Card.Title>Card Title</Card.Title>
-            <Card.Image source={require('./assets/KFH.png')} backgroundColor={styles.primColor} resizeMode='contain'></Card.Image>
+            <Card.Image source={require('./assets/KFH.png')} backgroundColor={styles.color_red} resizeMode='contain'></Card.Image>
             <Text style={{ marginBottom: 10 }}>
               The idea with React Native Elements is more about component structure than actual design.
             </Text>
