@@ -10,18 +10,18 @@ import * as SQLite from 'expo-sqlite';
 
 async function openDatabase() {
   const workingDir = FileSystem.documentDirectory + 'SQLite';
-  const dbFile = "db.db"
+  const dbFile = "db3.db"
   const dbUri = workingDir + "/" + dbFile
-  if (((await FileSystem.getInfoAsync(workingDir)).exists)===false) {
+  const dirInfo = await FileSystem.getInfoAsync(workingDir)
+  if (dirInfo.exists===false) {
     await FileSystem.makeDirectoryAsync(workingDir);
   }
  
-  await FileSystem.readDirectoryAsync(FileSystem.documentDirectory+ "SQLite").then( t =>
+/*   await FileSystem.readDirectoryAsync(FileSystem.documentDirectory+ "SQLite").then( t =>
     console.info(t)
-  ) 
-  const x = await FileSystem.getInfoAsync(dbUri);
-  console.info(x);
-  if ((await FileSystem.getInfoAsync(dbUri).exists)===false){
+  )  */
+  const fileInfo = await FileSystem.getInfoAsync(dbUri)
+  if ((fileInfo.exists)===false){
     const dbAsset = Asset.fromModule(require("./assets/kungfoodhippo.db"));
     console.warn("database file not found downloading new")
     await FileSystem.downloadAsync(
@@ -89,9 +89,9 @@ openDatabase().then(
           tx.executeSql(
               "INSERT INTO 'main'.'cart_items' ('shop.ID', 'dish.name', 'customer.email', 'quantity') "
               +"VALUES (?, ?, ?, ?);", 
-              ['78141afc6a384ddb936457abf89ca56c', 'Mashed Potato', 'realperson@sharklasers.com', 5], 
+              ['78141afc6a384ddb936457abf89ca56c', 'Fried Bun', 'realperson@sharklasers.com', 5], 
             (trans, result) => {
-              console.log(result.rows)
+
             },
             (trans, err) => {
   
