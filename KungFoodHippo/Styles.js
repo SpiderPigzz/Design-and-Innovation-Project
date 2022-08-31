@@ -15,7 +15,7 @@ export const styles = StyleSheet.create({
         color: "#E76766",
         textAlign: "center",
         fontSize: 30,
-        fontFamily: "Roboto-Regular",
+        // fontFamily: "Roboto-Regular",
         fontWeight: "bold"
     },
 
@@ -23,7 +23,7 @@ export const styles = StyleSheet.create({
         color: "#FFFFFF",
         textAlign: "center",
         fontSize: 20,
-        fontFamily: "Roboto-Regular",
+        // fontFamily: "Roboto-Regular",
         fontWeight: "bold"
     },
 
@@ -33,7 +33,7 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 16,
         borderWidth: 0,
         backgroundColor: "#E76766",
-        fontFamily: "Roboto-Regular",
+        // fontFamily: "Roboto-Regular",
         borderRadius: 5,
     },
 
@@ -42,7 +42,7 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 16,
         borderWidth: 0,
         backgroundColor: "#FFFFFF",
-        fontFamily: "Roboto-Regular",
+        // fontFamily: "Roboto-Regular",
         borderRadius: 5,
     },
 
