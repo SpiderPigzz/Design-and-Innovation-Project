@@ -9,7 +9,7 @@ export function RecommendedOrderCard() {
         <Card style={[styles.card, {marginHorizontal:16, marginVertical:4,}]}>
             <Card.Content style={[styles.container, {justifyContent:'flex-start', backgroundColor:styles.secColor}]}>
                 <View style={[styles.container, {flexDirection:'row', justifyContent:'flex-start', backgroundColor:styles.secColor}]}>
-                    <Text style={[styles.backgroundText]}>People also odered</Text>
+                    <Text style={[styles.backgroundText]}>People also ordered</Text>
                 </View>
 
                 <View style={[styles.container, {flexDirection:'row', justifyContent:'space-between', backgroundColor:styles.secColor}]}>
