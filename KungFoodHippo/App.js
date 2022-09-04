@@ -8,7 +8,8 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import { MD3LightTheme as DefaultTheme, Provider as PaperProvider, Text, Appbar, Snackbar, BottomNavigation, Button, Card, Surface, Title, Paragraph, Drawer } from 'react-native-paper';
 import { styles } from './Styles.js'
-import { TemplateScreen } from './Template.js';
+import { StoreScreen } from './Store.js';
+import { CheckoutScreen } from './Checkout.js';
 import { DemoScreen } from './Demo.js';
 import {
   SafeAreaView,
@@ -26,10 +27,10 @@ export default function KungFoodHippo() {
 
     <PaperProvider theme={theme}>
       <NavigationContainer>
-        <Menu.Navigator initialRouteName="Home">
-          <Menu.Screen name="Home" component={TemplateScreen} />
+        <Menu.Navigator initialRouteName="Store">
+          <Menu.Screen name="Store" component={StoreScreen} />
           <Menu.Screen name="Notifications" component={DemoScreen} />
-          <Menu.Screen name="Hello" component={DemoScreen} />
+          <Menu.Screen name="Checkout" component={CheckoutScreen} />
         </Menu.Navigator>
       </NavigationContainer>
 

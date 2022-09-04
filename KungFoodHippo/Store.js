@@ -17,7 +17,7 @@ import {
     initialWindowMetrics,
 } from 'react-native-safe-area-context';
 
-export function TemplateScreen({ navigation }) {
+export function StoreScreen({ navigation }) {
     return (
         <PaperProvider theme={theme}>
             {/* START WRITING CODE BELOW!!!! */}
