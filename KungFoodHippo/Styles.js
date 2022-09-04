@@ -3,10 +3,14 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
     container: {
-        flex: 1,
         backgroundColor: '#fff',
-        padding: 16,
+        padding: 4,
         justifyContent: 'center',
+    },
+
+    scrollView: {
+        backgroundColor: '#fff',
+        padding: 8,
     },
 
     text: {
@@ -19,8 +23,16 @@ export const styles = StyleSheet.create({
         fontWeight: "bold"
     },
 
-    buttontext: {
-        color: "#FFFFFF",
+    buttonText: {
+        color: "#000000",
+        textAlign: "center",
+        fontSize: 14,
+        // fontFamily: "Roboto-Regular",
+        fontWeight: "bold"
+    },
+
+    backgroundText: {
+        color: "#000000",
         textAlign: "center",
         fontSize: 20,
         // fontFamily: "Roboto-Regular",
@@ -46,13 +58,22 @@ export const styles = StyleSheet.create({
         borderRadius: 5,
     },
 
+    buttonOutline: {
+        paddingHorizontal: 4,
+        borderWidth: 2,
+        backgroundColor: "#FFFFFF",
+        borderColor: "#000000",
+        // fontFamily: "Roboto-Regular",
+        borderRadius: 15,
+    },
+
     card: {
         marginTop: 8,
         paddingVertical: 8,
         paddingHorizontal: 16,
         elevation: 3,
         borderWidth: 0,
-        backgroundColor: "#E76766",
+        backgroundColor: "#F9E6E6",
         borderRadius: 5,
     },
 
@@ -67,8 +88,9 @@ export const styles = StyleSheet.create({
     },
 
     primColor: "#E76766",
-
-    secColor: "#E76766"
+    primTextColor: "#FFFFFF",
+    primIconColor: "#FFFFFF",
+    secColor: "#F9E6E6",
+    backgroundColor: "#FFFFFF",
 
 });
-
