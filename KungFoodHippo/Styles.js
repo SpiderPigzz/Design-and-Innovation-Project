@@ -4,8 +4,8 @@ import { StyleSheet } from 'react-native';
 export const styles = StyleSheet.create({
     container: {
         backgroundColor: '#fff',
-        padding: 4,
         justifyContent: 'center',
+
     },
 
     scrollView: {
@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
         padding: 8,
     },
 
-    text: {
+    textTitle: {
         marginTop: 8,
         paddingVertical: 8,
         color: "#E76766",
@@ -23,20 +23,36 @@ export const styles = StyleSheet.create({
         fontWeight: "bold"
     },
 
+    text: {
+        color: "#E76766",
+        fontSize: 14,
+        // fontFamily: "Roboto-Regular",
+        fontWeight: "bold",
+        textAlignVertical: 'bottom'
+    },
+
+    infoText:{
+        color: "#b8b8b880",
+        fontSize: 14,
+        // fontFamily: "Roboto-Regular",
+        textAlignVertical: 'bottom'
+    },
+
     buttonText: {
-        color: "#000000",
+        color: "#FFFFFF",
         textAlign: "center",
         fontSize: 14,
         // fontFamily: "Roboto-Regular",
-        fontWeight: "bold"
+        fontWeight: "bold",
+        textAlignVertical: 'bottom'
     },
 
     backgroundText: {
         color: "#000000",
-        textAlign: "center",
         fontSize: 20,
         // fontFamily: "Roboto-Regular",
-        fontWeight: "bold"
+        fontWeight: "bold",
+        textAlignVertical: 'bottom'
     },
 
     button: {
@@ -82,9 +98,25 @@ export const styles = StyleSheet.create({
         paddingVertical: 8,
         paddingHorizontal: 16,
         elevation: 3,
-        borderWidth: 0,
+        borderWidth: 1,
+        borderColor: "#0000001A",
         backgroundColor: "#FFFFFF",
         borderRadius: 5
+    },
+
+    imageIcon: {
+        width: 60,
+        height: 60,
+        borderRadius: 10,
+    },
+
+    divider: {
+        backgroundColor:'#b8b8b880',
+        margin:8,
+    },
+
+    iconPrimTint: {
+        tintColor: "#E76766",
     },
 
     primColor: "#E76766",

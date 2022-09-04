@@ -28,7 +28,7 @@ export default function KungFoodHippo() {
     <PaperProvider theme={theme}>
       <NavigationContainer>
         <Menu.Navigator initialRouteName="Store">
-          <Menu.Screen name="Store" component={StoreScreen} />
+          <Menu.Screen name="Store" component={StoreScreen}/>
           <Menu.Screen name="Notifications" component={DemoScreen} />
           <Menu.Screen name="Checkout" component={CheckoutScreen} />
         </Menu.Navigator>
