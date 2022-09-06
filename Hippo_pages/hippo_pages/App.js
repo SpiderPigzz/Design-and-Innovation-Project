@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Dimensions } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
+import { StyleSheet, Text, View, Dimensions, Image} from 'react-native';
+import MapView, { Callout, Marker } from 'react-native-maps';
 import * as React from 'react';
 
 export default function App() {
@@ -31,7 +31,27 @@ export default function App() {
         <Marker coordinate = {{latitude: 1.347,longitude: 103.682}}
          pinColor = {"red"}
          title={"McDonald's"}
-         description={"Don't know what to eat on campus? Try this!"}/>
+         description={"Don't know what to eat on campus? Try this!"}>
+          
+        <Callout tooltip>
+          <View>
+            <View style={styles.bubble}>
+              <Text style={styles.tooltip_name}>McDonald's</Text>
+              <Text> NTU Students' Favorite Place</Text>
+              <Image 
+                style={styles.tooltip_image}
+                source={require('./assets/mcd.jpg')}
+              />
+            </View>
+          </View>
+          <View style={styles.arrowBorder}/>
+          <View sytle={styles.arrow}/>
+
+        </Callout>
+
+        </Marker>
+
+        
     </MapView>
     
       </View>
@@ -42,7 +62,46 @@ export default function App() {
 
 
 const styles = StyleSheet.create({
+//added styles
+  bubble: {
+    flexDirection: 'column',
+    alighSelf: 'flex-start',
+    backgroundColor: '#fff',
+    borderRadius: 6,
+    borderColor: '#ccc',
+    borderWidth: 0.5,
+    padding: 15,
+  },
 
+  tooltip_name: {
+    fontSize: 16,
+    marginBottom: 5,
+  },
+
+  arrow:{
+    backgroundColor: 'transparent',
+    borderColor: 'transparent',
+    borderTopColor: '#fff',
+    borderWidth: 16,
+    alignSelf: 'center',
+    marginTop: -32,
+  },
+
+  arrowBorder: {
+    backgroundColor: 'transparent',
+    borderColor: 'transparent',
+    borderTopColor: '#E76766',
+    borderWidth: 16,
+    alignSelf: 'center',
+    marginTop: -0.5,
+  },
+
+  tooltip_image: {
+    width: 120,
+    height: 80,
+  },
+
+//added styles
   container: {
     flex: 1,
     backgroundColor: '#fff',
