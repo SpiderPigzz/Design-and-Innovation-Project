@@ -1,26 +1,39 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Dimensions } from 'react-native';
-import MapView from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
 import * as React from 'react';
-import { Marker } from 'react-native-maps';
 
 export default function App() {
   return (
       <View style={styles.container}>
-        <MapView 
+        {/* <MapView 
           style={styles.map} 
           initialRegion={{
             latitude: 1.348,
             longitude: 103.683,
             latitudeDelta: 0.0122,
             longitudeDelta: 0.0121,
-        }}>
-          
-          <Marker
-            description='KFC_NTU'
-            coordinate={{latitude:1.349, longtitude: 103.684}} />
-            
-        </MapView>
+        }}> */}
+          {/* <MapView.Marker 
+           coordinate = {{latitude: 1.346, longtitude:103.684}}/> */}
+
+        {/* </MapView> */}
+
+        <MapView
+          style={styles.map}
+          initialRegion={{
+          latitude: 1.348,
+          longitude: 103.683,
+          latitudeDelta: 0.00822,
+          longitudeDelta: 0.00821,
+        }}
+    >
+        <Marker coordinate = {{latitude: 1.347,longitude: 103.682}}
+         pinColor = {"red"}
+         title={"McDonald's"}
+         description={"Don't know what to eat on campus? Try this!"}/>
+    </MapView>
+    
       </View>
       
   );
