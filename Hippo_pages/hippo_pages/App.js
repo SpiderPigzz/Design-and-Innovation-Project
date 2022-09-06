@@ -1,34 +1,23 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Dimensions, Image} from 'react-native';
-import MapView, { Callout, Marker } from 'react-native-maps';
+import { StyleSheet, Text, View, Dimensions, Image, ScrollView} from 'react-native';
+import MapView, { Animated, Callout, Marker } from 'react-native-maps';
 import * as React from 'react';
+import { markers } from './mapData';
 
 export default function App() {
   return (
-      <View style={styles.container}>
-        {/* <MapView 
-          style={styles.map} 
-          initialRegion={{
-            latitude: 1.348,
-            longitude: 103.683,
-            latitudeDelta: 0.0122,
-            longitudeDelta: 0.0121,
-        }}> */}
-          {/* <MapView.Marker 
-           coordinate = {{latitude: 1.346, longtitude:103.684}}/> */}
+  <View style={styles.container}>
 
-        {/* </MapView> */}
-
-        <MapView
+    <MapView
           style={styles.map}
           initialRegion={{
           latitude: 1.348,
           longitude: 103.683,
           latitudeDelta: 0.00822,
           longitudeDelta: 0.00821,
-        }}
-    >
-        <Marker coordinate = {{latitude: 1.347,longitude: 103.682}}
+    }}>
+
+       <Marker coordinate = {{latitude: 1.347,longitude: 103.682}}
          pinColor = {"red"}
          title={"McDonald's"}
          description={"Don't know what to eat on campus? Try this!"}>
@@ -46,15 +35,60 @@ export default function App() {
           </View>
           <View style={styles.arrowBorder}/>
           <View sytle={styles.arrow}/>
-
         </Callout>
+      </Marker>
 
-        </Marker>
+      <Marker coordinate = {{latitude: 1.344,longitude: 103.681}}
+         pinColor = {"red"}
+         title={"McDonald's"}
+         description={"Don't know what to eat on campus? Try this!"}>
+          
+        <Callout tooltip>
+          <View>
+            <View style={styles.bubble}>
+              <Text style={styles.tooltip_name}>McDonald's</Text>
+              <Text> NTU Students' Favorite Place</Text>
+              <Image 
+                style={styles.tooltip_image}
+                source={require('./assets/mcd.jpg')}
+              />
+            </View>
+          </View>
+          <View style={styles.arrowBorder}/>
+          <View sytle={styles.arrow}/>
+        </Callout>
+      </Marker>
+
+      <Marker coordinate = {{latitude: 1.349,longitude: 103.683}}
+         pinColor = {"red"}
+         title={"McDonald's"}
+         description={"Don't know what to eat on campus? Try this!"}>
+          
+        <Callout tooltip>
+          <View>
+            <View style={styles.bubble}>
+              <Text style={styles.tooltip_name}>McDonald's</Text>
+              <Text> NTU Students' Favorite Place</Text>
+              <Image 
+                style={styles.tooltip_image}
+                source={require('./assets/mcd.jpg')}
+              />
+            </View>
+          </View>
+          <View style={styles.arrowBorder}/>
+          <View sytle={styles.arrow}/>
+        </Callout>
+      </Marker>
 
         
     </MapView>
     
-      </View>
+    <Animated.ScrollView>
+      <Text numberOfLines={1} style={styles.cardtitle}>Hi</Text>
+    </Animated.ScrollView>
+    
+
+</View>
       
   );
 }
@@ -99,6 +133,45 @@ const styles = StyleSheet.create({
   tooltip_image: {
     width: 120,
     height: 80,
+  },
+
+  scroll_card: {
+    // padding: 10,
+    elevation: 2,
+    backgroundColor: "#FFF",
+    borderTopLeftRadius: 5,
+    borderTopRightRadius: 5,
+    marginHorizontal: 10,
+    shadowColor: "#000",
+    shadowRadius: 5,
+    shadowOpacity: 0.3,
+    shadowOffset: { x: 2, y: -2 },
+    height: 220,
+    width: Dimensions.get("window")*0.8,
+    overflow: "hidden",
+  },
+
+  cardImage: {
+    flex: 3,
+    width: "100%",
+    height: "100%",
+    alignSelf: "center",
+  },
+
+  textContent: {
+    flex: 2,
+    padding: 10,
+  },
+
+  cardtitle: {
+    fontSize: 12,
+    // marginTop: 5,
+    fontWeight: "bold",
+  },
+
+  cardDescription: {
+    fontSize: 12,
+    color: "#444",
   },
 
 //added styles
