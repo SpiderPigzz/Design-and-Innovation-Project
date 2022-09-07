@@ -11,9 +11,9 @@ import { styles } from './Styles.js'
 import { TemplateScreen } from './Template.js';
 import { DemoScreen } from './Demo.js';
 import { LoginScreen } from './Login.js';
-import { TrackingScreen } from './Tracking.js';
+//import { TrackingScreen } from './Tracking.js';
 //import { TEST } from './TEST.js';
-import { MenuScreen } from './Menu.js';
+//import { MenuScreen } from './Menu.js';
 import {
   SafeAreaView,
   SafeAreaProvider,
@@ -32,11 +32,11 @@ export default function KungFoodHippo() {
       <NavigationContainer>
         <Menu.Navigator initialRouteName="Login">                    
           <Menu.Screen name="Login" component={LoginScreen} />
-          <Menu.Screen name="Menu" component={MenuScreen} />
+          {/*<Menu.Screen name="Menu" component={MenuScreen} />*/}
           <Menu.Screen name="Home" component={TemplateScreen} />
           <Menu.Screen name="Notifications" component={DemoScreen} />
           <Menu.Screen name="Hello" component={DemoScreen} />
-          <Menu.Screen name="Tracking" component={TrackingScreen} />
+          {/*<Menu.Screen name="Tracking" component={TrackingScreen} />*/}
         </Menu.Navigator>
       </NavigationContainer>
 
