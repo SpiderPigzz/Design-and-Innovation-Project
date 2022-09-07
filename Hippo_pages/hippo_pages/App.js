@@ -4,11 +4,16 @@ import MapView, { Animated, Callout, Marker } from 'react-native-maps';
 import * as React from 'react';
 import { markers } from './mapData';
 import {WebView} from 'react-native-webview';
+import { FAB } from 'react-native-paper';
+
 
 export default function App() {
-  return (
-  <View style={styles.container}>
+    
 
+  return (
+
+    
+  <View style={styles.container}>
     <MapView
           style={styles.map}
           initialRegion={{
@@ -116,9 +121,16 @@ export default function App() {
     {/* <Animated.ScrollView>
       <Text numberOfLines={1} style={styles.cardtitle}>Hi</Text>
     </Animated.ScrollView> */}
-    
+    <FAB
+    icon="arrow-left"
+    style={styles.fab}
+    onPress={() => console.log('Pressed')}
+    />
 
 </View>
+
+
+
       
   );
 }
@@ -127,7 +139,14 @@ export default function App() {
 
 const styles = StyleSheet.create({
 //added styles
-
+  fab: {
+    position: 'absolute',
+    margin: 16,
+    left: 0,
+    top: 20,
+    backgroundColor:'#D60665',
+    borderRadius: 30,
+  },
   bubble: {
     flexDirection: 'column',
     alighSelf: 'flex-start',
