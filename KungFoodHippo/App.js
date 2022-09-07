@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StatusBar } from 'expo-status-bar';
+import { setStatusBarNetworkActivityIndicatorVisible, StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, Image } from 'react-native';
 import * as Font from 'expo-font';
 import { useState } from 'react';
@@ -10,6 +10,10 @@ import { MD3LightTheme as DefaultTheme, Provider as PaperProvider, Text, Appbar,
 import { styles } from './Styles.js'
 import { TemplateScreen } from './Template.js';
 import { DemoScreen } from './Demo.js';
+import { LoginScreen } from './Login.js';
+import { TrackingScreen } from './Tracking.js';
+//import { TEST } from './TEST.js';
+import { MenuScreen } from './Menu.js';
 import {
   SafeAreaView,
   SafeAreaProvider,
@@ -17,7 +21,7 @@ import {
   useSafeAreaInsets,
   initialWindowMetrics,
 } from 'react-native-safe-area-context';
-
+import renderNode from 'react-native-elements/dist/helpers/renderNode.js';
 
 export default function KungFoodHippo() {
   const [active, setActive] = React.useState('');
@@ -26,10 +30,13 @@ export default function KungFoodHippo() {
 
     <PaperProvider theme={theme}>
       <NavigationContainer>
-        <Menu.Navigator initialRouteName="Home">
+        <Menu.Navigator initialRouteName="Login">                    
+          <Menu.Screen name="Login" component={LoginScreen} />
+          <Menu.Screen name="Menu" component={MenuScreen} />
           <Menu.Screen name="Home" component={TemplateScreen} />
           <Menu.Screen name="Notifications" component={DemoScreen} />
           <Menu.Screen name="Hello" component={DemoScreen} />
+          <Menu.Screen name="Tracking" component={TrackingScreen} />
         </Menu.Navigator>
       </NavigationContainer>
 
