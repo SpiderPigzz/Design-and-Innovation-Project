@@ -22,7 +22,7 @@ export function LoginScreen({ navigation }) {
     return (
         <PaperProvider theme={theme}>
             {/* START WRITING CODE BELOW!!!! */}
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' , backgroundColor: '#E76766'}}>
+            <View style={{ flex: 2, alignItems: 'center', justifyContent: 'center' , backgroundColor: '#E76766'}}>
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'space-between'}}></View>
                 <Text style={theme.bigtext}>Login</Text>                
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'space-between' , backgroundColor: '#E76766'}}></View>
