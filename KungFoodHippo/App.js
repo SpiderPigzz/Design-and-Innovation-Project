@@ -18,9 +18,11 @@ import {
   initialWindowMetrics,
 } from 'react-native-safe-area-context';
 
+
 import * as FileSystem from 'expo-file-system';
 import { Asset } from "expo-asset";
 import * as SQLite from 'expo-sqlite';
+
 
 
 async function openDatabase() {
@@ -140,9 +142,12 @@ openDatabase().then(
 export default function KungFoodHippo() {
   const [active, setActive] = React.useState('');
 
+  
+
   return (
 
     <PaperProvider theme={theme}>
+      
       <NavigationContainer>
         <Menu.Navigator initialRouteName="Home">
           <Menu.Screen name="Home" component={TemplateScreen} />
