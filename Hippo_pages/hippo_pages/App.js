@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Dimensions, Image, ScrollView} from 'react-nati
 import MapView, { Animated, Callout, Marker } from 'react-native-maps';
 import * as React from 'react';
 import { markers } from './mapData';
+import {WebView} from 'react-native-webview';
 
 export default function App() {
   return (
@@ -15,7 +16,10 @@ export default function App() {
           longitude: 103.683,
           latitudeDelta: 0.00822,
           longitudeDelta: 0.00821,
-    }}>
+          }}
+          showsUserLocation={true}
+          followsUserLocation={true}
+          >
 
        <Marker coordinate = {{latitude: 1.347,longitude: 103.682}}
          pinColor = {"red"}
@@ -25,12 +29,20 @@ export default function App() {
         <Callout tooltip>
           <View>
             <View style={styles.bubble}>
-              <Text style={styles.tooltip_name}>McDonald's</Text>
-              <Text> NTU Students' Favorite Place</Text>
-              <Image 
-                style={styles.tooltip_image}
-                source={require('./assets/mcd.jpg')}
+              <Text style={styles.tooltip_name}>Fat Bob Thai Food</Text>
+              <View
+                style={{
+                  borderBottomColor: '#FCD077',
+                  borderBottomWidth: 1,
+                }}
               />
+              <Text style={styles.tooltip_description}>Bob's Favorite Place</Text>
+
+              <View>
+                    <WebView style={{ height: 120 , width: 250, }} source={{uri: 'https://travelandleisureasia.com/wp-content/uploads/2021/10/Thai-Dishes.png'}} />
+              </View>
+
+
             </View>
           </View>
           <View style={styles.arrowBorder}/>
@@ -46,12 +58,20 @@ export default function App() {
         <Callout tooltip>
           <View>
             <View style={styles.bubble}>
-              <Text style={styles.tooltip_name}>McDonald's</Text>
-              <Text> NTU Students' Favorite Place</Text>
-              <Image 
-                style={styles.tooltip_image}
-                source={require('./assets/mcd.jpg')}
+              <Text style={styles.tooltip_name}>71 Connect</Text>
+              <View
+                style={{
+                  borderBottomColor: '#FCD077',
+                  borderBottomWidth: 1,
+                }}
               />
+              <Text style={styles.tooltip_description}>Grab a Coffee, Cool Dog</Text>
+              
+              <View>
+                    <WebView style={styles.tooltip_image} source={{uri: 'https://www.tastingtable.com/img/gallery/20-different-types-of-coffee-explained/intro-1659544996.jpg'}} />
+              </View>
+
+              
             </View>
           </View>
           <View style={styles.arrowBorder}/>
@@ -68,24 +88,34 @@ export default function App() {
           <View>
             <View style={styles.bubble}>
               <Text style={styles.tooltip_name}>McDonald's</Text>
-              <Text> NTU Students' Favorite Place</Text>
-              <Image 
+              <View
+                style={{
+                  borderBottomColor: '#FCD077',
+                  borderBottomWidth: 1,
+                }}
+              />
+              <Text style={styles.tooltip_description}>NTU Students' Favorite Place</Text>
+              {/* <Image 
                 style={styles.tooltip_image}
                 source={require('./assets/mcd.jpg')}
-              />
-            </View>
+              /> */}
+
+              <View>
+                    <WebView style={styles.tooltip_image} source={{uri: 'https://cdn.foodadvisor.com.sg/uploads/images/image_default_5625f71ea9013077.jpg'}} />
+              </View>
+          </View>
           </View>
           <View style={styles.arrowBorder}/>
           <View sytle={styles.arrow}/>
         </Callout>
       </Marker>
 
-        
+      
     </MapView>
     
-    <Animated.ScrollView>
+    {/* <Animated.ScrollView>
       <Text numberOfLines={1} style={styles.cardtitle}>Hi</Text>
-    </Animated.ScrollView>
+    </Animated.ScrollView> */}
     
 
 </View>
@@ -97,19 +127,31 @@ export default function App() {
 
 const styles = StyleSheet.create({
 //added styles
+
   bubble: {
     flexDirection: 'column',
     alighSelf: 'flex-start',
     backgroundColor: '#fff',
-    borderRadius: 6,
-    borderColor: '#ccc',
-    borderWidth: 0.5,
-    padding: 15,
+    borderRadius: 15,
+    borderColor: '#D60665',
+    borderWidth: 0.5 ,
+    padding: 5,
+    elevation: 2,
   },
 
   tooltip_name: {
     fontSize: 16,
     marginBottom: 5,
+    alignItems: 'center',
+    fontWeight: 'bold',
+    color: "#D60665",
+  },
+
+  tooltip_description: {
+    fontSize: 14,
+    marginBottom: 5,
+    alignItems: 'center',
+    color: 'black',
   },
 
   arrow:{
@@ -119,7 +161,10 @@ const styles = StyleSheet.create({
     borderWidth: 16,
     alignSelf: 'center',
     marginTop: -32,
+    elevation: 40,
+    shadowColor: '#fff',
   },
+
 
   arrowBorder: {
     backgroundColor: 'transparent',
@@ -131,8 +176,15 @@ const styles = StyleSheet.create({
   },
 
   tooltip_image: {
-    width: 120,
-    height: 80,
+    width: 250,
+    height: 120,
+    resizeMode: 'cover',
+    flexDirection:'column',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    elevation: 10,
+    borderRadius: 10,
+    padding: 2,
   },
 
   scroll_card: {
