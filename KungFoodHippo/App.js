@@ -27,7 +27,7 @@ import * as SQLite from 'expo-sqlite';
 
 async function openDatabase() {
   const workingDir = FileSystem.documentDirectory + 'SQLite';
-  const dbFile = "db3.db"
+  const dbFile = "db.db"
   const dbUri = workingDir + "/" + dbFile
   const dirInfo = await FileSystem.getInfoAsync(workingDir)
   if (dirInfo.exists===false) {
