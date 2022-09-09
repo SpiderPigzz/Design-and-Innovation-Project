@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { 
-    StyleSheet, 
-    View, 
-    Image, 
+import {
+    StyleSheet,
+    View,
+    Image,
     ScrollView,
     Text,
     FlatList,
@@ -10,23 +10,23 @@ import {
     TextInput
 } from 'react-native';
 import { Icon } from "react-native-elements";
-import {SIZES, COLORS, FONTS} from '../constants/theme1';
-export default function Homepage(){
-    return(
-        <View style={{flexDirection:"row",height:'50'}}>
+import { SIZES, COLORS, FONTS } from '../constants/theme1';
+export default function Homepage() {
+    return (
+        <View style={{ flexDirection: "row", height: '50' }}>
             <TouchableOpacity>
                 style={{
                     width: 50,
-                    paddingLeft: SIZES.paddingLeft *2,
-                    justifyContent:'center',
+                    paddingLeft: SIZES.paddingLeft * 2,
+                    justifyContent: 'center',
 
                 }}
-                <Image 
+                <Image
                     source={nearby}
                     resizeMode="contain"
                     style={{
                         width: 30,
-                        height:30
+                        height: 30
                     }}
                 />
             </TouchableOpacity>
@@ -34,5 +34,5 @@ export default function Homepage(){
     )
 }
 const styles = StyleSheet.create({
-   
+
 });

@@ -9,6 +9,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { MD3LightTheme as DefaultTheme, Provider as PaperProvider, Text, Appbar, Snackbar, BottomNavigation, Button, Card, Surface, Title, Paragraph, Drawer, IconButton } from 'react-native-paper';
 import { styles } from './Styles.js'
 import { TemplateScreen } from './Template.js';
+import { ListingScreen } from './RestaurantListing';
 import { DemoScreen } from './Demo.js';
 import {
   SafeAreaView,
@@ -32,7 +33,7 @@ export default function KungFoodHippo() {
             component={TemplateScreen}
             
              />
-          <Menu.Screen name="Notifications" component={DemoScreen} />
+          <Menu.Screen name="Restaurant Listing" component={ListingScreen} />
           <Menu.Screen name="Hello" component={DemoScreen} />
         </Menu.Navigator>
       </NavigationContainer>
