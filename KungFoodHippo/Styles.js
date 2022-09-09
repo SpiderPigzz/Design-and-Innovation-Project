@@ -66,6 +66,10 @@ export const styles = StyleSheet.create({
         borderRadius: 5
     },
 
+
+    cardAlign:{
+        flexDirection:'row',
+    },
     primColor: "#E76766",
 
     secColor: "#E76766"
