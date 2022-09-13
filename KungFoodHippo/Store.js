@@ -1,15 +1,6 @@
 import * as React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import {
-    StyleSheet,
-    View,
-    Image,
-    ScrollView,
-    FlatList,
-    TouchableOpacity,
-    TextInput
-} from 'react-native';
-import { SIZES, COLORS, FONTS } from './constants/theme1';
+import { StyleSheet, View, Image, TouchableOpacity } from 'react-native';
 import * as Font from 'expo-font';
 import { useState } from 'react';
 import { DrawerActions, createAppContainer } from 'react-navigation';
@@ -17,10 +8,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import { MD3LightTheme as DefaultTheme, Provider as PaperProvider, Text, Appbar, Snackbar, BottomNavigation, Button, Card, Surface, Title, Paragraph, Drawer, shadow } from 'react-native-paper';
 import { styles } from './Styles.js'
-import SearchButton from './Components/SearchButton'
-import Homepage from './Components/HomePage'
-import { HippoCard } from './Components/TestCard.js';
-import { CategoriesCard } from './Components/Categories.js';
+import { FoodCard } from './Components/FoodCard.js';
 import {
     SafeAreaView,
     SafeAreaProvider,
@@ -28,140 +16,81 @@ import {
     useSafeAreaInsets,
     initialWindowMetrics,
 } from 'react-native-safe-area-context';
-import { colors } from 'react-native-elements';
+import { FlatList, ScrollView } from 'react-native-gesture-handler';
 
-export function HomeScreen({ navigation }) {
-    const [value, setValue] = useState()
-    function updateSearch(value) {
-        console.log(value);
-    }
+
+export function StoreScreen({navigation}){
 
     return (
-        <SafeAreaView style={style1.container}>
+        <PaperProvider theme={theme}>
+            {/* START WRITING CODE BELOW!!!! */}
+            <View>
+                <Image source={require('./assets/Pastamania.png')} style={{ height: 160, width: null }} />
+                <TouchableOpacity style={[styles.buttonTouchable, { position: "absolute", left: 10, top: 5, backgroundColor: "#ffffff", width: 40, borderRadius: 50, alignContent: "center" }]}>
+                    <Button icon={"arrow-left"} />
+                </TouchableOpacity>
+            </View>
 
-            <ScrollView style={style1.container} vertical={true}>
-                <View style={style1.searchBoxWrapper}>
-                    <TextInput placeholder={'Search for shops and restaurants'} />
-                    <Image source={require('./assets/images/search.png')} />
+            <View style={[styles.container, { paddingHorizontal: 16 }]}>
+                <View style={[styles.container, { flexDirection: "row", justifyContent: "space-between" }]}>
+                    <Text style={[styles.backgroundText, { textAlign: "left", fontSize: 24, textAlignVertical: "bottom" }]}>Pastamania</Text>
+                    <Text style={[styles.innerText, { textAlignVertical: "bottom" }]}>More info</Text>
                 </View>
+
+                <View style={[styles.container, { flexDirection: "row", justifyContent: "flex-start" }]}>
+                    <Button icon={"map-marker-outline"}></Button>
+                    <Text style={{ textAlignVertical: "center" }}>Lot One    |    1.8km away</Text>
+                </View>
+
+                <View style={[styles.container, { flexDirection: "row", justifyContent: 'space-around' }]}>
+                        <Button icon={"star"}></Button>
+                        <Button icon={"star"}></Button>
+                        <Button icon={"star"}></Button>
+                        <Button icon={"star"}></Button>
+                        <Button icon={"star"}></Button>
+                    <Text style={{ textAlignVertical: "center" }}> 300+ ratings</Text>
+                </View>
+
+                <View style={[styles.container, { flexDirection: "row", justifyContent: "space-between" }]}>
+                    <Text style={{ fontWeight: "bold" }}>Delivery: 30 min</Text>
+                    <Text style={[styles.innerText, { textAlignVertical: "bottom" }]}>Change</Text>
+                </View>
+
+                {/* navigation tab here */}
                 <ScrollView horizontal={true}>
-                    <View style={style1.categoryItem}>
-                        <View style={style1.categoryCard}>
-                            <Image source={require('./assets/images/HotDeals.png')} style={style1.image} />
-                        </View>
-                        <Text style={style1.label1}>Hot Deals</Text>
-                    </View>
+                    <TouchableOpacity style={styles.buttonTouchable}>
+                        <Text>Set Meal</Text>
+                    </TouchableOpacity>
 
-                    <View style={style1.categoryItem}>
-                        <View style={style1.categoryCard}>
-                            <Image source={require('./assets/images/FavouriteFood.png')} style={style1.image} />
-                        </View>
-                        <Text style={style1.label1}>Favourite Food</Text>
-                    </View>
+                    <TouchableOpacity style={styles.buttonTouchable}>
+                        <Text>Popular</Text>
+                    </TouchableOpacity>
 
-                    <View style={style1.categoryItem}>
-                        <View style={style1.categoryCard}>
-                            <Image source={require('./assets/images/BadgetMeal.png')} style={style1.image} />
-                        </View>
-                        <Text style={style1.label1}>Budget Meal</Text>
-                    </View>
+                    <TouchableOpacity style={styles.buttonTouchable}>
+                        <Text>Appetisers</Text>
+                    </TouchableOpacity>
 
-                    <View style={style1.categoryItem}>
-                        <View style={style1.categoryCard}>
-                            <Image source={require('./assets/images/NewFood.png')} style={style1.image} />
-                        </View>
-                        <Text style={style1.label1}>Order Later</Text>
-                    </View>
+                    <TouchableOpacity style={styles.buttonTouchable}>
+                        <Text>Pasta</Text>
+                    </TouchableOpacity>
 
-
-                </ScrollView>
-                <View horizontal={true}>
-                    <View style={style1.box}>
-
-
-                        <View style={style1.inner1}>
-                            <Image source={require('./assets/images/food_delivery.png')} style={style1.image2} />
-
-                            <View style={style1.inner1}></View>
-                            <Text style={style1.label2}>Food Delivery</Text>
-                            <Text style={style1.label2}>Order food you love</Text>
-                        </View>
-
-                    </View>
-                    <View style={style1.catContainer} horizontal={true}>
-
-                        <View style={style1.box2}>
-                            <View style={style1.inner2}>
-                                <View style={style1.imageDEdit}>
-                                    <Image source={require('./assets/images/hipoofood.png')} style={style1.imageD} />
-                                </View>
-
-                                <View style={style1.inner2TextBottom}>
-                                    <Text style={style1.inner2TextBold}>HipooFood</Text>
-                                    <Text style={style1.inner2Text}>Everyday up to </Text>
-                                    <Text style={style1.inner2Text}>20% off</Text>
-                                </View>
-                            </View>
-                        </View>
-                        <View style={style1.box2}>
-                            <View style={style1.inner3}>
-                                <View style={style1.inner2TextBottom}>
-                                    <Text style={style1.inner2TextBold}>PickUp</Text>
-                                    <Text style={style1.inner2Text}>Everyday up to </Text>
-                                    <Text style={style1.inner2Text}>25% off</Text>
-                                </View>
-                                <View style={style1.image3Edit}>
-                                    <Image source={require('./assets/images/pickup.png')} style={style1.image3} />
-                                </View>
-                            </View>
-
-                            <View style={style1.inner4}>
-                                <Image source={require('./assets/images/shops.png')} style={style1.image3} />
-                                <View style={style1.inner2TextBottom1}>
-                                    <Text style={style1.inner2TextBold}>Shops</Text>
-                                    <Text style={style1.inner2Text}>Groceries and more </Text>
-                                </View>
-
-                            </View>
-                        </View>
-
-                    </View>
-                </View>
-
-                <View style={style1.ListingWrapper}>
-                    <Text style={style1.subHeadingWrapper}>
-                        Recommended For You
-                    </Text>
-                    <Image source={require('./assets/images/Rightarrow.png')} style={style1.arrowWrapper} />
-                </View>
-
-
-                <ScrollView
-                    contentContainerStyle={style1.foodListingWrapper} horizontal={true}>
-                    <View style={style1.foodItemWrapper}>
-                        <Image source={require('./assets/images/takagiramen.png')} style={style1.imageR}/>
-                        <Text style={style1.foodItemText}>Takagi Ramen</Text>
-                        <Text>Lunch/Dinner*Japanese</Text>
-                        <Text>$3.70 delivery fee</Text>
-                    </View>
-                    <View style={style1.foodItemWrapper}>
-                        <Image source={require('./assets/images/pastamania.png')} style={style1.imageRV}/>
-                        <Text style={style1.foodItemText}>Pastamania</Text>
-                        <Text>Pasta*Italian</Text>
-                        <Text>$3.00 delivery fee</Text>
-                    </View>
+                    <TouchableOpacity style={styles.buttonTouchable}>
+                        <Text>Pizza</Text>
+                    </TouchableOpacity>
                 </ScrollView>
 
-            </ScrollView>
 
-        </SafeAreaView>
-        // <PaperProvider theme={theme}>
-        //   <View style={style.searchBoxWrapper}>
-        //         <TextInput placeholder={'Search for shops and restaurants'}/>
-        //         <Image source={require('./assets/images/search.png')}/>
-        ///     </View>
+                <ScrollView>
+                    <Text style={[styles.backgroundText, { textAlign: "left", fontSize: 24, textAlignVertical: "bottom" }]}>Set Meal</Text>
+                    <FoodCard></FoodCard>
+                    <FoodCard></FoodCard>
+                    <FoodCard></FoodCard>
+                    <FoodCard></FoodCard>
+                    <FoodCard></FoodCard>
+                </ScrollView>
 
-        //   </PaperProvider>
+            </View>
+        </PaperProvider>
     );
 }
 const style1 = StyleSheet.create({

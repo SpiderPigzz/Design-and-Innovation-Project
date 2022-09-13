@@ -55,6 +55,14 @@ export const styles = StyleSheet.create({
         textAlignVertical: 'bottom'
     },
 
+    innerText: {
+        color: "#E76766",
+        textAlign: "right",
+        fontSize: 14,
+        // fontFamily: "Roboto-Regular",
+        fontWeight: "bold"
+    },
+
     button: {
         marginTop: 8,
         paddingVertical: 8,
@@ -81,6 +89,19 @@ export const styles = StyleSheet.create({
         borderColor: "#000000",
         // fontFamily: "Roboto-Regular",
         borderRadius: 15,
+    },
+
+    buttonTouchable: {
+        padding: 10, 
+        backgroundColor: "#F9E6E6",
+        width: 120, 
+        height: 40, 
+        borderRadius: 30, 
+        alignItems: "center", 
+        justifyContent: "center", 
+        marginRight: 10,
+        marginTop: 10,
+        marginBottom: 20
     },
 
     card: {
