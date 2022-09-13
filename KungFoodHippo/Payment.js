@@ -2,10 +2,11 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image, Dimensions } from 'react-native';
 import { MaterialIcons, Entypo, Feather, FontAwesome } from '@expo/vector-icons';
-import { Card, Title, Button, Paragraph, RadioButton } from 'react-native-paper';
+import { Card, Title, Button, Paragraph, RadioButton, Divider } from 'react-native-paper';
 import { Appbar } from 'react-native-paper';
 import ProgressBarMultiStep from "react-native-progress-bar-multi-step";
 import MapView from 'react-native-maps';
+import { ScrollView } from 'react-native-gesture-handler';
 
 
 const tabs = [
@@ -60,70 +61,78 @@ export function PaymentScreen({ navigation }) {
       </>
       <StatusBar style="auto" />
 
-      <View style={styles.viewbox}>
-        <View style={{flexDirection:'row', justifyContent: 'space-between'}}>
-        <View style={{flexDirection:'row'}}>
-        <MaterialIcons name="gps-fixed" size={24} color="#E76766" />
-        <Text style={styles.header}>Delivery Address</Text>
-        </View>
-        <TouchableOpacity
-          style={styles.edit}>
-          <FontAwesome name="edit" size={25} color="#E76766" />
-          <Text style={styles.selectedText}>Edit</Text>
-        </TouchableOpacity>
-        </View>
-        <View style={styles.mapbox}>
-          <MapView style={styles.map}
-            initialRegion={{
-              latitude: 1.348,
-              longitude: 103.683,
-              latitudeDelta: 0.00822,
-              longitudeDelta: 0.00821,
-            }}
-            showsUserLocation={true} />
-        </View>
-        <Text style={styles.header}>Home</Text>
-        <Text>Name</Text>
-        <Text>Address</Text>
-        <TouchableOpacity
-          style={styles.add}>
-          <Text style={styles.selectedText}>+ Add Delivery Instructions</Text>
-        </TouchableOpacity>
-      </View>
+      <Divider style={styles.divider} horizontalInset='true' bold='true' />
 
+      <ScrollView style={{ alignSelf: 'stretch' }}>
 
-      <View style={styles.payment}>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <View style={{ flexDirection: 'row' }}>
-            <Entypo name="wallet" size={26} color="black" />
-            <Text style={styles.header}>Payment Method</Text>
+        <View style={styles.viewbox}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            <View style={{ flexDirection: 'row' }}>
+              <MaterialIcons name="gps-fixed" size={24} color="#E76766" />
+              <Text style={styles.header}>Delivery Address</Text>
+            </View>
+            <TouchableOpacity
+              style={styles.edit}>
+              <FontAwesome name="edit" size={25} color="#E76766" />
+              <Text style={styles.selectedText}>Edit</Text>
+            </TouchableOpacity>
           </View>
-          <TouchableOpacity style={styles.edit2}>
-            <FontAwesome name="edit" size={25} color="#E76766" />
-            <Text style={styles.selectedText}>Edit</Text>
+          <View style={styles.mapbox}>
+            <MapView style={styles.map}
+              initialRegion={{
+                latitude: 1.348,
+                longitude: 103.683,
+                latitudeDelta: 0.00822,
+                longitudeDelta: 0.00821,
+              }}
+              showsUserLocation={true} />
+          </View>
+          <Text style={styles.header}>Home</Text>
+          <Text>Name</Text>
+          <Text>Address</Text>
+          <TouchableOpacity
+            style={styles.add}>
+            <Text style={styles.selectedText}>+ Add Delivery Instructions</Text>
           </TouchableOpacity>
         </View>
-        <RadioButton.Group style={styles.radiogroup} onValueChange={newValue => setValue(newValue)} value={value}>
-          <View style={styles.radiobutton}>
-            <RadioButton value="Credit Card" />
-            <Text>Credit Card</Text>
-            <Image source={require('./assets/PayPal.png')} style={styles.icon} />
-            <Image source={require('./assets/Mastercard.png')} style={styles.icon} />
-            <Image source={require('./assets/Amex.png')} style={styles.icon} />
-            <Image source={require('./assets/Visa.png')} style={styles.icon} />
+
+
+        <View style={styles.payment}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            <View style={{ flexDirection: 'row' }}>
+              <Entypo name="wallet" size={26} color="black" />
+              <Text style={styles.header}>Payment Method</Text>
+            </View>
+            <TouchableOpacity style={styles.edit2}>
+              <FontAwesome name="edit" size={25} color="#E76766" />
+              <Text style={styles.selectedText}>Edit</Text>
+            </TouchableOpacity>
           </View>
-          <View style={styles.radiobutton}>
-            <RadioButton value="Paylah!" />
-            <Text>Paylah!</Text>
-            <Image source={require('./assets/Paylah.png')} style={styles.icon} />
-          </View>
-          <View style={styles.radiobutton}>
-            <RadioButton value="Google Pay" />
-            <Text>Google Pay</Text>
-            <Image source={require('./assets/GooglePay.png')} style={styles.icon} />
-          </View>
-        </RadioButton.Group>
-      </View>
+          <RadioButton.Group style={styles.radiogroup} onValueChange={newValue => setValue(newValue)} value={value}>
+            <View style={styles.radiobutton}>
+              <RadioButton value="Credit Card" />
+              <Text>Credit Card</Text>
+              <Image source={require('./assets/PayPal.png')} style={styles.icon} />
+              <Image source={require('./assets/Mastercard.png')} style={styles.icon} />
+              <Image source={require('./assets/Amex.png')} style={styles.icon} />
+              <Image source={require('./assets/Visa.png')} style={styles.icon} />
+            </View>
+            <View style={styles.radiobutton}>
+              <RadioButton value="Paylah!" />
+              <Text>Paylah!</Text>
+              <Image source={require('./assets/Paylah.png')} style={styles.icon} />
+            </View>
+            <View style={styles.radiobutton}>
+              <RadioButton value="Google Pay" />
+              <Text>Google Pay</Text>
+              <Image source={require('./assets/GooglePay.png')} style={styles.icon} />
+            </View>
+          </RadioButton.Group>
+        </View>
+
+      </ScrollView>
+
+      <Divider style={styles.divider} horizontalInset='true' bold='true' />
 
       <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignSelf: 'stretch' }}>
         <View style={{ flexDirection: 'row' }}>
@@ -168,12 +177,17 @@ const styles = StyleSheet.create({
     color: "white",
     textAlign: "center"
   },
+  divider: {
+    backgroundColor: '#b8b8b880',
+    margin: 6,
+    alignSelf:'stretch'
+  },
   selected: {
     backgroundColor: "#E76766",
     padding: 15,
     borderRadius: 20,
     marginHorizontal: 15,
-    width: 150,
+    width: 160,
     elevation: 10,
     shadowColor: '#52006A',
   },
@@ -189,7 +203,7 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: "#feeae9",
     borderRadius: 10,
-    margin: 10,
+    margin: 16,
     alignContent: 'flex-start',
     flexDirection: "column",
     elevation: 20,
@@ -198,19 +212,19 @@ const styles = StyleSheet.create({
   mapbox: {
     margin: 10,
     borderRadius: 10,
-    alignContent: 'flex-start',
+    alignSelf: 'center',
     flexWrap: 'wrap',
     flexDirection: "row"
   },
   map: {
-    width: 275,
-    height: 100,
+    width: 300,
+    height: 150,
   },
   payment: {
     padding: 10,
     backgroundColor: "white",
     borderRadius: 20,
-    margin: 4,
+    margin: 16,
     alignContent: 'flex-start',
     flexWrap: 'wrap',
     flexDirection: "column",
