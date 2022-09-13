@@ -119,6 +119,10 @@ export const styles = StyleSheet.create({
         tintColor: "#E76766",
     },
 
+
+    cardAlign:{
+        flexDirection:'row',
+    },
     primColor: "#E76766",
     primTextColor: "#FFFFFF",
     primIconColor: "#FFFFFF",
