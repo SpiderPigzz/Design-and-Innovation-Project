@@ -313,10 +313,10 @@ const style1 = StyleSheet.create({
         backgroundColor: '#85C0FC', // light blue
     },
 });
-//const theme = {
-   // DefaultTheme,
-   // colors: {
-  //      primary: styles.primColor,
-  ////      secondary: styles.secColor,
-  //  },
-//};
+const theme = {
+   DefaultTheme,
+   colors: {
+       primary: styles.primColor,
+  //      secondary: styles.secColor,
+   },
+};

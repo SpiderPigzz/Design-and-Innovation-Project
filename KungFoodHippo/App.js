@@ -10,7 +10,7 @@ import { MD3LightTheme as DefaultTheme, Provider as PaperProvider, Text, Appbar,
 import { styles } from './Styles.js'
 import { CheckoutScreen } from './Checkout';
 import { PaymentScreen } from './Payment';
-import { HomeScreen } from './Store.js';
+import { HomeScreen } from './Home.js';
 import { MapScreen } from './MapStatus';
 import { ListingScreen } from './RestaurantListing';
 import { StoreScreen } from './Store';
@@ -162,10 +162,11 @@ export default function KungFoodHippo() {
         <Menu.Screen name="Login" component={LoginScreen} />
         <Menu.Screen name="Home" component={HomeScreen} />
           <Menu.Screen name="Listing" component={ListingScreen} />
+          <Menu.Screen name="Store" component={StoreScreen} />
           <Menu.Screen name="Checkout" component={CheckoutScreen} />
           <Menu.Screen name="Payment" component={PaymentScreen} />
           <Menu.Screen name="Map" component={MapScreen} />
-          <Menu.Screen name="Hello" component={StoreScreen} />
+          
           {/*<Menu.Screen name="Tracking" component={TrackingScreen} />*/}
         </Menu.Navigator>
       </NavigationContainer>
