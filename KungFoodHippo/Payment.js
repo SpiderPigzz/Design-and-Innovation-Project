@@ -31,7 +31,7 @@ const Deliverytype = ({ name }) => {
   )
 }
 
-const App = () => {
+export function PaymentScreen({ navigation }) {
   const [value, setValue] = React.useState('first');
   const [page, setPage] = useState(1);
 
