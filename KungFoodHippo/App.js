@@ -10,6 +10,7 @@ import { MD3LightTheme as DefaultTheme, Provider as PaperProvider, Text, Appbar,
 import { styles } from './Styles.js'
 import { CheckoutScreen } from './Checkout';
 import { PaymentScreen } from './Payment';
+import { StoreScreen } from './Store';
 import { DemoScreen } from './Demo.js';
 import {
   SafeAreaView,
@@ -35,7 +36,7 @@ export default function KungFoodHippo() {
         <Menu.Navigator initialRouteName="Home">
           <Menu.Screen name="Checkout" component={CheckoutScreen} />
           <Menu.Screen name="Payment" component={PaymentScreen} />
-          <Menu.Screen name="Hello" component={DemoScreen} />
+          <Menu.Screen name="Hello" component={StoreScreen} />
         </Menu.Navigator>
       </NavigationContainer>
 

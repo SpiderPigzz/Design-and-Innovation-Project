@@ -23,39 +23,39 @@ export function StoreScreen({ navigation }) {
         <PaperProvider theme={theme}>
             {/* START WRITING CODE BELOW!!!! */}
             <View>
-                <Image source={require('./assets/Pastamania.png')} style={{height: 160, width: null}}/>
-                <TouchableOpacity style={[styles.buttonTouchable, {position: "absolute", left: 10, top: 5, backgroundColor: "#ffffff", width: 40, borderRadius: 50, alignContent: "center"}]}>
-                    <Button icon={"arrow-left"}/>
+                <Image source={require('./assets/Pastamania.png')} style={{ height: 160, width: null }} />
+                <TouchableOpacity style={[styles.buttonTouchable, { position: "absolute", left: 10, top: 5, backgroundColor: "#ffffff", width: 40, borderRadius: 50, alignContent: "center" }]}>
+                    <Button icon={"arrow-left"} />
                 </TouchableOpacity>
             </View>
 
-            <View style={[styles.container, {paddingHorizontal: 16}]}>              
-                <View style={[styles.container, {flexDirection: "row", justifyContent: "space-between"}]}>
-                    <Text style={[styles.backgroundText, {textAlign: "left", fontSize: 24, textAlignVertical: "bottom"}]}>Pastamania</Text>
-                    <Text style={[styles.innerText, {textAlignVertical: "bottom"}]}>More info</Text>
-                </View>
-                
-                <View style={[styles.container, {flexDirection: "row", justifyContent: "flex-start"}]}>
-                    <Button icon={"map-marker-outline"}></Button>
-                    <Text style={{textAlignVertical: "center"}}>Lot One    |    1.8km away</Text>
-                </View>
-                
-                <View style={[styles.container, {flexDirection: "row"}]}>
-                    <Button icon={"star"}></Button>
-                    <Button icon={"star"}></Button>
-                    <Button icon={"star"}></Button>
-                    <Button icon={"star"}></Button>
-                    <Button icon={"star"}></Button>
-                    <Text style={{textAlignVertical: "center"}}> 300+ ratings</Text>
+            <View style={[styles.container, { paddingHorizontal: 16 }]}>
+                <View style={[styles.container, { flexDirection: "row", justifyContent: "space-between" }]}>
+                    <Text style={[styles.backgroundText, { textAlign: "left", fontSize: 24, textAlignVertical: "bottom" }]}>Pastamania</Text>
+                    <Text style={[styles.innerText, { textAlignVertical: "bottom" }]}>More info</Text>
                 </View>
 
-                <View style={[styles.container, {flexDirection: "row", justifyContent: "space-between"}]}>
-                    <Text style={{fontWeight: "bold"}}>Delivery: 30 min</Text>
-                    <Text style={[styles.innerText, {textAlignVertical: "bottom"}]}>Change</Text>
+                <View style={[styles.container, { flexDirection: "row", justifyContent: "flex-start" }]}>
+                    <Button icon={"map-marker-outline"}></Button>
+                    <Text style={{ textAlignVertical: "center" }}>Lot One    |    1.8km away</Text>
+                </View>
+
+                <View style={[styles.container, { flexDirection: "row", justifyContent: 'space-around' }]}>
+                        <Button icon={"star"}></Button>
+                        <Button icon={"star"}></Button>
+                        <Button icon={"star"}></Button>
+                        <Button icon={"star"}></Button>
+                        <Button icon={"star"}></Button>
+                    <Text style={{ textAlignVertical: "center" }}> 300+ ratings</Text>
+                </View>
+
+                <View style={[styles.container, { flexDirection: "row", justifyContent: "space-between" }]}>
+                    <Text style={{ fontWeight: "bold" }}>Delivery: 30 min</Text>
+                    <Text style={[styles.innerText, { textAlignVertical: "bottom" }]}>Change</Text>
                 </View>
 
                 {/* navigation tab here */}
-                <ScrollView horizontal={true}> 
+                <ScrollView horizontal={true}>
                     <TouchableOpacity style={styles.buttonTouchable}>
                         <Text>Set Meal</Text>
                     </TouchableOpacity>
@@ -63,30 +63,30 @@ export function StoreScreen({ navigation }) {
                     <TouchableOpacity style={styles.buttonTouchable}>
                         <Text>Popular</Text>
                     </TouchableOpacity>
-                    
+
                     <TouchableOpacity style={styles.buttonTouchable}>
                         <Text>Appetisers</Text>
                     </TouchableOpacity>
-                    
+
                     <TouchableOpacity style={styles.buttonTouchable}>
                         <Text>Pasta</Text>
                     </TouchableOpacity>
-                    
+
                     <TouchableOpacity style={styles.buttonTouchable}>
                         <Text>Pizza</Text>
                     </TouchableOpacity>
                 </ScrollView>
-                
+
 
                 <ScrollView>
-                    <Text style={[styles.backgroundText, {textAlign: "left", fontSize: 24, textAlignVertical: "bottom"}]}>Set Meal</Text>
+                    <Text style={[styles.backgroundText, { textAlign: "left", fontSize: 24, textAlignVertical: "bottom" }]}>Set Meal</Text>
                     <FoodCard></FoodCard>
                     <FoodCard></FoodCard>
                     <FoodCard></FoodCard>
                     <FoodCard></FoodCard>
                     <FoodCard></FoodCard>
                 </ScrollView>
-                
+
             </View>
         </PaperProvider>
     );
