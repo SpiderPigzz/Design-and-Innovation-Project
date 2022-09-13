@@ -12,6 +12,7 @@
     "@react-navigation/drawer": "^6.4.4",
     "@react-navigation/native": "^6.0.12",
     "expo": "~46.0.9",
+    "expo-sqlite": "^10.3.0",
     "expo-status-bar": "~1.4.0",
     "install": "^0.13.0",
     "npm": "^8.18.0",
