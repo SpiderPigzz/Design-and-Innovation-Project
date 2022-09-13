@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StatusBar } from 'expo-status-bar';
+import { setStatusBarNetworkActivityIndicatorVisible, StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, Image } from 'react-native';
 import * as Font from 'expo-font';
 import { useState } from 'react';
@@ -13,6 +13,10 @@ import { PaymentScreen } from './Payment';
 import { TemplateScreen } from './Template.js';
 import { ListingScreen } from './RestaurantListing';
 import { DemoScreen } from './Demo.js';
+import { LoginScreen } from './Login.js';
+//import { TrackingScreen } from './Tracking.js';
+//import { TEST } from './TEST.js';
+//import { MenuScreen } from './Menu.js';
 import {
   SafeAreaView,
   SafeAreaProvider,
@@ -20,7 +24,7 @@ import {
   useSafeAreaInsets,
   initialWindowMetrics,
 } from 'react-native-safe-area-context';
-
+import renderNode from 'react-native-elements/dist/helpers/renderNode.js';
 
 import * as FileSystem from 'expo-file-system';
 import { Asset } from "expo-asset";
@@ -156,6 +160,7 @@ export default function KungFoodHippo() {
           <Menu.Screen name="Checkout" component={CheckoutScreen} />
           <Menu.Screen name="Payment" component={PaymentScreen} />
           <Menu.Screen name="Hello" component={DemoScreen} />
+          {/*<Menu.Screen name="Tracking" component={TrackingScreen} />*/}
         </Menu.Navigator>
       </NavigationContainer>
 
