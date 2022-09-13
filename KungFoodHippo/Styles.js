@@ -3,13 +3,17 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
     container: {
-        flex: 1,
         backgroundColor: '#fff',
-        padding: 16,
         justifyContent: 'center',
+
     },
 
-    text: {
+    scrollView: {
+        backgroundColor: '#fff',
+        padding: 8,
+    },
+
+    textTitle: {
         marginTop: 8,
         paddingVertical: 8,
         color: "#E76766",
@@ -19,12 +23,36 @@ export const styles = StyleSheet.create({
         fontWeight: "bold"
     },
 
-    buttontext: {
+    text: {
+        color: "#E76766",
+        fontSize: 14,
+        // fontFamily: "Roboto-Regular",
+        fontWeight: "bold",
+        textAlignVertical: 'bottom'
+    },
+
+    infoText:{
+        color: "#b8b8b880",
+        fontSize: 14,
+        // fontFamily: "Roboto-Regular",
+        textAlignVertical: 'bottom'
+    },
+
+    buttonText: {
         color: "#FFFFFF",
         textAlign: "center",
+        fontSize: 14,
+        // fontFamily: "Roboto-Regular",
+        fontWeight: "bold",
+        textAlignVertical: 'bottom'
+    },
+
+    backgroundText: {
+        color: "#000000",
         fontSize: 20,
         // fontFamily: "Roboto-Regular",
-        fontWeight: "bold"
+        fontWeight: "bold",
+        textAlignVertical: 'bottom'
     },
 
     button: {
@@ -46,13 +74,22 @@ export const styles = StyleSheet.create({
         borderRadius: 5,
     },
 
+    buttonOutline: {
+        paddingHorizontal: 4,
+        borderWidth: 2,
+        backgroundColor: "#FFFFFF",
+        borderColor: "#000000",
+        // fontFamily: "Roboto-Regular",
+        borderRadius: 15,
+    },
+
     card: {
         marginTop: 8,
         paddingVertical: 8,
         paddingHorizontal: 16,
         elevation: 3,
         borderWidth: 0,
-        backgroundColor: "#E76766",
+        backgroundColor: "#F9E6E6",
         borderRadius: 5,
     },
 
@@ -61,14 +98,31 @@ export const styles = StyleSheet.create({
         paddingVertical: 8,
         paddingHorizontal: 16,
         elevation: 3,
-        borderWidth: 0,
+        borderWidth: 1,
+        borderColor: "#0000001A",
         backgroundColor: "#FFFFFF",
         borderRadius: 5
     },
 
-    primColor: "#E76766",
+    imageIcon: {
+        width: 60,
+        height: 60,
+        borderRadius: 10,
+    },
 
-    secColor: "#E76766"
+    divider: {
+        backgroundColor:'#b8b8b880',
+        margin:8,
+    },
+
+    iconPrimTint: {
+        tintColor: "#E76766",
+    },
+
+    primColor: "#E76766",
+    primTextColor: "#FFFFFF",
+    primIconColor: "#FFFFFF",
+    secColor: "#F9E6E6",
+    backgroundColor: "#FFFFFF",
 
 });
-
