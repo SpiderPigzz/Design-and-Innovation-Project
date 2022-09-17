@@ -1,7 +1,7 @@
 import { MD3LightTheme as DefaultTheme, Provider as PaperProvider, Text, Appbar, Snackbar, BottomNavigation, Button, Card, Title, Paragraph } from 'react-native-paper';
 import { StyleSheet, View, Image, ImageBackground } from 'react-native';
 
-export function RestaurantCard() {
+export function RestaurantCard({title, description, deliveryDesc}) {
     return (
 
         <Card style={styles.cardSec}>
@@ -32,13 +32,13 @@ export function RestaurantCard() {
 
                 <View>
                     <Text style={styles.textBold}>
-                        Subway - Lahore
+                        {title}
                     </Text>
                     <Text style={styles.text}>
-                        Fast Food,American,Meat,Halal
+                        {description}
                     </Text>
                     <Text style={[styles.text, { fontWeight: "normal" }]}>
-                        PKR 60 delivery fee
+                        {deliveryDesc}
                     </Text>
 
                 </View>

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, Image } from 'react-native';
+import { StyleSheet, View, Image, FlatList } from 'react-native';
 import * as Font from 'expo-font';
 import { useState } from 'react';
 import { DrawerActions, createAppContainer } from 'react-navigation';
@@ -19,18 +19,44 @@ import {
 import { RestaurantCard } from './Components/RestaurantListing/RestaurantCard.js';
 import { ScrollView } from 'react-native-gesture-handler';
 
+const DATA = [
+    {
+        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+        title: 'First Item',
+        description: 'Fast Food,American,Meat,Halal',
+        deliveryDesc: 'PKR 60 delivery fee',
+    },
+    {
+        id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
+        title: 'Second Item',
+        description: 'Fast Food,American,Meat,Halal',
+        deliveryDesc: 'PKR 70 delivery fee',
+    },
+    {
+        id: '58694a0f-3da1-471f-bd96-145571e29d72',
+        title: 'Third Item',
+        description: 'Fast Food,American,Meat,Halal',
+        deliveryDesc: 'PKR 80 delivery fee',
+    },
+];
+
+
 export function ListingScreen({ navigation }) {
     const [buttonText, setButtonText] = useState('Click');
     function handleClick() {
         setButtonText('New text');
     }
 
+    const renderItem = ({ item }) => (
+        <RestaurantCard title={item.title} description={item.description} deliveryDesc={item.deliveryDesc}></RestaurantCard>
+    );
+
     return (
         <PaperProvider theme={theme}>
 
             <SafeAreaView style={styles.container}>
 
-                <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{height:60}}>
+                <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{ height: 60 }}>
                     <Button icon={"filter-variant"} textColor={"#000000"} style={restaurantStyle.button}>
                         <Text style={restaurantStyle.text}>
                             Filter
@@ -62,12 +88,12 @@ export function ListingScreen({ navigation }) {
                 </Text>
 
                 <ScrollView showsVerticalScrollIndicator={false}>
-                    <RestaurantCard></RestaurantCard>
-                    <RestaurantCard></RestaurantCard>
-                    <RestaurantCard></RestaurantCard>
-                    <RestaurantCard></RestaurantCard>
-                    <RestaurantCard></RestaurantCard>
-                    <RestaurantCard></RestaurantCard>
+                    <FlatList
+                        data={DATA}
+                        renderItem={renderItem}
+                        keyExtractor={item => item.id}
+                    />
+
                 </ScrollView>
 
 
