@@ -1,11 +1,15 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Dimensions, Image, ScrollView} from 'react-native';
-import MapView, { Animated, Callout, Marker } from 'react-native-maps';
+import MapView, { Animated, Callout, Marker,Polyline } from 'react-native-maps';
 import * as React from 'react';
 import { markers } from './mapData';
 import {WebView} from 'react-native-webview';
 import { FAB } from 'react-native-paper';
+import MapViewDirections from 'react-native-maps-directions';
 
+const origin = {latitude: 1.335, longitude: 103.683};
+const destination = {latitude: 1.329, longitude:103.625 };
+const GOOGLE_MAPS_APIKEY = 'AIzaSyC5TVAWgFHBs_ABdfzbsgzHbdJJecaQiO0';
 
 export function MapScreen({ navigation }) {
     
@@ -24,6 +28,48 @@ export function MapScreen({ navigation }) {
           showsUserLocation={true}
           followsUserLocation={true}
           >
+
+       <MapViewDirections
+          origin={origin}
+          destination={destination}
+          apikey={GOOGLE_MAPS_APIKEY}
+          strokeWidth={5}
+          strokeColor="#D60665"
+          optimizeWaypoints={true}
+          mode = 'Driving'
+          timePrecision='now'
+        />
+
+      <Polyline
+          coordinates={[
+            { latitude: 1.331, longitude: 103.681 },
+            { latitude: 1.332, longitude: 103.682 },
+            { latitude: 1.333, longitude: 103.683 },
+            { latitude: 1.334, longitude: 103.684 },
+            { latitude: 1.335, longitude: 103.685 },
+            { latitude: 1.337, longitude: 103.686 }
+          ]}
+          strokeColor="#000" // fallback for when `strokeColors` is not supported by the map-provider
+          strokeColors={[
+            '#7F0000',
+            '#00000000', // no color, creates a "long" gradient between the previous and next coordinate
+            '#B24112',
+            '#E5845C',
+            '#238C23',
+            '#7F0000'
+          ]}
+          strokeWidth={6}
+          interval={10}
+        />
+
+        {/* <AnimatedPolyline 
+          coordinates={[
+            { latitude: 1.335, longitude: 103.683 },
+            { latitude: 1.325, longitude: 103.653 },
+            { latitude: 1.338, longitude: 103.685 },
+          ]}
+          interval={10} 
+        /> */}
 
        <Marker coordinate = {{latitude: 1.347,longitude: 103.682}}
          pinColor = {"red"}
