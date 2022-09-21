@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, Image, FlatList } from 'react-native';
+import { StyleSheet, View, Image, FlatList, ActivityIndicator } from 'react-native';
 import * as Font from 'expo-font';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { DrawerActions, createAppContainer } from 'react-navigation';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
@@ -18,37 +18,32 @@ import {
 } from 'react-native-safe-area-context';
 import { RestaurantCard } from './Components/RestaurantListing/RestaurantCard.js';
 import { ScrollView } from 'react-native-gesture-handler';
+import { DebugInstructions } from 'react-native/Libraries/NewAppScreen';
 
-const DATA = [
-    {
-        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-        title: 'First Item',
-        description: 'Fast Food,American,Meat,Halal',
-        deliveryDesc: 'PKR 60 delivery fee',
-    },
-    {
-        id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-        title: 'Second Item',
-        description: 'Fast Food,American,Meat,Halal',
-        deliveryDesc: 'PKR 70 delivery fee',
-    },
-    {
-        id: '58694a0f-3da1-471f-bd96-145571e29d72',
-        title: 'Third Item',
-        description: 'Fast Food,American,Meat,Halal',
-        deliveryDesc: 'PKR 80 delivery fee',
-    },
-];
+
+const url = 'http://dip.totallynormal.website/';
+const path = "listShop";
 
 
 export function ListingScreen({ navigation }) {
+
+    const [isLoading, setLoading] = useState(true);
+    const [data, setData] = useState([]);
     const [buttonText, setButtonText] = useState('Click');
     function handleClick() {
         setButtonText('New text');
     }
 
+    useEffect(() => {
+        fetch(url + path)
+          .then((response) => response.json())
+          .then((json) => setData(json))
+          .catch((error) => console.error(error))
+          .finally(() => setLoading(false));
+      }, []);
+
     const renderItem = ({ item }) => (
-        <RestaurantCard title={item.title} description={item.description} deliveryDesc={item.deliveryDesc}></RestaurantCard>
+        <RestaurantCard title={item.name} description={item.description} deliveryDesc={item.address}></RestaurantCard>
     );
 
     return (
@@ -87,12 +82,13 @@ export function ListingScreen({ navigation }) {
                     Nearby Restaurants
                 </Text>
 
-                <ScrollView showsVerticalScrollIndicator={false}>
-                    <FlatList
-                        data={DATA}
-                        renderItem={renderItem}
-                        keyExtractor={item => item.id}
-                    />
+                <ScrollView showsVerticalScrollIndicator={false} style={{paddingHorizontal:12}}>
+                    {isLoading ? <ActivityIndicator /> : (
+                        <FlatList
+                            data={data}
+                            renderItem={renderItem}
+                            keyExtractor={item => item.id}
+                        />)}
 
                 </ScrollView>
 

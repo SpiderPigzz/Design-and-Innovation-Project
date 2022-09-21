@@ -5,10 +5,10 @@ export function RestaurantCard({title, description, deliveryDesc}) {
     return (
 
         <Card style={styles.cardSec}>
-            <View style={{ flexDirection: 'row' }}>
-                <View style={{marginVertical: 4, marginRight: 8}}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-around'}}>
+                <View style={{marginVertical: 4, marginRight: 20, flex:1, width: 120, height: 120,}}>
                     
-                    <ImageBackground style={[styles.Image, {justifyContent:'space-between'}]} imageStyle={{borderRadius: 10}} source={require('../../assets/images/subway.png')}>
+                    <ImageBackground style={[styles.Image, {justifyContent:'space-between', flex: 1}]} imageStyle={{borderRadius: 10}} source={require('../../assets/images/subway.png')}>
 
                     <View style={{ flexDirection: 'row', marginVertical: 8}}>
                         <Card style={styles.dealCard}>
@@ -30,11 +30,11 @@ export function RestaurantCard({title, description, deliveryDesc}) {
 
                 </View>
 
-                <View>
+                <View style={{flex:2}}>
                     <Text style={styles.textBold}>
                         {title}
                     </Text>
-                    <Text style={styles.text}>
+                    <Text numberOfLines={4} style={styles.text}>
                         {description}
                     </Text>
                     <Text style={[styles.text, { fontWeight: "normal" }]}>
@@ -61,7 +61,7 @@ export const styles = StyleSheet.create({
     textBold: {
         color: "#000000",
         textAlign: "left",
-        fontSize: 24,
+        fontSize: 20,
         // fontFamily: "Roboto-Regular",
         fontWeight: "bold"
     },
