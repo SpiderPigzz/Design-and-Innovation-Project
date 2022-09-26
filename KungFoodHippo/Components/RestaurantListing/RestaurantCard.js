@@ -1,42 +1,44 @@
 import { MD3LightTheme as DefaultTheme, Provider as PaperProvider, Text, Appbar, Snackbar, BottomNavigation, Button, Card, Title, Paragraph } from 'react-native-paper';
 import { StyleSheet, View, Image, ImageBackground } from 'react-native';
 
-export function RestaurantCard({title, description, deliveryDesc}) {
+export function RestaurantCard({ title, description, deliveryDesc }) {
     return (
 
         <Card style={styles.cardSec}>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-around'}}>
-                <View style={{marginVertical: 4, marginRight: 20, flex:1, width: 120, height: 120,}}>
-                    
-                    <ImageBackground style={[styles.Image, {justifyContent:'space-between', flex: 1}]} imageStyle={{borderRadius: 10}} source={require('../../assets/images/subway.png')}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+                <View style={{ marginVertical: 4, marginRight: 20, flex: 1, width: 120, height: 120, }}>
 
-                    <View style={{ flexDirection: 'row', marginVertical: 8}}>
-                        <Card style={styles.dealCard}>
-                            <Text style={styles.dealText}>
-                                Food Fest Deals
-                            </Text>
-                        </Card>
-                    </View>
-                    <View style={{ flexDirection: 'row', marginVertical: 8, marginHorizontal: 16}}>
-                        <Card style={styles.timeCard}>
-                            <Text style={styles.timeText}>
-                                30 min
-                            </Text>
-                        </Card>
-                    </View>
+                    <ImageBackground style={[styles.Image, { justifyContent: 'space-between', flex: 1 }]} imageStyle={{ borderRadius: 10 }} source={require('../../assets/images/subway.png')}>
+
+                        <View style={{ flexDirection: 'row', marginVertical: 8 }}>
+                            <Card style={styles.dealCard}>
+                                <Text style={styles.dealText}>
+                                    Food Fest Deals
+                                </Text>
+                            </Card>
+                        </View>
+                        <View style={{ flexDirection: 'row', marginVertical: 8, marginHorizontal: 16 }}>
+                            <Card style={styles.timeCard}>
+                                <Text style={styles.timeText}>
+                                    30 min
+                                </Text>
+                            </Card>
+                        </View>
                     </ImageBackground>
 
-                    
+
 
                 </View>
 
-                <View style={{flex:2}}>
-                    <Text style={styles.textBold}>
-                        {title}
-                    </Text>
-                    <Text numberOfLines={4} style={styles.text}>
-                        {description}
-                    </Text>
+                <View style={{ flex: 2, justifyContent: 'space-between' }}>
+                    <View>
+                        <Text style={styles.textBold}>
+                            {title}
+                        </Text>
+                        <Text numberOfLines={4} style={styles.text}>
+                            {description}
+                        </Text>
+                    </View>
                     <Text style={[styles.text, { fontWeight: "normal" }]}>
                         {deliveryDesc}
                     </Text>

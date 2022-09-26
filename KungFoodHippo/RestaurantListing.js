@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react';
 import { DrawerActions, createAppContainer } from 'react-navigation';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
-import { MD3LightTheme as DefaultTheme, Provider as PaperProvider, Text, Appbar, Snackbar, BottomNavigation, Button, Card, Surface, Title, Paragraph, Drawer } from 'react-native-paper';
+import { MD3LightTheme as DefaultTheme, Provider as PaperProvider, Text, Appbar, Snackbar, BottomNavigation, Button, Card, Surface, Title, Paragraph, Drawer, Searchbar, TextInput } from 'react-native-paper';
 import { styles } from './Styles.js'
 import { HippoCard } from './Components/TestCard.js';
 import {
@@ -29,29 +29,41 @@ export function ListingScreen({ navigation }) {
 
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
-    const [buttonText, setButtonText] = useState('Click');
-    function handleClick() {
-        setButtonText('New text');
-    }
 
     useEffect(() => {
         fetch(url + path)
-          .then((response) => response.json())
-          .then((json) => setData(json))
-          .catch((error) => console.error(error))
-          .finally(() => setLoading(false));
-      }, []);
+            .then((response) => response.json())
+            .then((json) => setData(json))
+            .catch((error) => console.error(error))
+            .finally(() => setLoading(false));
+    }, []);
 
     const renderItem = ({ item }) => (
         <RestaurantCard title={item.name} description={item.description} deliveryDesc={item.address}></RestaurantCard>
     );
 
+    const [searchQuery, setSearchQuery] = React.useState('');
+
+    const [test, setTest] = React.useState('');
+
+    const onChangeSearch = query => setSearchQuery(query);
+
+
     return (
         <PaperProvider theme={theme}>
 
-            <SafeAreaView style={styles.container}>
+            <SafeAreaView style={[restaurantStyle.container, {flexDirection: 'column'}]}>
+                <View style={[restaurantStyle.searchBoxWrapper, {flex: 1, minHeight: 60}]}>
+                    <TextInput placeholder={'Search for shops and restaurants'}
+                        onChangeText={onChangeSearch}
+                        value={searchQuery}
+                        style={{flex: 50}}
+                    />
+                    <Button icon={require('./assets/images/search.png')} mode="text" onPress={() => setTest(searchQuery)} style={{flex: 1}}/>
+                </View>
 
-                <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{ height: 60 }}>
+                <View style={{flex: 1, minHeight: 40}}>
+                <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={restaurantStyle.filterBar}>
                     <Button icon={"filter-variant"} textColor={"#000000"} style={restaurantStyle.button}>
                         <Text style={restaurantStyle.text}>
                             Filter
@@ -76,21 +88,23 @@ export function ListingScreen({ navigation }) {
                         </Text>
                     </Button>
                 </ScrollView>
+                </View>
 
 
-                <Text style={restaurantStyle.textBold}>
+                <Text style={[restaurantStyle.textBold, {flex: 1, minHeight: 20}]}>
                     Nearby Restaurants
                 </Text>
 
-                <ScrollView showsVerticalScrollIndicator={false} style={{paddingHorizontal:12}}>
-                    {isLoading ? <ActivityIndicator /> : (
-                        <FlatList
-                            data={data}
-                            renderItem={renderItem}
-                            keyExtractor={item => item.id}
-                        />)}
+                {isLoading ? <ActivityIndicator /> : (
+                    <View style={{flex:35}}>
+                    <FlatList
+                        data={data}
+                        renderItem={renderItem}
+                        keyExtractor={item => item.id}
+                        style={[restaurantStyle.restaurantList, {flex: 1}]}
+                    />
+                    </View>)}
 
-                </ScrollView>
 
 
             </SafeAreaView>
@@ -112,8 +126,7 @@ export const restaurantStyle = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
-        padding: 16,
-        justifyContent: 'center',
+        padding: 0,
     },
 
     textBold: {
@@ -121,7 +134,7 @@ export const restaurantStyle = StyleSheet.create({
         textAlign: "left",
         fontSize: 24,
         // fontFamily: "Roboto-Regular",
-        fontWeight: "bold"
+        fontWeight: "bold",
     },
 
     textThin: {
@@ -163,6 +176,24 @@ export const restaurantStyle = StyleSheet.create({
         borderRadius: 15,
         width: 120,
         height: 120,
+    },
+
+    searchBoxWrapper: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        backgroundColor: '#EC8C8C' + 20,
+        padding: 10,
+        borderRadius: 5,
+        minHeight: 40,
+        width: '100%',
+    },
+
+    filterBar: {
+        
+    },
+
+    restaurantList: {
+        paddingHorizontal: 12
     },
 
 
