@@ -6,14 +6,15 @@ import { markers } from './mapData';
 import {WebView} from 'react-native-webview';
 import { FAB } from 'react-native-paper';
 
-
 export function MapScreen({ navigation }) {
     
 
   return (
     
   <View style={styles.container}>
+     
     <MapView
+      
           style={styles.map}
           initialRegion={{
           latitude: 1.348,

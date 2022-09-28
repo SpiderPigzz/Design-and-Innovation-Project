@@ -21,6 +21,19 @@ import SearchButton from './Components/SearchButton'
 import Homepage from './Components/HomePage'
 import { HippoCard } from './Components/TestCard.js';
 import { CategoriesCard } from './Components/Categories.js';
+import { FoodDeliveryCard } from './Components/Home/FoodDeliveryCard.js';
+import { HalalCard } from './Components/Home/HalalCard.js';
+import { VeganCard } from './Components/Home/VeganCard.js';
+import { PickUpCard } from './Components/Home/PickUpCard.js';
+import { RamenCard } from './Components/Home/RamenCard.js';
+import { PastamaniaCard } from './Components/Home/PastamaniaCard.js';
+import { JapaneseCard } from './Components/Home/JapaneseCard.js';
+import { KoreanCard } from './Components/Home/KoreanCard';
+import { MexicanCard } from './Components/Home/MexicanCard';
+import { ItalianCard } from './Components/Home/ItalianCard';
+import { ChineseCard } from './Components/Home/ChineseCard';
+import FloatingButton from './Components/Home/FloatingButton'
+import { WesternCard } from './Components/Home/WesternCard';
 import {
     SafeAreaView,
     SafeAreaProvider,
@@ -29,7 +42,6 @@ import {
     initialWindowMetrics,
 } from 'react-native-safe-area-context';
 import { colors } from 'react-native-elements';
-
 export function HomeScreen({ navigation }) {
     const [value, setValue] = useState()
     function updateSearch(value) {
@@ -37,14 +49,13 @@ export function HomeScreen({ navigation }) {
     }
 
     return (
-        <SafeAreaView style={style1.container}>
-
+        <View style={style1.container}>
             <ScrollView style={style1.container} vertical={true}>
-                <View style={style1.searchBoxWrapper}>
+                <View style={style1.searchBoxWrapper} >
                     <TextInput placeholder={'Search for shops and restaurants'} />
                     <Image source={require('./assets/images/search.png')} />
                 </View>
-                <ScrollView horizontal={true}>
+                <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                     <View style={style1.categoryItem}>
                         <View style={style1.categoryCard}>
                             <Image source={require('./assets/images/HotDeals.png')} style={style1.image} />
@@ -56,75 +67,48 @@ export function HomeScreen({ navigation }) {
                         <View style={style1.categoryCard}>
                             <Image source={require('./assets/images/FavouriteFood.png')} style={style1.image} />
                         </View>
-                        <Text style={style1.label1}>Favourite Food</Text>
+                        <Text style={style1.label1}>Favourite</Text>
                     </View>
 
                     <View style={style1.categoryItem}>
                         <View style={style1.categoryCard}>
                             <Image source={require('./assets/images/BadgetMeal.png')} style={style1.image} />
                         </View>
-                        <Text style={style1.label1}>Budget Meal</Text>
+                        <Text style={style1.label1}>Offers</Text>
                     </View>
 
                     <View style={style1.categoryItem}>
                         <View style={style1.categoryCard}>
                             <Image source={require('./assets/images/NewFood.png')} style={style1.image} />
                         </View>
-                        <Text style={style1.label1}>Order Later</Text>
+                        <Text style={style1.label1}>Order Later </Text>
                     </View>
-
-
                 </ScrollView>
-                <View horizontal={true}>
-                    <View style={style1.box}>
-
-
-                        <View style={style1.inner1}>
-                            <Image source={require('./assets/images/food_delivery.png')} style={style1.image2} />
-
-                            <View style={style1.inner1}></View>
-                            <Text style={style1.label2}>Food Delivery</Text>
-                            <Text style={style1.label2}>Order food you love</Text>
+                <View>
+                    <FoodDeliveryCard></FoodDeliveryCard>
+                    <View style={style1.FDCard} horizontal={true}>
+                        <HalalCard></HalalCard>
+                        <View vertical={true}>
+                            <View style={style1.FDCard2}>
+                                <VeganCard></VeganCard>
+                            </View>
+                            <View style={style1.FDCard2}>
+                                <PickUpCard></PickUpCard>
+                            </View>
                         </View>
-
                     </View>
-                    <View style={style1.catContainer} horizontal={true}>
-
-                        <View style={style1.box2}>
-                            <View style={style1.inner2}>
-                                <View style={style1.imageDEdit}>
-                                    <Image source={require('./assets/images/hipoofood.png')} style={style1.imageD} />
-                                </View>
-
-                                <View style={style1.inner2TextBottom}>
-                                    <Text style={style1.inner2TextBold}>HipooFood</Text>
-                                    <Text style={style1.inner2Text}>Everyday up to </Text>
-                                    <Text style={style1.inner2Text}>20% off</Text>
-                                </View>
-                            </View>
-                        </View>
-                        <View style={style1.box2}>
-                            <View style={style1.inner3}>
-                                <View style={style1.inner2TextBottom}>
-                                    <Text style={style1.inner2TextBold}>PickUp</Text>
-                                    <Text style={style1.inner2Text}>Everyday up to </Text>
-                                    <Text style={style1.inner2Text}>25% off</Text>
-                                </View>
-                                <View style={style1.image3Edit}>
-                                    <Image source={require('./assets/images/pickup.png')} style={style1.image3} />
-                                </View>
-                            </View>
-
-                            <View style={style1.inner4}>
-                                <Image source={require('./assets/images/shops.png')} style={style1.image3} />
-                                <View style={style1.inner2TextBottom1}>
-                                    <Text style={style1.inner2TextBold}>Shops</Text>
-                                    <Text style={style1.inner2Text}>Groceries and more </Text>
-                                </View>
-
-                            </View>
-                        </View>
-
+                </View>
+                <View>
+                    <Text style={style1.cuisineText}>Cuisines</Text>
+                    <View style={style1.cuisinesCard} horizontal={true}>
+                        <JapaneseCard></JapaneseCard>
+                        <KoreanCard></KoreanCard>
+                        <WesternCard></WesternCard>
+                    </View>
+                    <View style={style1.cuisinesCard} horizontal={true}>
+                        <ItalianCard></ItalianCard>
+                        <ChineseCard></ChineseCard>
+                        <MexicanCard></MexicanCard>
                     </View>
                 </View>
 
@@ -134,27 +118,16 @@ export function HomeScreen({ navigation }) {
                     </Text>
                     <Image source={require('./assets/images/Rightarrow.png')} style={style1.arrowWrapper} />
                 </View>
-
-
                 <ScrollView
-                    contentContainerStyle={style1.foodListingWrapper} horizontal={true}>
-                    <View style={style1.foodItemWrapper}>
-                        <Image source={require('./assets/images/takagiramen.png')} style={style1.imageR}/>
-                        <Text style={style1.foodItemText}>Takagi Ramen</Text>
-                        <Text>Lunch/Dinner*Japanese</Text>
-                        <Text>$3.70 delivery fee</Text>
-                    </View>
-                    <View style={style1.foodItemWrapper}>
-                        <Image source={require('./assets/images/pastamania.png')} style={style1.imageRV}/>
-                        <Text style={style1.foodItemText}>Pastamania</Text>
-                        <Text>Pasta*Italian</Text>
-                        <Text>$3.00 delivery fee</Text>
+                    contentContainerStyle={style1.foodListingWrapper} horizontal={true} >
+                    <View style={style1.FDCard} horizontal={true}>
+                        <RamenCard></RamenCard>
+                        <PastamaniaCard></PastamaniaCard>
                     </View>
                 </ScrollView>
-
             </ScrollView>
-
-        </SafeAreaView>
+            <FloatingButton/>
+        </View>
         // <PaperProvider theme={theme}>
         //   <View style={style.searchBoxWrapper}>
         //         <TextInput placeholder={'Search for shops and restaurants'}/>
@@ -165,11 +138,37 @@ export function HomeScreen({ navigation }) {
     );
 }
 const style1 = StyleSheet.create({
+    cuisineText:{
+        fontWeight: 'bold', fontSize: 24, alignSelf: "flex-start", marginHorizontal: 10,
+    },
+    cuisinesCard: {
+        flexDirection: 'row',
+        flex: 1,
+    },
+    FDCard: {
+        backgroundColor: '#fff',
+        display: 'flex',
+        flexDirection: 'row',
+        flex: 1,
+        padding: 2,
+    },
+    FDCard2: {
+        backgroundColor: '#fff',
+        display: 'flex',
+        flexDirection: 'row',
+        flex: 1,
+    },
     container: {
-        backgroundColor: '#FFFFFF',
+        backgroundColor: '#fff',
         display: 'flex',
         flex: 1,
-        marginHorizontal: 5,
+        marginHorizontal: 2,
+    },
+    container2: {
+        backgroundColor: '#fff',
+        display: 'flex',
+        flex: 1,
+        
     },
     //Searchtext:{
     //   textAlign:'right',
@@ -181,7 +180,8 @@ const style1 = StyleSheet.create({
         backgroundColor: '#EC8C8C' + 20,
         padding: 10,
         borderRadius: 5,
-        width: '100%',
+        marginLeft: 10,
+        width: '96%',
     },
     categoryCard: {
         flex: 1,
@@ -189,28 +189,28 @@ const style1 = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 15,
-        padding: 5,
+        padding: 9,
 
     },
     categoryItem: {
-        marginleft: 4,
+        marginleft: 6,
         marginTop: 5,
-        marginVertical: 40,
+        marginVertical: 10,
         alignItems: 'center',
         //backgroundColor:'#EB9FBE',
-        padding: 9,
+        padding: 10,
     },
     image: {
         flex: 1,
-        width: 42,
-        height: 42,
+        width: 50,
+        height: 50,
         resizeMode: 'contain',
     },
     image2: {
         flex: 1,
         width: 100,
         height: 70,
-       // backgroundColor: '#000000',
+        // backgroundColor: '#000000',
         resizeMode: 'contain',
     },
     imageD: {
@@ -229,12 +229,12 @@ const style1 = StyleSheet.create({
         justifyContent: 'flex-end',
         alignSelf: 'center',
     },
-    imageR:{
+    imageR: {
         flex: 1,
         width: 150,
         height: 100,
     },
-    imageRV:{
+    imageRV: {
         flex: 0.7,
         width: 150,
         height: 60,
@@ -266,8 +266,8 @@ const style1 = StyleSheet.create({
         fontSize: 12,
         marginTop: 5,
     },
-    foodItemText:{
-        fontWeight:'bold',
+    foodItemText: {
+        fontWeight: 'bold',
     },
     categories: {
         display: 'flex',
