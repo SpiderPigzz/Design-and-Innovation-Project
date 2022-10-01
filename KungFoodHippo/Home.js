@@ -15,7 +15,7 @@ import { useState } from 'react';
 import { DrawerActions, createAppContainer } from 'react-navigation';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
-import { MD3LightTheme as DefaultTheme, Provider as PaperProvider, Text, Appbar, Snackbar, BottomNavigation, Button, Card, Surface, Title, Paragraph, Drawer, shadow } from 'react-native-paper';
+import { MD3LightTheme as DefaultTheme, Provider as PaperProvider, Text, Appbar, Snackbar, BottomNavigation, Button, Card, Surface, Title, Paragraph, Drawer, shadow, Portal, Provider } from 'react-native-paper';
 import { styles } from './Styles.js'
 import SearchButton from './Components/SearchButton'
 import Homepage from './Components/HomePage'
@@ -49,7 +49,7 @@ export function HomeScreen({ navigation }) {
     }
 
     return (
-        <View style={style1.container}>
+        <View style={[style1.container]}>
             <ScrollView style={style1.container} vertical={true}>
                 <View style={style1.searchBoxWrapper} >
                     <TextInput placeholder={'Search for shops and restaurants'} />
@@ -126,7 +126,11 @@ export function HomeScreen({ navigation }) {
                     </View>
                 </ScrollView>
             </ScrollView>
-            <FloatingButton/>
+            <Portal>
+                <FloatingButton />
+            </Portal>
+            
+
         </View>
         // <PaperProvider theme={theme}>
         //   <View style={style.searchBoxWrapper}>
@@ -138,7 +142,7 @@ export function HomeScreen({ navigation }) {
     );
 }
 const style1 = StyleSheet.create({
-    cuisineText:{
+    cuisineText: {
         fontWeight: 'bold', fontSize: 24, alignSelf: "flex-start", marginHorizontal: 10,
     },
     cuisinesCard: {
@@ -168,7 +172,7 @@ const style1 = StyleSheet.create({
         backgroundColor: '#fff',
         display: 'flex',
         flex: 1,
-        
+
     },
     //Searchtext:{
     //   textAlign:'right',

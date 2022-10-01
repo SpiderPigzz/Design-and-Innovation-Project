@@ -12,6 +12,9 @@ const FloatingButton = () => {
     <Provider>
       <Portal>
         <FAB.Group
+          style={{position: 'absolute',                                          
+          bottom: 10,                                                    
+          right: 10,}}
           open={open}
           position= 'absolute' 
           icon={open ? 'calendar-today' : 'plus'}
