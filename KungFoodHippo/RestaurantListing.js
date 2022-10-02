@@ -19,6 +19,7 @@ import {
 import { RestaurantCard } from './Components/RestaurantListing/RestaurantCard.js';
 import { ScrollView } from 'react-native-gesture-handler';
 import { DebugInstructions } from 'react-native/Libraries/NewAppScreen';
+import { debug } from 'react-native-reanimated';
 
 
 const url = 'http://dip.totallynormal.website/';
@@ -33,13 +34,20 @@ export function ListingScreen({ navigation }) {
     useEffect(() => {
         fetch(url + path)
             .then((response) => response.json())
-            .then((json) => setData(json))
+            .then((json) => {
+                for (var i = 0; i < json.length; i++) {
+                    json[i]['imageURI'] = 'http://dip.totallynormal.website/picture/' + json[i]['ID'];
+                    //console.log(json[i]['imageURI']);
+                }
+                
+                setData(json);
+            })
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
     }, []);
 
     const renderItem = ({ item }) => (
-        <RestaurantCard title={item.name} description={item.description} deliveryDesc={item.address}></RestaurantCard>
+        <RestaurantCard title={item.name} description={item.description} deliveryDesc={item.address} imageURI={item.imageURI}></RestaurantCard>
     );
 
     const [searchQuery, setSearchQuery] = React.useState('');
@@ -95,7 +103,7 @@ export function ListingScreen({ navigation }) {
                     Nearby Restaurants
                 </Text>
 
-                {isLoading ? <ActivityIndicator /> : (
+                {isLoading ? <ActivityIndicator style={{flex:35}}/> : (
                     <View style={{flex:35}}>
                     <FlatList
                         data={data}

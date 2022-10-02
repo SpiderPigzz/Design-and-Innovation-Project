@@ -1,14 +1,36 @@
 import { MD3LightTheme as DefaultTheme, Provider as PaperProvider, Text, Appbar, Snackbar, BottomNavigation, Button, Card, Title, Paragraph } from 'react-native-paper';
 import { StyleSheet, View, Image, ImageBackground } from 'react-native';
+import React, { useState, useEffect} from "react";
 
-export function RestaurantCard({ title, description, deliveryDesc }) {
+export function RestaurantCard({ title, description, deliveryDesc, imageURI }) {
+    //console.log(imageURI);
+    const [showDefault, setState] = useState(require('../../assets/images/subway.png'));
+    //var image = showDefault ? require('../../assets/images/subway.png') : { uri: imageURI };
+
+    useEffect(() => {
+        fetch(imageURI)
+            .then((res) => {
+                if (res.status != 404) {
+                    setState({ uri: imageURI })
+                }
+            })
+            .catch((err) => {
+                console.log("unable to fetch site data");
+            });
+    }, []);
+
+
     return (
 
         <Card style={styles.cardSec}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
                 <View style={{ marginVertical: 4, marginRight: 20, flex: 1, width: 120, height: 120, }}>
 
-                    <ImageBackground style={[styles.Image, { justifyContent: 'space-between', flex: 1 }]} imageStyle={{ borderRadius: 10 }} source={require('../../assets/images/subway.png')}>
+                    <ImageBackground
+                        style={[styles.Image, { justifyContent: 'space-between', flex: 1 }]}
+                        imageStyle={{ borderRadius: 10 }}
+                        source={showDefault}
+                    >
 
                         <View style={{ flexDirection: 'row', marginVertical: 8 }}>
                             <Card style={styles.dealCard}>
