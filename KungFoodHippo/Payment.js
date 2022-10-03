@@ -1,12 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from "react";
-import { StyleSheet, Text, View, TouchableOpacity, Image, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, Dimensions, Pressable, TextInput } from 'react-native';
 import { MaterialIcons, Entypo, Feather, FontAwesome } from '@expo/vector-icons';
 import { Card, Title, Button, Paragraph, RadioButton, Divider } from 'react-native-paper';
 import { Appbar } from 'react-native-paper';
 import ProgressBarMultiStep from "react-native-progress-bar-multi-step";
 import MapView from 'react-native-maps';
 import { ScrollView } from 'react-native-gesture-handler';
+import DialogInput from 'react-native-dialog-input';
 
 
 const tabs = [
@@ -19,31 +20,30 @@ const tabs = [
   { title: 'Order Tracking', pageNo: 3 }
 ];
 
-const Deliverytype = ({ name }) => {
-  //const [type] = useState("delivery");
-
-  return (
-    <View>
-      <TouchableOpacity
-        style={styles.selected}>
-        <Text style={styles.buttonText}>{name}</Text>
-      </TouchableOpacity>
-    </View>
-  )
-}
-
 export function PaymentScreen({ navigation }) {
   const [value, setValue] = React.useState('first');
   const [page, setPage] = useState(1);
+  const [delivery, setDeliveryMethod] = useState(true);
+  const [messageVisible, setMessageVisible] = React.useState(false);
+  const [addressVisible, setAddressVisible] = React.useState(false);
+  const [instructionInput, setInstructionInput] = React.useState('');
+  const [newAddress, setNewAddress] = React.useState('');
+  const [instructionVisible, setInstructionVisible] = React.useState(true);
+  const [isLoading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
+
+  const toggle = () => {
+    setDeliveryMethod(!delivery);
+    setInstructionVisible(!instructionVisible);
+  }
 
   return (
-
     <View style={[styles.container]}>
       <>
         <Appbar.Header style={styles.topbar}>
           <Appbar.Action icon="close" onPress={() => { }} />
           <Appbar.Content title="Checkout" />
-        </Appbar.Header>
+        </Appbar.Header> 
         <ProgressBarMultiStep
           progressive={true}
           page={page}
@@ -54,12 +54,28 @@ export function PaymentScreen({ navigation }) {
           finishedBackgroundColor='#E76766'
           inProgressBackgroundColor='grey'
         />
-        <View style={{ flexDirection: 'row' }}>
-          <Deliverytype name="Contactless Delivery" type='delivery' />
-          <Deliverytype name="Self Pick-up" type='pickup' />
+        <View style={{
+          flexDirection: 'row',
+        }}>
+          <Pressable
+            onPress={toggle}
+            style={({ pressed }) => [
+              { backgroundColor: delivery ? '#E76766' : '#F9E6E6' },
+              styles.button
+            ]}>
+            <Text>Delivery</Text>
+          </Pressable>   
+          <Pressable
+            onPress={toggle}
+            style={({ pressed }) => [
+              { backgroundColor: delivery ? '#F9E6E6' : '#E76766' },
+              styles.button
+            ]}>
+            <Text>Pick Up</Text>
+          </Pressable>       
         </View>
       </>
-      <StatusBar style="auto" />
+
 
       <Divider style={styles.divider} horizontalInset='true' bold='true' />
 
@@ -67,46 +83,87 @@ export function PaymentScreen({ navigation }) {
 
         <View style={styles.viewbox}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <View style={{ flexDirection: 'row' }}>
+            <View style={{ 
+              flexDirection: 'row',
+              alignItems:'center'
+             }}>
               <MaterialIcons name="gps-fixed" size={24} color="#E76766" />
-              <Text style={styles.header}>Delivery Address</Text>
+              <Text style={styles.header}> {delivery ? 'Delivery Address' : 'Pick Up Address'} </Text>
             </View>
-            <TouchableOpacity
-              style={styles.edit}>
-              <FontAwesome name="edit" size={25} color="#E76766" />
-              <Text style={styles.selectedText}>Edit</Text>
-            </TouchableOpacity>
+            <View>{ delivery? (
+              <TouchableOpacity 
+                onPress={() => setAddressVisible(true)}
+                style={styles.edit}
+              >
+                <FontAwesome name="edit" size={25} color="#E76766" />
+                {newAddress ? null :<Text style={styles.selectedText}>Edit</Text>}
+                <DialogInput 
+                  isDialogVisible={addressVisible}
+                  title={"Edit Address"}
+                  message={"Please input your new address below:"}
+                  hintInput ={"Enter Text"}
+                  submitInput={ (newAddress) => {
+                    setNewAddress(newAddress),
+                    setAddressVisible(false);
+                  }}
+                  closeDialog={() => setAddressVisible(false)}>
+                </DialogInput>               
+              </TouchableOpacity>):null
+            }
+            </View>     
           </View>
           <View style={styles.mapbox}>
-            <MapView style={styles.map}
-              initialRegion={{
-                latitude: 1.348,
-                longitude: 103.683,
-                latitudeDelta: 0.00822,
-                longitudeDelta: 0.00821,
-              }}
-              showsUserLocation={true} />
+            {delivery?(
+              <MapView style={styles.map}
+                initialRegion={{
+                  latitude: 1.348,
+                  longitude: 103.683,
+                  latitudeDelta: 0.00822,
+                  longitudeDelta: 0.00821,
+                }}
+                showsUserLocation={true} />
+            ): (
+                <MapView 
+                //For Yijie to input map (Restaurant Address)
+                />
+              )
+            }
           </View>
-          <Text style={styles.header}>Home</Text>
-          <Text>Name</Text>
-          <Text>Address</Text>
-          <TouchableOpacity
-            style={styles.add}>
-            <Text style={styles.selectedText}>+ Add Delivery Instructions</Text>
-          </TouchableOpacity>
+          <Text style={styles.header}> {delivery ? 'Home' : 'Restaurant'} </Text>
+          <Text> Name</Text>
+          <Text> {delivery ? 'Home Address' : 'Restaurant Address'} </Text>
+          <View>{ instructionVisible? (
+            <TouchableOpacity 
+              style={styles.add}
+              onPress={() => setMessageVisible(true)}
+            >
+              {instructionInput ? <Text style={styles.selectedText}>Instructions: {instructionInput}</Text>:<Text style={styles.selectedText}>+ Add Delivery Instructions</Text>}
+                <DialogInput 
+                  isDialogVisible={messageVisible}
+                  title={"Delivery Instructions"}
+                  message={"Message for Driver"}
+                  hintInput ={"Enter Text"}
+                  submitInput={ (instructionInput) => {
+                    setInstructionInput(instructionInput),
+                    setMessageVisible(false);
+                  }}
+                  closeDialog={() => setMessageVisible(false)}>
+                </DialogInput>           
+            </TouchableOpacity>):null
+          }
+          </View>
         </View>
 
 
         <View style={styles.payment}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <View style={{ flexDirection: 'row' }}>
-              <Entypo name="wallet" size={26} color="black" />
+            <View style={{ 
+              flexDirection: 'row',
+              alignItems:'center'
+             }}>
+              <Entypo name="wallet" size={20} color="black" />
               <Text style={styles.header}>Payment Method</Text>
             </View>
-            <TouchableOpacity style={styles.edit2}>
-              <FontAwesome name="edit" size={25} color="#E76766" />
-              <Text style={styles.selectedText}>Edit</Text>
-            </TouchableOpacity>
           </View>
           <RadioButton.Group style={styles.radiogroup} onValueChange={newValue => setValue(newValue)} value={value}>
             <View style={styles.radiobutton}>
@@ -135,7 +192,10 @@ export function PaymentScreen({ navigation }) {
       <Divider style={styles.divider} horizontalInset='true' bold='true' />
 
       <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignSelf: 'stretch' }}>
-        <View style={{ flexDirection: 'row' }}>
+        <View style={{ 
+          flexDirection: 'row' ,
+          alignItems:'baseline'
+        }}>
           <Text style={styles.header}>Total</Text>
           <Text fontSize={20}>(include GST)</Text>
         </View>
@@ -167,16 +227,28 @@ const styles = StyleSheet.create({
     alignSelf: 'center'
   },
   button: {
-    backgroundColor: "white",
-    padding: 15,
     borderRadius: 20,
-    margin: 15,
+    margin: 20,
     width: 150,
+    height:50,
+    padding: 15,
+    alignItems:'center'
   },
   buttonText: {
-    color: "white",
-    textAlign: "center"
+    color: "black",
+    textAlign:'center',
   },
+  buttonTouchable: {
+    padding: 10, 
+    backgroundColor: "#F9E6E6",
+    width: 120, 
+    height: 40, 
+    borderRadius: 30, 
+    flexDirection: 'column',
+    marginRight: 10,
+    marginTop: 10,
+    marginBottom: 20
+},
   divider: {
     backgroundColor: '#b8b8b880',
     margin: 6,
@@ -184,12 +256,13 @@ const styles = StyleSheet.create({
   },
   selected: {
     backgroundColor: "#E76766",
-    padding: 15,
+    margin: 15,
     borderRadius: 20,
-    marginHorizontal: 15,
-    width: 160,
+    width: 150,
     elevation: 10,
     shadowColor: '#52006A',
+    height:50,
+    padding: 15,
   },
   selectedText: {
     color: "#E76766",
@@ -233,16 +306,12 @@ const styles = StyleSheet.create({
 
   },
   add: {
-    backgroundColor: '#feeae9',
     marginTop: 10
+
   },
   edit: {
-    backgroundColor: '#feeae9',
-    flexDirection: 'row'
-  },
-  edit2: {
-    backgroundColor: 'white',
     flexDirection: 'row',
+    alignItems:'center'
   },
   order: {
     backgroundColor: "#E76766",
