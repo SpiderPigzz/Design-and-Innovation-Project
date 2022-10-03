@@ -23,19 +23,19 @@ const tabs = [
 ];
 
 export function PaymentScreen({ navigation }) {
-    const [value, setValue] = React.useState('first');
-    const [page, setPage] = useState(1);
+  const [value, setValue] = React.useState('first');
+  const [page, setPage] = useState(1);
 
-    const [delivery, setDeliveryMethod] = useState(true);
-    const [instructionVisible, setInstructionVisible] = React.useState(true);
-    const [number, onChangeNumber] = React.useState(null);
-    const [modalVisible, setModalVisible] = useState(false);
+  const [delivery, setDeliveryMethod] = useState(true);
+  const [instructionVisible, setInstructionVisible] = React.useState(true);
+  const [number, onChangeNumber] = React.useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
 
-    const [isLoading, setLoading] = useState(true);
-    const [data, setData] = useState([]);
+  const [isLoading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
 
-    const getFromDatabase = async () => {
-      try {
+  const getFromDatabase = async () => {
+    try {
       const response = await fetch('http://dip.totallynormal.website/listCustomer');
       const json = await response.json();
       setData(json);
@@ -62,7 +62,7 @@ export function PaymentScreen({ navigation }) {
         <Appbar.Header style={styles.topbar}>
           <Appbar.Action icon="close" onPress={() => { }} />
           <Appbar.Content title="Checkout" />
-        </Appbar.Header> 
+        </Appbar.Header>
         <ProgressBarMultiStep
           progressive={true}
           page={page}
@@ -83,7 +83,7 @@ export function PaymentScreen({ navigation }) {
               styles.button
             ]}>
             <Text>Delivery</Text>
-          </Pressable>   
+          </Pressable>
           <Pressable
             onPress={toggle}
             style={({ pressed }) => [
@@ -91,7 +91,7 @@ export function PaymentScreen({ navigation }) {
               styles.button
             ]}>
             <Text>Pick Up</Text>
-          </Pressable>       
+          </Pressable>
         </View>
       </>
 
@@ -102,26 +102,26 @@ export function PaymentScreen({ navigation }) {
 
         <View style={styles.viewbox}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <View style={{ 
+            <View style={{
               flexDirection: 'row',
-              alignItems:'center'
-             }}>
+              alignItems: 'center'
+            }}>
               <MaterialIcons name="gps-fixed" size={24} color="#E76766" />
               <Text style={styles.header}> {delivery ? 'Delivery Address' : 'Pick Up Address'} </Text>
             </View>
-            <View>{ delivery? (
-              <TouchableOpacity 
+            <View>{delivery ? (
+              <TouchableOpacity
                 onPress={() => (true)}
                 style={styles.edit}
               >
                 <FontAwesome name="edit" size={25} color="#E76766" />
                 <Text style={styles.selectedText}>Edit</Text>
-              </TouchableOpacity>):null
+              </TouchableOpacity>) : null
             }
-            </View>     
+            </View>
           </View>
           <View style={styles.mapbox}>
-            {delivery?(
+            {delivery ? (
               <MapView style={styles.map}
                 initialRegion={{
                   latitude: 1.348,
@@ -130,44 +130,44 @@ export function PaymentScreen({ navigation }) {
                   longitudeDelta: 0.00821,
                 }}
                 showsUserLocation={true} />
-            ): (
-                <MapView 
-                //For Yijie to input map (Restaurant Address)
-                />
-              )
+            ) : (
+              <MapView
+              //For Yijie to input map (Restaurant Address)
+              />
+            )
             }
           </View>
 
 
           <View>
-              <Text style={styles.header}> {delivery ? 'Home' : 'Restaurant'} </Text>
-              <Text> Name</Text>
-              <Text> {delivery ? 'Home Address' : 'Restaurant Address'} </Text>  
-              
-              <View>
-                {isLoading ? <ActivityIndicator/> : (
-                  <FlatList
-                    data={data}
-                    keyExtractor={({ id }, index) => id}
-                    renderItem={({ item }) => (
-                      <Text>{item.name}, {item.address}</Text>
-                    )}
-                  />
-                )}
-              </View>
-          
+            <Text style={styles.header}> {delivery ? 'Home' : 'Restaurant'} </Text>
+            <Text> Name</Text>
+            <Text> {delivery ? 'Home Address' : 'Restaurant Address'} </Text>
+
+            <View>
+              {isLoading ? <ActivityIndicator /> : (
+                <FlatList
+                  data={data}
+                  keyExtractor={({ id }, index) => id}
+                  renderItem={({ item }) => (
+                    <Text>{item.name}, {item.address}</Text>
+                  )}
+                />
+              )}
+            </View>
+
           </View>
 
 
 
-          <View>{ instructionVisible? (
-            <TouchableOpacity 
+          <View>{instructionVisible ? (
+            <TouchableOpacity
               style={styles.add}
               onPress={() => setModalVisible(true)}
             >
-              <Text style={styles.selectedText}>+ Add Delivery Instructions</Text>     
+              <Text style={styles.selectedText}>+ Add Delivery Instructions</Text>
             </TouchableOpacity>
-            ):null }
+          ) : null}
           </View>
         </View>
 
@@ -186,11 +186,11 @@ export function PaymentScreen({ navigation }) {
               <View style={styles.modalView}>
                 <Text style={styles.modalText}>Please input your instructions:</Text>
                 <TextInput
-                style={styles.input}
-                onChangeText={onChangeNumber}
-                value={number}
-                placeholder="Intructions"
-                keyboardType="numeric"
+                  style={styles.input}
+                  onChangeText={onChangeNumber}
+                  value={number}
+                  placeholder="Intructions"
+                  keyboardType="numeric"
                 />
                 <Pressable
                   style={[styles.button, styles.buttonClose]}
@@ -206,10 +206,10 @@ export function PaymentScreen({ navigation }) {
 
         <View style={styles.payment}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <View style={{ 
+            <View style={{
               flexDirection: 'row',
-              alignItems:'center'
-             }}>
+              alignItems: 'center'
+            }}>
               <Entypo name="wallet" size={20} color="black" />
               <Text style={styles.header}>Payment Method</Text>
             </View>
@@ -241,9 +241,9 @@ export function PaymentScreen({ navigation }) {
       <Divider style={styles.divider} horizontalInset='true' bold='true' />
 
       <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignSelf: 'stretch' }}>
-        <View style={{ 
-          flexDirection: 'row' ,
-          alignItems:'baseline'
+        <View style={{
+          flexDirection: 'row',
+          alignItems: 'baseline'
         }}>
           <Text style={styles.header}>Total</Text>
           <Text fontSize={20}>(include GST)</Text>
@@ -261,6 +261,27 @@ export function PaymentScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
+  },
   topbar: {
     width: 375,
     height: 35,
@@ -279,29 +300,29 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     margin: 20,
     width: 150,
-    height:50,
+    height: 50,
     padding: 15,
-    alignItems:'center'
+    alignItems: 'center'
   },
   buttonText: {
     color: "black",
-    textAlign:'center',
+    textAlign: 'center',
   },
   buttonTouchable: {
-    padding: 10, 
+    padding: 10,
     backgroundColor: "#F9E6E6",
-    width: 120, 
-    height: 40, 
-    borderRadius: 30, 
+    width: 120,
+    height: 40,
+    borderRadius: 30,
     flexDirection: 'column',
     marginRight: 10,
     marginTop: 10,
     marginBottom: 20
-},
+  },
   divider: {
     backgroundColor: '#b8b8b880',
     margin: 6,
-    alignSelf:'stretch'
+    alignSelf: 'stretch'
   },
   selected: {
     backgroundColor: "#E76766",
@@ -310,7 +331,7 @@ const styles = StyleSheet.create({
     width: 150,
     elevation: 10,
     shadowColor: '#52006A',
-    height:50,
+    height: 50,
     padding: 15,
   },
   selectedText: {
@@ -360,7 +381,7 @@ const styles = StyleSheet.create({
   },
   edit: {
     flexDirection: 'row',
-    alignItems:'center'
+    alignItems: 'center'
   },
   order: {
     backgroundColor: "#E76766",
