@@ -32,7 +32,7 @@ export function PaymentScreen({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
 
   const [isLoading, setLoading] = useState(true);
-  const [data, setData] = useState([]);
+  const [data, setData] = useState();
 
   const getFromDatabase = async () => {
     try {
@@ -146,13 +146,9 @@ export function PaymentScreen({ navigation }) {
 
             <View>
               {isLoading ? <ActivityIndicator /> : (
-                <FlatList
-                  data={data}
-                  keyExtractor={({ id }, index) => id}
-                  renderItem={({ item }) => (
-                    <Text>{item.name}, {item.address}</Text>
-                  )}
-                />
+                <Text>
+                  {data[0].name} {data[0].address}
+                </Text>
               )}
             </View>
 
