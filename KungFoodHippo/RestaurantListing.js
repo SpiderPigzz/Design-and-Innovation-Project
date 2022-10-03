@@ -30,6 +30,7 @@ export function ListingScreen({ navigation }) {
 
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
+    const [sortByPrice, setSortByPrice] = useState(true);
 
     useEffect(() => {
         fetch(url + path)
@@ -39,7 +40,7 @@ export function ListingScreen({ navigation }) {
                     json[i]['imageURI'] = 'http://dip.totallynormal.website/picture/' + json[i]['ID'];
                     //console.log(json[i]['imageURI']);
                 }
-                
+
                 setData(json);
             })
             .catch((error) => console.error(error))
@@ -49,6 +50,23 @@ export function ListingScreen({ navigation }) {
     const renderItem = ({ item }) => (
         <RestaurantCard title={item.name} description={item.description} deliveryDesc={item.address} imageURI={item.imageURI}></RestaurantCard>
     );
+
+    const sortShops = async ({ order }) => {
+        try {
+            const response = await fetch('http://dip.totallynormal.website/listShop?sortBy=price&sortOrder=' + order);
+            var json = await response.json();
+
+            for (var i = 0; i < json.length; i++) {
+                json[i]['imageURI'] = 'http://dip.totallynormal.website/picture/' + json[i]['ID'];
+                //console.log(json[i]['imageURI']);
+            }
+            setData(json);
+            //console.log('http://dip.totallynormal.website/listShop?sortBy=price&sortOrder=' + order);
+
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     const [searchQuery, setSearchQuery] = React.useState('');
 
@@ -60,57 +78,69 @@ export function ListingScreen({ navigation }) {
     return (
         <PaperProvider theme={theme}>
 
-            <SafeAreaView style={[restaurantStyle.container, {flexDirection: 'column'}]}>
-                <View style={[restaurantStyle.searchBoxWrapper, {flex: 1, minHeight: 60}]}>
+            <SafeAreaView style={[restaurantStyle.container, { flexDirection: 'column' }]}>
+                <View style={[restaurantStyle.searchBoxWrapper, { flex: 1, minHeight: 60 }]}>
                     <TextInput placeholder={'Search for shops and restaurants'}
                         onChangeText={onChangeSearch}
                         value={searchQuery}
-                        style={{flex: 50}}
+                        style={{ flex: 50 }}
                     />
-                    <Button icon={require('./assets/images/search.png')} mode="text" onPress={() => setTest(searchQuery)} style={{flex: 1}}/>
+                    <Button icon={require('./assets/images/search.png')} mode="text" onPress={() => setTest(searchQuery)} style={{ flex: 1 }} />
                 </View>
 
-                <View style={{flex: 1, minHeight: 40}}>
-                <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={restaurantStyle.filterBar}>
-                    <Button icon={"filter-variant"} textColor={"#000000"} style={restaurantStyle.button}>
-                        <Text style={restaurantStyle.text}>
-                            Filter
-                        </Text>
-                    </Button>
+                <View style={{ flex: 1, minHeight: 40 }}>
+                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={restaurantStyle.filterBar}>
+                        <Button icon={"filter-variant"} textColor={"#000000"} style={restaurantStyle.button}>
+                            <Text style={restaurantStyle.text}>
+                                Filter
+                            </Text>
+                        </Button>
 
-                    <Button icon={"sort"} textColor={"#000000"} style={restaurantStyle.button}>
-                        <Text style={restaurantStyle.text}>
-                            Sort By
-                        </Text>
-                    </Button>
+                        <Button icon={"sort"} textColor={"#000000"} style={restaurantStyle.button} onPress={() => {
+                            setSortByPrice(!sortByPrice);
+                            var order;
+                            if (sortByPrice == false) {
+                                order = 'DESC';
+                            }
 
-                    <Button icon={"food"} textColor={"#000000"} style={restaurantStyle.button}>
-                        <Text style={restaurantStyle.text}>
-                            Cuisines
-                        </Text>
-                    </Button>
+                            else {
+                                order = 'ASC'
+                            }
+                            
+                            sortShops({order: order});
+                        }}>
+                            <Text style={restaurantStyle.text}>
+                                Sort By
+                            </Text>
+                        </Button>
 
-                    <Button icon={"food-takeout-box"} textColor={"#000000"} style={restaurantStyle.button}>
-                        <Text style={restaurantStyle.text}>
-                            Self Pick-Up
-                        </Text>
-                    </Button>
-                </ScrollView>
+                        <Button icon={"food"} textColor={"#000000"} style={restaurantStyle.button}>
+                            <Text style={restaurantStyle.text}>
+                                Cuisines
+                            </Text>
+                        </Button>
+
+                        <Button icon={"food-takeout-box"} textColor={"#000000"} style={restaurantStyle.button}>
+                            <Text style={restaurantStyle.text}>
+                                Self Pick-Up
+                            </Text>
+                        </Button>
+                    </ScrollView>
                 </View>
 
 
-                <Text style={[restaurantStyle.textBold, {flex: 1, minHeight: 20}]}>
+                <Text style={[restaurantStyle.textBold, { flex: 1, minHeight: 20 }]}>
                     Nearby Restaurants
                 </Text>
 
-                {isLoading ? <ActivityIndicator style={{flex:35}}/> : (
-                    <View style={{flex:35}}>
-                    <FlatList
-                        data={data}
-                        renderItem={renderItem}
-                        keyExtractor={item => item.id}
-                        style={[restaurantStyle.restaurantList, {flex: 1}]}
-                    />
+                {isLoading ? <ActivityIndicator style={{ flex: 35 }} /> : (
+                    <View style={{ flex: 35 }}>
+                        <FlatList
+                            data={data}
+                            renderItem={renderItem}
+                            keyExtractor={item => item.id}
+                            style={[restaurantStyle.restaurantList, { flex: 1 }]}
+                        />
                     </View>)}
 
 
@@ -197,7 +227,7 @@ export const restaurantStyle = StyleSheet.create({
     },
 
     filterBar: {
-        
+
     },
 
     restaurantList: {
