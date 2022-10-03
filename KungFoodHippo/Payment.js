@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from "react";
-import { StyleSheet, Text, View, TouchableOpacity, Image, Dimensions, Pressable, TextInput } from 'react-native';
-import { MaterialIcons, Entypo, Feather, FontAwesome } from '@expo/vector-icons';
+import React, { useState, useEffect } from "react";
+import { StyleSheet, Text, View, TouchableOpacity, Image, Pressable, ActivityIndicator, FlatList, Modal, TextInput } from 'react-native';
+import { MaterialIcons, Entypo, FontAwesome } from '@expo/vector-icons';
 import { Card, Title, Button, Paragraph, RadioButton, Divider } from 'react-native-paper';
 import { Appbar } from 'react-native-paper';
 import ProgressBarMultiStep from "react-native-progress-bar-multi-step";
@@ -9,6 +9,8 @@ import MapView from 'react-native-maps';
 import { ScrollView } from 'react-native-gesture-handler';
 import DialogInput from 'react-native-dialog-input';
 
+const url = 'http://dip.totallynormal.website/listCustomer';
+const path = "listCustomer";
 
 const tabs = [
   {
@@ -21,16 +23,33 @@ const tabs = [
 ];
 
 export function PaymentScreen({ navigation }) {
-  const [value, setValue] = React.useState('first');
-  const [page, setPage] = useState(1);
-  const [delivery, setDeliveryMethod] = useState(true);
-  const [messageVisible, setMessageVisible] = React.useState(false);
-  const [addressVisible, setAddressVisible] = React.useState(false);
-  const [instructionInput, setInstructionInput] = React.useState('');
-  const [newAddress, setNewAddress] = React.useState('');
-  const [instructionVisible, setInstructionVisible] = React.useState(true);
-  const [isLoading, setLoading] = useState(true);
-  const [data, setData] = useState([]);
+    const [value, setValue] = React.useState('first');
+    const [page, setPage] = useState(1);
+
+    const [delivery, setDeliveryMethod] = useState(true);
+    const [instructionVisible, setInstructionVisible] = React.useState(true);
+    const [number, onChangeNumber] = React.useState(null);
+    const [modalVisible, setModalVisible] = useState(false);
+
+    const [isLoading, setLoading] = useState(true);
+    const [data, setData] = useState([]);
+
+    const getFromDatabase = async () => {
+      try {
+      const response = await fetch('http://dip.totallynormal.website/listCustomer');
+      const json = await response.json();
+      setData(json);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    getFromDatabase();
+
+  }, []);
 
   const toggle = () => {
     setDeliveryMethod(!delivery);
@@ -92,22 +111,11 @@ export function PaymentScreen({ navigation }) {
             </View>
             <View>{ delivery? (
               <TouchableOpacity 
-                onPress={() => setAddressVisible(true)}
+                onPress={() => (true)}
                 style={styles.edit}
               >
                 <FontAwesome name="edit" size={25} color="#E76766" />
-                {newAddress ? null :<Text style={styles.selectedText}>Edit</Text>}
-                <DialogInput 
-                  isDialogVisible={addressVisible}
-                  title={"Edit Address"}
-                  message={"Please input your new address below:"}
-                  hintInput ={"Enter Text"}
-                  submitInput={ (newAddress) => {
-                    setNewAddress(newAddress),
-                    setAddressVisible(false);
-                  }}
-                  closeDialog={() => setAddressVisible(false)}>
-                </DialogInput>               
+                <Text style={styles.selectedText}>Edit</Text>
               </TouchableOpacity>):null
             }
             </View>     
@@ -129,29 +137,70 @@ export function PaymentScreen({ navigation }) {
               )
             }
           </View>
-          <Text style={styles.header}> {delivery ? 'Home' : 'Restaurant'} </Text>
-          <Text> Name</Text>
-          <Text> {delivery ? 'Home Address' : 'Restaurant Address'} </Text>
+
+
+          <View>
+              <Text style={styles.header}> {delivery ? 'Home' : 'Restaurant'} </Text>
+              <Text> Name</Text>
+              <Text> {delivery ? 'Home Address' : 'Restaurant Address'} </Text>  
+              
+              <View>
+                {isLoading ? <ActivityIndicator/> : (
+                  <FlatList
+                    data={data}
+                    keyExtractor={({ id }, index) => id}
+                    renderItem={({ item }) => (
+                      <Text>{item.name}, {item.address}</Text>
+                    )}
+                  />
+                )}
+              </View>
+          
+          </View>
+
+
+
           <View>{ instructionVisible? (
             <TouchableOpacity 
               style={styles.add}
-              onPress={() => setMessageVisible(true)}
+              onPress={() => setModalVisible(true)}
             >
-              {instructionInput ? <Text style={styles.selectedText}>Instructions: {instructionInput}</Text>:<Text style={styles.selectedText}>+ Add Delivery Instructions</Text>}
-                <DialogInput 
-                  isDialogVisible={messageVisible}
-                  title={"Delivery Instructions"}
-                  message={"Message for Driver"}
-                  hintInput ={"Enter Text"}
-                  submitInput={ (instructionInput) => {
-                    setInstructionInput(instructionInput),
-                    setMessageVisible(false);
-                  }}
-                  closeDialog={() => setMessageVisible(false)}>
-                </DialogInput>           
-            </TouchableOpacity>):null
-          }
+              <Text style={styles.selectedText}>+ Add Delivery Instructions</Text>     
+            </TouchableOpacity>
+            ):null }
           </View>
+        </View>
+
+
+        <View style={styles.centeredView}>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+
+              setModalVisible(!modalVisible);
+            }}
+          >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <Text style={styles.modalText}>Please input your instructions:</Text>
+                <TextInput
+                style={styles.input}
+                onChangeText={onChangeNumber}
+                value={number}
+                placeholder="Intructions"
+                keyboardType="numeric"
+                />
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => setModalVisible(!modalVisible)}
+                >
+                  <Text style={styles.textStyle}>Confirm</Text>
+                </Pressable>
+              </View>
+            </View>
+          </Modal>
         </View>
 
 
