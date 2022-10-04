@@ -4,19 +4,18 @@ import MapView, { Animated, Callout, Marker,Polyline } from 'react-native-maps';
 import * as React from 'react';
 import { markers } from './mapData';
 import {WebView} from 'react-native-webview';
-import { FAB, Avatar, Button, Card, Title, Paragraph } from 'react-native-paper';
+import { FAB } from 'react-native-paper';
 import MapViewDirections from 'react-native-maps-directions';
-import * as Progress from 'react-native-progress';
-import { decay } from 'react-native-reanimated';
 
 const origin = {latitude: 1.335, longitude: 103.683};
 const destination = {latitude: 1.329, longitude:103.625 };
 const GOOGLE_MAPS_APIKEY = 'AIzaSyC5TVAWgFHBs_ABdfzbsgzHbdJJecaQiO0';
-
+//this File is for displaying map status (no routing)
 export function MapScreen({ navigation }) {
     
 
-  return (  
+  return (
+    
   <View style={styles.container}>
     <MapView
           style={styles.map}
@@ -37,11 +36,40 @@ export function MapScreen({ navigation }) {
           strokeWidth={5}
           strokeColor="#D60665"
           optimizeWaypoints={true}
-          mode = 'DRIVING'
+          mode = 'Driving'
           timePrecision='now'
         />
 
+      {/* <Polyline
+          coordinates={[
+            { latitude: 1.331, longitude: 103.681 },
+            { latitude: 1.332, longitude: 103.682 },
+            { latitude: 1.333, longitude: 103.683 },
+            { latitude: 1.334, longitude: 103.684 },
+            { latitude: 1.335, longitude: 103.685 },
+            { latitude: 1.337, longitude: 103.686 }
+          ]}
+          strokeColor="#000" // fallback for when `strokeColors` is not supported by the map-provider
+          strokeColors={[
+            '#7F0000',
+            '#00000000', // no color, creates a "long" gradient between the previous and next coordinate
+            '#B24112',
+            '#E5845C',
+            '#238C23',
+            '#7F0000'
+          ]}
+          strokeWidth={6}
+          interval={10}
+        /> */}
 
+        {/* <AnimatedPolyline 
+          coordinates={[
+            { latitude: 1.335, longitude: 103.683 },
+            { latitude: 1.325, longitude: 103.653 },
+            { latitude: 1.338, longitude: 103.685 },
+          ]}
+          interval={10} 
+        /> */}
 
        <Marker coordinate = {{latitude: 1.347,longitude: 103.682}}
          pinColor = {"red"}
@@ -101,8 +129,6 @@ export function MapScreen({ navigation }) {
         </Callout>
       </Marker>
 
-      
-
       <Marker coordinate = {{latitude: 1.349,longitude: 103.683}}
          pinColor = {"red"}
          title={"McDonald's"}
@@ -133,49 +159,22 @@ export function MapScreen({ navigation }) {
           <View sytle={styles.arrow}/>
         </Callout>
       </Marker>
+
+      
     </MapView>
     
-    
+    {/* <Animated.ScrollView>
+      <Text numberOfLines={1} style={styles.cardtitle}>Hi</Text>
+    </Animated.ScrollView> */}
     <FAB
-      icon="arrow-left"
-      style={styles.fab}
-      onPress={() => console.log('Pressed')}
+    icon="arrow-left"
+    style={styles.fab}
+    onPress={() => console.log('Pressed')}
     />
 
-    
-  <View
-    style={{
-      position: 'absolute',
-      bottom: 20,
-      left:10,
-      right:10,
-      alignItems:'flex-start',
-      justifyContent:'center',
-      backgroundColor: 'rgba(255, 255, 255, 0.99)',
-      borderRadius:10,
-    }}>
-      <Text style={{padding:10, color:'grey', fontSize:16}}>Estimated Arrival</Text>
-      
-      <View style={{flexDirection:'column', alignItems:'flex-start', paddingLeft:10}}>
-      <Text style={{paddingBottom:10, color:'black',fontSize:30, fontWeight:'bold'}}>45-55 Minutes</Text>  
-      <Progress.Bar 
-              size={30} 
-              style={styles.ProgressBar}
-              indeterminate={true}
-              width={200}
-              borderWidth={3}
-              height={10}
-              borderRadius={10}
-              animationType='timing'
-              color="#D60665"
-        />
-        <Text style={{padding:20}}>Your order from 71 Connect is on it's way!</Text>
-  
-        </View>
-      
-    </View>
-    
 </View>
+
+
 
       
   );
@@ -185,10 +184,6 @@ export function MapScreen({ navigation }) {
 
 const styles = StyleSheet.create({
 //added styles
-  deliverycard:{
-    backgroundColor: 'black',
-  },
-
   fab: {
     position: 'absolute',
     margin: 16,
@@ -196,9 +191,6 @@ const styles = StyleSheet.create({
     top: 20,
     backgroundColor:'#D60665',
     borderRadius: 30,
-  },
-  ProgressBar:{
-    position:'relative',
   },
   bubble: {
     flexDirection: 'column',
@@ -300,7 +292,7 @@ const styles = StyleSheet.create({
 
 //added styles
   container: {
-    flex: 2,
+    flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
