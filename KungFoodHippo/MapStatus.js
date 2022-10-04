@@ -18,7 +18,9 @@ export function MapScreen({ navigation }) {
 
   return (  
   <View style={styles.container}>
+     
     <MapView
+      
           style={styles.map}
           initialRegion={{
           latitude: 1.348,
