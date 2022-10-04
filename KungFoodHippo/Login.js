@@ -23,7 +23,6 @@ import * as Google from 'expo-auth-session/providers/google';
 WebBrowser.maybeCompleteAuthSession();
 
 
-
 export function LoginScreen({ navigation }) {
     const [request, response, promptAsync] = Google.useAuthRequest({
         expoClientId: '409793276708-3q6gqf67nek5gtiftjo9ojl9kklq0s3k.apps.googleusercontent.com',
@@ -39,7 +38,6 @@ export function LoginScreen({ navigation }) {
         }
     }, [response]);
 
-
     return (
         <PaperProvider theme={theme}>
             {/* START WRITING CODE BELOW!!!! */}
@@ -47,7 +45,7 @@ export function LoginScreen({ navigation }) {
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'space-between'}}></View>
                 <Text style={theme.bigtext}>Login</Text>                
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'space-between' , backgroundColor: '#E76766'}}></View>
-                <Image source={require('./assets/KFH.png')}/>                  
+                <Image source={require('./assets/KFH.png')} style={theme.KFH}/>                  
                 <Text style={theme.text}>Kung Food Hippo</Text>                               
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'space-between'}}></View>
 
@@ -57,8 +55,8 @@ export function LoginScreen({ navigation }) {
                 android_ripple={{ color: 'white', borderless: false }}    disabled={!request}                 
                 onPress={() => {promptAsync();}}>   
                 <View style={theme.btnContainer}>                    
-                <Image 
-                    source={require('./assets/google2.png')}
+                    <Image 
+                    source={require('./assets/google.png')}
                     style = {theme.logo}
                     />
 
@@ -67,19 +65,14 @@ export function LoginScreen({ navigation }) {
                 </TouchableOpacity>
 
             </View>
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'space-between' , backgroundColor: '#E76766'}}></View>
-
-
-            {/*GOOGLE LOGIN PART */}
+            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'space-between' , backgroundColor: '#E76766'}}></View>            
                           
-
 
         </PaperProvider>
 
         
     );  
 }
-
 
 const theme = {
     DefaultTheme,
@@ -105,7 +98,7 @@ const theme = {
         //color: "#E76766",
         color: "#FFFFFF",
         textAlign: "center",
-        fontSize: 30,
+        fontSize: 40,
         // fontFamily: "Roboto-Regular",
         fontWeight: "bold"
     },
@@ -116,11 +109,11 @@ const theme = {
         //color: "#E76766",
         color: "#FFFFFF",
         textAlign: "center",
-        fontSize: 15,
+        fontSize: 25,
         // fontFamily: "Roboto-Regular",
-        fontWeight: "bold"
+        fontWeight: "bold",
+        justifyContent: 'center',
     },
-
 
     button: {
         marginTop: 8,
@@ -140,9 +133,18 @@ const theme = {
         //left: 15
       },
       logo:{
+        width: 30,
+        height: 30,
         right: 15,
-        justifyContent: 'center'
+        justifyContent: 'center',
+    },
+    
+    KFH:{
+        width: 200,
+        height: 180,        
+        justifyContent: 'center',
+        
     },
 
-
 };
+
