@@ -107,7 +107,7 @@ export const styles = StyleSheet.create({
     card: {
         marginTop: 8,
         paddingVertical: 8,
-        paddingHorizontal: 16,
+        paddingHorizontal: 10,
         elevation: 3,
         borderWidth: 0,
         backgroundColor: "#F9E6E6",
@@ -117,12 +117,12 @@ export const styles = StyleSheet.create({
     cardSec: {
         marginTop: 8,
         paddingVertical: 8,
-        paddingHorizontal: 16,
+        paddingHorizontal: 10,
         elevation: 3,
         borderWidth: 1,
         borderColor: "#0000001A",
         backgroundColor: "#FFFFFF",
-        borderRadius: 5
+        borderRadius: 5,
     },
 
     imageIcon: {

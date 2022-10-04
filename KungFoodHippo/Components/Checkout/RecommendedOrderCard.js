@@ -14,7 +14,7 @@ export function RecommendedOrderCard() {
                     <Text style={[styles.backgroundText]}>People also ordered</Text>
                 </View>
 
-                <View style={[styles.container, {flexDirection:'row', justifyContent:'space-between', backgroundColor:styles.secColor}]}>
+                <View style={[styles.container, {flexDirection:'row', justifyContent:'space-evenly', backgroundColor:styles.secColor}]}>
                     <RecommendedItemCard></RecommendedItemCard>
                     <RecommendedItemCard></RecommendedItemCard>
                     <RecommendedItemCard></RecommendedItemCard>

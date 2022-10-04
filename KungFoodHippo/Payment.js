@@ -11,9 +11,9 @@ import { ScrollView } from 'react-native-gesture-handler';
 
 const tabs = [
   {
-    title: 'Cart',
-    pageNo: 1
+    title: 'Cart', pageNo: 1,
     // onPress: e => console.log(e)
+    //onPress:() => navigation.navigate('Home')
   },
   { title: 'CheckOut', pageNo: 2 },
   { title: 'Order Tracking', pageNo: 3 }
@@ -42,7 +42,7 @@ export function PaymentScreen({ navigation }) {
       <>
         <Appbar.Header style={styles.topbar}>
           <Appbar.Action icon="close" onPress={() => { }} />
-          <Appbar.Content title="Checkout" />
+          <Appbar.Content style={{fontWeight: "bold" }} title="Checkout"/>
         </Appbar.Header>
         <ProgressBarMultiStep
           progressive={true}
@@ -111,7 +111,7 @@ export function PaymentScreen({ navigation }) {
           <RadioButton.Group style={styles.radiogroup} onValueChange={newValue => setValue(newValue)} value={value}>
             <View style={styles.radiobutton}>
               <RadioButton value="Credit Card" />
-              <Text>Credit Card</Text>
+              <Text style={{fontWeight:'bold', right:5}} >Credit Card</Text>
               <Image source={require('./assets/PayPal.png')} style={styles.icon} />
               <Image source={require('./assets/Mastercard.png')} style={styles.icon} />
               <Image source={require('./assets/Amex.png')} style={styles.icon} />
@@ -119,12 +119,12 @@ export function PaymentScreen({ navigation }) {
             </View>
             <View style={styles.radiobutton}>
               <RadioButton value="Paylah!" />
-              <Text>Paylah!</Text>
+              <Text style={{fontWeight:'bold', right:5}}>Paylah!</Text>
               <Image source={require('./assets/Paylah.png')} style={styles.icon} />
             </View>
             <View style={styles.radiobutton}>
               <RadioButton value="Google Pay" />
-              <Text>Google Pay</Text>
+              <Text style={{fontWeight:'bold', right:5}}>Google Pay</Text>
               <Image source={require('./assets/GooglePay.png')} style={styles.icon} />
             </View>
           </RadioButton.Group>
@@ -153,10 +153,9 @@ export function PaymentScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   topbar: {
-    width: 375,
+    width: 400,
     height: 35,
-    backgroundColor: "#E76766",
-    alignContent: 'flex-start',
+    backgroundColor: "white", 
   },
   container: {
     flex: 1,
@@ -164,7 +163,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: "column",
-    alignSelf: 'center'
+    alignSelf: 'center',
+    backgroundColor: "white",
   },
   button: {
     backgroundColor: "white",
@@ -174,8 +174,9 @@ const styles = StyleSheet.create({
     width: 150,
   },
   buttonText: {
-    color: "white",
-    textAlign: "center"
+    color: "#E76766",
+    textAlign: "center",
+    fontWeight:'bold'
   },
   divider: {
     backgroundColor: '#b8b8b880',
@@ -183,7 +184,7 @@ const styles = StyleSheet.create({
     alignSelf:'stretch'
   },
   selected: {
-    backgroundColor: "#E76766",
+    backgroundColor: "#feeae9",
     padding: 15,
     borderRadius: 20,
     marginHorizontal: 15,
@@ -277,7 +278,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: 50,
     height: 50,
-    resizeMode: 'contain'
+    resizeMode: 'contain',
+    left:2,
+    marginLeft:2
   },
 });
 

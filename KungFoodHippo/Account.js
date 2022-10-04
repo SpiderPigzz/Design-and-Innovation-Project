@@ -82,7 +82,7 @@ export function AccountScreen({ navigation }) {
             <View style={{ flex: 0.3, alignItems: 'center', justifyContent: 'space-between', backgroundColor: '#FFFFFF', flexDirection: 'row',}}>
             <View style={theme.Container}>   
                 <TouchableOpacity                                                        
-                    onPress={() => navigation.navigate('Home')}>   
+                    onPress={() => navigation.navigate('')}>   
                         
                         <Button labelStyle={{fontSize: 35}} icon = "phone" >   
                             <Text style={theme.text}>+65 999</Text>                            
@@ -104,7 +104,7 @@ export function AccountScreen({ navigation }) {
             <View style={{ flex: 0.3, alignItems: 'center', justifyContent: 'space-between', backgroundColor: '#FFFFFF', flexDirection: 'row',}}>
                 <View style={theme.Container}>
                 <TouchableOpacity                                                        
-                    onPress={() => navigation.navigate('Home')}>   
+                    onPress={() => navigation.navigate('')}>   
                         <View style={theme.picContainer}>
                             <Image 
                             source={require('./assets/google.png')}
@@ -128,7 +128,7 @@ export function AccountScreen({ navigation }) {
             {/*HELP CENTER BOX*/}
             <View style={{ flex: 0.3, alignItems: 'center', justifyContent: 'space-between', backgroundColor: '#FFFFFF', flexDirection: 'row',}}>
                 <TouchableOpacity                                                        
-                    onPress={() => navigation.navigate('Home')}>   
+                    onPress={() => navigation.navigate('')}>   
                         <View style={theme.Container}>   
                         <Button labelStyle={{fontSize: 35}} icon = "help-circle-outline" >   
                             <Text style={theme.text}>Help Center</Text>                            

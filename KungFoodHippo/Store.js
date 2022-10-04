@@ -42,11 +42,11 @@ export function StoreScreen({navigation}){
                 </View>
 
                 <View style={[styles.container, { flexDirection: "row", justifyContent: "flex-start" }]}>
-                    <Button icon={"map-marker-outline"}></Button>
-                    <Text style={{ textAlignVertical: "center" }}>Lot One    |    1.8km away</Text>
+                    <Button labelStyle={{fontSize: 25}} icon={"map-marker-outline"}></Button>
+                    <Text style={{ textAlignVertical: "center", fontSize:15 }}>Lot One    |    1.8km away</Text>
                 </View>
 
-                <View style={[styles.container, { flexDirection: "row", justifyContent: 'space-around' }]}>
+                <View style={[styles.container, { flexDirection: "row", justifyContent: 'flex-end' }]}>
                         <Button icon={"star"}></Button>
                         <Button icon={"star"}></Button>
                         <Button icon={"star"}></Button>
@@ -56,7 +56,7 @@ export function StoreScreen({navigation}){
                 </View>
 
                 <View style={[styles.container, { flexDirection: "row", justifyContent: "space-between" }]}>
-                    <Text style={{ fontWeight: "bold" }}>Delivery: 30 min</Text>
+                    <Text style={{ fontWeight: "bold", fontSize:15 }}>Delivery: 30 min</Text>
                     <Text style={[styles.innerText, { textAlignVertical: "bottom" }]}>Change</Text>
                 </View>
 
@@ -317,7 +317,7 @@ const style1 = StyleSheet.create({
         backgroundColor: '#85C0FC', // light blue
     },
     backlogo:{        
-        //top: 7,
+        top: 7,
         left: 10,      
         justifyContent: 'center', 
         width: 50,

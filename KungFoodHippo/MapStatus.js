@@ -121,7 +121,8 @@ export function MapScreen({ navigation }) {
       <Text numberOfLines={1} style={styles.cardtitle}>Hi</Text>
     </Animated.ScrollView> */}
     <FAB
-    icon="arrow-left"
+    icon='arrow-left'
+    color='#E76766'
     style={styles.fab}
     onPress={() => console.log('Pressed')}
     />
@@ -140,10 +141,10 @@ const styles = StyleSheet.create({
 //added styles
   fab: {
     position: 'absolute',
-    margin: 16,
+    margin: 10,
     left: 0,
-    top: 20,
-    backgroundColor:'#D60665',
+    top: 10,
+    backgroundColor:'white',
     borderRadius: 30,
   },
   bubble: {
