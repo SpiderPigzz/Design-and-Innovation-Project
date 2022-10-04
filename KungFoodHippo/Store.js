@@ -26,8 +26,12 @@ export function StoreScreen({navigation}){
             {/* START WRITING CODE BELOW!!!! */}
             <View>
                 <Image source={require('./assets/Pastamania.png')} style={{ height: 160, width: null }} />
-                <TouchableOpacity style={[styles.buttonTouchable, { position: "absolute", left: 10, top: 5, backgroundColor: "#ffffff", width: 40, borderRadius: 50, alignContent: "center" }]}>
-                    <Button icon={"arrow-left"} />
+                <TouchableOpacity style={[style1.backlogo, { position: "absolute" }]}>
+                    <Image
+                    source={require('./assets/back-logo.png')}
+                    style={style1.backlogo}
+                    /> 
+                    
                 </TouchableOpacity>
             </View>
 
@@ -311,6 +315,17 @@ const style1 = StyleSheet.create({
         borderRadius: 5,
         flex: 1,
         backgroundColor: '#85C0FC', // light blue
+    },
+    backlogo:{        
+        //top: 7,
+        left: 10,      
+        justifyContent: 'center', 
+        width: 50,
+        height: 50,
+        aspectRatio: 1,
+        flexDirection: 'row',
+        flexWrap: 'wrap',   
+        alignItems: 'center',
     },
 });
 const theme = {
