@@ -1,44 +1,68 @@
 import { MD3LightTheme as DefaultTheme, Provider as PaperProvider, Text, Appbar, Snackbar, BottomNavigation, Button, Card, Title, Paragraph } from 'react-native-paper';
 import { StyleSheet, View, Image, ImageBackground } from 'react-native';
+import React, { useState, useEffect} from "react";
 
-export function RestaurantCard() {
+export function RestaurantCard({ title, description, deliveryDesc, imageURI }) {
+    //console.log(imageURI);
+    const [showDefault, setState] = useState(require('../../assets/images/subway.png'));
+    //var image = showDefault ? require('../../assets/images/subway.png') : { uri: imageURI };
+
+    useEffect(() => {
+        fetch(imageURI)
+            .then((res) => {
+                if (res.status != 404) {
+                    setState({ uri: imageURI })
+                }
+            })
+            .catch((err) => {
+                console.log("unable to fetch site data");
+            });
+    }, []);
+
+
     return (
 
         <Card style={styles.cardSec}>
-            <View style={{ flexDirection: 'row' }}>
-                <View style={{marginVertical: 4, marginRight: 8}}>
-                    
-                    <ImageBackground style={[styles.Image, {justifyContent:'space-between'}]} imageStyle={{borderRadius: 10}} source={require('../../assets/images/subway.png')}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+                <View style={{ marginVertical: 4, marginRight: 20, flex: 1, width: 120, height: 120, }}>
 
-                    <View style={{ flexDirection: 'row', marginVertical: 8}}>
-                        <Card style={styles.dealCard}>
-                            <Text style={styles.dealText}>
-                                Food Fest Deals
-                            </Text>
-                        </Card>
-                    </View>
-                    <View style={{ flexDirection: 'row', marginVertical: 8, marginHorizontal: 16}}>
-                        <Card style={styles.timeCard}>
-                            <Text style={styles.timeText}>
-                                30 min
-                            </Text>
-                        </Card>
-                    </View>
+                    <ImageBackground
+                        style={[styles.Image, { justifyContent: 'space-between', flex: 1 }]}
+                        imageStyle={{ borderRadius: 10 }}
+                        source={showDefault}
+                    >
+
+                        <View style={{ flexDirection: 'row', marginVertical: 8 }}>
+                            <Card style={styles.dealCard}>
+                                <Text style={styles.dealText}>
+                                    Food Fest Deals
+                                </Text>
+                            </Card>
+                        </View>
+                        <View style={{ flexDirection: 'row', marginVertical: 8, marginHorizontal: 16 }}>
+                            <Card style={styles.timeCard}>
+                                <Text style={styles.timeText}>
+                                    30 min
+                                </Text>
+                            </Card>
+                        </View>
                     </ImageBackground>
 
-                    
+
 
                 </View>
 
-                <View>
-                    <Text style={styles.textBold}>
-                        Subway - Lahore
-                    </Text>
-                    <Text style={styles.text}>
-                        Fast Food,American,Meat,Halal
-                    </Text>
+                <View style={{ flex: 2, justifyContent: 'space-between' }}>
+                    <View>
+                        <Text style={styles.textBold}>
+                            {title}
+                        </Text>
+                        <Text numberOfLines={4} style={styles.text}>
+                            {description}
+                        </Text>
+                    </View>
                     <Text style={[styles.text, { fontWeight: "normal" }]}>
-                        PKR 60 delivery fee
+                        {deliveryDesc}
                     </Text>
 
                 </View>
@@ -61,7 +85,7 @@ export const styles = StyleSheet.create({
     textBold: {
         color: "#000000",
         textAlign: "left",
-        fontSize: 24,
+        fontSize: 20,
         // fontFamily: "Roboto-Regular",
         fontWeight: "bold"
     },
