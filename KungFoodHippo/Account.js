@@ -44,7 +44,7 @@ export function AccountScreen({ navigation }) {
 
 
             {/* GREY BOX MY ACCOUNT */}
-            <View style={{ flex: 0.3, alignItems: 'left', justifyContent: 'center'}}>
+            <View style={{ flex: 0.3, justifyContent: 'center'}}>
                 <Text style={theme.maintext}>My Account</Text>
             </View>
             
@@ -121,7 +121,7 @@ export function AccountScreen({ navigation }) {
             </View>
 
             {/*GREY BOX*/}
-            <View style={{ flex: 0.3, alignItems: 'left', justifyContent: 'center'}}>
+            <View style={{ flex: 0.3, justifyContent: 'center'}}>
                 <Text style={theme.maintext}>Support</Text>
             </View>
 
@@ -138,7 +138,7 @@ export function AccountScreen({ navigation }) {
             </View>
 
             {/*SMALL GREY BOX*/}
-            <View style={{ flex: 0.05, alignItems: 'left', justifyContent: 'space-between'}}>
+            <View style={{ flex: 0.05, justifyContent: 'space-between'}}>
             </View>
 
             {/*LOG OUT BOX*/}
