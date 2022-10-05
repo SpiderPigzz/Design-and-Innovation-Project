@@ -1,13 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from "react";
-import { StyleSheet, Text, View, TouchableOpacity, Image, Dimensions } from 'react-native';
-import { MaterialIcons, Entypo, Feather, FontAwesome } from '@expo/vector-icons';
+import React, { useState, useEffect } from "react";
+import { StyleSheet, Text, View, TouchableOpacity, Image, Pressable, ActivityIndicator, FlatList, Modal, TextInput } from 'react-native';
+import { MaterialIcons, Entypo, FontAwesome } from '@expo/vector-icons';
 import { Card, Title, Button, Paragraph, RadioButton, Divider } from 'react-native-paper';
 import { Appbar } from 'react-native-paper';
 import ProgressBarMultiStep from "react-native-progress-bar-multi-step";
 import MapView from 'react-native-maps';
 import { ScrollView } from 'react-native-gesture-handler';
-
 
 const tabs = [
   {
@@ -19,25 +18,58 @@ const tabs = [
   { title: 'Order Tracking', pageNo: 3 }
 ];
 
-const Deliverytype = ({ name }) => {
-  //const [type] = useState("delivery");
-
-  return (
-    <View>
-      <TouchableOpacity
-        style={styles.selected}>
-        <Text style={styles.buttonText}>{name}</Text>
-      </TouchableOpacity>
-    </View>
-  )
-}
-
 export function PaymentScreen({ navigation }) {
   const [value, setValue] = React.useState('first');
   const [page, setPage] = useState(1);
 
-  return (
+  const [delivery, setDeliveryMethod] = useState(true);
+  const [instructionVisible, setInstructionVisible] = React.useState(true);
 
+  const [newAddress, onChangeAddress] = React.useState(null);
+  const [postalCode, onChangePostalCode] = React.useState(null);
+  const [instructionModalVisible, setInstructionModalVisible] = useState(false);
+  const [instruction, onChangeInstruction] = React.useState(null);
+  const [addressModalVisible, setAddressModalVisible] = useState(false);
+
+  const [isLoading, setLoading] = useState(true);
+  const [customerData, setCustomerData] = useState();
+  const [restaurantData, setRestaurantData] = useState();
+
+  const getCustomerFromDatabase = async () => {
+    try {
+      const response = await fetch('http://dip.totallynormal.website/listCustomer');
+      const json = await response.json();
+      setCustomerData(json);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const getRestaurantFromDatabase = async () => {
+    try {
+      const response = await fetch('http://dip.totallynormal.website/listShop');
+      const json = await response.json();
+      setRestaurantData(json);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    getCustomerFromDatabase();
+    getRestaurantFromDatabase();
+  }, []);
+
+  const toggle = () => {
+    setDeliveryMethod(!delivery);
+    setInstructionVisible(!instructionVisible);
+  }
+
+  return (
     <View style={[styles.container]}>
       <>
         <Appbar.Header style={styles.topbar}>
@@ -54,12 +86,28 @@ export function PaymentScreen({ navigation }) {
           finishedBackgroundColor='#E76766'
           inProgressBackgroundColor='grey'
         />
-        <View style={{ flexDirection: 'row' }}>
-          <Deliverytype name="Contactless Delivery" type='delivery' />
-          <Deliverytype name="Self Pick-up" type='pickup' />
+        <View style={{
+          flexDirection: 'row',
+        }}>
+          <Pressable
+            onPress={toggle}
+            style={({ pressed }) => [
+              { backgroundColor: delivery ? '#E76766' : '#F9E6E6' },
+              styles.button
+            ]}>
+            <Text>Delivery</Text>
+          </Pressable>
+          <Pressable
+            onPress={toggle}
+            style={({ pressed }) => [
+              { backgroundColor: delivery ? '#F9E6E6' : '#E76766' },
+              styles.button
+            ]}>
+            <Text>Pick Up</Text>
+          </Pressable>
         </View>
       </>
-      <StatusBar style="auto" />
+
 
       <Divider style={styles.divider} horizontalInset='true' bold='true' />
 
@@ -67,46 +115,154 @@ export function PaymentScreen({ navigation }) {
 
         <View style={styles.viewbox}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <View style={{ flexDirection: 'row' }}>
+            <View style={{
+              flexDirection: 'row',
+              alignItems: 'center'
+            }}>
               <MaterialIcons name="gps-fixed" size={24} color="#E76766" />
-              <Text style={styles.header}>Delivery Address</Text>
+              <Text style={styles.header}> {delivery ? 'Delivery Address' : 'Pick Up Address'} </Text>
             </View>
-            <TouchableOpacity
-              style={styles.edit}>
-              <FontAwesome name="edit" size={25} color="#E76766" />
-              <Text style={styles.selectedText}>Edit</Text>
-            </TouchableOpacity>
+            <View>{delivery ? (
+              <TouchableOpacity
+                onPress={() => setAddressModalVisible(!addressModalVisible)}
+                style={styles.edit}
+              >
+                <FontAwesome name="edit" size={25} color="#E76766" />
+                <Text style={styles.selectedText}>Edit</Text>
+              </TouchableOpacity>) : null}
+            </View>
+
+
+            <View style={styles.centeredView}>
+              <Modal
+                multiline ={true}
+                animationType="slide"
+                transparent={true}
+                visible={addressModalVisible}
+                onRequestClose={() => {
+                  setAddressModalVisible(!addressModalVisible);
+                }}
+              >
+                <View style={styles.centeredView}>
+                  <View style={styles.modalView}>
+                    <Text style={styles.modalText}>Please input your new address:</Text>
+                    <TextInput
+                      style={styles.addressInput}
+                      onChangeText={onChangeAddress}
+                      value={newAddress}
+                      placeholder="eg. 42 nanyang avenue"
+                    />
+                    <Text style={styles.modalText}>Please input the postal code:</Text>
+                    <TextInput
+                      style={styles.addressInput}
+                      onChangeText={onChangePostalCode}
+                      value={postalCode}
+                      placeholder="eg. 685478"
+                      keyboardType='numeric'
+                    />
+                    <Pressable
+                      style={[styles.modalButton]}
+                      onPress={() => setAddressModalVisible(!addressModalVisible)}
+                    >
+                      <Text style={styles.textStyle}>Confirm</Text>
+                    </Pressable>
+                  </View>
+                </View>
+              </Modal>
+            </View>
+            
+            
+
+
+
           </View>
           <View style={styles.mapbox}>
-            <MapView style={styles.map}
-              initialRegion={{
-                latitude: 1.348,
-                longitude: 103.683,
-                latitudeDelta: 0.00822,
-                longitudeDelta: 0.00821,
-              }}
-              showsUserLocation={true} />
+            {delivery ? (
+              <MapView style={styles.map}
+                initialRegion={{
+                  latitude: 1.348,
+                  longitude: 103.683,
+                  latitudeDelta: 0.00822,
+                  longitudeDelta: 0.00821,
+                }}
+                showsUserLocation={true} />
+            ) : (
+              <MapView
+              //For Yijie to input map (Restaurant Address)
+              />
+            )
+            }
           </View>
-          <Text style={styles.header}>Home</Text>
-          <Text>Name</Text>
-          <Text>Address</Text>
-          <TouchableOpacity
-            style={styles.add}>
-            <Text style={styles.selectedText}>+ Add Delivery Instructions</Text>
-          </TouchableOpacity>
+
+
+          <View>
+            <Text style={styles.header}> {delivery ? 'Home' : 'Restaurant'} </Text>
+            <View>
+              {isLoading ? <ActivityIndicator /> : (
+                <Text> {delivery ? customerData[0].name : restaurantData[1].name} </Text>
+              )}
+            </View>
+            <View>
+              {isLoading ? <ActivityIndicator /> : (
+                <Text> {delivery ? customerData[0].address : restaurantData[1].address} </Text>
+              )}
+            </View>
+
+          </View>
+
+
+
+          <View>{instructionVisible ? (
+            <TouchableOpacity
+              style={styles.add}
+              onPress={() => setInstructionModalVisible(true)}
+            >
+              <Text style={styles.selectedText}>+ Add Delivery Instructions</Text>
+            </TouchableOpacity>
+          ) : null}
+          </View>
+        </View>
+
+
+        <View style={styles.centeredView}>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={instructionModalVisible}
+            onRequestClose={() => {
+              setInstructionModalVisible(!instructionModalVisible);
+            }}
+          >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <Text style={styles.modalText}>Please input your instructions:</Text>
+                <TextInput
+                  style={styles.instructionInput}
+                  onChangeText={onChangeInstruction}
+                  value={instruction}
+                  placeholder="Intructions"
+                />
+                <Pressable
+                  style={[styles.modalButton ]}
+                  onPress={() => setInstructionModalVisible(!instructionModalVisible)}
+                >
+                  <Text style={styles.textStyle}>Confirm</Text>
+                </Pressable>
+              </View>
+            </View>
+          </Modal>
         </View>
 
 
         <View style={styles.payment}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <View style={{ flexDirection: 'row' }}>
-              <Entypo name="wallet" size={26} color="black" />
+            <View style={{
+              flexDirection: 'row',
+              alignItems: 'center'
+            }}>
+              <Entypo name="wallet" size={20} color="black" />
               <Text style={styles.header}>Payment Method</Text>
             </View>
-            <TouchableOpacity style={styles.edit2}>
-              <FontAwesome name="edit" size={25} color="#E76766" />
-              <Text style={styles.selectedText}>Edit</Text>
-            </TouchableOpacity>
           </View>
           <RadioButton.Group style={styles.radiogroup} onValueChange={newValue => setValue(newValue)} value={value}>
             <View style={styles.radiobutton}>
@@ -135,7 +291,10 @@ export function PaymentScreen({ navigation }) {
       <Divider style={styles.divider} horizontalInset='true' bold='true' />
 
       <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignSelf: 'stretch' }}>
-        <View style={{ flexDirection: 'row' }}>
+        <View style={{
+          flexDirection: 'row',
+          alignItems: 'baseline'
+        }}>
           <Text style={styles.header}>Total</Text>
           <Text fontSize={20}>(include GST)</Text>
         </View>
@@ -152,6 +311,58 @@ export function PaymentScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 40,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
+  },
+  modalText: {
+    margin: 15,
+  },
+  modalButton:{
+    backgroundColor: "#E76766",
+    margin: 15,
+    borderRadius: 20,
+    width: 90,
+    elevation: 10,
+    shadowColor: '#52006A',
+    height: 45,
+    padding: 15,
+    alignItems:'center'
+  },
+  instructionInput: {
+    height: 80,
+    width:150,
+    margin: 5,
+    borderWidth: 0.3,
+    borderColor: 'grey',
+    padding: 10,
+    textAlign:'left'
+  },
+  addressInput: {
+    height: 30,
+    width:240,
+    margin: 5,
+    borderWidth: 0.3,
+    borderColor: 'grey',
+    padding: 10,
+  },
   topbar: {
     width: 375,
     height: 35,
@@ -167,29 +378,31 @@ const styles = StyleSheet.create({
     alignSelf: 'center'
   },
   button: {
-    backgroundColor: "white",
-    padding: 15,
     borderRadius: 20,
-    margin: 15,
+    margin: 20,
     width: 150,
+    height: 50,
+    padding: 15,
+    alignItems: 'center'
   },
   buttonText: {
-    color: "white",
-    textAlign: "center"
+    color: "black",
+    textAlign: 'center',
   },
   divider: {
     backgroundColor: '#b8b8b880',
     margin: 6,
-    alignSelf:'stretch'
+    alignSelf: 'stretch'
   },
   selected: {
     backgroundColor: "#E76766",
-    padding: 15,
+    margin: 15,
     borderRadius: 20,
-    marginHorizontal: 15,
-    width: 160,
+    width: 150,
     elevation: 10,
     shadowColor: '#52006A',
+    height: 50,
+    padding: 15,
   },
   selectedText: {
     color: "#E76766",
@@ -233,16 +446,12 @@ const styles = StyleSheet.create({
 
   },
   add: {
-    backgroundColor: '#feeae9',
     marginTop: 10
+
   },
   edit: {
-    backgroundColor: '#feeae9',
-    flexDirection: 'row'
-  },
-  edit2: {
-    backgroundColor: 'white',
     flexDirection: 'row',
+    alignItems: 'center'
   },
   order: {
     backgroundColor: "#E76766",
