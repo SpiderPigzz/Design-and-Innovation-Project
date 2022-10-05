@@ -42,7 +42,7 @@ import {
     initialWindowMetrics,
 } from 'react-native-safe-area-context';
 import { colors } from 'react-native-elements';
-export function HomeScreen({ navigation }) {
+export function HomeScreen({ navigation, route}) {
     const [value, setValue] = useState()
     function updateSearch(value) {
         console.log(value);
