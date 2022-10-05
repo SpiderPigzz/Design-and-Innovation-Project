@@ -31,6 +31,23 @@ import {
 import { colors } from 'react-native-elements';
 
 export function TemplateScreen({ navigation }) {
+    const reviewsURL = "http://dip.totallynormal.website/{API query}";
+    const [isLoading, setLoading] = useState(true);
+    const [data, setData] = useState();
+
+    useEffect(() => {
+        fetch(reviewsURL)
+            .then((response) => response.json())
+            .then((json) => {
+                setData(json[0].keyValue);
+            })
+            .catch((error) => alert(error))
+            .finally(() => setLoading(false));
+    }, []);
+
+
+
+
     const [value, setValue] = useState()
     function updateSearch(value) {
         console.log(value);
@@ -38,6 +55,19 @@ export function TemplateScreen({ navigation }) {
 
     return (
         <SafeAreaView style={style1.container}>
+
+            {isLoading ? (<ActivityIndicator />) : (
+                <View>
+                    {/* Put your component here */}
+                    <Text>{data}</Text>
+
+
+                </View>)
+            }
+
+
+
+
 
             <ScrollView style={style1.container} vertical={true}>
                 <View style={style1.searchBoxWrapper}>
@@ -139,13 +169,13 @@ export function TemplateScreen({ navigation }) {
                 <ScrollView
                     contentContainerStyle={style1.foodListingWrapper} horizontal={true}>
                     <View style={style1.foodItemWrapper}>
-                        <Image source={require('./assets/images/takagiramen.png')} style={style1.imageR}/>
+                        <Image source={require('./assets/images/takagiramen.png')} style={style1.imageR} />
                         <Text style={style1.foodItemText}>Takagi Ramen</Text>
                         <Text>Lunch/Dinner*Japanese</Text>
                         <Text>$3.70 delivery fee</Text>
                     </View>
                     <View style={style1.foodItemWrapper}>
-                        <Image source={require('./assets/images/pastamania.png')} style={style1.imageRV}/>
+                        <Image source={require('./assets/images/pastamania.png')} style={style1.imageRV} />
                         <Text style={style1.foodItemText}>Pastamania</Text>
                         <Text>Pasta*Italian</Text>
                         <Text>$3.00 delivery fee</Text>
@@ -210,7 +240,7 @@ const style1 = StyleSheet.create({
         flex: 1,
         width: 100,
         height: 70,
-       // backgroundColor: '#000000',
+        // backgroundColor: '#000000',
         resizeMode: 'contain',
     },
     imageD: {
@@ -229,12 +259,12 @@ const style1 = StyleSheet.create({
         justifyContent: 'flex-end',
         alignSelf: 'center',
     },
-    imageR:{
+    imageR: {
         flex: 1,
         width: 150,
         height: 100,
     },
-    imageRV:{
+    imageRV: {
         flex: 0.7,
         width: 150,
         height: 60,
@@ -266,8 +296,8 @@ const style1 = StyleSheet.create({
         fontSize: 12,
         marginTop: 5,
     },
-    foodItemText:{
-        fontWeight:'bold',
+    foodItemText: {
+        fontWeight: 'bold',
     },
     categories: {
         display: 'flex',
