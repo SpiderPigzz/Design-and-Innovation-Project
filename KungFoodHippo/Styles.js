@@ -41,7 +41,7 @@ export const styles = StyleSheet.create({
     buttonText: {
         color: "#FFFFFF",
         textAlign: "center",
-        fontSize: 14,
+        fontSize: 16,
         // fontFamily: "Roboto-Regular",
         fontWeight: "bold",
         textAlignVertical: 'bottom'
@@ -100,8 +100,7 @@ export const styles = StyleSheet.create({
         alignItems: "center", 
         justifyContent: "center", 
         marginRight: 10,
-        marginTop: 10,
-        marginBottom: 20
+        marginVertical: 5,
     },
 
     card: {
