@@ -157,6 +157,7 @@ export function PaymentScreen({ navigation }) {
                       style={styles.addressInput}
                       onChangeText={onChangePostalCode}
                       value={postalCode}
+                      //convert postal code to lat and long
                       placeholder="eg. 685478"
                       keyboardType='numeric'
                     />
@@ -186,8 +187,8 @@ export function PaymentScreen({ navigation }) {
                   longitudeDelta: 0.00821,
                 }}
                 showsUserLocation={true} />
-            ) : (
-              <MapView
+            ) : ( //location of restaurant
+              <MapView //pick up
               //For Yijie to input map (Restaurant Address)
               />
             )
