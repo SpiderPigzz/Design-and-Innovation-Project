@@ -49,7 +49,7 @@ export function MenuScreen({ navigation }) {
                         <Button labelStyle={{fontSize: 35}} icon = "shopping-outline" >   
                             <Text style={theme.text}>My Purchases </Text>
                         </Button>
-                        <Text style={theme.sidetxt}>View History {'>'}</Text>
+                        <Text style={theme.sidetxt}>View History</Text>
                         </View>
                     </TouchableOpacity>
                 
@@ -175,7 +175,7 @@ export function MenuScreen({ navigation }) {
                         <Button labelStyle={{fontSize: 35}} icon = "shopping" >   
                             <Text style={theme.text}>Buy again</Text>                            
                         </Button>                        
-                        <Text style={[theme.sidetxt,{textAlign:'right'}]}>View Items {'>'}</Text>       
+                        <Text style={[theme.sidetxt,{textAlign:'right'}]}>View Items</Text>       
                         </View>     
                     </TouchableOpacity>
             </View>
@@ -234,7 +234,7 @@ export function MenuScreen({ navigation }) {
                     onPress={() => navigation.navigate('Home')}>   
                         <View style={theme.Container}>   
                         <Button labelStyle={{fontSize: 35}} icon = "history" >   
-                            <Text style={theme.text}>Recently Viewed    {'>'} </Text>                            
+                            <Text style={theme.text}>Recently Viewed</Text>                            
                         </Button>
                         </View>
                 </TouchableOpacity>
@@ -248,7 +248,7 @@ export function MenuScreen({ navigation }) {
                     onPress={() => navigation.navigate('Home')}>   
                         <View style={theme.Container}>   
                         <Button labelStyle={{fontSize: 35}} icon = "heart" >   
-                            <Text style={theme.text}>Favourites    {'>'} </Text>                            
+                            <Text style={theme.text}>Favourites</Text>                            
                         </Button>
                         </View>
                 </TouchableOpacity>
@@ -263,7 +263,7 @@ export function MenuScreen({ navigation }) {
                     onPress={() => navigation.navigate('Home')}>   
                         <View style={theme.Container}>   
                         <Button labelStyle={{fontSize: 35}} icon = "earth" >   
-                            <Text style={theme.text}>Foodie Community    {'>'} </Text>                            
+                            <Text style={theme.text}>Foodie Community</Text>                            
                         </Button>
                         </View>
                 </TouchableOpacity>
@@ -277,7 +277,7 @@ export function MenuScreen({ navigation }) {
                     onPress={() => navigation.navigate('Account')}>   
                         <View style={theme.Container}> 
                         <Button labelStyle={{fontSize: 35}} icon = "account" >   
-                            <Text style={theme.text}>Account    {'>'} </Text>                            
+                            <Text style={theme.text}>Account</Text>                            
                         </Button>
                         </View>
                 </TouchableOpacity>
@@ -291,7 +291,7 @@ export function MenuScreen({ navigation }) {
                     onPress={() => navigation.navigate('Home')}>   
                         <View style={theme.Container}>   
                         <Button labelStyle={{fontSize: 35}} icon = "help-circle-outline" >   
-                            <Text style={theme.text}>Help Center    {'>'} </Text>                            
+                            <Text style={theme.text}>Help Center</Text>                            
                         </Button>
                         </View>
                 </TouchableOpacity>
@@ -305,7 +305,7 @@ export function MenuScreen({ navigation }) {
                     onPress={() => navigation.navigate('Home')}>   
                         <View style={theme.Container}>   
                         <Button labelStyle={{fontSize: 35}} icon = "chat-outline" >   
-                            <Text style={theme.text}>Chat with Hippo    {'>'} </Text>                            
+                            <Text style={theme.text}>Chat with Hippo</Text>                            
                         </Button>
                         </View>
                 </TouchableOpacity>

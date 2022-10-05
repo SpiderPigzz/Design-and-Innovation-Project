@@ -140,6 +140,7 @@ export function MapScreen({ navigation }) {
     
     <FAB
       icon="arrow-left"
+      color='#E76766'
       style={styles.fab}
       onPress={() => console.log('Pressed')}
     />
@@ -193,10 +194,10 @@ const styles = StyleSheet.create({
 
   fab: {
     position: 'absolute',
-    margin: 16,
+    margin: 10,
     left: 0,
-    top: 20,
-    backgroundColor:'#D60665',
+    top: 10,
+    backgroundColor:'white',
     borderRadius: 30,
   },
   ProgressBar:{
