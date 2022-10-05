@@ -215,7 +215,6 @@ const theme = {
         color: "black",        
         fontSize: 18,
         alignItems: 'center',
-        textAlign: 'center',
         left: 20,
         fontWeight: "bold"
     },
