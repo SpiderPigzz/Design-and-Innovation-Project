@@ -9,21 +9,22 @@ const reviewsURL = "http://dip.totallynormal.website/getShopRating/3";
 export function ReviewCard() {
 
     const [isLoading, setLoading] = useState(true);
-    const [overall, setOverall] = useState([]);
-    const [food, setFood] = useState([]);
-    const [packaging, setPackaging] = useState([]);
-    const [value, setValue] = useState([]);
-    const [count, setCount] = useState([]);
+    const [overall, setOverall] = useState();
+    const [food, setFood] = useState();
+    const [packaging, setPackaging] = useState();
+    const [value, setValue] = useState();
+    const [count, setCount] = useState();
 
     useEffect(() => {
         fetch(reviewsURL)
             .then((response) => response.json())
             .then((json) => {
-                setOverall(json.overall);
-                setFood(json.food);
-                setPackaging(json.packaging);
-                setValue(json.value);
-                setCount(json.count);
+                setOverall(json[0].overall);
+                setFood(json[0].food);
+                setPackaging(json[0].packaging);
+                setValue(json[0].value);
+                setCount(json[0].count);
+                //console.log(food);
             })
             .catch((error) => alert(error))
             .finally(() => setLoading(false));
@@ -44,10 +45,10 @@ export function ReviewCard() {
                             <View style={{alignItems: "center"}}>
                                 <CircularProgress
                                     showProgressValue={false}
-                                    value={4.8}
+                                    value={overall}
                                     maxValue={5}
                                     radius={32}
-                                    title={'4.8'}
+                                    title={overall}
                                     titleFontSize={20}
                                     titleColor={'#000000'}
                                     inActiveStrokeColor={'#F5C2C2'}
@@ -61,10 +62,10 @@ export function ReviewCard() {
                             <View  style={{alignItems: "center"}}>
                                 <CircularProgress
                                     showProgressValue={false}
-                                    value={4.8}
+                                    value={food}
                                     maxValue={5}
                                     radius={32}
-                                    title={'4.8'}
+                                    title={food}
                                     titleFontSize={20}
                                     titleColor={'#000000'}
                                     inActiveStrokeColor={'#F5C2C2'}
@@ -78,10 +79,10 @@ export function ReviewCard() {
                             <View style={{alignItems: "center"}}>
                                 <CircularProgress
                                     showProgressValue={false}
-                                    value={4.8}
+                                    value={packaging}
                                     maxValue={5}
                                     radius={32}
-                                    title={'4.8'}
+                                    title={packaging}
                                     titleFontSize={20}
                                     titleColor={'#000000'}
                                     inActiveStrokeColor={'#F5C2C2'}
@@ -95,10 +96,10 @@ export function ReviewCard() {
                             <View style={{alignItems: "center"}}>
                                 <CircularProgress
                                     showProgressValue={false}
-                                    value={4.8}
+                                    value={value}
                                     maxValue={5}
                                     radius={32}
-                                    title={'4.8'}
+                                    title={value}
                                     titleFontSize={20}
                                     titleColor={'#000000'}
                                     inActiveStrokeColor={'#F5C2C2'}
