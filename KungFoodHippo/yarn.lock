@@ -3497,6 +3497,11 @@
   "resolved" "https://registry.npmjs.org/entities/-/entities-2.2.0.tgz"
   "version" "2.2.0"
 
+"entities@^4.4.0":
+  "integrity" "sha512-oYp7156SP8LkeGD0GF85ad1X9Ai79WtRsZ2gxJqtBuzH+98YUV6jkHEKlZkMbcrjJjIVJNIDP/3WL9wQkoPbWA=="
+  "resolved" "https://registry.npmjs.org/entities/-/entities-4.4.0.tgz"
+  "version" "4.4.0"
+
 "env-editor@^0.4.1":
   "integrity" "sha512-ObFo8v4rQJAE59M69QzwloxPZtd33TpYEIjtKD1rrFDcM1Gd7IkDxEBU+HriziN6HSHQnBJi8Dmy+JWkav5HKA=="
   "resolved" "https://registry.npmjs.org/env-editor/-/env-editor-0.4.2.tgz"
@@ -6710,7 +6715,7 @@
   dependencies:
     "read" "1"
 
-"prop-types@*", "prop-types@^15.7.2":
+"prop-types@*", "prop-types@^15.6.0", "prop-types@^15.7.2":
   "integrity" "sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg=="
   "resolved" "https://registry.npmjs.org/prop-types/-/prop-types-15.8.1.tgz"
   "version" "15.8.1"
@@ -6910,7 +6915,20 @@
   "resolved" "https://registry.npmjs.org/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.3.1.tgz"
   "version" "1.3.1"
 
-"react-native-maps@^1.3.1":
+"react-native-maps-animated-polyline@^1.0.6":
+  "integrity" "sha512-dDh/wPzUuAx6dCAlUX6Tjcgj63b2zC80DrgjCMEvN3a2HrQWj6anjwEZuC5/VnP1JgzTyMRXdMw8379rxUUktg=="
+  "resolved" "https://registry.npmjs.org/react-native-maps-animated-polyline/-/react-native-maps-animated-polyline-1.0.6.tgz"
+  "version" "1.0.6"
+
+"react-native-maps-directions@^1.9.0":
+  "integrity" "sha512-68SrMOUg4WQ5PmpS9sNOTZaYtdyVYJnnjQOOhABrgiKnb5BXCZRU2gDoS11gYf23hjUBjq8JXzgfn37WcINLwA=="
+  "resolved" "https://registry.npmjs.org/react-native-maps-directions/-/react-native-maps-directions-1.9.0.tgz"
+  "version" "1.9.0"
+  dependencies:
+    "lodash.isequal" "^4.5.0"
+    "prop-types" "^15.6.0"
+
+"react-native-maps@^1.3.1", "react-native-maps@>=1.0.0":
   "integrity" "sha512-qvsDr1Nzp36FQ06cWkOGvJyu5/7Cz2NMKimOGGmgphvCWmh/k3JwUFkID44OS/l7qSBsCJsZsI6MpkRX87QBuQ=="
   "resolved" "https://registry.npmjs.org/react-native-maps/-/react-native-maps-1.3.1.tgz"
   "version" "1.3.1"
@@ -6918,9 +6936,9 @@
     "@types/geojson" "^7946.0.8"
 
 "react-native-pager-view@*", "react-native-pager-view@>= 4.0.0":
-  "integrity" "sha512-0qUMUmA/Lhv76F+fbCcYB+iuODH6Lp6E1EYlXw+GM3Ns3FaKFtBaVYXKQSfNhqnTUg9YEOY3HuX+ZMKBSHwNbA=="
-  "resolved" "https://registry.npmjs.org/react-native-pager-view/-/react-native-pager-view-6.0.0.tgz"
-  "version" "6.0.0"
+  "integrity" "sha512-kOVNu+4JnR3Gpykviy4WbOAnQz8TgP6O2pRvne221oPUDQLYrvEE/FINR0P85TxbMgvKTPlLejGw0ZHQbezK/g=="
+  "resolved" "https://registry.npmjs.org/react-native-pager-view/-/react-native-pager-view-6.0.1.tgz"
+  "version" "6.0.1"
 
 "react-native-paper@^5.0.0-rc.4":
   "integrity" "sha512-BZHa9i/xGnxCuxve6LYtPGYM23R7oMOiMt4hy+Yb620aqbQHhVUnrQB67tIJn1vcwy7DleYWn4mCaJLa0agpLQ=="
@@ -6936,6 +6954,13 @@
   "resolved" "https://registry.npmjs.org/react-native-progress-bar-multi-step/-/react-native-progress-bar-multi-step-0.2.5.tgz"
   "version" "0.2.5"
 
+"react-native-progress@^5.0.0":
+  "integrity" "sha512-KjnGIt3r9i5Kn2biOD9fXLJocf0bwxPRxOyAgXEnZTJQU2O+HyzgGFRCbM5h3izm9kKIkSc1txh8aGmMafCD9A=="
+  "resolved" "https://registry.npmjs.org/react-native-progress/-/react-native-progress-5.0.0.tgz"
+  "version" "5.0.0"
+  dependencies:
+    "prop-types" "^15.7.2"
+
 "react-native-ratings@8.0.4":
   "integrity" "sha512-Xczu5lskIIRD6BEdz9A0jDRpEck/SFxRqiglkXi0u67yAtI1/pcJC76P4MukCbT8K4BPVl+42w83YqXBoBRl7A=="
   "resolved" "https://registry.npmjs.org/react-native-ratings/-/react-native-ratings-8.0.4.tgz"
@@ -6943,7 +6968,7 @@
   dependencies:
     "lodash" "^4.17.15"
 
-"react-native-reanimated@>= 1.0.0", "react-native-reanimated@>=2.0.0", "react-native-reanimated@>=2.2.0":
+"react-native-reanimated@^2.10.0", "react-native-reanimated@>= 1.0.0", "react-native-reanimated@>=2.0.0", "react-native-reanimated@>=2.2.0":
   "integrity" "sha512-jKm3xz5nX7ABtHzzuuLmawP0pFWP77lXNdIC6AWOceBs23OHUaJ29p4prxr/7Sb588GwTbkPsYkDqVFaE3ezNQ=="
   "resolved" "https://registry.npmjs.org/react-native-reanimated/-/react-native-reanimated-2.10.0.tgz"
   "version" "2.10.0"
@@ -6978,9 +7003,9 @@
     "hoist-non-react-statics" "^2.3.1"
 
 "react-native-screens@>= 3.0.0":
-  "integrity" "sha512-OZCQU7+3neHNaM19jBkYRjL50kXz7p7MUgWQTCcdRoshcCiolf8aXs4eRVQKGK6m1RmoB8UL0//m5R9KoR+41w=="
-  "resolved" "https://registry.npmjs.org/react-native-screens/-/react-native-screens-3.17.0.tgz"
-  "version" "3.17.0"
+  "integrity" "sha512-ndnz5JPLMLq/ThCYQzAOT65x6B4bdKFH1GKckUdbxKrwINGItPRSUiAoVI7YYyOQOa4VYL4hF37rrx+AjgjtRg=="
+  "resolved" "https://registry.npmjs.org/react-native-screens/-/react-native-screens-3.18.0.tgz"
+  "version" "3.18.0"
   dependencies:
     "react-freeze" "^1.0.0"
     "warn-once" "^0.1.0"
@@ -6990,7 +7015,7 @@
   "resolved" "https://registry.npmjs.org/react-native-size-matters/-/react-native-size-matters-0.3.1.tgz"
   "version" "0.3.1"
 
-"react-native-svg@^12.1.1", "react-native-svg@12.3.0":
+"react-native-svg@*", "react-native-svg@^12.1.1", "react-native-svg@12.3.0":
   "integrity" "sha512-ESG1g1j7/WLD7X3XRFTQHVv0r6DpbHNNcdusngAODIxG88wpTWUZkhcM3A2HJTb+BbXTFDamHv7FwtRKWQ/ALg=="
   "resolved" "https://registry.npmjs.org/react-native-svg/-/react-native-svg-12.3.0.tgz"
   "version" "12.3.0"
@@ -7078,7 +7103,7 @@
     "object-assign" "^4.1.1"
     "react-is" "^16.12.0 || ^17.0.0"
 
-"react@*", "react@^0.14.0 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.0.0 || ^17.0.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@>= 17.0.1", "react@>=16.3.0", "react@>=16.8.0", "react@>=17.0.0", "react@17.0.2":
+"react@*", "react@^0.14.0 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.0.0 || ^17.0.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^17.0.2", "react@>= 17.0.1", "react@>=16.3.0", "react@>=16.8.0", "react@>=17.0.0", "react@17.0.2":
   "integrity" "sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA=="
   "resolved" "https://registry.npmjs.org/react/-/react-17.0.2.tgz"
   "version" "17.0.2"
