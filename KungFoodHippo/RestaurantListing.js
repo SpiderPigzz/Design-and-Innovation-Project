@@ -7,7 +7,6 @@ import { DrawerActions, createAppContainer } from 'react-navigation';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import { MD3LightTheme as DefaultTheme, Provider as PaperProvider, Text, Appbar, Snackbar, BottomNavigation, Button, Card, Surface, Title, Paragraph, Drawer, Searchbar, TextInput } from 'react-native-paper';
-import { styles } from './Styles.js'
 import { HippoCard } from './Components/TestCard.js';
 import {
     SafeAreaView,
@@ -150,6 +149,15 @@ export function ListingScreen({ navigation }) {
     );
 }
 
+const styles = StyleSheet.create({
+    primColor: "#E76766",
+    primTextColor: "#FFFFFF",
+    primIconColor: "#FFFFFF",
+    secColor: "#F9E6E6",
+    backgroundColor: "#FFFFFF",
+});
+
+
 const theme = {
     DefaultTheme,
     colors: {
@@ -157,8 +165,6 @@ const theme = {
         secondary: styles.secColor,
     },
 };
-
-
 
 export const restaurantStyle = StyleSheet.create({
     container: {

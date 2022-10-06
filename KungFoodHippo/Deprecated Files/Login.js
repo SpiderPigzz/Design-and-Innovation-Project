@@ -20,12 +20,11 @@ import {
 import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
 import { acc } from 'react-native-reanimated';
+import {userContext, fetchUserInfo} from './App.js';
 
 WebBrowser.maybeCompleteAuthSession();
 
-
-export function LoginScreen({ navigation, route }) {
-
+export function LoginScreen({ navigation}) {
 
     const [request, response, promptAsync] = Google.useAuthRequest({
         expoClientId: '409793276708-3q6gqf67nek5gtiftjo9ojl9kklq0s3k.apps.googleusercontent.com',
@@ -34,34 +33,13 @@ export function LoginScreen({ navigation, route }) {
         webClientId: '409793276708-3q6gqf67nek5gtiftjo9ojl9kklq0s3k.apps.googleusercontent.com',
     });
 
-
-    const fetchUserInfo = (token) => {
-        fetch('https://www.googleapis.com/oauth2/v1/userinfo?alt=json', {
-            method: 'GET',
-            headers: {
-                Accept: 'application/json',
-                Authorization: `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            },
-        }).then((resp) => resp.json())
-            .then((val) => {
-                navigation.navigate('Home', { userEmail: val.email });
-            })
-            .catch(function (error) {
-                console.log('There has been a problem with your fetch operation: ' + error.message);
-                // ADD THIS THROW error
-                throw error;
-            });
-
-
-    }
-
     React.useEffect(() => {
         if (response?.type === 'success') {
             const { authentication } = response;
             //route.params.handle(fetchUserInfo(authentication));
             console.log(authentication.accessToken);
             fetchUserInfo(authentication.accessToken);
+            navigation.navigate('Home');
 
         }
     }, [response]);

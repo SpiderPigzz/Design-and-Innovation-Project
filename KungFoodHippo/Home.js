@@ -11,16 +11,15 @@ import {
 } from 'react-native';
 import { SIZES, COLORS, FONTS } from './constants/theme1';
 import * as Font from 'expo-font';
-import { useState } from 'react';
+import { useState} from 'react';
 import { DrawerActions, createAppContainer } from 'react-navigation';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import { MD3LightTheme as DefaultTheme, Provider as PaperProvider, Text, Appbar, Snackbar, BottomNavigation, Button, Card, Surface, Title, Paragraph, Drawer, shadow, Portal, Provider } from 'react-native-paper';
-import { styles } from './Styles.js'
-import SearchButton from './Components/SearchButton'
-import Homepage from './Components/HomePage'
+import SearchButton from './Components/Home/SearchButton'
+import Homepage from './Components/Home/HomePage'
 import { HippoCard } from './Components/TestCard.js';
-import { CategoriesCard } from './Components/Categories.js';
+import { CategoriesCard } from './Components/Home/Categories.js';
 import { FoodDeliveryCard } from './Components/Home/FoodDeliveryCard.js';
 import { HalalCard } from './Components/Home/HalalCard.js';
 import { VeganCard } from './Components/Home/VeganCard.js';
@@ -42,11 +41,18 @@ import {
     initialWindowMetrics,
 } from 'react-native-safe-area-context';
 import { colors } from 'react-native-elements';
-export function HomeScreen({ navigation, route}) {
+import { userContext } from './App.js';
+import { useContext } from 'react';
+
+
+export function HomeScreen({ navigation, route }) {
     const [value, setValue] = useState()
     function updateSearch(value) {
         console.log(value);
     }
+
+    const { userEmail, userName, userToken } = useContext(userContext);
+
 
     return (
         <View style={[style1.container]}>
@@ -99,6 +105,9 @@ export function HomeScreen({ navigation, route}) {
                     </View>
                 </View>
                 <View>
+                    {/* <userContext.Consumer>
+                    {name => <Text style={style1.cuisineText}>{name}</Text>}
+                    </userContext.Consumer> */}
                     <Text style={style1.cuisineText}>Cuisines</Text>
                     <View style={style1.cuisinesCard} horizontal={true}>
                         <JapaneseCard></JapaneseCard>
@@ -129,7 +138,7 @@ export function HomeScreen({ navigation, route}) {
             <Portal>
                 <FloatingButton />
             </Portal>
-            
+
 
         </View>
         // <PaperProvider theme={theme}>

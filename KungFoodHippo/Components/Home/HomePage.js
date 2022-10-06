@@ -10,7 +10,7 @@ import {
     TextInput
 } from 'react-native';
 import { Icon } from "react-native-elements";
-import { SIZES, COLORS, FONTS } from '../constants/theme1';
+import { SIZES, COLORS, FONTS } from '../../constants/theme1';
 export default function Homepage() {
     return (
         <View style={{ flexDirection: "row", height: '50' }}>

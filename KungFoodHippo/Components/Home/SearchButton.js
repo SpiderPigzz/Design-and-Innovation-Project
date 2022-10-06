@@ -9,7 +9,7 @@ import {
     TouchableOpacity,
     TextInput
 } from 'react-native';
-import { COLORS } from "../constants/theme1";
+import { COLORS } from "../../constants/theme1";
 
 const Button =({title, onPress=()=>{}}) =>{
     return(

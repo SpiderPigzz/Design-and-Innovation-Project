@@ -16,11 +16,10 @@ import { DrawerActions, createAppContainer } from 'react-navigation';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import { MD3LightTheme as DefaultTheme, Provider as PaperProvider, Text, Appbar, Snackbar, BottomNavigation, Button, Card, Surface, Title, Paragraph, Drawer, shadow } from 'react-native-paper';
-import { styles } from './Styles.js'
-import SearchButton from './Components/SearchButton'
-import Homepage from './Components/HomePage'
+import SearchButton from './Components/Home/SearchButton'
+import Homepage from './Components/Home/HomePage'
 import { HippoCard } from './Components/TestCard.js';
-import { CategoriesCard } from './Components/Categories.js';
+import { CategoriesCard } from './Components/Home/Categories.js';
 import { FoodDeliveryCard } from './Components/Home/FoodDeliveryCard.js';
 import {
     SafeAreaView,

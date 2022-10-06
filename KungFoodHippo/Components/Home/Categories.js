@@ -1,7 +1,24 @@
-import * as React from 'react';
-import { StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
+import { MD3LightTheme as DefaultTheme, Provider as PaperProvider, Text, Appbar, Snackbar, BottomNavigation, Button, Card, Title, Paragraph } from 'react-native-paper';
 
-export const styles = StyleSheet.create({
+export function CategoriesCard() {
+    return (
+        <ScrollView>
+            <Card style={styles.cardSec}>
+            <Card.Content>
+                <Title>Card title</Title>
+                <Paragraph>Card content</Paragraph>
+            </Card.Content>
+            <Card.Cover source={require('../../assets/images/foodDeliveryRect.png')} style={styles.button} />
+            <Card.Cover source={require('../../assets/images/food_delivery.png')} />
+            
+        </Card>
+        </ScrollView>
+        
+    );
+}
+
+const styles = StyleSheet.create({
     container: {
         backgroundColor: '#fff',
         justifyContent: 'center',
@@ -31,7 +48,7 @@ export const styles = StyleSheet.create({
         textAlignVertical: 'bottom'
     },
 
-    infoText:{
+    infoText: {
         color: "#b8b8b880",
         fontSize: 14,
         // fontFamily: "Roboto-Regular",
@@ -92,13 +109,13 @@ export const styles = StyleSheet.create({
     },
 
     buttonTouchable: {
-        padding: 10, 
+        padding: 10,
         backgroundColor: "#F9E6E6",
-        width: 120, 
-        height: 40, 
-        borderRadius: 30, 
-        alignItems: "center", 
-        justifyContent: "center", 
+        width: 120,
+        height: 40,
+        borderRadius: 30,
+        alignItems: "center",
+        justifyContent: "center",
         marginRight: 10,
         marginVertical: 5,
     },
@@ -131,8 +148,8 @@ export const styles = StyleSheet.create({
     },
 
     divider: {
-        backgroundColor:'#b8b8b880',
-        margin:8,
+        backgroundColor: '#b8b8b880',
+        margin: 8,
     },
 
     iconPrimTint: {
@@ -140,8 +157,8 @@ export const styles = StyleSheet.create({
     },
 
 
-    cardAlign:{
-        flexDirection:'row',
+    cardAlign: {
+        flexDirection: 'row',
     },
     primColor: "#E76766",
     primTextColor: "#FFFFFF",
