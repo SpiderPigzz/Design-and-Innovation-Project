@@ -1,19 +1,26 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Dimensions, Image, ScrollView} from 'react-native';
-import MapView, { Animated, Callout, Marker } from 'react-native-maps';
+import MapView, { Animated, Callout, Marker,Polyline } from 'react-native-maps';
 import * as React from 'react';
 import { markers } from './mapData';
 import {WebView} from 'react-native-webview';
-import { FAB } from 'react-native-paper';
+import { FAB, Avatar, Button, Card, Title, Paragraph } from 'react-native-paper';
+import MapViewDirections from 'react-native-maps-directions';
+import * as Progress from 'react-native-progress';
+import { decay } from 'react-native-reanimated';
 
+const origin = {latitude: 1.335, longitude: 103.683};
+const destination = {latitude: 1.329, longitude:103.625 };
+const GOOGLE_MAPS_APIKEY = 'AIzaSyC5TVAWgFHBs_ABdfzbsgzHbdJJecaQiO0';
 
 export function MapScreen({ navigation }) {
     
 
-  return (
-    
+  return (  
   <View style={styles.container}>
+     
     <MapView
+      
           style={styles.map}
           initialRegion={{
           latitude: 1.348,
@@ -24,6 +31,19 @@ export function MapScreen({ navigation }) {
           showsUserLocation={true}
           followsUserLocation={true}
           >
+
+       <MapViewDirections
+          origin={origin}
+          destination={destination}
+          apikey={GOOGLE_MAPS_APIKEY}
+          strokeWidth={5}
+          strokeColor="#D60665"
+          optimizeWaypoints={true}
+          mode = 'DRIVING'
+          timePrecision='now'
+        />
+
+
 
        <Marker coordinate = {{latitude: 1.347,longitude: 103.682}}
          pinColor = {"red"}
@@ -83,6 +103,8 @@ export function MapScreen({ navigation }) {
         </Callout>
       </Marker>
 
+      
+
       <Marker coordinate = {{latitude: 1.349,longitude: 103.683}}
          pinColor = {"red"}
          title={"McDonald's"}
@@ -113,22 +135,50 @@ export function MapScreen({ navigation }) {
           <View sytle={styles.arrow}/>
         </Callout>
       </Marker>
-
-      
     </MapView>
     
-    {/* <Animated.ScrollView>
-      <Text numberOfLines={1} style={styles.cardtitle}>Hi</Text>
-    </Animated.ScrollView> */}
+    
     <FAB
-    icon="arrow-left"
-    style={styles.fab}
-    onPress={() => console.log('Pressed')}
+      icon="arrow-left"
+      color='#E76766'
+      style={styles.fab}
+      onPress={() => console.log('Pressed')}
     />
 
+    
+  <View
+    style={{
+      position: 'absolute',
+      bottom: 20,
+      left:10,
+      right:10,
+      alignItems:'flex-start',
+      justifyContent:'center',
+      backgroundColor: 'rgba(255, 255, 255, 0.99)',
+      borderRadius:10,
+    }}>
+      <Text style={{padding:10, color:'grey', fontSize:16}}>Estimated Arrival</Text>
+      
+      <View style={{flexDirection:'column', alignItems:'flex-start', paddingLeft:10}}>
+      <Text style={{paddingBottom:10, color:'black',fontSize:30, fontWeight:'bold'}}>45-55 Minutes</Text>  
+      <Progress.Bar 
+              size={30} 
+              style={styles.ProgressBar}
+              indeterminate={true}
+              width={200}
+              borderWidth={3}
+              height={10}
+              borderRadius={10}
+              animationType='timing'
+              color="#D60665"
+        />
+        <Text style={{padding:20}}>Your order from 71 Connect is on it's way!</Text>
+  
+        </View>
+      
+    </View>
+    
 </View>
-
-
 
       
   );
@@ -138,13 +188,20 @@ export function MapScreen({ navigation }) {
 
 const styles = StyleSheet.create({
 //added styles
+  deliverycard:{
+    backgroundColor: 'black',
+  },
+
   fab: {
     position: 'absolute',
-    margin: 16,
+    margin: 10,
     left: 0,
-    top: 20,
-    backgroundColor:'#D60665',
+    top: 10,
+    backgroundColor:'white',
     borderRadius: 30,
+  },
+  ProgressBar:{
+    position:'relative',
   },
   bubble: {
     flexDirection: 'column',
@@ -246,7 +303,7 @@ const styles = StyleSheet.create({
 
 //added styles
   container: {
-    flex: 1,
+    flex: 2,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',

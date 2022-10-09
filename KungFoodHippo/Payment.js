@@ -61,7 +61,7 @@ export function PaymentScreen({ navigation }) {
       <>
         <Appbar.Header style={styles.topbar}>
           <Appbar.Action icon="close" onPress={() => { }} />
-          <Appbar.Content title="Checkout" />
+          <Appbar.Content style={{fontWeight: "bold" }} title="Checkout" />
         </Appbar.Header>
         <ProgressBarMultiStep
           progressive={true}
@@ -82,7 +82,7 @@ export function PaymentScreen({ navigation }) {
               { backgroundColor: delivery ? '#E76766' : '#F9E6E6' },
               styles.button
             ]}>
-            <Text>Delivery</Text>
+            <Text style={{fontWeight: "bold" }} >Delivery</Text>
           </Pressable>
           <Pressable
             onPress={toggle}
@@ -90,7 +90,7 @@ export function PaymentScreen({ navigation }) {
               { backgroundColor: delivery ? '#F9E6E6' : '#E76766' },
               styles.button
             ]}>
-            <Text>Pick Up</Text>
+            <Text style={{fontWeight: "bold" }} >Pick Up</Text>
           </Pressable>
         </View>
       </>
@@ -366,7 +366,7 @@ const styles = StyleSheet.create({
   topbar: {
     width: 375,
     height: 35,
-    backgroundColor: "#E76766",
+    backgroundColor: "white",
     alignContent: 'flex-start',
   },
   container: {
