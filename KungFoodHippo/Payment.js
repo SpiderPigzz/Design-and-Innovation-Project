@@ -35,20 +35,20 @@ export function PaymentScreen({ navigation }) {
   const [instructionModalVisible, setInstructionModalVisible] = useState(false);
   const [newInstructionVisible, setNewInstructionVisible] = React.useState(false);
   
-  const { userEmail, userName, userToken } = useContext(userContext);
+  //const { userEmail, userName, userToken } = useContext(userContext);
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState();
-  const reviewsURL = "http://dip.totallynormal.website/getOrderAddress/liyinglyyy@gmail.com"  ;
+  const reviewsURL = "http://dip.totallynormal.website/getOrderAddress/daniel@gmail.com"  ;
 
   useEffect(() => {
     fetch(reviewsURL)
         .then((response) => response.json())
         .then((json) => {
-            setData(json[0].keyValue);
+            setData(json[0]);
+            //console.log(json); //uncomment this to see the json output
         })
         .catch((error) => alert(error))
         .finally(() => setLoading(false));
-        console.log(json[0]);
   }, []);
 
   const toggle = () => {
@@ -194,12 +194,12 @@ export function PaymentScreen({ navigation }) {
             <Text style={styles.header}> {delivery ? 'Home' : 'Restaurant'} </Text>
             <View>
               {isLoading ? <ActivityIndicator /> : (
-                <Text> {delivery ? data.customer.name : data.shop.name} </Text>
+                <Text> {delivery ? data['customer.name'] : data['shop.name']} </Text> //This one need to get the value using json['key'] because the key got '.' so the phone is confused when you put data.customer.name
               )}
             </View>
             <View>
               {isLoading ? <ActivityIndicator /> : (
-                <Text> {delivery ? data.customer.address : data.shop.address} </Text>
+                <Text> {delivery ? data['customer.address'] : data['shop.address']} </Text>
               )}
             </View>
 
