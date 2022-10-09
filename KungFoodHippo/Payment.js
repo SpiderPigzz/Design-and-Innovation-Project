@@ -38,7 +38,7 @@ export function PaymentScreen({ navigation }) {
   const { userEmail, userName, userToken } = useContext(userContext);
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState();
-  const reviewsURL = "http://dip.totallynormal.website/getOrderAddress/daniel@gmail.com"  ;
+  const reviewsURL = "http://dip.totallynormal.website/getOrderAddress/" +  userEmail;
 
   useEffect(() => {
     fetch(reviewsURL)
