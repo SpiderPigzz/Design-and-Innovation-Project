@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image, Pressable, ActivityIndicator, FlatList, Modal, TextInput } from 'react-native';
 import { MaterialIcons, Entypo, FontAwesome } from '@expo/vector-icons';
 import { Card, Title, Button, Paragraph, RadioButton, Divider } from 'react-native-paper';
@@ -7,6 +7,7 @@ import { Appbar } from 'react-native-paper';
 import ProgressBarMultiStep from "react-native-progress-bar-multi-step";
 import MapView from 'react-native-maps';
 import { ScrollView } from 'react-native-gesture-handler';
+import { userContext } from './App.js';
 
 const tabs = [
   {
@@ -25,43 +26,29 @@ export function PaymentScreen({ navigation }) {
   const [delivery, setDeliveryMethod] = useState(true);
   const [instructionVisible, setInstructionVisible] = React.useState(true);
 
-  const [newAddress, onChangeAddress] = React.useState(null);
-  const [postalCode, onChangePostalCode] = React.useState(null);
-  const [instructionModalVisible, setInstructionModalVisible] = useState(false);
-  const [instruction, onChangeInstruction] = React.useState(null);
+  const [newAddress, setAddress] = React.useState(null);
+  const [postalCode, setPostalCode] = React.useState(null);
   const [addressModalVisible, setAddressModalVisible] = useState(false);
+  const [newAddressVisible, setNewAddressVisible] = React.useState(false);
 
+  const [instruction, setInstruction] = React.useState(null);
+  const [instructionModalVisible, setInstructionModalVisible] = useState(false);
+  const [newInstructionVisible, setNewInstructionVisible] = React.useState(false);
+  
+  const { userEmail, userName, userToken } = useContext(userContext);
   const [isLoading, setLoading] = useState(true);
-  const [customerData, setCustomerData] = useState();
-  const [restaurantData, setRestaurantData] = useState();
-
-  const getCustomerFromDatabase = async () => {
-    try {
-      const response = await fetch('http://dip.totallynormal.website/listCustomer');
-      const json = await response.json();
-      setCustomerData(json);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  const getRestaurantFromDatabase = async () => {
-    try {
-      const response = await fetch('http://dip.totallynormal.website/listShop');
-      const json = await response.json();
-      setRestaurantData(json);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  }
+  const [data, setData] = useState();
+  const reviewsURL = "http://dip.totallynormal.website/getOrderAddress/liyinglyyy@gmail.com"  ;
 
   useEffect(() => {
-    getCustomerFromDatabase();
-    getRestaurantFromDatabase();
+    fetch(reviewsURL)
+        .then((response) => response.json())
+        .then((json) => {
+            setData(json[0].keyValue);
+        })
+        .catch((error) => alert(error))
+        .finally(() => setLoading(false));
+        console.log(json[0]);
   }, []);
 
   const toggle = () => {
@@ -148,21 +135,24 @@ export function PaymentScreen({ navigation }) {
                     <Text style={styles.modalText}>Please input your new address:</Text>
                     <TextInput
                       style={styles.addressInput}
-                      onChangeText={onChangeAddress}
+                      onChangeText={setAddress}
                       value={newAddress}
                       placeholder="eg. 42 nanyang avenue"
                     />
                     <Text style={styles.modalText}>Please input the postal code:</Text>
                     <TextInput
                       style={styles.addressInput}
-                      onChangeText={onChangePostalCode}
+                      onChangeText={setPostalCode}
                       value={postalCode}
                       placeholder="eg. 685478"
                       keyboardType='numeric'
                     />
                     <Pressable
                       style={[styles.modalButton]}
-                      onPress={() => setAddressModalVisible(!addressModalVisible)}
+                      onPress={() => 
+                      setAddressModalVisible(!addressModalVisible) +
+                      setNewAddressVisible(true)
+                      }
                     >
                       <Text style={styles.textStyle}>Confirm</Text>
                     </Pressable>
@@ -178,14 +168,19 @@ export function PaymentScreen({ navigation }) {
           </View>
           <View style={styles.mapbox}>
             {delivery ? (
-              <MapView style={styles.map}
-                initialRegion={{
-                  latitude: 1.348,
-                  longitude: 103.683,
-                  latitudeDelta: 0.00822,
-                  longitudeDelta: 0.00821,
-                }}
-                showsUserLocation={true} />
+              newAddressVisible?(
+                <MapView
+                //For Yijie to input map (Change Address)
+
+                />
+              ):(<MapView style={styles.map}
+                  initialRegion={{
+                    latitude: 1.348,
+                    longitude: 103.683,
+                    latitudeDelta: 0.00822,
+                    longitudeDelta: 0.00821,
+                  }}
+                  showsUserLocation={true} />)
             ) : (
               <MapView
               //For Yijie to input map (Restaurant Address)
@@ -199,12 +194,12 @@ export function PaymentScreen({ navigation }) {
             <Text style={styles.header}> {delivery ? 'Home' : 'Restaurant'} </Text>
             <View>
               {isLoading ? <ActivityIndicator /> : (
-                <Text> {delivery ? customerData[0].name : restaurantData[1].name} </Text>
+                <Text> {delivery ? data.customer.name : data.shop.name} </Text>
               )}
             </View>
             <View>
               {isLoading ? <ActivityIndicator /> : (
-                <Text> {delivery ? customerData[0].address : restaurantData[1].address} </Text>
+                <Text> {delivery ? data.customer.address : data.shop.address} </Text>
               )}
             </View>
 
@@ -217,7 +212,9 @@ export function PaymentScreen({ navigation }) {
               style={styles.add}
               onPress={() => setInstructionModalVisible(true)}
             >
-              <Text style={styles.selectedText}>+ Add Delivery Instructions</Text>
+              <Text style={styles.selectedText}>
+                {newInstructionVisible? 'Instructions:'+ instruction : '+ Add Delivery Instructions'}
+              </Text>
             </TouchableOpacity>
           ) : null}
           </View>
@@ -238,13 +235,16 @@ export function PaymentScreen({ navigation }) {
                 <Text style={styles.modalText}>Please input your instructions:</Text>
                 <TextInput
                   style={styles.instructionInput}
-                  onChangeText={onChangeInstruction}
+                  onChangeText={setInstruction}
                   value={instruction}
                   placeholder="Intructions"
                 />
                 <Pressable
                   style={[styles.modalButton ]}
-                  onPress={() => setInstructionModalVisible(!instructionModalVisible)}
+                  onPress={() => 
+                  setInstructionModalVisible(!instructionModalVisible) +
+                  setNewInstructionVisible(true)
+                  }
                 >
                   <Text style={styles.textStyle}>Confirm</Text>
                 </Pressable>
