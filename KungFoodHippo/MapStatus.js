@@ -1,26 +1,98 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Dimensions, Image, ScrollView} from 'react-native';
+import { StyleSheet, Text, View, Dimensions, Image, ScrollView, ActivityIndicator, FlatList} from 'react-native';
 import MapView, { Animated, Callout, Marker,Polyline } from 'react-native-maps';
 import * as React from 'react';
+import { useState, useEffect } from 'react';
 import { markers } from './mapData';
 import {WebView} from 'react-native-webview';
 import { FAB, Avatar, Button, Card, Title, Paragraph } from 'react-native-paper';
 import MapViewDirections from 'react-native-maps-directions';
 import * as Progress from 'react-native-progress';
 import { decay } from 'react-native-reanimated';
+import {
+  SafeAreaView,
+  SafeAreaProvider,
+  SafeAreaInsetsContext,
+  useSafeAreaInsets,
+  initialWindowMetrics,
+} from 'react-native-safe-area-context';
 
 const origin = {latitude: 1.335, longitude: 103.683};
 const destination = {latitude: 1.329, longitude:103.625 };
 const GOOGLE_MAPS_APIKEY = 'AIzaSyC5TVAWgFHBs_ABdfzbsgzHbdJJecaQiO0';
+const url = 'http://dip.totallynormal.website/';
+const path = "listShop";
 
 export function MapScreen({ navigation }) {
-    
+  const [isLoading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    fetch(url + path)
+        .then((response) => response.json())
+        .then((json) => {
+          for (var i = 0; i < json.length; i++) {
+            json[i]['address'] = 'http://dip.totallynormal.website/getShop/' + json[i]['ID'];
+            // console.log(json[i]['address'])
+            console.log(json[i]['description'])
+        }
+        setData(json);
+        })
+        .catch((error) => console.error(error))
+        .finally(() => setLoading(false));
+  }, []);
+
+  const renderItem = ({ item }) => (
+    <Marker coordinate = {{latitude: 1.347,longitude: 102.682}}
+         pinColor = {"red"}
+         title={item.name}
+         description={item.description}/>
+  );
 
   return (  
   <View style={styles.container}>
+
+            {isLoading ? (<ActivityIndicator />) : (
+              // <View>
+              //   <FlatList
+              //   data={data}
+              //   keyExtractor={({ id }, index) => id}
+              //   renderItem={({ item }) => (
+              //     <Text>{item.name}</Text>
+              //   )}
+              //   />
+              //   </View>
+
+              <MapView
+                  style={styles.map}
+                  initialRegion={{
+                  latitude: 1.348,
+                  longitude: 103.683,
+                  latitudeDelta: 0.00822,
+                  longitudeDelta: 0.00821,
+                }}
+                showsUserLocation={true}
+                followsUserLocation={true}>
+                  
+                    <FlatList
+                      data={data}
+                      keyExtractor={({ id }, index) => id}
+                      renderItem={({ item }) => (
+                        <Marker coordinate = {{latitude: 1.347,longitude: 103.682}}
+                          pinColor = {"red"}
+                          title={item.name}
+                          description={item.description}/>
+                      )}
+                    />
+
+                </MapView>
+                
+                
+                
+                )
+            }
      
     <MapView
-      
           style={styles.map}
           initialRegion={{
           latitude: 1.348,
@@ -31,6 +103,8 @@ export function MapScreen({ navigation }) {
           showsUserLocation={true}
           followsUserLocation={true}
           >
+
+            
 
        <MapViewDirections
           origin={origin}
