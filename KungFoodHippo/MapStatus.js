@@ -1,10 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Dimensions, Image, ScrollView, ActivityIndicator, FlatList} from 'react-native';
-import MapView, { Animated, Callout, Marker,Polyline } from 'react-native-maps';
+import { StyleSheet, Text, View, Dimensions, Image, ScrollView, ActivityIndicator, FlatList } from 'react-native';
+import MapView, { Animated, Callout, Marker, Polyline } from 'react-native-maps';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { markers } from './mapData';
-import {WebView} from 'react-native-webview';
+import { WebView } from 'react-native-webview';
 import { FAB, Avatar, Button, Card, Title, Paragraph } from 'react-native-paper';
 import MapViewDirections from 'react-native-maps-directions';
 import * as Progress from 'react-native-progress';
@@ -17,8 +17,8 @@ import {
   initialWindowMetrics,
 } from 'react-native-safe-area-context';
 
-const origin = {latitude: 1.335, longitude: 103.683};
-const destination = {latitude: 1.329, longitude:103.625 };
+const origin = { latitude: 1.335, longitude: 103.683 };
+const destination = { latitude: 1.329, longitude: 103.625 };
 const GOOGLE_MAPS_APIKEY = 'AIzaSyC5TVAWgFHBs_ABdfzbsgzHbdJJecaQiO0';
 const url = 'http://dip.totallynormal.website/';
 const path = "listShop";
@@ -32,216 +32,201 @@ export function MapScreen({ navigation }) {
 
   useEffect(() => {
     fetch(url + path)
-        .then((response) => response.json())
-        .then((json) => {
-          for (var i = 0; i < json.length; i++) {
-            json[i]['address'] = 'http://dip.totallynormal.website/getShop/' + json[i]['ID'];
-            console.log(json[i]['address'])
+      .then((response) => response.json())
+      .then((json) => {
+        for (var i = 0; i < json.length; i++) {
+          json[i]['address'] = 'http://dip.totallynormal.website/getShop/' + json[i]['ID'];
+          console.log(json[i]['address'])
         }
         setData(json);
-              })
-        .catch((error) => console.error(error))
-        .finally(() => setLoading(false));
+
+        console.log(json);
+      })
+      .catch((error) => console.error(error))
+      .finally(() => setLoading(false));
   }, []);
 
   useEffect(() => {
-    fetch(convertor+key)
-        .then((response) => response.json())
-        .then((json) => {
-          
-        setData(json);
-              })
-        .catch((error) => console.error(error))
-        .finally(() => setLoading(false));
+    fetch(convertor + key)
+      .then((response) => response.json())
+      .then((json) => {
+
+        setData([json]);
+      })
+      .catch((error) => console.error(error))
+      .finally(() => setLoading(false));
   }, []);
 
+  const listShops = data.map(shop => { 
+    return (
+      <Marker coordinate={{ latitude: 1.347, longitude: 103.682 }}
+        key={shop.ID}
+        pinColor={"red"}
+        title={shop.name}
+        description={shop.description} />
+    )
+  });
 
-  const renderItem = ({ item }) => (
-    <Marker coordinate = {{latitude: 1.347,longitude: 102.682}}
-         pinColor = {"red"}
-         title={item.name}
-         description={item.description}/>
-  );
 
-  return (  
-  <View style={styles.container}>
+  return (
+    <View style={styles.container}>
 
-            {isLoading ? (<ActivityIndicator />) : (
-              // <View>
-              //   <FlatList
-              //   data={data}
-              //   keyExtractor={({ id }, index) => id}
-              //   renderItem={({ item }) => (
-              //     <Text>{item.address}</Text>
-              //   )}
-              //   />
-              //   </View>
-
-              <MapView
-                  style={styles.map}
-                  initialRegion={{
-                  latitude: 1.348,
-                  longitude: 103.683,
-                  latitudeDelta: 0.00822,
-                  longitudeDelta: 0.00821,
-                }}
-                showsUserLocation={true}
-                followsUserLocation={true}>
-                    <FlatList
-                      data={data}
-                      keyExtractor={({ id }, index) => id}
-                      renderItem={({ item }) => (
-                        <Marker coordinate = {{latitude: 1.347,longitude: 103.682}}
-                          pinColor = {"red"}
-                          title={item.name}
-                          description={item.description}/>
-                      )}
-                    />
-                </MapView>
-                
-                
-                
-                )
-            }
-     
-    <MapView
+      {isLoading ? (<ActivityIndicator />) : (
+        <MapView
           style={styles.map}
+          key={isLoading}
           initialRegion={{
+            latitude: 1.348,
+            longitude: 103.683,
+            latitudeDelta: 0.00822,
+            longitudeDelta: 0.00821,
+          }}
+          showsUserLocation={true}
+          followsUserLocation={true}>
+          {listShops}
+        </MapView>
+
+      )
+      }
+
+      <MapView
+        style={styles.map}
+        initialRegion={{
           latitude: 1.348,
           longitude: 103.683,
           latitudeDelta: 0.00822,
           longitudeDelta: 0.00821,
-          }}
-          showsUserLocation={true}
-          followsUserLocation={true}
-          >
+        }}
+        showsUserLocation={true}
+        followsUserLocation={true}
+      >
 
-       <MapViewDirections
+        <MapViewDirections
           origin={origin}
           destination={destination}
           apikey={GOOGLE_MAPS_APIKEY}
           strokeWidth={5}
           strokeColor="#D60665"
           optimizeWaypoints={true}
-          mode = 'DRIVING'
+          mode='DRIVING'
           timePrecision='now'
         />
 
-       <Marker coordinate = {{latitude: 1.347,longitude: 103.682}}
-         pinColor = {"red"}
-         title={"McDonald's"}
-         description={"Don't know what to eat on campus? Try this!"}>
-          
-        <Callout tooltip>
-          <View>
-            <View style={styles.bubble}>
-              <Text style={styles.tooltip_name}>Fat Bob Thai Food</Text>
-              <View
-                style={{
-                  borderBottomColor: '#FCD077',
-                  borderBottomWidth: 1,
-                }}
-              />
-              <Text style={styles.tooltip_description}>Bob's Favorite Place</Text>
+        <Marker coordinate={{ latitude: 1.347, longitude: 103.682 }}
+          pinColor={"red"}
+          title={"McDonald's"}
+          description={"Don't know what to eat on campus? Try this!"}>
 
-              <View>
-                    <WebView style={{ height: 120 , width: 250, }} source={{uri: 'https://travelandleisureasia.com/wp-content/uploads/2021/10/Thai-Dishes.png'}} />
+          <Callout tooltip>
+            <View>
+              <View style={styles.bubble}>
+                <Text style={styles.tooltip_name}>Fat Bob Thai Food</Text>
+                <View
+                  style={{
+                    borderBottomColor: '#FCD077',
+                    borderBottomWidth: 1,
+                  }}
+                />
+                <Text style={styles.tooltip_description}>Bob's Favorite Place</Text>
+
+                <View>
+                  <WebView style={{ height: 120, width: 250, }} source={{ uri: 'https://travelandleisureasia.com/wp-content/uploads/2021/10/Thai-Dishes.png' }} />
+                </View>
+
+
               </View>
-
-
             </View>
-          </View>
-          <View style={styles.arrowBorder}/>
-          <View sytle={styles.arrow}/>
-        </Callout>
-      </Marker>
+            <View style={styles.arrowBorder} />
+            <View sytle={styles.arrow} />
+          </Callout>
+        </Marker>
 
-      <Marker coordinate = {{latitude: 1.344,longitude: 103.681}}
-         pinColor = {"red"}
-         title={"McDonald's"}
-         description={"Don't know what to eat on campus? Try this!"}>
-          
-        <Callout tooltip>
-          <View>
-            <View style={styles.bubble}>
-              <Text style={styles.tooltip_name}>71 Connect</Text>
-              <View
-                style={{
-                  borderBottomColor: '#FCD077',
-                  borderBottomWidth: 1,
-                }}
-              />
-              <Text style={styles.tooltip_description}>Grab a Coffee, Cool Dog</Text>
-              
-              <View>
-                    <WebView style={styles.tooltip_image} source={{uri: 'https://www.tastingtable.com/img/gallery/20-different-types-of-coffee-explained/intro-1659544996.jpg'}} />
+        <Marker coordinate={{ latitude: 1.344, longitude: 103.681 }}
+          pinColor={"red"}
+          title={"McDonald's"}
+          description={"Don't know what to eat on campus? Try this!"}>
+
+          <Callout tooltip>
+            <View>
+              <View style={styles.bubble}>
+                <Text style={styles.tooltip_name}>71 Connect</Text>
+                <View
+                  style={{
+                    borderBottomColor: '#FCD077',
+                    borderBottomWidth: 1,
+                  }}
+                />
+                <Text style={styles.tooltip_description}>Grab a Coffee, Cool Dog</Text>
+
+                <View>
+                  <WebView style={styles.tooltip_image} source={{ uri: 'https://www.tastingtable.com/img/gallery/20-different-types-of-coffee-explained/intro-1659544996.jpg' }} />
+                </View>
+
+
               </View>
-
-              
             </View>
-          </View>
-          <View style={styles.arrowBorder}/>
-          <View sytle={styles.arrow}/>
-        </Callout>
-      </Marker>
+            <View style={styles.arrowBorder} />
+            <View sytle={styles.arrow} />
+          </Callout>
+        </Marker>
 
-      
 
-      <Marker coordinate = {{latitude: 1.349,longitude: 103.683}}
-         pinColor = {"red"}
-         title={"McDonald's"}
-         description={"Don't know what to eat on campus? Try this!"}>
-          
-        <Callout tooltip>
-          <View>
-            <View style={styles.bubble}>
-              <Text style={styles.tooltip_name}>McDonald's</Text>
-              <View
-                style={{
-                  borderBottomColor: '#FCD077',
-                  borderBottomWidth: 1,
-                }}
-              />
-              <Text style={styles.tooltip_description}>NTU Students' Favorite Place</Text>
-              {/* <Image 
+
+        <Marker coordinate={{ latitude: 1.349, longitude: 103.683 }}
+          pinColor={"red"}
+          title={"McDonald's"}
+          description={"Don't know what to eat on campus? Try this!"}>
+
+          <Callout tooltip>
+            <View>
+              <View style={styles.bubble}>
+                <Text style={styles.tooltip_name}>McDonald's</Text>
+                <View
+                  style={{
+                    borderBottomColor: '#FCD077',
+                    borderBottomWidth: 1,
+                  }}
+                />
+                <Text style={styles.tooltip_description}>NTU Students' Favorite Place</Text>
+                {/* <Image 
                 style={styles.tooltip_image}
                 source={require('./assets/mcd.jpg')}
               /> */}
 
-              <View>
-                    <WebView style={styles.tooltip_image} source={{uri: 'https://cdn.foodadvisor.com.sg/uploads/images/image_default_5625f71ea9013077.jpg'}} />
+                <View>
+                  <WebView style={styles.tooltip_image} source={{ uri: 'https://cdn.foodadvisor.com.sg/uploads/images/image_default_5625f71ea9013077.jpg' }} />
+                </View>
               </View>
-          </View>
-          </View>
-          <View style={styles.arrowBorder}/>
-          <View sytle={styles.arrow}/>
-        </Callout>
-      </Marker>
-    </MapView>
-    
-    
-    <FAB
-      icon="arrow-left"
-      style={styles.fab}
-      onPress={() => console.log('Pressed')}
-    />
-  <View
-    style={{
-      position: 'absolute',
-      bottom: 20,
-      left:10,
-      right:10,
-      alignItems:'flex-start',
-      justifyContent:'center',
-      backgroundColor: 'rgba(255, 255, 255, 0.99)',
-      borderRadius:10,
-    }}>
-      <View style={{flexDirection:'row'}}>
-        <View style={{flexDirection:"column", alignItems:'flex-start', padding:10}}>
-          <Text style={{ color:'grey', fontSize:16}}>Estimated Arrival</Text>
-          <Text style={{ color:'black',fontSize:30, fontWeight:'bold'}}>45-55 Minutes</Text> 
-          <Progress.Bar 
-              size={30} 
+            </View>
+            <View style={styles.arrowBorder} />
+            <View sytle={styles.arrow} />
+          </Callout>
+        </Marker>
+      </MapView>
+
+
+      <FAB
+        icon="arrow-left"
+        style={styles.fab}
+        onPress={() => console.log('Pressed')}
+      />
+      <View
+        style={{
+          position: 'absolute',
+          bottom: 20,
+          left: 10,
+          right: 10,
+          alignItems: 'flex-start',
+          justifyContent: 'center',
+          backgroundColor: 'rgba(255, 255, 255, 0.99)',
+          borderRadius: 10,
+        }}>
+        <View style={{ flexDirection: 'row' }}>
+          <View style={{ flexDirection: "column", alignItems: 'flex-start', padding: 10 }}>
+            <Text style={{ color: 'grey', fontSize: 16 }}>Estimated Arrival</Text>
+            <Text style={{ color: 'black', fontSize: 30, fontWeight: 'bold' }}>45-55 Minutes</Text>
+            <Progress.Bar
+              size={30}
               style={styles.ProgressBar}
               indeterminate={true}
               width={200}
@@ -250,32 +235,32 @@ export function MapScreen({ navigation }) {
               borderRadius={10}
               animationType='timing'
               color="#D60665"
-          />
+            />
+          </View>
+          <View style={{ padding: 10, }}>
+            <Image style={{ paddingTop: 10, resizeMode: 'cover', height: 100, width: 100, }}
+              source={require('./assets/images/delivery.gif')} />
+          </View>
         </View>
-        <View style={{padding:10,}}>
-              <Image style={{paddingTop: 10,resizeMode:'cover', height:100, width:100,}}
-               source={require('./assets/images/delivery.gif')}/>
-        </View>
-      </View>
-      
-      
-      <View style={{flexDirection:'column', alignItems:'flex-start', paddingLeft:10}}>
-        <Text style={{padding:10}}>Your order from 71 Connect is on it's way!</Text>
-        </View>
-      
-    </View>
-    
-</View>
 
-      
+
+        <View style={{ flexDirection: 'column', alignItems: 'flex-start', paddingLeft: 10 }}>
+          <Text style={{ padding: 10 }}>Your order from 71 Connect is on it's way!</Text>
+        </View>
+
+      </View>
+
+    </View>
+
+
   );
 }
 
 
 
 const styles = StyleSheet.create({
-//added styles
-  deliverycard:{
+  //added styles
+  deliverycard: {
     backgroundColor: 'black',
   },
 
@@ -284,11 +269,11 @@ const styles = StyleSheet.create({
     margin: 16,
     left: 0,
     top: 20,
-    backgroundColor:'#D60665',
+    backgroundColor: '#D60665',
     borderRadius: 30,
   },
-  ProgressBar:{
-    position:'relative',
+  ProgressBar: {
+    position: 'relative',
   },
   bubble: {
     flexDirection: 'column',
@@ -296,7 +281,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 15,
     borderColor: '#D60665',
-    borderWidth: 0.5 ,
+    borderWidth: 0.5,
     padding: 5,
     elevation: 2,
   },
@@ -316,7 +301,7 @@ const styles = StyleSheet.create({
     color: 'black',
   },
 
-  arrow:{
+  arrow: {
     backgroundColor: 'transparent',
     borderColor: 'transparent',
     borderTopColor: '#fff',
@@ -341,7 +326,7 @@ const styles = StyleSheet.create({
     width: 250,
     height: 120,
     resizeMode: 'cover',
-    flexDirection:'column',
+    flexDirection: 'column',
     flexWrap: 'wrap',
     alignItems: 'center',
     elevation: 10,
@@ -361,7 +346,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowOffset: { x: 2, y: -2 },
     height: 220,
-    width: Dimensions.get("window")*0.8,
+    width: Dimensions.get("window") * 0.8,
     overflow: "hidden",
   },
 
@@ -388,7 +373,7 @@ const styles = StyleSheet.create({
     color: "#444",
   },
 
-//added styles
+  //added styles
   container: {
     flex: 2,
     backgroundColor: '#fff',
@@ -400,7 +385,7 @@ const styles = StyleSheet.create({
     height: Dimensions.get('window').height,
   },
 
-text: {
+  text: {
     marginTop: 8,
     paddingVertical: 8,
     color: "#E76766",
@@ -408,17 +393,17 @@ text: {
     fontSize: 30,
     // fontFamily: "Roboto-Regular",
     fontWeight: "bold"
-},
+  },
 
-buttontext: {
+  buttontext: {
     color: "#FFFFFF",
     textAlign: "center",
     fontSize: 20,
     // fontFamily: "Roboto-Regular",
     fontWeight: "bold"
-},
+  },
 
-button: {
+  button: {
     marginTop: 8,
     paddingVertical: 8,
     paddingHorizontal: 16,
@@ -426,18 +411,18 @@ button: {
     backgroundColor: "#E76766",
     // fontFamily: "Roboto-Regular",
     borderRadius: 5,
-},
+  },
 
-buttonSec: {
+  buttonSec: {
     paddingVertical: 8,
     paddingHorizontal: 16,
     borderWidth: 0,
     backgroundColor: "#FFFFFF",
     // fontFamily: "Roboto-Regular",
     borderRadius: 5,
-},
+  },
 
-card: {
+  card: {
     marginTop: 8,
     paddingVertical: 8,
     paddingHorizontal: 16,
@@ -445,9 +430,9 @@ card: {
     borderWidth: 0,
     backgroundColor: "#E76766",
     borderRadius: 5,
-},
+  },
 
-cardSec: {
+  cardSec: {
     marginTop: 8,
     paddingVertical: 8,
     paddingHorizontal: 16,
@@ -455,9 +440,9 @@ cardSec: {
     borderWidth: 0,
     backgroundColor: "#FFFFFF",
     borderRadius: 5
-},
+  },
 
-primColor: "#E76766",
+  primColor: "#E76766",
 
-secColor: "#E76766"
+  secColor: "#E76766"
 });
