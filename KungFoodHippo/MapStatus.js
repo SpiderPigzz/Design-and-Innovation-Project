@@ -22,6 +22,9 @@ const destination = {latitude: 1.329, longitude:103.625 };
 const GOOGLE_MAPS_APIKEY = 'AIzaSyC5TVAWgFHBs_ABdfzbsgzHbdJJecaQiO0';
 const url = 'http://dip.totallynormal.website/';
 const path = "listShop";
+const convertor = 'https://maps.googleapis.com/maps/api/geocode/json?address=';
+const key = '&key=AIzaSyC5TVAWgFHBs_ABdfzbsgzHbdJJecaQiO0';
+
 
 export function MapScreen({ navigation }) {
   const [isLoading, setLoading] = useState(true);
@@ -33,14 +36,25 @@ export function MapScreen({ navigation }) {
         .then((json) => {
           for (var i = 0; i < json.length; i++) {
             json[i]['address'] = 'http://dip.totallynormal.website/getShop/' + json[i]['ID'];
-            // console.log(json[i]['address'])
-            console.log(json[i]['description'])
+            console.log(json[i]['address'])
         }
         setData(json);
-        })
+              })
         .catch((error) => console.error(error))
         .finally(() => setLoading(false));
   }, []);
+
+  useEffect(() => {
+    fetch(convertor+key)
+        .then((response) => response.json())
+        .then((json) => {
+          
+        setData(json);
+              })
+        .catch((error) => console.error(error))
+        .finally(() => setLoading(false));
+  }, []);
+
 
   const renderItem = ({ item }) => (
     <Marker coordinate = {{latitude: 1.347,longitude: 102.682}}
@@ -58,7 +72,7 @@ export function MapScreen({ navigation }) {
               //   data={data}
               //   keyExtractor={({ id }, index) => id}
               //   renderItem={({ item }) => (
-              //     <Text>{item.name}</Text>
+              //     <Text>{item.address}</Text>
               //   )}
               //   />
               //   </View>
@@ -73,7 +87,6 @@ export function MapScreen({ navigation }) {
                 }}
                 showsUserLocation={true}
                 followsUserLocation={true}>
-                  
                     <FlatList
                       data={data}
                       keyExtractor={({ id }, index) => id}
@@ -84,7 +97,6 @@ export function MapScreen({ navigation }) {
                           description={item.description}/>
                       )}
                     />
-
                 </MapView>
                 
                 
@@ -104,8 +116,6 @@ export function MapScreen({ navigation }) {
           followsUserLocation={true}
           >
 
-            
-
        <MapViewDirections
           origin={origin}
           destination={destination}
@@ -116,8 +126,6 @@ export function MapScreen({ navigation }) {
           mode = 'DRIVING'
           timePrecision='now'
         />
-
-
 
        <Marker coordinate = {{latitude: 1.347,longitude: 103.682}}
          pinColor = {"red"}
@@ -217,8 +225,6 @@ export function MapScreen({ navigation }) {
       style={styles.fab}
       onPress={() => console.log('Pressed')}
     />
-
-    
   <View
     style={{
       position: 'absolute',
@@ -230,11 +236,11 @@ export function MapScreen({ navigation }) {
       backgroundColor: 'rgba(255, 255, 255, 0.99)',
       borderRadius:10,
     }}>
-      <Text style={{padding:10, color:'grey', fontSize:16}}>Estimated Arrival</Text>
-      
-      <View style={{flexDirection:'column', alignItems:'flex-start', paddingLeft:10}}>
-      <Text style={{paddingBottom:10, color:'black',fontSize:30, fontWeight:'bold'}}>45-55 Minutes</Text>  
-      <Progress.Bar 
+      <View style={{flexDirection:'row'}}>
+        <View style={{flexDirection:"column", alignItems:'flex-start', padding:10}}>
+          <Text style={{ color:'grey', fontSize:16}}>Estimated Arrival</Text>
+          <Text style={{ color:'black',fontSize:30, fontWeight:'bold'}}>45-55 Minutes</Text> 
+          <Progress.Bar 
               size={30} 
               style={styles.ProgressBar}
               indeterminate={true}
@@ -244,9 +250,17 @@ export function MapScreen({ navigation }) {
               borderRadius={10}
               animationType='timing'
               color="#D60665"
-        />
-        <Text style={{padding:20}}>Your order from 71 Connect is on it's way!</Text>
-  
+          />
+        </View>
+        <View style={{padding:10,}}>
+              <Image style={{paddingTop: 10,resizeMode:'cover', height:100, width:100,}}
+               source={require('./assets/images/delivery.gif')}/>
+        </View>
+      </View>
+      
+      
+      <View style={{flexDirection:'column', alignItems:'flex-start', paddingLeft:10}}>
+        <Text style={{padding:10}}>Your order from 71 Connect is on it's way!</Text>
         </View>
       
     </View>
