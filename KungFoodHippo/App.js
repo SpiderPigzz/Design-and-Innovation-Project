@@ -21,6 +21,8 @@ import { Map2Screen } from './Components/Home/Map.js';
 //import { MenuScreen } from './Menu.js';
 import { MenuScreen } from './Menu.js';
 import { AccountScreen } from './Account.js';
+import AnimatedSplash from "react-native-animated-splash-screen";
+
 import {
   SafeAreaView,
   SafeAreaProvider,
@@ -49,6 +51,7 @@ export default function KungFoodHippo() {
   const [userName, setUserName] = React.useState();
   const [userToken, setUserToken] = React.useState();
   const [loginState, setLoginState] = React.useState(true);
+  const [isLoaded, setLoading] = React.useState(false);
 
   const fetchUserInfo = (token) => {
     fetch('https://www.googleapis.com/oauth2/v1/userinfo?alt=json', {
@@ -85,6 +88,8 @@ export default function KungFoodHippo() {
 
 
   React.useEffect(() => {
+
+  setLoading(true);
     if (response?.type === 'success') {
       const { authentication } = response;
       //route.params.handle(fetchUserInfo(authentication));
@@ -96,13 +101,23 @@ export default function KungFoodHippo() {
     }
   }, [response]);
 
+ 
+
   return (
 
     <PaperProvider theme={theme}>
       {loginState ? (
+         <AnimatedSplash
+         translucent={true}
+         isLoaded={isLoaded}
+         logoImage={require("./assets/KFH.png")}
+         backgroundColor={"#E76766"}
+         logoHeight={200}
+         logoWidth={200}
+       >
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'space-evenly', backgroundColor: '#E76766' }}>
           <Text style={theme.bigtext}>Login</Text>
-          <Image source={require('./assets/KFH.png')} style={theme.KFH} />
+          <Image source={require('./assets/Videos/run-gif.gif')} style={theme.KFH} />
           <Text style={theme.text}>Kung Food Hippo</Text>
 
           <TouchableOpacity
@@ -119,6 +134,7 @@ export default function KungFoodHippo() {
           </TouchableOpacity>
 
         </View>
+        </AnimatedSplash>
       ) :
 
         (
@@ -197,7 +213,7 @@ const theme = {
     //color: "#E76766",
     color: "#FFFFFF",
     textAlign: "center",
-    fontSize: 25,
+    fontSize: 40,
     // fontFamily: "Roboto-Regular",
     fontWeight: "bold",
     justifyContent: 'center',
@@ -228,8 +244,8 @@ const theme = {
   },
 
   KFH: {
-    width: 200,
-    height: 180,
+    width: 240,
+    height: 240,
     justifyContent: 'center',
 
   },

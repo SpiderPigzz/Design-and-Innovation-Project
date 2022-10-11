@@ -16,10 +16,13 @@ import {
     initialWindowMetrics,
 } from 'react-native-safe-area-context';
 import { Icon } from 'react-native-elements';
+import { userContext } from './App. js';
+import { useContext } from 'react';
 
 export function AccountScreen({ navigation }) {
     
     const [address, setAddress] = useState("");
+    const { userEmail, userName, userToken } = useContext(userContext);
 
     return (
         <PaperProvider theme={theme}>
@@ -51,7 +54,7 @@ export function AccountScreen({ navigation }) {
             <View style={{ flex: 0.3, alignItems: 'center', justifyContent: 'space-between', backgroundColor: '#FFFFFF', flexDirection: 'row',}}>
                 <View style={theme.Container}>
                     <Button labelStyle={{fontSize: 35}} icon = "account" >   
-                        <Text style={theme.text}>Kfh</Text>                            
+                        <Text style={theme.text}>{userName}</Text>                            
                     </Button>
                 </View>
             </View>
@@ -108,7 +111,7 @@ export function AccountScreen({ navigation }) {
                             <Image 
                             source={require('./assets/google.png')}
                             style = {theme.logo}/>
-                            <Text style={theme.text}>kfh@gmail.com</Text> 
+                            <Text style={theme.text}>{userEmail}</Text> 
                             </View>
                 </TouchableOpacity>
                 <View style={{ flex: 1,  flexDirection:'row-reverse' ,justifyContent: 'flex-start'}}>
