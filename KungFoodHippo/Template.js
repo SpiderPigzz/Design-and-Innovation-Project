@@ -7,11 +7,12 @@ import {
     ScrollView,
     FlatList,
     TouchableOpacity,
-    TextInput
+    TextInput,
+    ActivityIndicator
 } from 'react-native';
 import { SIZES, COLORS, FONTS } from './constants/theme1';
 import * as Font from 'expo-font';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { DrawerActions, createAppContainer } from 'react-navigation';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';

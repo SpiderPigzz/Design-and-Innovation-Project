@@ -16,7 +16,7 @@ import {
     initialWindowMetrics,
 } from 'react-native-safe-area-context';
 import { Icon } from 'react-native-elements';
-import { userContext } from './App. js';
+import { userContext } from './App.js';
 import { useContext } from 'react';
 
 export function AccountScreen({ navigation }) {
