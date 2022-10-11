@@ -37,7 +37,7 @@ export function FoodCard() {
                                 <TouchableOpacity onPress={() => setVisible(false)}>
                                     <Image
                                         source={require('../../assets/Cross.png')}
-                                        style={{height: 16, width: 16, left: -55}}
+                                        style={{height: 16, width: 16, left: -60}}
                                     />
                                 </TouchableOpacity>
                                 <Image source={require('../../assets/Pastamania-meal1.png')} style={[styles.imageIcon, {width: 200, height: 120}]}></Image>   

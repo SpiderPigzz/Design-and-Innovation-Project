@@ -30,7 +30,7 @@ export function ListingScreen({ navigation }) {
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const [sortByPrice, setSortByPrice] = useState(true);
-
+    
     useEffect(() => {
         fetch(url + path)
             .then((response) => response.json())

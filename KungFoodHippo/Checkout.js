@@ -23,13 +23,13 @@ export function CheckoutScreen({ navigation }) {
         <PaperProvider theme={theme}>
             {/* START WRITING CODE BELOW!!!! */}
             <View style={[styles.container, {flex:1, flexDirection: 'column', justifyContent:'space-between'}]}>
-                <Card style={[styles.cardSec, { margin: 16, flex: 3}]}>
+                <Card style={[styles.cardSec, { margin: 16, flex: 0}]}>
                     <Card.Content>
                         <View style={[styles.container, { flexDirection: 'row', justifyContent: 'space-around' }]}>
                             <Image source={require('./assets/scooter-icon.png')} style={[styles.imageIcon, {}]}></Image>
                             <View style={[styles.container, {}]}>
                                 <Text style={[styles.backgroundText, { fontWeight: 'normal' }]}>Estimated Delivery</Text>
-                                <Text style={styles.text}>ASAP (35 mins)</Text>
+                                <Text style={{color:"black", fontWeight:"bold"}}>ASAP (35 mins)</Text>
                                 <Text style={[styles.text, { fontWeight: 'normal' }]}>Change</Text>
                             </View>
                         </View>
@@ -56,11 +56,11 @@ export function CheckoutScreen({ navigation }) {
 
                         <View>
                             <View style={[styles.container, { flexDirection: 'row', justifyContent: 'space-between' }]}>
-                                <Text style={[styles.backgroundText, { marginLeft: 16, fontSize: 14 }]}>Subtotal</Text>
+                                <Text style={[styles.backgroundText, { marginLeft: 16, fontSize: 14 }]}>Subtotal{'\n'}</Text>
                                 <Text style={[styles.backgroundText, { marginRight: 16, fontSize: 14 }]}>S$17.00</Text>
                             </View>
                             <View style={[styles.container, { flexDirection: 'row', justifyContent: 'space-between' }]}>
-                                <Text style={[styles.backgroundText, { marginLeft: 16, fontSize: 14 }]}>Delivery fee</Text>
+                                <Text style={[styles.backgroundText, { marginLeft: 16, fontSize: 14 }]}>Delivery fee{'\n'}</Text>
                                 <Text style={[styles.backgroundText, { marginRight: 16, fontSize: 14 }]}>S$3.00</Text>
                             </View>
                             <View style={[styles.container, { flexDirection: 'row', justifyContent: 'space-between' }]}>
@@ -73,8 +73,8 @@ export function CheckoutScreen({ navigation }) {
 
                         <View style={[styles.container, { flexDirection: 'row', justifyContent: 'space-between' }]}>
                             <View style={[styles.container, { flexDirection: 'row' }]}>
-                                <Button style={styles.iconPrimTint} icon={'ticket-percent-outline'}></Button>
-                                <Text style={[styles.text, { marginLeft: 8, textAlignVertical: 'center' }]}>Hippo Voucher</Text>
+                                <Button labelStyle={{fontSize: 25}} style={styles.iconPrimTint} icon={'ticket-percent-outline'}></Button>
+                                <Text style={[styles.text, { marginLeft: 8,top :5 , textAlignVertical: 'center',fontSize: 16  }]}>Hippo Voucher</Text>
                             </View>
 
                             <Button style={styles.iconPrimTint} icon={'chevron-right'}></Button>
@@ -85,10 +85,10 @@ export function CheckoutScreen({ navigation }) {
                         <View style={[styles.container, { flexDirection: 'row', justifyContent: 'space-between' }]}>
                             <View style={[styles.container, { flexDirection: 'row' }]}>
                                 <View style={[{ justifyContent: 'center' }]} >
-                                    <Button style={styles.iconPrimTint} icon={'food-fork-drink'}></Button>
+                                    <Button labelStyle={{fontSize: 25}}style={styles.iconPrimTint} icon={'food-fork-drink'}></Button>
                                 </View>
 
-                                <Text style={[styles.backgroundText, { marginLeft: 8, textAlignVertical: 'center', fontSize: 14 }]}>Cutlery</Text>
+                                <Text style={[styles.backgroundText, { marginLeft: 8, top :5 ,textAlignVertical: 'center', fontSize: 16 }]}>Cutlery</Text>
                             </View>
                             <Switch style={[{ marginRight: 8 }]} />
                         </View>
@@ -154,8 +154,8 @@ const styles = StyleSheet.create({
     },
 
     infoText: {
-        color: "#b8b8b880",
-        fontSize: 14,
+        color: "grey",
+        fontSize: 12,
         // fontFamily: "Roboto-Regular",
         textAlignVertical: 'bottom'
     },

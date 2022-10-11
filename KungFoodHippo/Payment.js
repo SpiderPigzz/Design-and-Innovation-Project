@@ -164,7 +164,7 @@ export function PaymentScreen({ navigation }) {
                       style={[styles.modalButton]}
                       onPress={() => setAddressModalVisible(!addressModalVisible)}
                     >
-                      <Text style={styles.textStyle}>Confirm</Text>
+                      <Text style={{color : "white"}}>Confirm</Text>
                     </Pressable>
                   </View>
                 </View>
@@ -246,7 +246,7 @@ export function PaymentScreen({ navigation }) {
                   style={[styles.modalButton ]}
                   onPress={() => setInstructionModalVisible(!instructionModalVisible)}
                 >
-                  <Text style={styles.textStyle}>Confirm</Text>
+                  <Text style={{color : "white"}}>Confirm</Text>
                 </Pressable>
               </View>
             </View>
@@ -260,7 +260,7 @@ export function PaymentScreen({ navigation }) {
               flexDirection: 'row',
               alignItems: 'center'
             }}>
-              <Entypo name="wallet" size={20} color="black" />
+              <Entypo name="wallet" size={20} color="#E76766" />
               <Text style={styles.header}>Payment Method</Text>
             </View>
           </View>
@@ -334,6 +334,7 @@ const styles = StyleSheet.create({
   },
   modalText: {
     margin: 15,
+    fontSize: 18
   },
   modalButton:{
     backgroundColor: "#E76766",
@@ -348,7 +349,7 @@ const styles = StyleSheet.create({
   },
   instructionInput: {
     height: 80,
-    width:150,
+    width:240,
     margin: 5,
     borderWidth: 0.3,
     borderColor: 'grey',
@@ -484,8 +485,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: 'wrap',
     alignItems: 'center',
-    width: 50,
-    height: 50,
+    width: 60,
+    height: 60,
     resizeMode: 'contain'
   },
 });

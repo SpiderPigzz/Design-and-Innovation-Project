@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, Image, TouchableOpacity , Pressable } from 'react-native';
+import { StyleSheet, View, Image, TouchableOpacity , Pressable, Modal } from 'react-native';
 import * as Font from 'expo-font';
 import { useState } from 'react';
 import { DrawerActions, createAppContainer } from 'react-navigation';
@@ -17,24 +17,36 @@ import {
 } from 'react-native-safe-area-context';
 import { Icon } from 'react-native-elements';
 import { color } from 'react-native-reanimated';
+import {userContext} from './App.js';
+import {useContext} from 'react';
 
 export function MenuScreen({ navigation }) {
     
+    const [value, setValue] = useState()
+    function updateSearch(value) {
+        console.log(value);
+    }
+
+    const { userEmail, userName, userToken } = useContext(userContext);
+    const [visible, setVisible] = React.useState(false);
+    const [count, setCount] = React.useState(0);
+    const add = () => setCount(prevCount => prevCount + 1);
+    const subtract = () => setCount(prevCount => prevCount - 1);
+
+
     return (
         <PaperProvider theme={theme}>
             {/* START WRITING CODE BELOW!!!! */}
 
             {/* PROFILE NAME */}
             <View style={{ flex: 0, alignItems: 'flex-start', justifyContent: 'center' , backgroundColor: '#E76766'}}>
-            <TouchableOpacity                                       
-                
-                onPress={() => navigation.navigate('Home')}>   
+ 
                 <View style={theme.btnContainer}>                    
-                    <InitialIcon initials="K"/>
+                    <InitialIcon initials={userName[0]}/>
 
-                    <Text style={theme.btnText}>Kung Food Hippo</Text>
+                    <Text style={theme.btnText}>{userName}</Text>
                 </View>
-                </TouchableOpacity>
+
             </View>
 
             {/* PURCHASE */}
@@ -43,7 +55,7 @@ export function MenuScreen({ navigation }) {
                                 
                     <TouchableOpacity                                       
                     
-                    onPress={() => navigation.navigate('Home')}>   
+                    onPress={() => navigation.navigate('')}>   
                         <View style={theme.Container}>   
                         <Button labelStyle={{fontSize: 35}} icon = "shopping-outline" >   
                             <Text style={theme.text}>My Purchases </Text>
@@ -62,7 +74,7 @@ export function MenuScreen({ navigation }) {
             <View style={{ flex: 0, alignItems: 'center', justifyContent: 'space-between', backgroundColor: '#FFFFFF'}}>
                 <View style={theme.productsContainer}>
                 <TouchableOpacity                                                       
-                    onPress={() => navigation.navigate('Home')}>   
+                    onPress={() => navigation.navigate('')}>   
                         <View style={{alignItems:'center', marginTop:5}}>
                             <Image 
                                 source={require('./assets/to-deliver-icon.png')}
@@ -74,7 +86,7 @@ export function MenuScreen({ navigation }) {
                 
                 
                 <TouchableOpacity                                       
-                    onPress={() => navigation.navigate('Home')}>   
+                    onPress={() => navigation.navigate('')}>   
                     <View style={{alignItems:'center'}}>
                             <Image 
                                 style = {theme.midlogo}
@@ -85,7 +97,7 @@ export function MenuScreen({ navigation }) {
                 </TouchableOpacity>
 
                 <TouchableOpacity                                       
-                    onPress={() => navigation.navigate('Home')}>   
+                    onPress={() => navigation.navigate('')}>   
                     <View style={{alignItems:'center'}}>
                             <Image 
                                 source={require('./assets/rate-icon.png')}
@@ -101,16 +113,12 @@ export function MenuScreen({ navigation }) {
             <View style={{ flex: 0.04, alignItems: 'center', justifyContent: 'space-between'}}></View>
             {/*my wallet white box */}
             <View style={{ flex: 0, alignItems: 'flex-start', justifyContent: 'space-between', backgroundColor: '#FFFFFF'}}>
-            <TouchableOpacity                                       
-                    
-                onPress={() => navigation.navigate('Home')}>   
                     <View style={theme.Container}>   
                     <Button labelStyle={{fontSize: 35}} icon="wallet">
                         <Text style={theme.text}>My Wallet </Text>                                              
                     </Button>
                     
                     </View>
-            </TouchableOpacity>
             </View>
             <View style={{ flex: 0.02, alignItems: 'center', justifyContent: 'space-between'}}></View>
     
@@ -119,7 +127,7 @@ export function MenuScreen({ navigation }) {
 
                 {/*WALLET */}
                 <TouchableOpacity                                                       
-                    onPress={() => navigation.navigate('Home')}> 
+                    onPress={() => navigation.navigate('')}> 
                     <View style={{alignItems:'center',  marginTop:5}}>
                             <Image 
                                 style = {theme.midlogo}
@@ -135,7 +143,7 @@ export function MenuScreen({ navigation }) {
                 {/*COINS */}
                 
                 <TouchableOpacity                                       
-                    onPress={() => navigation.navigate('Home')}>   
+                    onPress={() => navigation.navigate('')}>   
                     <View style={{alignItems:'center'}}>
                             <Image 
                                 style = {theme.midlogo}
@@ -150,7 +158,7 @@ export function MenuScreen({ navigation }) {
 
                 {/*VOUCHERS */}
                 <TouchableOpacity                                       
-                    onPress={() => navigation.navigate('Home')}>  
+                    onPress={() => navigation.navigate('')}>  
                     <View style={{alignItems:'center'}}>
                             <Image 
                                 style = {theme.midlogo}
@@ -169,7 +177,7 @@ export function MenuScreen({ navigation }) {
             {/*buy again white box */}
             <View style={{ flex: 0, alignItems: 'flex-start', justifyContent: 'center', backgroundColor: '#FFFFFF'}}>
                 <TouchableOpacity                                       
-                    onPress={() => navigation.navigate('Home')}>   
+                    onPress={() => navigation.navigate('')}>   
                         <View style={theme.Container}>   
                         <Button labelStyle={{fontSize: 35}} icon = "shopping" >   
                             <Text style={theme.text}>Buy again</Text>                            
@@ -191,11 +199,57 @@ export function MenuScreen({ navigation }) {
 
                         <View style={theme.text}>
                             <Text style={{color: 'grey'}}>Bought 1 time</Text>                            
-                            <Button icon = "plus-circle"><Text style={styles.text}>$17</Text></Button>
+                            <Button onPress={() => setVisible(true)} icon = "plus-circle"><Text style={styles.text}>$17</Text></Button>
                             
                         </View>
                     </View>
                 </View>
+                <Modal transparent={true} visible={visible}>
+                    <View style={{backgroundColor: "#000000aa", flex: 1, justifyContent: "center"}}>
+                        <View style={{backgroundColor: "#ffffff", margin: 20, padding: 20, borderRadius: 20}}>
+                            <View style={{ flexDirection: 'row', justifyContent: "center", paddingBottom: 6}}>
+                                <TouchableOpacity onPress={() => setVisible(false)}>
+                                    <Image
+                                        source={require('./assets/Cross.png')}
+                                        style={{height: 16, width: 16, left: -60}}
+                                    />
+                                </TouchableOpacity>
+                                <Image source={require('./assets/Pastamania-meal1.png')} style={[styles.imageIcon, {width: 200, height: 120}]}></Image>   
+                            </View>                            
+                            
+                            <View style={{flexDirection: "row", justifyContent: "space-between", paddingVertical: 8}}>
+                                <Text style={[styles.backgroundText, {fontSize: 18}]}>Value Meal</Text>
+                                <Text style={[styles.backgroundText, {fontSize: 18, fontWeight: "normal"}]}>S$17.00</Text>
+                            </View>
+                            
+                            <Text style={[styles.backgroundText, {fontWeight: 'normal', fontSize: 12, textAlign: "center"}]}>
+                                1 pasta, 1 soup with 3pcs of Garlic bread and 1 can drink.
+                            </Text>
+                            
+                            <View style={{flexDirection: "row", justifyContent: "center", paddingVertical: 24}}>
+                                <TouchableOpacity 
+                                    style={{backgroundColor: "#c0c0c0", width: 36, height: 36, borderRadius: 50, justifyContent: "center"}}
+                                    onPress={subtract}
+                                >
+                                    <Text style={[theme.buttonText, {fontSize: 30}]}>-</Text>
+                                </TouchableOpacity>
+                                <Text style={[theme.backgroundText, {fontSize: 24, textAlignVertical: "center", paddingHorizontal: 30}]}>{count}</Text>
+                                <TouchableOpacity 
+                                    style={{backgroundColor: "#E76766", width: 36, height: 36, borderRadius: 50, justifyContent: "center"}}
+                                    onPress={add}
+                                >
+                                    <Text style={[theme.buttonText, {fontSize: 30}]}>+</Text>
+                                </TouchableOpacity>
+                            </View>
+
+                            <Button 
+                                style={{backgroundColor: "#E76766", height: 50, borderRadius: 15, justifyContent: "center", marginTop: 8}}
+                                >
+                                    <Text style={theme.buttonText}>Add to Cart</Text>
+                            </Button>
+                        </View>
+                    </View>
+                </Modal>
 
                 <View style={theme.box}>
                     <View style={theme.boxUI}>
@@ -205,7 +259,7 @@ export function MenuScreen({ navigation }) {
 
                         <View style={theme.text}>
                             <Text style={{color: 'grey'}}>Bought 1 time</Text>                            
-                            <Button icon = "plus-circle"><Text style={styles.text}>$8.50</Text></Button>
+                            <Button onPress={() => setVisible(true)} icon = "plus-circle"><Text style={styles.text}>$8.50</Text></Button>
                             
                         </View>
                     </View>
@@ -219,7 +273,7 @@ export function MenuScreen({ navigation }) {
 
                         <View style={theme.text}>
                             <Text style={{color: 'grey'}}>Bought 1 time</Text>                            
-                            <Button icon = "plus-circle"><Text style={styles.text}>$12</Text></Button>
+                            <Button onPress={() => setVisible(true)} icon = "plus-circle"><Text style={styles.text}>$12</Text></Button>
                             
                         </View>
                     </View>
@@ -230,7 +284,7 @@ export function MenuScreen({ navigation }) {
             {/*grey box below buy again*/}
             <View style={{ flex: 0, alignItems: 'flex-start', justifyContent: 'space-between', backgroundColor: '#FFFFFF', flexDirection: 'row',}}>
                 <TouchableOpacity                                                        
-                    onPress={() => navigation.navigate('Home')}>   
+                    onPress={() => navigation.navigate('')}>   
                         <View style={theme.Container}>   
                         <Button labelStyle={{fontSize: 35}} icon = "history" >   
                             <Text style={theme.text}>Recently Viewed</Text>                            
@@ -244,7 +298,7 @@ export function MenuScreen({ navigation }) {
             {/*grey box below recently viewed*/}
             <View style={{ flex: 0, alignItems: 'flex-start', justifyContent: 'space-between', backgroundColor: '#FFFFFF', flexDirection: 'row',}}>
                 <TouchableOpacity                                                        
-                    onPress={() => navigation.navigate('Home')}>   
+                    onPress={() => navigation.navigate('')}>   
                         <View style={theme.Container}>   
                         <Button labelStyle={{fontSize: 35}} icon = "heart" >   
                             <Text style={theme.text}>Favourites</Text>                            
@@ -259,7 +313,7 @@ export function MenuScreen({ navigation }) {
             {/*grey box below fav*/}
             <View style={{ flex: 0, alignItems: 'flex-start', justifyContent: 'space-between', backgroundColor: '#FFFFFF', flexDirection: 'row',}}>
                 <TouchableOpacity                                                        
-                    onPress={() => navigation.navigate('Home')}>   
+                    onPress={() => navigation.navigate('')}>   
                         <View style={theme.Container}>   
                         <Button labelStyle={{fontSize: 35}} icon = "earth" >   
                             <Text style={theme.text}>Foodie Community</Text>                            
@@ -287,7 +341,7 @@ export function MenuScreen({ navigation }) {
             {/*grey box below raf*/}
             <View style={{ flex: 0, alignItems: 'flex-start', justifyContent: 'space-between', backgroundColor: '#FFFFFF', flexDirection: 'row',}}>
                 <TouchableOpacity                                                        
-                    onPress={() => navigation.navigate('Home')}>   
+                    onPress={() => navigation.navigate('')}>   
                         <View style={theme.Container}>   
                         <Button labelStyle={{fontSize: 35}} icon = "help-circle-outline" >   
                             <Text style={theme.text}>Help Center</Text>                            
@@ -301,7 +355,7 @@ export function MenuScreen({ navigation }) {
             {/*grey box below help center*/}
             <View style={{ flex: 0, alignItems: 'flex-start', justifyContent: 'space-between', backgroundColor: '#FFFFFF', flexDirection: 'row',}}>
                 <TouchableOpacity                                                        
-                    onPress={() => navigation.navigate('Home')}>   
+                    onPress={() => navigation.navigate('')}>   
                         <View style={theme.Container}>   
                         <Button labelStyle={{fontSize: 35}} icon = "chat-outline" >   
                             <Text style={theme.text}>Chat with Hippo</Text>                            
@@ -309,12 +363,7 @@ export function MenuScreen({ navigation }) {
                         </View>
                 </TouchableOpacity>
             </View>
-
-
-
-        </PaperProvider>
-
-        
+        </PaperProvider>        
     );  
 }
 
@@ -331,6 +380,13 @@ const theme = {
     colors: {
         primary: styles.primColor,
         secondary: styles.secColor,
+    },
+    buttonText: {
+        color: "#FFFFFF",
+        textAlign: "center",
+        fontSize: 16,
+        fontWeight: "bold",
+        textAlignVertical: 'bottom'
     },
 
     sidetxt: {
