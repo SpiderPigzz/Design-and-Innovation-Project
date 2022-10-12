@@ -3,7 +3,7 @@ import { MD3LightTheme as DefaultTheme, Provider as PaperProvider, Text, Appbar,
 import { View, Image, TouchableOpacity, Modal, FlatList, ActivityIndicator, StyleSheet } from 'react-native';
 import CircularProgress from 'react-native-circular-progress-indicator';
 
-const reviewsURL = "http://dip.totallynormal.website/getShopRating/3";
+const reviewsURL = "http://dip.totallynormal.website/getShopRating/1";
 
 export function ReviewCard() {
 
@@ -47,7 +47,7 @@ export function ReviewCard() {
                                     value={overall}
                                     maxValue={5}
                                     radius={32}
-                                    title={overall}
+                                    title={overall.toFixed(2)}
                                     titleFontSize={20}
                                     titleColor={'#000000'}
                                     inActiveStrokeColor={'#F5C2C2'}
@@ -64,7 +64,7 @@ export function ReviewCard() {
                                     value={food}
                                     maxValue={5}
                                     radius={32}
-                                    title={food}
+                                    title={food.toFixed(2)}
                                     titleFontSize={20}
                                     titleColor={'#000000'}
                                     inActiveStrokeColor={'#F5C2C2'}
@@ -81,7 +81,7 @@ export function ReviewCard() {
                                     value={packaging}
                                     maxValue={5}
                                     radius={32}
-                                    title={packaging}
+                                    title={packaging.toFixed(2)}
                                     titleFontSize={20}
                                     titleColor={'#000000'}
                                     inActiveStrokeColor={'#F5C2C2'}
@@ -98,7 +98,7 @@ export function ReviewCard() {
                                     value={value}
                                     maxValue={5}
                                     radius={32}
-                                    title={value}
+                                    title={value.toFixed(2)}
                                     titleFontSize={20}
                                     titleColor={'#000000'}
                                     inActiveStrokeColor={'#F5C2C2'}

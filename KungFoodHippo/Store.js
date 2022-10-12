@@ -18,13 +18,52 @@ import {
 } from 'react-native-safe-area-context';
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
 
+const url = 'http://dip.totallynormal.website/';
+const menuPath = "getShopMenu/1";
+const shopPath = "getShop/1"
+
 export function StoreScreen({navigation}){
+
+    const [isLoading, setLoading] = useState(true);
+    const [data, setData] = useState([]);
+    const [restaurant, setRestaurant] = useState();
+    const [address, setAddress] = useState();
+
+
+    useEffect(() => {
+        fetch(url + menuPath)
+            .then((response) => response.json())
+            .then((json) => {
+                for (var i = 0; i < json.length; i++) {
+                    json[i]['imageURI'] = 'http://dip.totallynormal.website/picture/1/' + json[i]['name'];
+                    //console.log(json[i]['imageURI']);
+                }
+                setData(json);
+            })
+            .catch((error) => console.error(error))
+            .finally(() => setLoading(false));
+    }, []);
+
+    const renderItem = ({ item }) => (
+        <FoodCard title={item.name} description={item.description} price={item.price} imageURI={item.imageURI}></FoodCard>
+    );
+
+    useEffect(() => {
+        fetch(url + shopPath)
+            .then((response) => response.json())
+            .then((json) => {
+                setRestaurant(json[0].name);
+                setAddress(json[0].address);
+            })
+            .catch((error) => console.error(error))
+            .finally(() => setLoading(false));
+    }, []);
 
     return (
         <PaperProvider theme={theme}>
             {/* START WRITING CODE BELOW!!!! */}
-            <View>
-                <Image source={require('./assets/Pastamania.png')} style={{ height: 160, width: null }} />
+            <View style={{flex: 1}}>
+                <Image source={require('./assets/Pastamania.png')} style={{ height: 160, width: null}} />
                 <TouchableOpacity 
                     style={[styles.buttonTouchable, { position: "absolute", left: 10, top: 5, backgroundColor: "#ffffff", width: 40, borderRadius: 50, alignContent: "center" }]}
                     onPress={() => navigation.goBack()}
@@ -36,9 +75,9 @@ export function StoreScreen({navigation}){
                 </TouchableOpacity>
             </View>
 
-            <View style={[styles.container, { paddingHorizontal: 16 , paddingVertical: 8}]}>
+            <View style={[styles.container, { paddingHorizontal: 16 , paddingVertical: 8, flex: 4}]}>
                 <View style={{ flexDirection: "row"}}>
-                    <Text style={[styles.backgroundText, { textAlign: "left", fontSize: 24, textAlignVertical: "bottom" }]}>Pastamania</Text>
+                    <Text style={[styles.backgroundText, { textAlign: "left", fontSize: 24, textAlignVertical: "bottom" }]}>{restaurant}</Text>
                     
                 </View>
 
@@ -49,7 +88,7 @@ export function StoreScreen({navigation}){
                                 source={require('./assets/locationpin.png')}
                                 style={[styles.iconPrimTint, {height: 18, width: 12, alignSelf: "center"}]}
                             />
-                            <Text style={{ textAlignVertical: "center" }}>   Lot One    |    1.8km away</Text>
+                            <Text style={{ textAlignVertical: "center" }}>   {address}</Text>
                         </View>
                         <Text style={[styles.innerText, { textAlignVertical: "center" }]}>More info</Text>
                     </View>
@@ -71,7 +110,7 @@ export function StoreScreen({navigation}){
                     {/* navigation tab here */}
                     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                         <TouchableOpacity style={styles.buttonTouchable}>
-                            <Text>Set Meal</Text>
+                            <Text>All</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity style={styles.buttonTouchable}>
@@ -79,24 +118,25 @@ export function StoreScreen({navigation}){
                         </TouchableOpacity>
 
                         <TouchableOpacity style={styles.buttonTouchable}>
-                            <Text>Appetisers</Text>
+                            <Text>Mains</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity style={styles.buttonTouchable}>
-                            <Text>Pasta</Text>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity style={styles.buttonTouchable}>
-                            <Text>Pizza</Text>
+                            <Text>Sides</Text>
                         </TouchableOpacity>
                     </ScrollView>
 
-                    <Text style={[styles.backgroundText, { textAlign: "left", fontSize: 24, textAlignVertical: "bottom" }]}>Set Meal</Text>
-                    <FoodCard></FoodCard>
-                    <FoodCard></FoodCard>
-                    <FoodCard></FoodCard>
-                    <FoodCard></FoodCard>
-                    <FoodCard></FoodCard>
+                    <Text style={[styles.backgroundText, { textAlign: "left", fontSize: 24, textAlignVertical: "bottom" }]}>All</Text>
+                    
+                    {isLoading ? <ActivityIndicator/> : (
+                        <View>
+                            <FlatList
+                                data={data}
+                                renderItem={renderItem}
+                                keyExtractor={item => item.id}
+                            />
+                        </View>
+                    )}
 
                 </ScrollView>
             </View>
