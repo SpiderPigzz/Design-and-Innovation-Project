@@ -25,45 +25,79 @@ const path = "listShop";
 const convertor = 'https://maps.googleapis.com/maps/api/geocode/json?address=';
 const key = '&key=AIzaSyC5TVAWgFHBs_ABdfzbsgzHbdJJecaQiO0';
 
-
+// convetor + 'item.address' + key
 export function MapScreen({ navigation }) {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
+  const [position, setPosition] = useState([]);
 
+
+  //for extracting address
   useEffect(() => {
     fetch(url + path)
       .then((response) => response.json())
       .then((json) => {
-        for (var i = 0; i < json.length; i++) {
-          json[i]['address'] = 'http://dip.totallynormal.website/getShop/' + json[i]['ID'];
-          console.log(json[i]['address'])
-        }
         setData(json);
-
-        console.log(json);
+        return json
+        // console.log(json);
+      })
+      .then((json)=>{
+        
+        for (var i = 0; i < json.length; i++) {
+          console.info(i)
+          var location = fetch(convertor + json[i]['address'] + key)
+          .then((response) => {
+            return response.json()})
+          .then((googleJson) =>{
+            var json = {}
+            return googleJson['results'][0]['geometry']['location']
+          })
+          location.then((loc)=>setPosition(oldArray => [oldArray, loc]))
+        // setData([json]))
+        }
       })
       .catch((error) => console.error(error))
       .finally(() => setLoading(false));
   }, []);
 
-  useEffect(() => {
-    fetch(convertor + key)
-      .then((response) => response.json())
-      .then((json) => {
+  // useEffect(() => {
+  //   fetch(convertor + data[0]['address'] + key)
+  //     .then((response) => response.json())
+  //     .then((convetedAddress) => {
+  //       setData([convetedAddress]);
+  //       console.log(convertedAddress)
+  //     })
+  //     .catch((error) => console.error(error))
+  //     .finally(() => setLoading(false));
+  // }, []);
 
-        setData([json]);
-      })
-      .catch((error) => console.error(error))
-      .finally(() => setLoading(false));
-  }, []);
-
-  const listShops = data.map(shop => { 
-    return (
-      <Marker coordinate={{ latitude: 1.347, longitude: 103.682 }}
+  const listShops = data.map((shop, index) => { 
+    return ( 
+      <Marker coordinate={{ latitude: position[index]["lat"], longitude: position[index]["lng"] }}
         key={shop.ID}
         pinColor={"red"}
         title={shop.name}
-        description={shop.description} />
+        description={shop.description}>
+        <Callout tooltip>
+        <View>
+              <View style={styles.bubble}>
+                <Text style={styles.tooltip_name}>{shop.address}</Text>
+                <View
+                  style={{
+                    borderBottomColor: '#FCD077',
+                    borderBottomWidth: 1,
+                  }}
+                />
+                <Text style={styles.tooltip_description}>{shop.description}</Text>
+                <View>
+                  <WebView style={styles.tooltip_image} source={{ uri: 'https://www.tastingtable.com/img/gallery/20-different-types-of-coffee-explained/intro-1659544996.jpg' }} />
+                </View>
+              </View>
+            </View>
+            <View style={styles.arrowBorder} />
+            <View sytle={styles.arrow} />
+        </Callout>
+      </Marker>
     )
   });
 
@@ -83,9 +117,8 @@ export function MapScreen({ navigation }) {
           }}
           showsUserLocation={true}
           followsUserLocation={true}>
-          {listShops}
+        {listShops}
         </MapView>
-
       )
       }
 
@@ -295,10 +328,11 @@ const styles = StyleSheet.create({
   },
 
   tooltip_description: {
-    fontSize: 14,
+    fontSize: 12,
     marginBottom: 5,
     alignItems: 'center',
     color: 'black',
+    width: 250,
   },
 
   arrow: {
