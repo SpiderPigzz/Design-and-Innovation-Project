@@ -108,13 +108,12 @@ export const styles = StyleSheet.create({
     },
 
     cardSec: {
-        width:'50%',
+        width:175,
         paddingVertical: 8,
         paddingHorizontal: 16,
         marginLeft: 10,
         marginVertical: 8,
         elevation: 3,
-        borderWidth: 0,
         backgroundColor: "#FCD077",
         borderRadius: 10
 

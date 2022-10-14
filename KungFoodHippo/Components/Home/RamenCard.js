@@ -105,7 +105,7 @@ export const styles = StyleSheet.create({
     },
 
     cardSec: {
-        width:'47%',
+        width:160,
         paddingVertical: 8,
         paddingHorizontal: 16,
         marginLeft: 10,

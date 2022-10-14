@@ -25,12 +25,12 @@ const url = 'http://dip.totallynormal.website/';
 const path = "listShop";
 
 
-export function ListingScreen({ navigation }) {
-
+export function ListingScreen({ route, navigation }) {
+    const [text, setText] = useState('');
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const [sortByPrice, setSortByPrice] = useState(true);
-
+    const { itemId, otherParam } = route.params;
     useEffect(() => {
         fetch(url + path)
             .then((response) => response.json())
@@ -79,14 +79,16 @@ export function ListingScreen({ navigation }) {
 
             <SafeAreaView style={[restaurantStyle.container, { flexDirection: 'column' }]}>
                 <View style={[restaurantStyle.searchBoxWrapper, { flex: 1, minHeight: 60 }]}>
-                    <TextInput placeholder={'Search for shops and restaurants'}
-                        onChangeText={onChangeSearch}
-                        value={searchQuery}
+
+                    <TextInput placeholder={JSON.stringify(otherParam)}
+                        onChangeText={newText => setText(newText)}
+                        defaultValue={text}
                         style={{ flex: 50 }}
                     />
+
                     <Button icon={require('./assets/images/search.png')} mode="text" onPress={() => setTest(searchQuery)} style={{ flex: 1 }} />
                 </View>
-
+                {/* <Text>{JSON.stringify(otherParam)}</Text>*/}
                 <View style={{ flex: 1, minHeight: 40 }}>
                     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={restaurantStyle.filterBar}>
                         <Button icon={"filter-variant"} textColor={"#000000"} style={restaurantStyle.button}>
@@ -105,8 +107,8 @@ export function ListingScreen({ navigation }) {
                             else {
                                 order = 'ASC'
                             }
-                            
-                            sortShops({order: order});
+
+                            sortShops({ order: order });
                         }}>
                             <Text style={restaurantStyle.text}>
                                 Sort By
