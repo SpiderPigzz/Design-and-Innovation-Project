@@ -1,22 +1,39 @@
 import { Icon } from 'react-native-elements';
 import { MD3LightTheme as DefaultTheme, Provider as PaperProvider, Text, Appbar, Snackbar, BottomNavigation, Button, Card, Title, Paragraph, Divider } from 'react-native-paper';
-import { StyleSheet, View, Image } from 'react-native';
+import { StyleSheet, View, Image, ImageBackground } from 'react-native';
+import React, { useState, useEffect } from "react";
 
-export function BillCard() {
+export function BillCard({ dishName, quantity, imageURI }) {
+
+    const [showDefault, setState] = useState(require('../../assets/images/subway.png'));
+    //var image = showDefault ? require('../../assets/images/subway.png') : { uri: imageURI };
+
+    useEffect(() => {
+        fetch(imageURI)
+            .then((res) => {
+                if (res.status != 404) {
+                    setState({ uri: imageURI })
+                }
+            })
+            .catch((err) => {
+                console.log("unable to fetch site data");
+            });
+    }, []);
+
     return (
 
         <Card style={[styles.cardSec, { marginHorizontal: 16 }]}>
             <Card.Content style={[styles.container, { justifyContent: 'flex-start' }]}>
                 <View style={[styles.container, { flexDirection: 'row', justifyContent: 'flex-start' }]}>
-                    <Text style={[styles.backgroundText]}>Value Meal</Text>
-                    <Button style={styles.iconPrimTint} icon='application-edit-outline'></Button>
-                    <Text style={[styles.text]}>Edit</Text>
+                    <Text style={[styles.backgroundText]}>{dishName}</Text>
+                    {/* <Button style={styles.iconPrimTint} icon='application-edit-outline'></Button>
+                    <Text style={[styles.text]}>Edit</Text> */}
                 </View>
 
                 <View style={[styles.container, { flexDirection: 'row', justifyContent: 'space-between' }]}>
-                    <View style={[styles.container, { flexDirection: 'row',}]}>
-                        <Image source={require('../../assets/food-sample-image.jpeg')} style={[styles.imageIcon]}></Image>
-                        <Text style={[styles.backgroundText, { fontWeight: 'normal', fontSize: 10, textAlignVertical: 'top', marginHorizontal: 8 }]}>1 Pasta{'\n'}3 Garlic</Text>
+                    <View style={[styles.container, { flexDirection: 'row', }]}>
+                        <ImageBackground style={[styles.Image]} imageStyle={{ borderRadius: 10 }} source={showDefault}></ImageBackground>
+                        <Text style={[styles.backgroundText, { fontWeight: 'normal', fontSize: 18, textAlignVertical: 'top', marginHorizontal: 8 }]}>{quantity}{'pcs'}</Text>
                     </View>
 
                     <Text style={[styles.text, { textAlignVertical: 'top' }]}>S$17.00</Text>
@@ -155,6 +172,15 @@ const styles = StyleSheet.create({
         height: 60,
         borderRadius: 10,
     },
+
+    Image: {
+        elevation: 3,
+        borderWidth: 0,
+        borderRadius: 15,
+        width: 80,
+        height: 80,
+    },
+
 
     divider: {
         backgroundColor: '#b8b8b880',
