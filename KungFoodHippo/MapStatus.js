@@ -30,10 +30,14 @@ export function MapScreen({ navigation }) {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [position, setPosition] = useState([]);
+  var locationArray = [];
+
+  const [listShops, setListShop] = useState({});
 
 
   //for extracting address
   useEffect(() => {
+
     fetch(url + path)
       .then((response) => response.json())
       .then((json) => {
@@ -41,23 +45,29 @@ export function MapScreen({ navigation }) {
         return json
         // console.log(json);
       })
-      .then((json)=>{
-        
+      .then(async (json)=>{
         for (var i = 0; i < json.length; i++) {
-          console.info(i)
-          var location = fetch(convertor + json[i]['address'] + key)
+          var location = await fetch(convertor + json[i]['address'].replace('#', '') + key)
           .then((response) => {
             return response.json()})
           .then((googleJson) =>{
-            var json = {}
-            return googleJson['results'][0]['geometry']['location']
+            locationArray.push(googleJson['results'][0]['geometry']['location']);
           })
-          location.then((loc)=>setPosition(oldArray => [oldArray, loc]))
         // setData([json]))
         }
+        setPosition(locationArray);
+
+        return(locationArray);
       })
+      .then(
+        async (locations) => {
+          //await setListShop()
+        }
+      )
       .catch((error) => console.error(error))
-      .finally(() => setLoading(false));
+      .finally(() => {
+        setLoading(false)
+      });
   }, []);
 
   // useEffect(() => {
@@ -71,36 +81,6 @@ export function MapScreen({ navigation }) {
   //     .finally(() => setLoading(false));
   // }, []);
 
-  const listShops = data.map((shop, index) => { 
-    return ( 
-      <Marker coordinate={{ latitude: position[index]["lat"], longitude: position[index]["lng"] }}
-        key={shop.ID}
-        pinColor={"red"}
-        title={shop.name}
-        description={shop.description}>
-        <Callout tooltip>
-        <View>
-              <View style={styles.bubble}>
-                <Text style={styles.tooltip_name}>{shop.address}</Text>
-                <View
-                  style={{
-                    borderBottomColor: '#FCD077',
-                    borderBottomWidth: 1,
-                  }}
-                />
-                <Text style={styles.tooltip_description}>{shop.description}</Text>
-                <View>
-                  <WebView style={styles.tooltip_image} source={{ uri: 'https://www.tastingtable.com/img/gallery/20-different-types-of-coffee-explained/intro-1659544996.jpg' }} />
-                </View>
-              </View>
-            </View>
-            <View style={styles.arrowBorder} />
-            <View sytle={styles.arrow} />
-        </Callout>
-      </Marker>
-    )
-  });
-
 
   return (
     <View style={styles.container}>
@@ -109,6 +89,7 @@ export function MapScreen({ navigation }) {
         <MapView
           style={styles.map}
           key={isLoading}
+          onMapReady={isLoading}
           initialRegion={{
             latitude: 1.348,
             longitude: 103.683,
@@ -117,125 +98,37 @@ export function MapScreen({ navigation }) {
           }}
           showsUserLocation={true}
           followsUserLocation={true}>
-        {listShops}
+        {data.map((shop, index) => {
+            return ( 
+              <Marker coordinate={{ latitude: position[index]["lat"], longitude: position[index]["lng"] }}
+                key={shop.ID}
+                pinColor={"red"}
+                title={shop.name}
+                description={shop.description}>
+                <Callout tooltip>
+                <View>
+                      <View style={styles.bubble}>
+                        <Text style={styles.tooltip_name}>{shop.address}</Text>
+                        <View
+                          style={{
+                            borderBottomColor: '#FCD077',
+                            borderBottomWidth: 1,
+                          }}
+                        />
+                        <Text style={styles.tooltip_description}>{shop.description}</Text>
+                        <View>
+                          <WebView style={styles.tooltip_image} source={{ uri: 'https://www.tastingtable.com/img/gallery/20-different-types-of-coffee-explained/intro-1659544996.jpg' }} />
+                        </View>
+                      </View>
+                    </View>
+                    <View style={styles.arrowBorder} />
+                    <View sytle={styles.arrow} />
+                </Callout>
+              </Marker>
+            )})}
         </MapView>
       )
       }
-
-      <MapView
-        style={styles.map}
-        initialRegion={{
-          latitude: 1.348,
-          longitude: 103.683,
-          latitudeDelta: 0.00822,
-          longitudeDelta: 0.00821,
-        }}
-        showsUserLocation={true}
-        followsUserLocation={true}
-      >
-
-        <MapViewDirections
-          origin={origin}
-          destination={destination}
-          apikey={GOOGLE_MAPS_APIKEY}
-          strokeWidth={5}
-          strokeColor="#D60665"
-          optimizeWaypoints={true}
-          mode='DRIVING'
-          timePrecision='now'
-        />
-
-        <Marker coordinate={{ latitude: 1.347, longitude: 103.682 }}
-          pinColor={"red"}
-          title={"McDonald's"}
-          description={"Don't know what to eat on campus? Try this!"}>
-
-          <Callout tooltip>
-            <View>
-              <View style={styles.bubble}>
-                <Text style={styles.tooltip_name}>Fat Bob Thai Food</Text>
-                <View
-                  style={{
-                    borderBottomColor: '#FCD077',
-                    borderBottomWidth: 1,
-                  }}
-                />
-                <Text style={styles.tooltip_description}>Bob's Favorite Place</Text>
-
-                <View>
-                  <WebView style={{ height: 120, width: 250, }} source={{ uri: 'https://travelandleisureasia.com/wp-content/uploads/2021/10/Thai-Dishes.png' }} />
-                </View>
-
-
-              </View>
-            </View>
-            <View style={styles.arrowBorder} />
-            <View sytle={styles.arrow} />
-          </Callout>
-        </Marker>
-
-        <Marker coordinate={{ latitude: 1.344, longitude: 103.681 }}
-          pinColor={"red"}
-          title={"McDonald's"}
-          description={"Don't know what to eat on campus? Try this!"}>
-
-          <Callout tooltip>
-            <View>
-              <View style={styles.bubble}>
-                <Text style={styles.tooltip_name}>71 Connect</Text>
-                <View
-                  style={{
-                    borderBottomColor: '#FCD077',
-                    borderBottomWidth: 1,
-                  }}
-                />
-                <Text style={styles.tooltip_description}>Grab a Coffee, Cool Dog</Text>
-
-                <View>
-                  <WebView style={styles.tooltip_image} source={{ uri: 'https://www.tastingtable.com/img/gallery/20-different-types-of-coffee-explained/intro-1659544996.jpg' }} />
-                </View>
-
-
-              </View>
-            </View>
-            <View style={styles.arrowBorder} />
-            <View sytle={styles.arrow} />
-          </Callout>
-        </Marker>
-
-
-
-        <Marker coordinate={{ latitude: 1.349, longitude: 103.683 }}
-          pinColor={"red"}
-          title={"McDonald's"}
-          description={"Don't know what to eat on campus? Try this!"}>
-
-          <Callout tooltip>
-            <View>
-              <View style={styles.bubble}>
-                <Text style={styles.tooltip_name}>McDonald's</Text>
-                <View
-                  style={{
-                    borderBottomColor: '#FCD077',
-                    borderBottomWidth: 1,
-                  }}
-                />
-                <Text style={styles.tooltip_description}>NTU Students' Favorite Place</Text>
-                {/* <Image 
-                style={styles.tooltip_image}
-                source={require('./assets/mcd.jpg')}
-              /> */}
-
-                <View>
-                  <WebView style={styles.tooltip_image} source={{ uri: 'https://cdn.foodadvisor.com.sg/uploads/images/image_default_5625f71ea9013077.jpg' }} />
-                </View>
-              </View>
-            </View>
-            <View style={styles.arrowBorder} />
-            <View sytle={styles.arrow} />
-          </Callout>
-        </Marker>
-      </MapView>
 
 
       <FAB
