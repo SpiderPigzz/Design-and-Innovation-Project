@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, ScrollView, View, Image, FlatList, ActivityIndicator } from 'react-native';
+import { StyleSheet, ScrollView, View, Image, FlatList, ActivityIndicator, InteractionManager } from 'react-native';
 import * as Font from 'expo-font';
-import { useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import { DrawerActions, createAppContainer } from 'react-navigation';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
@@ -28,31 +28,61 @@ export function CheckoutScreen({ navigation }) {
     const [cutlery, setCutlery] = useState(false);
     const toggleSwitch = () => setCutlery(previousState => !previousState);
 
+    const [voucher, setVoucher] = useState(false);
+    const toggleVoucherSwitch = () => setVoucher(previousState => !previousState);
+
     const { userEmail, userName, userToken } = useContext(userContext);
 
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
+    const [totalPrice, setTotalPrice] = useState(0);
+    const [subtotal, setSubtotal] = useState(0);
 
-    const path = "getCart/" + userEmail ;
+    const [shop, setShop] = useState();
+    const [address, setAddress] = useState();
+
+    const cartPath = "getCart/" + userEmail;
+    const shopPath = "getShop/";
 
     useEffect(() => {
-        fetch(url + path)
+        fetch(url + cartPath)
             .then((response) => response.json())
             .then((json) => {
                 console.log(json);
+                var sum = 0;
                 for (var i = 0; i < json.length; i++) {
                     json[i]['imageURI'] = 'http://dip.totallynormal.website/picture/' + json[i]['shop.ID'] + "/" + json[i]['dish.name'];
                     //console.log(json[i]['imageURI']);
+                    sum = sum + (json[i]['price']) * json[i]['quantity'];
                 }
 
+                setSubtotal(parseFloat((sum) / 10000).toFixed(2));
+
+                sum += 30000;
+
+                setTotalPrice(parseFloat((sum) / 10000).toFixed(2));
+
                 setData(json);
+
+                return json[0]['shop.ID']
+            })
+            .then((shopID) => {
+                fetch(url + shopPath + shopID)
+                .then((response) => response.json())
+                .then((json) => {
+                    setShop(json[0]['name']);
+                    setAddress(json[0]['address']);
+                })
             })
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
+
+
+
     }, []);
 
     const renderItem = ({ item }) => (
-        <BillCard dishName={item['dish.name']} quantity={item['quantity']} imageURI={item.imageURI}></BillCard>
+        <BillCard dishName={item['dish.name']} quantity={item['quantity']} description={item['description']} category={item['category']} price={item['price']} imageURI={item.imageURI}></BillCard>
     );
 
 
@@ -62,16 +92,14 @@ export function CheckoutScreen({ navigation }) {
             <View style={[styles.container, { flex: 1, flexDirection: 'column', justifyContent: 'space-between' }]}>
                 <Card style={[styles.cardSec, { margin: 16, flex: 3 }]}>
                     <Card.Content>
-                        <View style={[styles.container, { flexDirection: 'row', justifyContent: 'space-around' }]}>
+                        <View style={[styles.container, { flexDirection: 'row', justifyContent: 'space-around',}]}>
                             <Image source={require('./assets/scooter-icon.png')} style={[styles.imageIcon, {}]}></Image>
-                            <View style={[styles.container, {}]}>
+                            <View style={[styles.container, {flex: 1}]}>
                                 <Text style={[styles.backgroundText, { fontWeight: 'normal' }]}>Estimated Delivery</Text>
                                 <Text style={styles.text}>ASAP (35 mins)</Text>
-                                <Text style={[styles.text, { fontWeight: 'normal' }]}>Change</Text>
+                                <Text style={[styles.text, { fontWeight: 'normal',  flexWrap: 'wrap', flex: 1 }]}>{shop}{' - '}{address}</Text>
                             </View>
                         </View>
-
-
 
                     </Card.Content>
                 </Card>
@@ -84,15 +112,15 @@ export function CheckoutScreen({ navigation }) {
                 <View style={[styles.container, { flex: 15 }]}>
                     <ScrollView>
 
-                    {isLoading ? <ActivityIndicator style={{ flex: 35 }} /> : (
-                    <View style={{ flex: 35 }}>
-                        <FlatList
-                            data={data}
-                            renderItem={renderItem}
-                            keyExtractor={item => item.id}
-                            style={{ flex: 1 }}
-                        />
-                    </View>)}
+                        {isLoading ? <ActivityIndicator style={{ flex: 35 }} /> : (
+                            <View style={{ flex: 35 }}>
+                                <FlatList
+                                    data={data}
+                                    renderItem={renderItem}
+                                    keyExtractor={item => item.id}
+                                    style={{ flex: 1 }}
+                                />
+                            </View>)}
 
                         <Divider style={styles.divider} horizontalInset='true' bold='true' />
 
@@ -101,7 +129,7 @@ export function CheckoutScreen({ navigation }) {
                         <View>
                             <View style={[styles.container, { flexDirection: 'row', justifyContent: 'space-between' }]}>
                                 <Text style={[styles.backgroundText, { marginLeft: 16, fontSize: 14 }]}>Subtotal</Text>
-                                <Text style={[styles.backgroundText, { marginRight: 16, fontSize: 14 }]}>S$17.00</Text>
+                                <Text style={[styles.backgroundText, { marginRight: 16, fontSize: 14 }]}>{'S$'}{subtotal}</Text>
                             </View>
                             <View style={[styles.container, { flexDirection: 'row', justifyContent: 'space-between' }]}>
                                 <Text style={[styles.backgroundText, { marginLeft: 16, fontSize: 14 }]}>Delivery fee</Text>
@@ -109,7 +137,7 @@ export function CheckoutScreen({ navigation }) {
                             </View>
                             <View style={[styles.container, { flexDirection: 'row', justifyContent: 'space-between' }]}>
                                 <Text style={[styles.backgroundText, { marginLeft: 16, fontSize: 14, textAlignVertical: 'center' }]}>Redeem 100 Hippo coins</Text>
-                                <Switch style={[{ marginRight: 8 }]} />
+                                <Switch style={[{ marginRight: 8 }]} onValueChange={toggleVoucherSwitch} value={voucher}/>
                             </View>
                         </View>
 
@@ -154,7 +182,7 @@ export function CheckoutScreen({ navigation }) {
                             <Text style={[styles.backgroundText, {}]}>Total</Text>
                             <Text style={[styles.infoText, { marginHorizontal: 4 }]}>(includes GST)</Text>
                         </View>
-                        <Text style={styles.text}>S$19.00</Text>
+                        <Text style={styles.text}>{"S$"}{totalPrice}</Text>
                     </View>
 
                     <Button style={[styles.button, { marginHorizontal: 16, borderRadius: 15 }]} android_ripple={{ color: 'white', borderless: false }}>

@@ -2,10 +2,12 @@ import { Icon } from 'react-native-elements';
 import { MD3LightTheme as DefaultTheme, Provider as PaperProvider, Text, Appbar, Snackbar, BottomNavigation, Button, Card, Title, Paragraph, Divider } from 'react-native-paper';
 import { StyleSheet, View, Image, ImageBackground } from 'react-native';
 import React, { useState, useEffect } from "react";
+import { proc } from 'react-native-reanimated';
 
-export function BillCard({ dishName, quantity, imageURI }) {
+export function BillCard({ dishName, quantity, description, category, price, imageURI }) {
 
     const [showDefault, setState] = useState(require('../../assets/images/subway.png'));
+    const [processedPrice, setProcessedPrice] = useState(0)
     //var image = showDefault ? require('../../assets/images/subway.png') : { uri: imageURI };
 
     useEffect(() => {
@@ -18,6 +20,9 @@ export function BillCard({ dishName, quantity, imageURI }) {
             .catch((err) => {
                 console.log("unable to fetch site data");
             });
+
+        setProcessedPrice((price / 10000).toFixed(2))
+
     }, []);
 
     return (
@@ -31,14 +36,18 @@ export function BillCard({ dishName, quantity, imageURI }) {
                 </View>
 
                 <View style={[styles.container, { flexDirection: 'row', justifyContent: 'space-between' }]}>
-                    <View style={[styles.container, { flexDirection: 'row', }]}>
-                        <ImageBackground style={[styles.Image]} imageStyle={{ borderRadius: 10 }} source={showDefault}></ImageBackground>
-                        <Text style={[styles.backgroundText, { fontWeight: 'normal', fontSize: 18, textAlignVertical: 'top', marginHorizontal: 8 }]}>{quantity}{'pcs'}</Text>
+
+                    <ImageBackground style={[styles.Image]} imageStyle={{ borderRadius: 10 }} source={showDefault}></ImageBackground>
+                    <View style={[styles.container, { flexDirection: 'column', flex: 1}]}>
+                        <Text style={[styles.backgroundText, { fontWeight: 'bold', fontSize: 14, textAlignVertical: 'top', marginHorizontal: 8 }]}>{category}</Text>
+                        <Text style={[styles.backgroundText, { fontWeight: 'normal', fontSize: 12, textAlignVertical: 'top', marginHorizontal: 8, flexWrap: 'wrap', flex: 1 }]}>{description}</Text>
                     </View>
-
-                    <Text style={[styles.text, { textAlignVertical: 'top' }]}>S$17.00</Text>
+                    <View style={[styles.container, { flexDirection: 'column', justifyContent: 'space-evenly'}]}>
+                    <Text style={[styles.text, { fontSize: 16, textAlignVertical: 'top' }]}>{"S$"}{processedPrice}</Text>
+                    <Text style={[styles.text, { textAlignVertical: 'top' }]}>{quantity}{"pcs"}</Text>
+                    </View>
+                    
                 </View>
-
 
             </Card.Content>
         </Card>);
