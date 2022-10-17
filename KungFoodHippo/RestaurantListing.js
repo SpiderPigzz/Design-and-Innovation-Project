@@ -88,7 +88,6 @@ export function ListingScreen({ route, navigation }) {
 
                     <Button icon={require('./assets/images/search.png')} mode="text" onPress={() => setTest(searchQuery)} style={{ flex: 1 }} />
                 </View>
-                {/* <Text>{JSON.stringify(otherParam)}</Text>*/}
                 <View style={{ flex: 1, minHeight: 40 }}>
                     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={restaurantStyle.filterBar}>
                         <Button icon={"filter-variant"} textColor={"#000000"} style={restaurantStyle.button}>
