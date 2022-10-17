@@ -136,7 +136,7 @@ export function HomeScreen({ navigation, route }) {
                 </ScrollView>
             </ScrollView>
             <Portal>
-                <FloatingButton />
+                {/* <FloatingButton /> */}
             </Portal>
 
 
