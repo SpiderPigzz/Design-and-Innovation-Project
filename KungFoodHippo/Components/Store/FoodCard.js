@@ -5,7 +5,7 @@ import { DrawerActions, createAppContainer } from 'react-navigation';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 
-export function FoodCard() {
+export function FoodCard({navigation}) {
     
     const [visible, setVisible] = React.useState(false);
     const [count, setCount] = React.useState(0);
