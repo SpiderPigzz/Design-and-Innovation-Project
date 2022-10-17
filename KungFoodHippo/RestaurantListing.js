@@ -32,6 +32,12 @@ export function ListingScreen({ route, navigation }) {
     const [sortByPrice, setSortByPrice] = useState(true);
     const { itemId, otherParam } = route.params;
     useEffect(() => {
+
+        navigation.addListener('focus', () => {
+            setText(otherParam);
+          });
+        
+
         fetch(url + path)
             .then((response) => response.json())
             .then((json) => {
@@ -80,9 +86,9 @@ export function ListingScreen({ route, navigation }) {
             <SafeAreaView style={[restaurantStyle.container, { flexDirection: 'column' }]}>
                 <View style={[restaurantStyle.searchBoxWrapper, { flex: 1, minHeight: 60 }]}>
 
-                    <TextInput placeholder={JSON.stringify(otherParam)}
+                    <TextInput placeholder={otherParam}
                         onChangeText={newText => setText(newText)}
-                        defaultValue={text}
+                        value={text}
                         style={{ flex: 50 }}
                     />
 

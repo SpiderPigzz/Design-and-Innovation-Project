@@ -58,7 +58,7 @@ export function HomeScreen({ navigation, route }) {
         <View style={[style1.container]}>
             <ScrollView style={style1.container} vertical={true}>
                 <View style={style1.searchBoxWrapper1}>
-                    <Text>Hello Nicholas, what do you want to eat today?</Text>
+                    <Text style={{fontSize: 24, fontWeight: "bold"}}>Hello {userName}, what do you want to eat today?</Text>
                 </View>
                 <TouchableOpacity
                     onPress={() => navigation.navigate('Listing', {
@@ -130,12 +130,6 @@ export function HomeScreen({ navigation, route }) {
 
                     </TouchableOpacity>
 
-
-                    
-
-                    
-
-                    
                 </ScrollView>
                 <View>
                     <TouchableOpacity
