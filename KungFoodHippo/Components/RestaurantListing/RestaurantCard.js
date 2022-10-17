@@ -1,8 +1,8 @@
 import { MD3LightTheme as DefaultTheme, Provider as PaperProvider, Text, Appbar, Snackbar, BottomNavigation, Button, Card, Title, Paragraph } from 'react-native-paper';
-import { StyleSheet, View, Image, ImageBackground } from 'react-native';
+import { StyleSheet, View, Image, ImageBackground, TouchableOpacity } from 'react-native';
 import React, { useState, useEffect} from "react";
 
-export function RestaurantCard({ title, description, deliveryDesc, imageURI }) {
+export function RestaurantCard({ title, description, deliveryDesc, imageURI, shopID, navigation}) {
     //console.log(imageURI);
     const [showDefault, setState] = useState(require('../../assets/images/subway.png'));
     //var image = showDefault ? require('../../assets/images/subway.png') : { uri: imageURI };
@@ -17,11 +17,15 @@ export function RestaurantCard({ title, description, deliveryDesc, imageURI }) {
             .catch((err) => {
                 console.log("unable to fetch site data");
             });
-    }, []);
+    }, [showDefault]);
 
 
     return (
-
+        <TouchableOpacity activeOpacity={0.85} onPress={() => {
+            navigation.navigate('Store', {
+            shopID: shopID
+        })
+        }}>
         <Card style={styles.cardSec}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
                 <View style={{ marginVertical: 4, marginRight: 20, flex: 1, width: 120, height: 120, }}>
@@ -69,7 +73,8 @@ export function RestaurantCard({ title, description, deliveryDesc, imageURI }) {
             </View>
 
 
-        </Card>);
+        </Card>
+        </TouchableOpacity>);
 }
 
 

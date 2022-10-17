@@ -18,7 +18,9 @@ import {
 } from 'react-native-safe-area-context';
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
 
-export function StoreScreen({navigation}){
+export function StoreScreen({navigation, route}){
+
+    const {shopID} = route.params;
 
     return (
         <PaperProvider theme={theme}>
