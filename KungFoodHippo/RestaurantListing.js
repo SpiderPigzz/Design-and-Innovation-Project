@@ -16,7 +16,7 @@ import {
     initialWindowMetrics,
 } from 'react-native-safe-area-context';
 import { RestaurantCard } from './Components/RestaurantListing/RestaurantCard.js';
-import { ScrollView } from 'react-native-gesture-handler';
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { DebugInstructions } from 'react-native/Libraries/NewAppScreen';
 import { debug } from 'react-native-reanimated';
 

@@ -40,7 +40,7 @@ export function StoreScreen({navigation, route}){
 
             <View style={[styles.container, { paddingHorizontal: 16 , paddingVertical: 8}]}>
                 <View style={{ flexDirection: "row"}}>
-                    <Text style={[styles.backgroundText, { textAlign: "left", fontSize: 24, textAlignVertical: "bottom" }]}>Pastamania</Text>
+                    <Text style={[styles.backgroundText, { textAlign: "left", fontSize: 24, textAlignVertical: "bottom" }]}>{JSON.stringify(otherParam1)}</Text>
                     
                 </View>
 

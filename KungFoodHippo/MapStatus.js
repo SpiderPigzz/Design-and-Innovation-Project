@@ -142,7 +142,7 @@ export function MapScreen({ navigation }) {
       icon="arrow-left"
       color='#E76766'
       style={styles.fab}
-      onPress={() => console.log('Pressed')}
+      onPress={() => navigation.navigate('Home')}
     />
 
     
