@@ -44,7 +44,11 @@ export function CheckoutScreen({ navigation }) {
     const cartPath = "getCart/" + userEmail;
     const shopPath = "getShop/";
 
+    
+
     useEffect(() => {
+        navigation.addListener('focus', () => {
+          
         fetch(url + cartPath)
             .then((response) => response.json())
             .then((json) => {
@@ -77,7 +81,7 @@ export function CheckoutScreen({ navigation }) {
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
 
-
+        });
 
     }, []);
 

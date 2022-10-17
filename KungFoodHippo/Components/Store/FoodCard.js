@@ -4,8 +4,11 @@ import { StyleSheet, View, Image, TouchableOpacity, Modal } from 'react-native';
 import { DrawerActions, createAppContainer } from 'react-navigation';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
+import { userContext } from '../../App.js';
+import { useContext } from 'react';
 
 export function FoodCard({ title, description, price, imageURI }) {
+    const { userEmail, userName, userToken } = useContext(userContext);
 
     const [visible, setVisible] = useState(false);
     const [count, setCount] = useState(0);
@@ -13,7 +16,7 @@ export function FoodCard({ title, description, price, imageURI }) {
     const subtract = () => setCount(prevCount => (count > 0) ? (prevCount - 1) : prevCount);
     const [showDefault, setState] = useState(require('../../assets/Pastamania-meal1.png'));
     const submitOrder = {
-        'customer.email': 'john@gmail.com',
+        'customer.email': userEmail,
         'shop.ID': 1,
         'dish.name': { title }.title,
         'quantity': { count }.count
