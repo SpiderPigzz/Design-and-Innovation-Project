@@ -18,8 +18,8 @@ import {
 } from 'react-native-safe-area-context';
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
 
-export function StoreScreen({navigation}){
-
+export function StoreScreen({navigation,route}){
+    const { itemId, otherParam1 } = route.params;
     return (
         <PaperProvider theme={theme}>
             {/* START WRITING CODE BELOW!!!! */}
@@ -38,7 +38,7 @@ export function StoreScreen({navigation}){
 
             <View style={[styles.container, { paddingHorizontal: 16 , paddingVertical: 8}]}>
                 <View style={{ flexDirection: "row"}}>
-                    <Text style={[styles.backgroundText, { textAlign: "left", fontSize: 24, textAlignVertical: "bottom" }]}>Pastamania</Text>
+                    <Text style={[styles.backgroundText, { textAlign: "left", fontSize: 24, textAlignVertical: "bottom" }]}>{JSON.stringify(otherParam1)}</Text>
                     
                 </View>
 
