@@ -7,7 +7,7 @@ export function PickUpCard() {
         <Card style={styles.cardSec}>
             <View>
 
-                <View style={{ marginVertical: 2, marginTop:1 }}>
+                <View style={{ marginVertical: 1, marginTop:1 }}>
 
                     <ImageBackground style={[styles.Image, { justifyContent: 'center' }]} imageStyle={{ borderRadius: 10 }} source={require('../../assets/images/pickup.png')}>
 
@@ -104,10 +104,9 @@ export const styles = StyleSheet.create({
     cardSec: {
         
         width: 149,
-        paddingVertical: 8,
+        paddingVertical: 4,
         paddingHorizontal: 16,
         marginLeft: 10,
-        marginVertical: 8,
         elevation: 3,
         borderWidth: 0,
         backgroundColor: "#EB9FBE",

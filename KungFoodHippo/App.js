@@ -129,7 +129,7 @@ export default function KungFoodHippo() {
                 <Menu.Screen name="Home" component={HomeScreen} />
                 <Menu.Screen name="Menu" component={MenuScreen} />
                 <Menu.Screen name="Account" component={AccountScreen} />
-                <Menu.Screen name="Listing" component={ListingScreen} />
+                <Menu.Screen name="Listing" component={ListingScreen} initialParams={{otherParam:'Search for restaurants'}}/>
                 <Menu.Screen name="Store" component={StoreScreen} />
                 <Menu.Screen name="Checkout" component={CheckoutScreen} />
                 <Menu.Screen name="Payment" component={PaymentScreen} />

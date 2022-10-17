@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { SIZES, COLORS, FONTS } from './constants/theme1';
 import * as Font from 'expo-font';
-import { useState} from 'react';
+import { useState } from 'react';
 import { DrawerActions, createAppContainer } from 'react-navigation';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
@@ -57,49 +57,124 @@ export function HomeScreen({ navigation, route }) {
     return (
         <View style={[style1.container]}>
             <ScrollView style={style1.container} vertical={true}>
-                <View style={style1.searchBoxWrapper} >
-                    <TextInput placeholder={'Search for shops and restaurants'} />
-                    <Image source={require('./assets/images/search.png')} />
+                <View style={style1.searchBoxWrapper1}>
+                    <Text style={{fontSize: 24, fontWeight: "bold"}}>Hello {userName}, what do you want to eat today?</Text>
                 </View>
-                <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                    <View style={style1.categoryItem}>
-                        <View style={style1.categoryCard}>
-                            <Image source={require('./assets/images/HotDeals.png')} style={style1.image} />
-                        </View>
-                        <Text style={style1.label1}>Hot Deals</Text>
+                <TouchableOpacity
+                    onPress={() => navigation.navigate('Listing', {
+                        itemId: 86,
+                        otherParam: 'Search for restaurants'
+                    })}>
+                    <View style={style1.searchBoxWrapper} >
+                        <TextInput placeholder={'Search for restaurants'} />
+                        <Image source={require('./assets/images/search.png')} />
                     </View>
+                </TouchableOpacity>
 
-                    <View style={style1.categoryItem}>
+                <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                    <TouchableOpacity
+
+                        onPress={() => navigation.navigate('Listing', {
+                            itemId: 86,
+                            otherParam: 'Hot Deals'
+                        })}>
+                        <View style={style1.categoryItem}>
+                            <View style={style1.categoryCard}>
+                                <Image source={require('./assets/images/HotDeals.png')} style={style1.image} />
+                            </View>
+                            <Text style={style1.label1}>Hot Deals</Text>
+                        </View>
+
+                    </TouchableOpacity>
+                    
+                    <TouchableOpacity
+
+                        onPress={() => navigation.navigate('Listing', {
+                            itemId: 86,
+                            otherParam: 'Favourite'
+                        })}>
+                        <View style={style1.categoryItem}>
                         <View style={style1.categoryCard}>
                             <Image source={require('./assets/images/FavouriteFood.png')} style={style1.image} />
                         </View>
                         <Text style={style1.label1}>Favourite</Text>
                     </View>
 
-                    <View style={style1.categoryItem}>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+
+                        onPress={() => navigation.navigate('Listing', {
+                            itemId: 86,
+                            otherParam: 'Offers'
+                        })}>
+                        <View style={style1.categoryItem}>
                         <View style={style1.categoryCard}>
                             <Image source={require('./assets/images/BadgetMeal.png')} style={style1.image} />
                         </View>
                         <Text style={style1.label1}>Offers</Text>
                     </View>
 
-                    <View style={style1.categoryItem}>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+
+                        onPress={() => navigation.navigate('Listing', {
+                            itemId: 86,
+                            otherParam: 'Order Later'
+                        })}>
+                        <View style={style1.categoryItem}>
                         <View style={style1.categoryCard}>
                             <Image source={require('./assets/images/NewFood.png')} style={style1.image} />
                         </View>
                         <Text style={style1.label1}>Order Later </Text>
                     </View>
+
+                    </TouchableOpacity>
+
                 </ScrollView>
                 <View>
-                    <FoodDeliveryCard></FoodDeliveryCard>
+                    <TouchableOpacity
+
+                        onPress={() => navigation.navigate('Listing', {
+                            itemId: 86,
+                            otherParam: 'Food'
+                        })}>
+                        <FoodDeliveryCard></FoodDeliveryCard>
+                    </TouchableOpacity>
+
                     <View style={style1.FDCard} horizontal={true}>
-                        <HalalCard></HalalCard>
+                        <View>
+                            <TouchableOpacity
+
+                                onPress={() => navigation.navigate('Listing', {
+                                    itemId: 86,
+                                    otherParam: 'Halal'
+                                })}>
+                                <HalalCard></HalalCard>
+                            </TouchableOpacity>
+                        </View>
+
                         <View vertical={true}>
                             <View style={style1.FDCard2}>
-                                <VeganCard></VeganCard>
+                                <TouchableOpacity
+
+                                    onPress={() => navigation.navigate('Listing', {
+                                        itemId: 86,
+                                        otherParam: 'Vegans'
+                                    })}>
+                                    <VeganCard></VeganCard>
+                                </TouchableOpacity>
+
                             </View>
                             <View style={style1.FDCard2}>
-                                <PickUpCard></PickUpCard>
+                                <TouchableOpacity
+
+                                    onPress={() => navigation.navigate('Listing', {
+                                        itemId: 86,
+                                        otherParam: 'PickUp'
+                                    })}>
+                                    <PickUpCard></PickUpCard>
+                                </TouchableOpacity>
+
                             </View>
                         </View>
                     </View>
@@ -110,14 +185,63 @@ export function HomeScreen({ navigation, route }) {
                     </userContext.Consumer> */}
                     <Text style={style1.cuisineText}>Cuisines</Text>
                     <View style={style1.cuisinesCard} horizontal={true}>
-                        <JapaneseCard></JapaneseCard>
-                        <KoreanCard></KoreanCard>
-                        <WesternCard></WesternCard>
+
+                        <TouchableOpacity
+
+                            onPress={() => navigation.navigate('Listing', {
+                                itemId: 86,
+                                otherParam: 'Japanese'
+                            })}>
+                            <JapaneseCard></JapaneseCard>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+
+                            onPress={() => navigation.navigate('Listing', {
+                                itemId: 86,
+                                otherParam: 'Korean'
+                            })}>
+                            <KoreanCard></KoreanCard>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+
+                            onPress={() => navigation.navigate('Listing', {
+                                itemId: 86,
+                                otherParam: 'Western'
+                            })}>
+                            <WesternCard></WesternCard>
+                        </TouchableOpacity>
+
+
+
                     </View>
                     <View style={style1.cuisinesCard} horizontal={true}>
-                        <ItalianCard></ItalianCard>
-                        <ChineseCard></ChineseCard>
-                        <MexicanCard></MexicanCard>
+                        <TouchableOpacity
+
+                            onPress={() => navigation.navigate('Listing', {
+                                itemId: 86,
+                                otherParam: 'Italian'
+                            })}>
+                            <ItalianCard></ItalianCard>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+
+                            onPress={() => navigation.navigate('Listing', {
+                                itemId: 86,
+                                otherParam: 'Chinese'
+                            })}>
+                            <ChineseCard></ChineseCard>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+
+                            onPress={() => navigation.navigate('Listing', {
+                                itemId: 86,
+                                otherParam: 'Mexican'
+                            })}>
+                            <MexicanCard></MexicanCard>
+                        </TouchableOpacity>
+
+
+
                     </View>
                 </View>
 
@@ -130,8 +254,23 @@ export function HomeScreen({ navigation, route }) {
                 <ScrollView
                     contentContainerStyle={style1.foodListingWrapper} horizontal={true} >
                     <View style={style1.FDCard} horizontal={true}>
-                        <RamenCard></RamenCard>
-                        <PastamaniaCard></PastamaniaCard>
+                        <TouchableOpacity
+
+                            onPress={() => navigation.navigate('Listing', {
+                                itemId: 86,
+                                otherParam: 'Takagiramen'
+                            })}>
+                            <RamenCard></RamenCard>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+
+                            onPress={() => navigation.navigate('Listing', {
+                                itemId: 86,
+                                otherParam: 'Pastamania'
+                            })}>
+                            <PastamaniaCard></PastamaniaCard>
+                        </TouchableOpacity>
+
                     </View>
                 </ScrollView>
             </ScrollView>
@@ -191,6 +330,15 @@ const style1 = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         backgroundColor: '#EC8C8C' + 20,
+        padding: 10,
+        borderRadius: 5,
+        marginLeft: 10,
+        width: '96%',
+    },
+    searchBoxWrapper1: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        backgroundColor: '#FFFFFF',
         padding: 10,
         borderRadius: 5,
         marginLeft: 10,

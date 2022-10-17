@@ -22,7 +22,9 @@ const url = 'http://dip.totallynormal.website/';
 const menuPath = "getShopMenu/1";
 const shopPath = "getShop/1"
 
-export function StoreScreen({navigation}){
+export function StoreScreen({navigation, route}){
+
+    const {shopID} = route.params;
 
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);

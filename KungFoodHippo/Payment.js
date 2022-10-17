@@ -74,7 +74,7 @@ export function PaymentScreen({ navigation }) {
       <>
         <Appbar.Header style={styles.topbar}>
           <Appbar.Action icon="close" onPress={() => { }} />
-          <Appbar.Content style={{fontWeight: "bold" }} title="Checkout" />
+          <Appbar.Content style={{ fontWeight: "bold" }} title="Checkout" />
         </Appbar.Header>
         <ProgressBarMultiStep
           progressive={true}
@@ -95,7 +95,7 @@ export function PaymentScreen({ navigation }) {
               { backgroundColor: delivery ? '#E76766' : '#F9E6E6' },
               styles.button
             ]}>
-            <Text style={{fontWeight: "bold" }} >Delivery</Text>
+            <Text style={{ fontWeight: "bold" }} >Delivery</Text>
           </Pressable>
           <Pressable
             onPress={toggle}
@@ -103,7 +103,7 @@ export function PaymentScreen({ navigation }) {
               { backgroundColor: delivery ? '#F9E6E6' : '#E76766' },
               styles.button
             ]}>
-            <Text style={{fontWeight: "bold" }} >Pick Up</Text>
+            <Text style={{ fontWeight: "bold" }} >Pick Up</Text>
           </Pressable>
         </View>
       </>
@@ -135,7 +135,7 @@ export function PaymentScreen({ navigation }) {
 
             <View style={styles.centeredView}>
               <Modal
-                multiline ={true}
+                multiline={true}
                 animationType="slide"
                 transparent={true}
                 visible={addressModalVisible}
@@ -170,8 +170,8 @@ export function PaymentScreen({ navigation }) {
                 </View>
               </Modal>
             </View>
-            
-            
+
+
 
 
 
@@ -243,7 +243,7 @@ export function PaymentScreen({ navigation }) {
                   placeholder="Intructions"
                 />
                 <Pressable
-                  style={[styles.modalButton ]}
+                  style={[styles.modalButton]}
                   onPress={() => setInstructionModalVisible(!instructionModalVisible)}
                 >
                   <Text style={styles.textStyle}>Confirm</Text>
@@ -302,7 +302,8 @@ export function PaymentScreen({ navigation }) {
       </View>
 
       <TouchableOpacity
-        style={styles.order}>
+        style={styles.order}
+        onPress={() => navigation.navigate('Map')}>
         <Text style={styles.buttonText}>Place Order</Text>
       </TouchableOpacity>
     </View>
@@ -335,7 +336,7 @@ const styles = StyleSheet.create({
   modalText: {
     margin: 15,
   },
-  modalButton:{
+  modalButton: {
     backgroundColor: "#E76766",
     margin: 15,
     borderRadius: 20,
@@ -344,20 +345,20 @@ const styles = StyleSheet.create({
     shadowColor: '#52006A',
     height: 45,
     padding: 15,
-    alignItems:'center'
+    alignItems: 'center'
   },
   instructionInput: {
     height: 80,
-    width:150,
+    width: 150,
     margin: 5,
     borderWidth: 0.3,
     borderColor: 'grey',
     padding: 10,
-    textAlign:'left'
+    textAlign: 'left'
   },
   addressInput: {
     height: 30,
-    width:240,
+    width: 240,
     margin: 5,
     borderWidth: 0.3,
     borderColor: 'grey',
