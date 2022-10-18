@@ -22,15 +22,38 @@ const url = 'http://dip.totallynormal.website/';
 
 export function StoreScreen({ navigation, route }) {
 
+    const dishCategoryData = [
+        {
+            id: 1,
+            name: "All",
+        },
+        {
+            id: 2,
+            name: "Popular",
+        },
+        {
+            id: 3,
+            name: "Mains",
+        },
+        {
+            id: 4,
+            name: "Sides",
+        },
+
+    ]
+
     const { shopID } = route.params;
 
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const [restaurant, setRestaurant] = useState();
     const [address, setAddress] = useState();
+    const [selectedCategory, setSelectedCategory] = useState(null);
+    const [defaultPhoto, setState] = useState(require('./assets/Pastamania.png'));
 
     const menuPath = "getShopMenu/" + shopID;
     const shopPath = "getShop/" + shopID;
+    const photoPath = "picture/" + shopID;
 
 
     useEffect(() => {
@@ -38,7 +61,7 @@ export function StoreScreen({ navigation, route }) {
             .then((response) => response.json())
             .then((json) => {
                 for (var i = 0; i < json.length; i++) {
-                    json[i]['imageURI'] = 'http://dip.totallynormal.website/picture/1/' + json[i]['name'];
+                    json[i]['imageURI'] = 'http://dip.totallynormal.website/picture/' + shopID + '/' + json[i]['name'];
                     //console.log(json[i]['imageURI']);
                 }
                 setData(json);
@@ -54,19 +77,45 @@ export function StoreScreen({ navigation, route }) {
             })
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
+
+        fetch(url + photoPath)
+            .then((res1) => {
+                if (res1.status != 404) {
+                    setState({ uri: url + photoPath })
+                }
+            })
+            .catch((err) => {
+                console.log("unable to fetch site data");
+            });
     }, [shopID]);
 
     const renderItem = ({ item }) => (
-        <FoodCard title={item.name} description={item.description} price={item.price} imageURI={item.imageURI}></FoodCard>
+        <FoodCard title={item.name} description={item.description} price={item.price} imageURI={item.imageURI} shopID={shopID}></FoodCard>
     );
+
+    /*function onSelectCategory(category) {
+        // filter dish
+        let foodList = data.filter(a => a.category.includes(category.id))
+        setData(foodList)
+        setSelectedCategory(category)
+    }
+
+    const renderCategory = ({ item }) => (
+        <TouchableOpacity 
+            style={styles.buttonTouchable}
+            onPress={() => onSelectCategory(item)}
+        >
+            <Text>{item.name}</Text>
+        </TouchableOpacity>
+    );*/
 
     return (
         <PaperProvider theme={theme}>
             {/* START WRITING CODE BELOW!!!! */}
             <View style={{ flex: 1 }}>
-                <Image source={require('./assets/Pastamania.png')} style={{ height: 160, width: null }} />
+                <Image source={defaultPhoto} style={{ height: 160, width: null }} />
                 <TouchableOpacity
-                    style={[styles.buttonTouchable, { position: "absolute", left: 10, top: 5, backgroundColor: "#ffffff", width: 40, borderRadius: 50, alignContent: "center" }]}
+                    style={[styles.buttonNavigation, { position: "absolute", left: 10, top: 5 }]}
                     onPress={() => navigation.goBack()}
                 >
                     <Image
@@ -79,19 +128,18 @@ export function StoreScreen({ navigation, route }) {
             <View style={[styles.container, { paddingHorizontal: 16, paddingVertical: 8, flex: 4 }]}>
                 <View style={{ flexDirection: "row" }}>
                     <Text style={[styles.backgroundText, { textAlign: "left", fontSize: 24, textAlignVertical: "bottom" }]}>{restaurant}</Text>
-
                 </View>
 
                 <ScrollView>
                     <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                        <View style={{ flexDirection: "row", justifyContent: "flex-start", paddingVertical: 4 }}>
+                        <View style={{ flexDirection: "row", justifyContent: "flex-start", paddingVertical: 4, paddingRight: 4, flex: 4.5 }}>
                             <Image
                                 source={require('./assets/locationpin.png')}
                                 style={[styles.iconPrimTint, { height: 18, width: 12, alignSelf: "center" }]}
                             />
-                            <Text style={{ textAlignVertical: "center" }}>   {address}</Text>
+                            <Text numberOfLines={1} style={{ textAlignVertical: "center" }}>   {address}</Text>
                         </View>
-                        <Text style={[styles.innerText, { textAlignVertical: "center" }]}>More info</Text>
+                        <Text style={[styles.innerText, { textAlignVertical: "center", flex: 1 }]}>More info</Text>
                     </View>
 
 
@@ -126,6 +174,14 @@ export function StoreScreen({ navigation, route }) {
                             <Text>Sides</Text>
                         </TouchableOpacity>
                     </ScrollView>
+
+                    {/*<FlatList
+                        data={dishCategoryData}
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        renderItem={renderCategory}
+                        keyExtractor={item => item.id}
+                    />*/}
 
                     <Text style={[styles.backgroundText, { textAlign: "left", fontSize: 24, textAlignVertical: "bottom" }]}>All</Text>
 
@@ -250,6 +306,18 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         marginRight: 10,
+        marginVertical: 5,
+    },
+
+    buttonNavigation: {
+        padding: 10,
+        backgroundColor: "#FFFFFF",
+        width: 40,
+        height: 40,
+        borderRadius: 50,
+        justifyContent: "center",
+        alignContent: "center",
+        alignItems: "center",
         marginVertical: 5,
     },
 

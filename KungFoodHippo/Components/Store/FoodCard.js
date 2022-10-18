@@ -7,9 +7,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import { userContext } from '../../App.js';
 import { useContext } from 'react';
 
-export function FoodCard({ title, description, price, imageURI }) {
+export function FoodCard({ title, description, price, imageURI, shopID }) {
     const { userEmail, userName, userToken } = useContext(userContext);
-
+    
     const [visible, setVisible] = useState(false);
     const [count, setCount] = useState(0);
     const add = () => setCount(prevCount => prevCount + 1);
@@ -17,7 +17,7 @@ export function FoodCard({ title, description, price, imageURI }) {
     const [showDefault, setState] = useState(require('../../assets/Pastamania-meal1.png'));
     const submitOrder = {
         'customer.email': userEmail,
-        'shop.ID': 1,
+        'shop.ID': shopID,
         'dish.name': { title }.title,
         'quantity': { count }.count
     }
@@ -32,7 +32,7 @@ export function FoodCard({ title, description, price, imageURI }) {
             .catch((err) => {
                 console.log("unable to fetch site data");
             });
-    }, []);
+    }, [showDefault]);
 
 
     
@@ -77,8 +77,8 @@ export function FoodCard({ title, description, price, imageURI }) {
                             </Text>
                             <Text style={[styles.backgroundText, { fontSize: 14 }]}>S${(price / 10000).toFixed(2)}</Text>
                         </View>
-
-                        <Image source={showDefault} style={[styles.imageIcon, { width: 90, height: 90, flex: 1 }]}></Image>
+                    
+                        <Image source={showDefault} style={{ width: 90, height: 90, borderRadius:10, flex: 1, alignSelf: "center", marginLeft: 20 }}></Image>
                     </View>
                 </TouchableOpacity>
 
@@ -86,18 +86,21 @@ export function FoodCard({ title, description, price, imageURI }) {
                     <View style={{ backgroundColor: "#000000aa", flex: 1, justifyContent: "center" }}>
                         <View style={{ backgroundColor: "#ffffff", margin: 20, padding: 20, borderRadius: 20 }}>
                             <View style={{ flexDirection: 'row', justifyContent: "center", paddingBottom: 6 }}>
-                                <TouchableOpacity onPress={() => setVisible(false)}>
+                                <TouchableOpacity 
+                                    style={[styles.buttonNavigation, { position: "absolute", left: -15, top: -10}]}
+                                    onPress={() => setVisible(false)}
+                                >
                                     <Image
                                         source={require('../../assets/Cross.png')}
-                                        style={{ height: 16, width: 16, left: -100 }}
+                                        style={{ height: 16, width: 16 }}
                                     />
                                 </TouchableOpacity>
-                                <Image source={showDefault} style={[styles.imageIcon, { width: 120, height: 120 }]}></Image>
+                                <Image source={showDefault} style={{ width: 120, height: 120, borderRadius: 10}}></Image>
                             </View>
 
                             <View style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 8 }}>
-                                <Text style={[styles.backgroundText, { fontSize: 18 }]}>{title}</Text>
-                                <Text style={[styles.backgroundText, { fontSize: 18, fontWeight: "normal" }]}>S${(price / 10000).toFixed(2)}</Text>
+                                <Text style={[styles.backgroundText, { fontSize: 18, flex: 3 }]}>{title}</Text>
+                                <Text style={[styles.backgroundText, { fontSize: 18, fontWeight: "normal", paddingLeft: 10, flex: 1.2 }]}>S${(price / 10000).toFixed(2)}</Text>
                             </View>
 
                             <Text style={[styles.backgroundText, { fontWeight: 'normal', fontSize: 12, textAlign: "center" }]}>
@@ -234,6 +237,17 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         marginRight: 10,
         marginVertical: 5,
+    },
+
+    buttonNavigation: {
+        padding: 10,
+        backgroundColor: "#FFFFFF",
+        width: 40,
+        height: 40,
+        borderRadius: 50,
+        justifyContent: "center",
+        alignContent: "center",
+        alignItems: "center",
     },
 
     card: {
