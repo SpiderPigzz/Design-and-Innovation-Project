@@ -1,12 +1,14 @@
 import * as React from 'react';
 import { FAB, Portal, Provider } from 'react-native-paper';
+import { createStackNavigator, createAppContainer } from 'react-navigation';
+import { withNavigation } from 'react-navigation';
+// import {useNavigation} from '@react-navigation/native';
 
-
-const FloatingButton = ({navigation}) => {
+const FloatingButton = () => {
   const [state, setState] = React.useState({ open: false });
 
   const onStateChange = ({ open }) => setState({ open });
-
+  // const navigation = useNavigation();
   const { open } = state;
 
   return (
@@ -24,7 +26,8 @@ const FloatingButton = ({navigation}) => {
             {
               icon: 'cart',
               label: 'Cart',
-              onPress: () =>console.log('Pressed cart'),
+              onPress: () => navigation.navigate('Home'),
+              // console.log('Pressed cart'),
             },
             {
               icon: 'heart',
