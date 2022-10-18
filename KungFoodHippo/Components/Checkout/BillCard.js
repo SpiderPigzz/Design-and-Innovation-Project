@@ -38,15 +38,15 @@ export function BillCard({ dishName, quantity, description, category, price, ima
                 <View style={[styles.container, { flexDirection: 'row', justifyContent: 'space-between' }]}>
 
                     <ImageBackground style={[styles.Image]} imageStyle={{ borderRadius: 10 }} source={showDefault}></ImageBackground>
-                    <View style={[styles.container, { flexDirection: 'column', flex: 1}]}>
+                    <View style={[styles.container, { flexDirection: 'column', flex: 1 }]}>
                         <Text style={[styles.backgroundText, { fontWeight: 'bold', fontSize: 14, textAlignVertical: 'top', marginHorizontal: 8 }]}>{category}</Text>
                         <Text style={[styles.backgroundText, { fontWeight: 'normal', fontSize: 12, textAlignVertical: 'top', marginHorizontal: 8, flexWrap: 'wrap', flex: 1 }]}>{description}</Text>
                     </View>
-                    <View style={[styles.container, { flexDirection: 'column', justifyContent: 'space-evenly'}]}>
-                    <Text style={[styles.text, { fontSize: 16, textAlignVertical: 'top' }]}>{"S$"}{processedPrice}</Text>
-                    <Text style={[styles.text, { textAlignVertical: 'top' }]}>{quantity}{"pcs"}</Text>
+                    <View style={[styles.container, { flexDirection: 'column', justifyContent: 'space-evenly' }]}>
+                        <Text style={[styles.text, { fontSize: 16, textAlignVertical: 'top' }]}>{"S$"}{processedPrice}</Text>
+                        <Text style={[styles.text, { textAlignVertical: 'top' }]}>{quantity}{"pcs"}</Text>
                     </View>
-                    
+
                 </View>
 
             </Card.Content>

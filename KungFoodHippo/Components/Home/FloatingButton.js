@@ -2,7 +2,8 @@ import * as React from 'react';
 import { FAB, Portal, Provider } from 'react-native-paper';
 
 
-const FloatingButton = () => {
+const FloatingButton = (input) => {
+
   const [state, setState] = React.useState({ open: false });
 
   const onStateChange = ({ open }) => setState({ open });
@@ -11,8 +12,8 @@ const FloatingButton = () => {
 
   return (
     <Provider>
-      <Portal>
         <FAB.Group
+        visible={input.setVisibility}
           style={{position: 'absolute',                                          
           bottom: 10,                                                    
           right: 10,}}
@@ -24,7 +25,7 @@ const FloatingButton = () => {
             {
               icon: 'cart',
               label: 'Cart',
-              onPress: () => console.log('Pressed cart'),
+              onPress: () => {input.navigation.navigate('Checkout')},
             },
             {
               icon: 'heart',
@@ -49,9 +50,7 @@ const FloatingButton = () => {
               
             }
           }}
-        />
-      </Portal>
-    </Provider>
+        /></Provider>
   );
 };
 

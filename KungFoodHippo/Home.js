@@ -14,7 +14,7 @@ import * as Font from 'expo-font';
 import { useState } from 'react';
 import { DrawerActions, createAppContainer } from 'react-navigation';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useIsFocused } from '@react-navigation/native';
 import { MD3LightTheme as DefaultTheme, Provider as PaperProvider, Text, Appbar, Snackbar, BottomNavigation, Button, Card, Surface, Title, Paragraph, Drawer, shadow, Portal, Provider } from 'react-native-paper';
 import SearchButton from './Components/Home/SearchButton'
 import Homepage from './Components/Home/HomePage'
@@ -51,14 +51,19 @@ export function HomeScreen({ navigation, route }) {
         console.log(value);
     }
 
+    const isFocused = useIsFocused();
+
     const { userEmail, userName, userToken } = useContext(userContext);
 
 
     return (
         <View style={[style1.container]}>
+            <Portal>
+                <FloatingButton setVisibility={isFocused} navigation={navigation}/>
+            </Portal>
             <ScrollView style={style1.container} vertical={true}>
                 <View style={style1.searchBoxWrapper1}>
-                    <Text style={{fontSize: 24, fontWeight: "bold"}}>Hello {userName}, what do you want to eat today?</Text>
+                    <Text style={{ fontSize: 24, fontWeight: "bold" }}>Hello {userName}, what do you want to eat today?</Text>
                 </View>
                 <TouchableOpacity
                     onPress={() => navigation.navigate('Listing', {
@@ -86,7 +91,7 @@ export function HomeScreen({ navigation, route }) {
                         </View>
 
                     </TouchableOpacity>
-                    
+
                     <TouchableOpacity
 
                         onPress={() => navigation.navigate('Listing', {
@@ -94,11 +99,11 @@ export function HomeScreen({ navigation, route }) {
                             otherParam: 'Favourite'
                         })}>
                         <View style={style1.categoryItem}>
-                        <View style={style1.categoryCard}>
-                            <Image source={require('./assets/images/FavouriteFood.png')} style={style1.image} />
+                            <View style={style1.categoryCard}>
+                                <Image source={require('./assets/images/FavouriteFood.png')} style={style1.image} />
+                            </View>
+                            <Text style={style1.label1}>Favourite</Text>
                         </View>
-                        <Text style={style1.label1}>Favourite</Text>
-                    </View>
 
                     </TouchableOpacity>
                     <TouchableOpacity
@@ -108,11 +113,11 @@ export function HomeScreen({ navigation, route }) {
                             otherParam: 'Offers'
                         })}>
                         <View style={style1.categoryItem}>
-                        <View style={style1.categoryCard}>
-                            <Image source={require('./assets/images/BadgetMeal.png')} style={style1.image} />
+                            <View style={style1.categoryCard}>
+                                <Image source={require('./assets/images/BadgetMeal.png')} style={style1.image} />
+                            </View>
+                            <Text style={style1.label1}>Offers</Text>
                         </View>
-                        <Text style={style1.label1}>Offers</Text>
-                    </View>
 
                     </TouchableOpacity>
                     <TouchableOpacity
@@ -122,11 +127,11 @@ export function HomeScreen({ navigation, route }) {
                             otherParam: 'Order Later'
                         })}>
                         <View style={style1.categoryItem}>
-                        <View style={style1.categoryCard}>
-                            <Image source={require('./assets/images/NewFood.png')} style={style1.image} />
+                            <View style={style1.categoryCard}>
+                                <Image source={require('./assets/images/NewFood.png')} style={style1.image} />
+                            </View>
+                            <Text style={style1.label1}>Order Later </Text>
                         </View>
-                        <Text style={style1.label1}>Order Later </Text>
-                    </View>
 
                     </TouchableOpacity>
 
@@ -274,9 +279,7 @@ export function HomeScreen({ navigation, route }) {
                     </View>
                 </ScrollView>
             </ScrollView>
-            <Portal>
-                {/* <FloatingButton /> */}
-            </Portal>
+
 
 
         </View>

@@ -44,42 +44,42 @@ export function CheckoutScreen({ navigation }) {
     const cartPath = "getCart/" + userEmail;
     const shopPath = "getShop/";
 
-    
+
 
     useEffect(() => {
         navigation.addListener('focus', () => {
-          
-        fetch(url + cartPath)
-            .then((response) => response.json())
-            .then((json) => {
-                console.log(json);
-                var sum = 0;
-                for (var i = 0; i < json.length; i++) {
-                    json[i]['imageURI'] = 'http://dip.totallynormal.website/picture/' + json[i]['shop.ID'] + "/" + json[i]['dish.name'];
-                    //console.log(json[i]['imageURI']);
-                    sum = sum + (json[i]['price']) * json[i]['quantity'];
-                }
 
-                setSubtotal(parseFloat((sum) / 10000).toFixed(2));
-
-                sum += 30000;
-
-                setTotalPrice(parseFloat((sum) / 10000).toFixed(2));
-
-                setData(json);
-
-                return json[0]['shop.ID']
-            })
-            .then((shopID) => {
-                fetch(url + shopPath + shopID)
+            fetch(url + cartPath)
                 .then((response) => response.json())
                 .then((json) => {
-                    setShop(json[0]['name']);
-                    setAddress(json[0]['address']);
+                    console.log(json);
+                    var sum = 0;
+                    for (var i = 0; i < json.length; i++) {
+                        json[i]['imageURI'] = 'http://dip.totallynormal.website/picture/' + json[i]['shop.ID'] + "/" + json[i]['dish.name'];
+                        //console.log(json[i]['imageURI']);
+                        sum = sum + (json[i]['price']) * json[i]['quantity'];
+                    }
+
+                    setSubtotal(parseFloat((sum) / 10000).toFixed(2));
+
+                    sum += 30000;
+
+                    setTotalPrice(parseFloat((sum) / 10000).toFixed(2));
+
+                    setData(json);
+
+                    return json[0]['shop.ID']
                 })
-            })
-            .catch((error) => console.error(error))
-            .finally(() => setLoading(false));
+                .then((shopID) => {
+                    fetch(url + shopPath + shopID)
+                        .then((response) => response.json())
+                        .then((json) => {
+                            setShop(json[0]['name']);
+                            setAddress(json[0]['address']);
+                        })
+                })
+                .catch((error) => console.error(error))
+                .finally(() => setLoading(false));
 
         });
 
@@ -96,12 +96,12 @@ export function CheckoutScreen({ navigation }) {
             <View style={[styles.container, { flex: 1, flexDirection: 'column', justifyContent: 'space-between' }]}>
                 <Card style={[styles.cardSec, { margin: 16, flex: 3 }]}>
                     <Card.Content>
-                        <View style={[styles.container, { flexDirection: 'row', justifyContent: 'space-around',}]}>
+                        <View style={[styles.container, { flexDirection: 'row', justifyContent: 'space-around', }]}>
                             <Image source={require('./assets/scooter-icon.png')} style={[styles.imageIcon, {}]}></Image>
-                            <View style={[styles.container, {flex: 1}]}>
+                            <View style={[styles.container, { flex: 1 }]}>
                                 <Text style={[styles.backgroundText, { fontWeight: 'normal' }]}>Estimated Delivery</Text>
                                 <Text style={styles.text}>ASAP (35 mins)</Text>
-                                <Text style={[styles.text, { fontWeight: 'normal',  flexWrap: 'wrap', flex: 1 }]}>{shop}{' - '}{address}</Text>
+                                <Text style={[styles.text, { fontWeight: 'normal', flexWrap: 'wrap', flex: 1 }]}>{shop}{' - '}{address}</Text>
                             </View>
                         </View>
 
@@ -141,7 +141,7 @@ export function CheckoutScreen({ navigation }) {
                             </View>
                             <View style={[styles.container, { flexDirection: 'row', justifyContent: 'space-between' }]}>
                                 <Text style={[styles.backgroundText, { marginLeft: 16, fontSize: 14, textAlignVertical: 'center' }]}>Redeem 100 Hippo coins</Text>
-                                <Switch style={[{ marginRight: 8 }]} onValueChange={toggleVoucherSwitch} value={voucher}/>
+                                <Switch style={[{ marginRight: 8 }]} onValueChange={toggleVoucherSwitch} value={voucher} />
                             </View>
                         </View>
 
@@ -189,7 +189,7 @@ export function CheckoutScreen({ navigation }) {
                         <Text style={styles.text}>{"S$"}{totalPrice}</Text>
                     </View>
 
-                    <Button style={[styles.button, { marginHorizontal: 16, borderRadius: 15 }]} android_ripple={{ color: 'white', borderless: false }}>
+                    <Button style={[styles.button, { marginHorizontal: 16, borderRadius: 15 }]} android_ripple={{ color: 'white', borderless: false }} onPress={() => {navigation.navigate('Payment');}}>
                         <Text style={styles.buttonText}>Checkout</Text>
                     </Button>
 
