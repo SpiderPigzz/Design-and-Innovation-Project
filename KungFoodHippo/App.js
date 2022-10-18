@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { setStatusBarNetworkActivityIndicatorVisible, StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, Image, TouchableOpacity } from 'react-native';
+import { Animated, StyleSheet, Easing, View, Image, TouchableOpacity } from 'react-native';
 import * as Font from 'expo-font';
-import { useState, createContext } from 'react';
+import { useState, useRef, useEffect, createContext } from 'react';
 import { DrawerActions, createAppContainer } from 'react-navigation';
+import AnimatedSplash from "react-native-animated-splash-screen";
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import { MD3LightTheme as DefaultTheme, Provider as PaperProvider, Text, Appbar, Snackbar, BottomNavigation, Button, Card, Surface, Title, Paragraph, Drawer, IconButton } from 'react-native-paper';
@@ -42,6 +43,53 @@ export const userContext = React.createContext();
 
 WebBrowser.maybeCompleteAuthSession();
 
+const MovingView = (props) => {
+  const backgroundFade = useRef(new Animated.Value(0)).current;
+  const logoFade = useRef(new Animated.Value(0)).current;
+  const logoMovement = useRef(new Animated.Value(800)).current;
+  useEffect(() => {
+     Animated.timing(backgroundFade, {
+        toValue: 1,
+        duration: 5000,
+        useNativeDriver: true,
+     }).start();
+     Animated.timing(logoFade, {
+        toValue: 1,
+        duration: 8000,
+        useNativeDriver: true,
+     }).start();
+     setTimeout(() => {
+        Animated.timing(logoMovement, {
+              toValue: -50,
+              duration: 4000,
+              easing: Easing.inOut(Easing.exp),
+              useNativeDriver: true,
+        }).start();
+     }, 500);
+  }, []);
+  const styles = StyleSheet.create({
+     img: {
+      height: 300,
+      width: 300,
+      justifyContent: 'center',
+      alignItems: 'center',
+      opacity: logoFade,
+      transform: [{translateY: logoMovement}],
+     },
+  });
+  return (
+    <Animated.View style={{
+      ...props.style,
+      opacity: backgroundFade,         // Bind opacity to animated value
+          }}
+      >
+        <Animated.Image 
+					source={require('./assets/kfhlogo.png')}
+					style={styles.img}
+				/>{props.children}
+    </Animated.View>
+ );
+}
 
 export default function KungFoodHippo() {
   const [active, setActive] = React.useState('');
@@ -49,6 +97,11 @@ export default function KungFoodHippo() {
   const [userName, setUserName] = React.useState();
   const [userToken, setUserToken] = React.useState();
   const [loginState, setLoginState] = React.useState(true);
+  const [loading, setLoading] = useState(false);
+
+  setTimeout(() => {
+    setLoading(true);
+  }, 900);
 
   const fetchUserInfo = (token) => {
     fetch('https://www.googleapis.com/oauth2/v1/userinfo?alt=json', {
@@ -97,13 +150,20 @@ export default function KungFoodHippo() {
   }, [response]);
 
   return (
-
+    
     <PaperProvider theme={theme}>
+      <AnimatedSplash
+      translucent={true}
+      isLoaded={loading}
+      logoImage={require("./assets/slash.gif")}
+      backgroundColor={"#000"}
+      logoHeight={600}
+      logoWidth={600}
+    >
       {loginState ? (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'space-evenly', backgroundColor: '#E76766' }}>
-          <Text style={theme.bigtext}>Login</Text>
-          <Image source={require('./assets/KFH.png')} style={theme.KFH} />
-          <Text style={theme.text}>Kung Food Hippo</Text>
+        <MovingView style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#E76766' }}>
+
+          <Text style={theme.bigtext}>LOGIN</Text>
 
           <TouchableOpacity
             //style={theme.button}
@@ -118,7 +178,7 @@ export default function KungFoodHippo() {
             </View>
           </TouchableOpacity>
 
-        </View>
+        </MovingView>
       ) :
 
         (
@@ -141,7 +201,9 @@ export default function KungFoodHippo() {
               </Menu.Navigator>
             </NavigationContainer>
           </userContext.Provider>)}
-
+          
+      
+    </AnimatedSplash>
 
     </PaperProvider>
 
@@ -181,8 +243,7 @@ const theme = {
   },
 
   bigtext: {
-    marginTop: 8,
-    paddingVertical: 8,
+    marginVertical: 30,
     //color: "#E76766",
     color: "#FFFFFF",
     textAlign: "center",
@@ -192,8 +253,8 @@ const theme = {
   },
 
   text: {
-    marginTop: 8,
-    paddingVertical: 8,
+    marginTop: 5,
+    paddingVertical: 5,
     //color: "#E76766",
     color: "#FFFFFF",
     textAlign: "center",
