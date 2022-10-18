@@ -2,7 +2,7 @@ import * as React from 'react';
 import { FAB, Portal, Provider } from 'react-native-paper';
 
 
-const FloatingButton = () => {
+const FloatingButton = ({navigation}) => {
   const [state, setState] = React.useState({ open: false });
 
   const onStateChange = ({ open }) => setState({ open });
@@ -24,7 +24,7 @@ const FloatingButton = () => {
             {
               icon: 'cart',
               label: 'Cart',
-              onPress: () => console.log('Pressed cart'),
+              onPress: () =>console.log('Pressed cart'),
             },
             {
               icon: 'heart',
