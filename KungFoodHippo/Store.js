@@ -19,17 +19,18 @@ import {
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
 
 const url = 'http://dip.totallynormal.website/';
-const menuPath = "getShopMenu/1";
-const shopPath = "getShop/1"
 
-export function StoreScreen({navigation, route}){
+export function StoreScreen({ navigation, route }) {
 
-    const {shopID} = route.params;
+    const { shopID } = route.params;
 
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const [restaurant, setRestaurant] = useState();
     const [address, setAddress] = useState();
+
+    const menuPath = "getShopMenu/" + shopID;
+    const shopPath = "getShop/" + shopID;
 
 
     useEffect(() => {
@@ -44,13 +45,7 @@ export function StoreScreen({navigation, route}){
             })
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
-    }, []);
 
-    const renderItem = ({ item }) => (
-        <FoodCard title={item.name} description={item.description} price={item.price} imageURI={item.imageURI}></FoodCard>
-    );
-
-    useEffect(() => {
         fetch(url + shopPath)
             .then((response) => response.json())
             .then((json) => {
@@ -59,28 +54,32 @@ export function StoreScreen({navigation, route}){
             })
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
-    }, []);
+    }, [shopID]);
+
+    const renderItem = ({ item }) => (
+        <FoodCard title={item.name} description={item.description} price={item.price} imageURI={item.imageURI}></FoodCard>
+    );
 
     return (
         <PaperProvider theme={theme}>
             {/* START WRITING CODE BELOW!!!! */}
-            <View style={{flex: 1}}>
-                <Image source={require('./assets/Pastamania.png')} style={{ height: 160, width: null}} />
-                <TouchableOpacity 
+            <View style={{ flex: 1 }}>
+                <Image source={require('./assets/Pastamania.png')} style={{ height: 160, width: null }} />
+                <TouchableOpacity
                     style={[styles.buttonTouchable, { position: "absolute", left: 10, top: 5, backgroundColor: "#ffffff", width: 40, borderRadius: 50, alignContent: "center" }]}
                     onPress={() => navigation.goBack()}
-                    >
-                        <Image
-                            source={require('./assets/ArrowLeft.png')}
-                            style={[styles.iconPrimTint, {height: 16, width: 16, }]}
-                        />
+                >
+                    <Image
+                        source={require('./assets/ArrowLeft.png')}
+                        style={[styles.iconPrimTint, { height: 16, width: 16, }]}
+                    />
                 </TouchableOpacity>
             </View>
 
-            <View style={[styles.container, { paddingHorizontal: 16 , paddingVertical: 8, flex: 4}]}>
-                <View style={{ flexDirection: "row"}}>
+            <View style={[styles.container, { paddingHorizontal: 16, paddingVertical: 8, flex: 4 }]}>
+                <View style={{ flexDirection: "row" }}>
                     <Text style={[styles.backgroundText, { textAlign: "left", fontSize: 24, textAlignVertical: "bottom" }]}>{restaurant}</Text>
-                    
+
                 </View>
 
                 <ScrollView>
@@ -88,21 +87,21 @@ export function StoreScreen({navigation, route}){
                         <View style={{ flexDirection: "row", justifyContent: "flex-start", paddingVertical: 4 }}>
                             <Image
                                 source={require('./assets/locationpin.png')}
-                                style={[styles.iconPrimTint, {height: 18, width: 12, alignSelf: "center"}]}
+                                style={[styles.iconPrimTint, { height: 18, width: 12, alignSelf: "center" }]}
                             />
                             <Text style={{ textAlignVertical: "center" }}>   {address}</Text>
                         </View>
                         <Text style={[styles.innerText, { textAlignVertical: "center" }]}>More info</Text>
                     </View>
-                    
+
 
                     <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                         <View style={{ flexDirection: "row", justifyContent: "flex-start", paddingVertical: 4 }}>
                             <Image
-                            source={require('./assets/Time.png')}
-                            style={[styles.iconPrimTint, {height: 16, width: 16, alignSelf: "center"}]}
+                                source={require('./assets/Time.png')}
+                                style={[styles.iconPrimTint, { height: 16, width: 16, alignSelf: "center" }]}
                             />
-                            <Text style={{fontWeight: "bold", textAlignVertical: "center"}}>  Delivery: 30 min</Text>
+                            <Text style={{ fontWeight: "bold", textAlignVertical: "center" }}>  Delivery: 30 min</Text>
                         </View>
                         <Text style={[styles.innerText, { textAlignVertical: "center" }]}>Change</Text>
                     </View>
@@ -129,8 +128,8 @@ export function StoreScreen({navigation, route}){
                     </ScrollView>
 
                     <Text style={[styles.backgroundText, { textAlign: "left", fontSize: 24, textAlignVertical: "bottom" }]}>All</Text>
-                    
-                    {isLoading ? <ActivityIndicator/> : (
+
+                    {isLoading ? <ActivityIndicator /> : (
                         <View>
                             <FlatList
                                 data={data}
@@ -142,7 +141,7 @@ export function StoreScreen({navigation, route}){
 
                 </ScrollView>
             </View>
-            
+
             {/*<ScrollView style={{backgroundColor: "#ffffff", paddingHorizontal: 16}}>
                 <Text style={[styles.backgroundText, { textAlign: "left", fontSize: 24, textAlignVertical: "bottom" }]}>Set Meal</Text>
                 <FoodCard></FoodCard>
@@ -182,7 +181,7 @@ const styles = StyleSheet.create({
         textAlignVertical: 'bottom'
     },
 
-    infoText:{
+    infoText: {
         color: "#b8b8b880",
         fontSize: 14,
         // fontFamily: "Roboto-Regular",
@@ -243,13 +242,13 @@ const styles = StyleSheet.create({
     },
 
     buttonTouchable: {
-        padding: 10, 
+        padding: 10,
         backgroundColor: "#F9E6E6",
-        width: 120, 
-        height: 40, 
-        borderRadius: 30, 
-        alignItems: "center", 
-        justifyContent: "center", 
+        width: 120,
+        height: 40,
+        borderRadius: 30,
+        alignItems: "center",
+        justifyContent: "center",
         marginRight: 10,
         marginVertical: 5,
     },
@@ -282,8 +281,8 @@ const styles = StyleSheet.create({
     },
 
     divider: {
-        backgroundColor:'#b8b8b880',
-        margin:8,
+        backgroundColor: '#b8b8b880',
+        margin: 8,
     },
 
     iconPrimTint: {
@@ -291,8 +290,8 @@ const styles = StyleSheet.create({
     },
 
 
-    cardAlign:{
-        flexDirection:'row',
+    cardAlign: {
+        flexDirection: 'row',
     },
     primColor: "#E76766",
     primTextColor: "#FFFFFF",
