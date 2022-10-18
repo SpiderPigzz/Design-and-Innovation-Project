@@ -189,7 +189,7 @@ export function CheckoutScreen({ navigation }) {
                         <Text style={styles.text}>{"S$"}{totalPrice}</Text>
                     </View>
 
-                    <Button style={[styles.button, { marginHorizontal: 16, borderRadius: 15 }]} android_ripple={{ color: 'white', borderless: false }} onPress={() => {navigation.navigate('Payment');}}>
+                    <Button style={[styles.button, { marginHorizontal: 16, borderRadius: 15 }]} android_ripple={{ color: 'white', borderless: false }} onPress={() => {navigation.navigate('Payment', {totalCheckout: totalPrice});}}>
                         <Text style={styles.buttonText}>Checkout</Text>
                     </Button>
 

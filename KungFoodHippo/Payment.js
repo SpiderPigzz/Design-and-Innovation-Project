@@ -18,7 +18,7 @@ const tabs = [
   { title: 'Order Tracking', pageNo: 3 }
 ];
 
-export function PaymentScreen({ navigation }) {
+export function PaymentScreen({ navigation, route }) {
   const [value, setValue] = React.useState('first');
   const [page, setPage] = useState(1);
 
@@ -32,26 +32,15 @@ export function PaymentScreen({ navigation }) {
   const [addressModalVisible, setAddressModalVisible] = useState(false);
 
   const [isLoading, setLoading] = useState(true);
-  const [customerData, setCustomerData] = useState();
-  const [restaurantData, setRestaurantData] = useState();
+  const [orderData, setOrderData] = useState();
 
-  const getCustomerFromDatabase = async () => {
-    try {
-      const response = await fetch('http://dip.totallynormal.website/listCustomer');
-      const json = await response.json();
-      setCustomerData(json);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  }
+  const {totalCheckout} = route.params;
 
-  const getRestaurantFromDatabase = async () => {
+  const getOrderFromDatabase = async () => {
     try {
-      const response = await fetch('http://dip.totallynormal.website/listShop');
+      const response = await fetch('http://dip.totallynormal.website/getOrderAddress/' + 'ricky.winarko@gmail.com');
       const json = await response.json();
-      setRestaurantData(json);
+      setOrderData(json);
     } catch (error) {
       console.error(error);
     } finally {
@@ -60,8 +49,7 @@ export function PaymentScreen({ navigation }) {
   }
 
   useEffect(() => {
-    getCustomerFromDatabase();
-    getRestaurantFromDatabase();
+    getOrderFromDatabase();
   }, []);
 
   const toggle = () => {
@@ -199,12 +187,12 @@ export function PaymentScreen({ navigation }) {
             <Text style={styles.header}> {delivery ? 'Home' : 'Restaurant'} </Text>
             <View>
               {isLoading ? <ActivityIndicator /> : (
-                <Text> {delivery ? customerData[0].name : restaurantData[1].name} </Text>
+                <Text> {delivery ? orderData[0]['customer.name'] : orderData[0]['shop.name']} </Text>
               )}
             </View>
             <View>
               {isLoading ? <ActivityIndicator /> : (
-                <Text> {delivery ? customerData[0].address : restaurantData[1].address} </Text>
+                <Text> {delivery ? orderData[0]['customer.address'] : orderData[0]['shop.address']} </Text>
               )}
             </View>
 
@@ -298,7 +286,7 @@ export function PaymentScreen({ navigation }) {
           <Text style={styles.header}>Total</Text>
           <Text fontSize={20}>(include GST)</Text>
         </View>
-        <Text style={styles.header}>S$100.00</Text>
+        <Text style={styles.header}>S${totalCheckout}</Text>
       </View>
 
       <TouchableOpacity
