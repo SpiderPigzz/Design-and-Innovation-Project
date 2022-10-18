@@ -4,10 +4,10 @@
     "slug": "KungFoodHippo",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/KFH_icon.png",
+    "icon": "./assets/applogo.png",
     "userInterfaceStyle": "light",
     "splash": {                
-      "image": "./assets/KFH_icon.png",      
+      "image": "./assets/kfhlogo.png",      
       "resizeMode": "contain",
       "backgroundColor": "#E76766"
     },
