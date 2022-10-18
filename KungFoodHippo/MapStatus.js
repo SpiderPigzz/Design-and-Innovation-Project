@@ -105,10 +105,11 @@ export function MapScreen({ navigation }) {
                 pinColor={"red"}
                 title={shop.name}
                 description={shop.description}>
-                <Callout tooltip>
+                <Callout tooltip
+                onPress= {() => navigation.navigate('Listing')}>
                 <View>
                       <View style={styles.bubble}>
-                        <Text style={styles.tooltip_name}>{shop.address}</Text>
+                        <Text style={styles.tooltip_name}>{shop.name}</Text>
                         <View
                           style={{
                             borderBottomColor: '#FCD077',
@@ -117,7 +118,8 @@ export function MapScreen({ navigation }) {
                         />
                         <Text style={styles.tooltip_description}>{shop.description}</Text>
                         <View>
-                          <WebView style={styles.tooltip_image} source={{ uri: 'https://www.tastingtable.com/img/gallery/20-different-types-of-coffee-explained/intro-1659544996.jpg' }} />
+                          <WebView style={styles.tooltip_image} source={{ uri: 'https://img.freepik.com/free-photo/flat-lay-batch-cooking-composition_23-2148765597.jpg?w=2000' }}
+                          />
                         </View>
                       </View>
                     </View>
@@ -126,6 +128,87 @@ export function MapScreen({ navigation }) {
                 </Callout>
               </Marker>
             )})}
+
+            <Marker coordinate={{ latitude: 1.344, longitude:103.681 }}
+                pinColor={"red"}
+                title={"McDonald's"}
+                description={"Don't know what to eat on campus? Try this! NTU students' favorite."}>
+                <Callout tooltip
+                onPress= {() => navigation.navigate('Listing')}>
+                <View>
+                      <View style={styles.bubble}>
+                        <Text style={styles.tooltip_name}>71 Connect</Text>
+                        <View
+                          style={{
+                            borderBottomColor: '#FCD077',
+                            borderBottomWidth: 1,
+                          }}
+                        />
+                        <Text style={styles.tooltip_description}>Believe the power of coffee! Student-Owned Cafe At NTU With Lor Bak And Gyudon Bowls From $7</Text>
+                        <View>
+                          <WebView style={styles.tooltip_image} source={{ uri: 'https://www.tastingtable.com/img/gallery/20-different-types-of-coffee-explained/intro-1659544996.jpg' }}
+                          />
+                        </View>
+                      </View>
+                    </View>
+                    <View style={styles.arrowBorder} />
+                    <View sytle={styles.arrow} />
+                </Callout>
+              </Marker>
+
+              <Marker coordinate={{ latitude: 1.349, longitude:103.683 }}
+                pinColor={"red"}
+                title={"McDonald's"}
+                description={"Don't know what to eat on campus? Try this! NTU students' favorite."}>
+                <Callout tooltip
+                onPress= {() => navigation.navigate('Listing')}>
+                <View>
+                      <View style={styles.bubble}>
+                        <Text style={styles.tooltip_name}>McDonald's</Text>
+                        <View
+                          style={{
+                            borderBottomColor: '#FCD077',
+                            borderBottomWidth: 1,
+                          }}
+                        />
+                        <Text style={styles.tooltip_description}>NTU Students' Favorite Place. No need to say more you know a big Mac can make your day.</Text>
+                        <View>
+                          <WebView style={styles.tooltip_image} source={{ uri: 'https://cdn.foodadvisor.com.sg/uploads/images/image_default_5625f71ea9013077.jpg' }}
+                          />
+                        </View>
+                      </View>
+                    </View>
+                    <View style={styles.arrowBorder} />
+                    <View sytle={styles.arrow} />
+                </Callout>
+              </Marker>
+
+              <Marker coordinate={{ latitude: 1.2797723975657078, longitude:103.8415368190478 }}
+                pinColor={"green"}
+                title={"McDonald's"}
+                description={"Don't know what to eat on campus? Try this! NTU students' favorite."}>
+                <Callout tooltip
+                onPress= {() => navigation.navigate('Listing')}>
+                <View>
+                      <View style={styles.bubble}>
+                        <Text style={styles.tooltip_name}>Unagi Tei Japanese Restaurant</Text>
+                        <View
+                          style={{
+                            borderBottomColor: '#FCD077',
+                            borderBottomWidth: 1,
+                          }}
+                        />
+                        <Text style={styles.tooltip_description}>Japan Food Cllectionが運営する、和食店 Did you know that eel is good for preventing summer fatigue? 🤫Charcoal-grilled eel has crispy skin and fluffy flesh. Let's eat eel and become energeti</Text>
+                        <View>
+                          <WebView style={styles.tooltip_image} source={{ uri: 'https://2.bp.blogspot.com/-52pT1gIWghE/Wd7bTfkofMI/AAAAAAAAaXY/RbwZLyWDckM-c9Lxf8mtMDttq6TZIZstACLcBGAs/s1600/Man%2BMan%2BUnagi%2BDUO%2BGalleria%2B13.JPG' }}
+                          />
+                        </View>
+                      </View>
+                    </View>
+                    <View style={styles.arrowBorder} />
+                    <View sytle={styles.arrow} />
+                </Callout>
+              </Marker>
         </MapView>
       )
       }
@@ -171,7 +254,7 @@ export function MapScreen({ navigation }) {
 
 
         <View style={{ flexDirection: 'column', alignItems: 'flex-start', paddingLeft: 10 }}>
-          <Text style={{ padding: 10 }}>Your order from 71 Connect is on it's way!</Text>
+          <Text style={{ padding: 5, paddingLeft: 90 }}>Your order is on it's way!</Text>
         </View>
 
       </View>
@@ -218,6 +301,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     fontWeight: 'bold',
     color: "#D60665",
+    width: 250,
   },
 
   tooltip_description: {
