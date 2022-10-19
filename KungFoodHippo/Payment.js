@@ -191,7 +191,7 @@ export function PaymentScreen({ navigation }) {
 
 
           <View>
-            <Text style={styles.header}> {delivery ? 'Home' : 'Restaurant'} </Text>
+            <Text style={styles.header}> {delivery ? (<Text> {newAddressVisible? 'New Address' : 'Home'}</Text>) : 'Restaurant'} </Text>
             <View>
               {isLoading ? <ActivityIndicator /> : (
                 <Text> {delivery ? data['customer.name'] : data['shop.name']} </Text> //This one need to get the value using json['key'] because the key got '.' so the phone is confused when you put data.customer.name
@@ -199,7 +199,7 @@ export function PaymentScreen({ navigation }) {
             </View>
             <View>
               {isLoading ? <ActivityIndicator /> : (
-                <Text> {delivery ? data['customer.address'] : data['shop.address']} </Text>
+                <Text> {delivery ? (<Text> {newAddressVisible? newAddress : data['customer.address'] }</Text>)  : data['shop.address']} </Text>
               )}
             </View>
 
