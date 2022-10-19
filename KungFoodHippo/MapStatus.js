@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Dimensions, Image, ScrollView, ActivityIndicator, FlatList } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, Image, ScrollView, ActivityIndicator, FlatList, Pressable,Modal } from 'react-native';
 import MapView, { Animated, Callout, Marker, Polyline } from 'react-native-maps';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
@@ -31,8 +31,9 @@ export function MapScreen({ navigation }) {
   const [data, setData] = useState([]);
   const [position, setPosition] = useState([]);
   var locationArray = [];
-
+  const [modalVisible, setModalVisible] = useState(false);
   const [listShops, setListShop] = useState({});
+  const [shouldShow, setShouldShow] = useState(true);
 
 
   //for extracting address
@@ -232,9 +233,14 @@ export function MapScreen({ navigation }) {
         }}>
         <View style={{ flexDirection: 'row' }}>
           <View style={{ flexDirection: "column", alignItems: 'flex-start', padding: 10 }}>
-            <Text style={{ color: 'grey', fontSize: 16 }}>Estimated Arrival</Text>
-            <Text style={{ color: 'black', fontSize: 30, fontWeight: 'bold' }}>45-55 Minutes</Text>
-            <Progress.Bar
+            {shouldShow ?(
+              <Text style={{ color: 'grey', fontSize: 16 }}>Estimated Arrival</Text>
+            ):null}
+            {shouldShow ?(
+              <Text style={{ color: 'black', fontSize: 30, fontWeight: 'bold' }}>45-55 Minutes</Text>
+            ):null}
+            {shouldShow ? (
+              <Progress.Bar
               size={30}
               style={styles.ProgressBar}
               indeterminate={true}
@@ -245,17 +251,54 @@ export function MapScreen({ navigation }) {
               animationType='timing'
               color="#D60665"
             />
+            ):null}
+            
           </View>
-          <View style={{ padding: 10, }}>
-            <Image style={{ paddingTop: 10, resizeMode: 'cover', height: 100, width: 100, }}
-              source={require('./assets/images/delivery.gif')} />
-          </View>
+
+          <View style={styles.centeredView}>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              Alert.alert("Modal has been closed.");
+              setModalVisible(!modalVisible);
+            }}>
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+              <Image style={{ paddingTop: 10, resizeMode: 'cover', height: 100, width: 100, }}
+              source={require('./assets/images/thumbsupgif.gif')} />
+                <Text style={styles.modalText}>Your delivery is here!😘</Text>
+                <Text style={styles.modalText}>Thanks for shopping with Hippo</Text>
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => {setModalVisible(!modalVisible), navigation.navigate('Home')}}>
+                  <Text style={styles.textStyle}>Go to Home</Text>
+                </Pressable>
+              </View>
+            </View>
+          </Modal>
+        </View>
+        
+        {shouldShow ?(
+          <Pressable
+          // style={[styles.button, styles.buttonOpen]}
+          onPress={() => {setModalVisible(true), setShouldShow(!shouldShow)}}>
+        <View style={{ padding: 10, }}>
+          <Image style={{ paddingTop: 10, resizeMode: 'cover', height: 100, width: 100, }}
+            source={require('./assets/images/delivery.gif')} />
+        </View>
+        </Pressable>
+        ) : null}
+          
         </View>
 
-
-        <View style={{ flexDirection: 'column', alignItems: 'flex-start', paddingLeft: 10 }}>
-          <Text style={{ padding: 5, paddingLeft: 90 }}>Your order is on it's way!</Text>
-        </View>
+        {shouldShow ?(
+          <View style={{ flexDirection: 'column', alignItems: 'flex-start', paddingLeft: 10 }}>
+            <Text style={{ padding: 5, paddingLeft: 90 }}>Your order is on it's way!</Text>
+          </View>
+        ):null}
+        
 
       </View>
 
@@ -269,8 +312,48 @@ export function MapScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   //added styles
-  deliverycard: {
-    backgroundColor: 'black',
+
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22
+  },
+
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2
+  },
+  buttonOpen: {
+    backgroundColor: "#F194FF",
+  },
+  buttonClose: {
+    backgroundColor: "#2196F3",
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center"
   },
 
   fab: {
