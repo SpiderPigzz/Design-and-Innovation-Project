@@ -90,7 +90,7 @@ export function MenuScreen({}) {
                 </TouchableOpacity>
 
                 <TouchableOpacity                                       
-                    onPress={() => navigation.navigate('')}>   
+                    >
                     <View style={{alignItems:'center'}}>
                             <Image 
                                 source={require('./assets/rate-icon.png')}
@@ -120,7 +120,7 @@ export function MenuScreen({}) {
 
                 {/*WALLET */}
                 <TouchableOpacity                                                       
-                    onPress={() => navigation.navigate('')}> 
+                    >
                     <View style={{alignItems:'center',  marginTop:5}}>
                             <Image 
                                 style = {theme.midlogo}
@@ -136,7 +136,7 @@ export function MenuScreen({}) {
                 {/*COINS */}
                 
                 <TouchableOpacity                                       
-                    onPress={() => navigation.navigate('')}>   
+                   >
                     <View style={{alignItems:'center'}}>
                             <Image 
                                 style = {theme.midlogo}
@@ -151,7 +151,7 @@ export function MenuScreen({}) {
 
                 {/*VOUCHERS */}
                 <TouchableOpacity                                       
-                    onPress={() => navigation.navigate('')}>  
+                   >
                     <View style={{alignItems:'center'}}>
                             <Image 
                                 style = {theme.midlogo}
@@ -229,7 +229,7 @@ export function MenuScreen({}) {
             {/*grey box below recently viewed*/}
             <View style={{ flex: 0, alignItems: 'flex-start', justifyContent: 'space-between', backgroundColor: '#FFFFFF', flexDirection: 'row',}}>
                 <TouchableOpacity                                                        
-                    onPress={() => navigation.navigate('')}>   
+                   >
                         <View style={theme.Container}>   
                         <Button labelStyle={{fontSize: 35}} icon = "heart" >   
                             <Text style={theme.text}>Favourites</Text>                            
@@ -244,7 +244,7 @@ export function MenuScreen({}) {
             {/*grey box below fav*/}
             <View style={{ flex: 0, alignItems: 'flex-start', justifyContent: 'space-between', backgroundColor: '#FFFFFF', flexDirection: 'row',}}>
                 <TouchableOpacity                                                        
-                    onPress={() => navigation.navigate('')}>   
+                   >
                         <View style={theme.Container}>   
                         <Button labelStyle={{fontSize: 35}} icon = "earth" >   
                             <Text style={theme.text}>Foodie Community</Text>                            
@@ -272,7 +272,7 @@ export function MenuScreen({}) {
             {/*grey box below raf*/}
             <View style={{ flex: 0, alignItems: 'flex-start', justifyContent: 'space-between', backgroundColor: '#FFFFFF', flexDirection: 'row',}}>
                 <TouchableOpacity                                                        
-                    onPress={() => navigation.navigate('')}>   
+                   >
                         <View style={theme.Container}>   
                         <Button labelStyle={{fontSize: 35}} icon = "help-circle-outline" >   
                             <Text style={theme.text}>Help Center</Text>                            
@@ -286,7 +286,7 @@ export function MenuScreen({}) {
             {/*grey box below help center*/}
             <View style={{ flex: 0, alignItems: 'flex-start', justifyContent: 'space-between', backgroundColor: '#FFFFFF', flexDirection: 'row',}}>
                 <TouchableOpacity                                                        
-                    onPress={() => navigation.navigate('')}>   
+                   >
                         <View style={theme.Container}>   
                         <Button labelStyle={{fontSize: 35}} icon = "chat-outline" >   
                             <Text style={theme.text}>Chat with Hippo</Text>                            

@@ -72,7 +72,7 @@ export function AccountScreen({ navigation }) {
             <View style={{ flex: 0.3, alignItems: 'flex-start', justifyContent: 'center' , backgroundColor: '#E76766', }}>
                 <View style={theme.Container}>      
                 <TouchableOpacity                                       
-                onPress={() => navigation.navigate('Menu')}>   
+                onPress={() => navigation.navigate('Home')}>   
                     <View style={theme.Container}>      
                         <Image
                             source={require('./assets/back-logo.png')}
