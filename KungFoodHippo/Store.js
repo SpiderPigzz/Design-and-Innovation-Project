@@ -23,24 +23,19 @@ const url = 'http://dip.totallynormal.website/';
 
 export function StoreScreen({ navigation, route }) {
 
-    const dishCategoryData = [
+    const listTab = [
         {
-            id: 1,
-            name: "All",
+            status: "All"
         },
         {
-            id: 2,
-            name: "Popular",
+            status: "Popular"
         },
         {
-            id: 3,
-            name: "Mains",
+            status: "Mains"
         },
         {
-            id: 4,
-            name: "Sides",
+            status: "Sides"
         },
-
     ]
 
     const { shopID } = route.params;
@@ -49,12 +44,24 @@ export function StoreScreen({ navigation, route }) {
     const [data, setData] = useState([]);
     const [restaurant, setRestaurant] = useState();
     const [address, setAddress] = useState();
-    const [selectedCategory, setSelectedCategory] = useState(null);
+    const [reviewData, setReviewData] = useState([]);
     const [defaultPhoto, setState] = useState(require('./assets/Pastamania.png'));
+    const [status, setStatus] = useState('All');
+    const [dataList, setDataList] = useState(data);
+    const setStatusFilter = status => {
+        console.log(status);
+        if (status !== 'All') {
+            setDataList([data.filter(e => e.category === status)])
+        } else {
+            setDataList(data)
+        }
+        setStatus(status)
+    };
 
     const menuPath = "getShopMenu/" + shopID;
     const shopPath = "getShop/" + shopID;
     const photoPath = "picture/" + shopID;
+    const reviewPath = "getShopRating/" + shopID;
 
 
     useEffect(() => {
@@ -68,7 +75,10 @@ export function StoreScreen({ navigation, route }) {
                 setData(json);
             })
             .catch((error) => console.error(error))
-            .finally(() => setLoading(false));
+            .finally(() => {
+                setStatusFilter("All");
+                setLoading(false)
+            });
 
         fetch(url + shopPath)
             .then((response) => response.json())
@@ -88,6 +98,16 @@ export function StoreScreen({ navigation, route }) {
             .catch((err) => {
                 console.log("unable to fetch site data");
             });
+        
+        fetch(url + reviewPath)
+            .then((response) => response.json())
+            .then((json) => {
+                setReviewData(json);
+            })
+            .catch((error) => alert(error))
+            .finally(() => setLoading(false));
+
+            
     }, [shopID]);
 
     const renderItem = ({ item }) => (
@@ -100,16 +120,11 @@ export function StoreScreen({ navigation, route }) {
         let foodList = data.filter(a => a.category.includes(category.id))
         setData(foodList)
         setSelectedCategory(category)
-    }
+    }*/
+    const renderReview = ({ item }) => (
+        <ReviewCard overall={item.overall} food={item.food} packaging={item.packaging} value={item.value} count={item.count}></ReviewCard>
+    );
 
-    const renderCategory = ({ item }) => (
-        <TouchableOpacity 
-            style={styles.buttonTouchable}
-            onPress={() => onSelectCategory(item)}
-        >
-            <Text>{item.name}</Text>
-        </TouchableOpacity>
-    );*/
 
     return (
         <PaperProvider theme={theme}>
@@ -159,43 +174,38 @@ export function StoreScreen({ navigation, route }) {
                         <Text style={[styles.innerText, { textAlignVertical: "center" }]}>Change</Text>
                     </View>
 
-                    <ReviewCard></ReviewCard>
+                    {isLoading ? <ActivityIndicator /> : (
+                        <View>
+                            <FlatList
+                                data={reviewData}
+                                renderItem={renderReview}
+                                keyExtractor={item => item.id}
+                            />
+                        </View>
+                    )}
 
                     {/* navigation tab here */}
                     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                        <TouchableOpacity style={styles.buttonTouchable}>
-                            <Text>All</Text>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity style={styles.buttonTouchable}>
-                            <Text>Popular</Text>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity style={styles.buttonTouchable}>
-                            <Text>Mains</Text>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity style={styles.buttonTouchable}>
-                            <Text>Sides</Text>
-                        </TouchableOpacity>
+                        {
+                            listTab.map(e => (
+                                <TouchableOpacity 
+                                    style={[styles.buttonTouchable, status === e.status && styles.buttonTouchableActive]}
+                                    onPress={() => setStatusFilter(e.status)}
+                                >
+                                    <Text style={[styles.tabText, status === e.status && styles.buttonText]}>
+                                        {e.status}
+                                    </Text>
+                                </TouchableOpacity>
+                            ))
+                        }
                     </ScrollView>
-
-                    {/*<FlatList
-                        data={dishCategoryData}
-                        horizontal
-                        showsHorizontalScrollIndicator={false}
-                        renderItem={renderCategory}
-                        keyExtractor={item => item.id}
-                    />*/}
-
-                    <Text style={[styles.backgroundText, { textAlign: "left", fontSize: 24, textAlignVertical: "bottom" }]}>All</Text>
 
                     {isLoading ? <ActivityIndicator /> : (
                         <View>
                             <FlatList
-                                data={data}
+                                data={dataList}
                                 renderItem={renderItem}
-                                keyExtractor={item => item.id}
+                                keyExtractor={(e, item) => item.id}
                             />
                         </View>
                     )}
@@ -203,11 +213,6 @@ export function StoreScreen({ navigation, route }) {
                 </ScrollView>
             </View>
 
-            {/*<ScrollView style={{backgroundColor: "#ffffff", paddingHorizontal: 16}}>
-                <Text style={[styles.backgroundText, { textAlign: "left", fontSize: 24, textAlignVertical: "bottom" }]}>Set Meal</Text>
-                <FoodCard></FoodCard>
-                <FoodCard></FoodCard>
-            </ScrollView>*/}
         </PaperProvider>
     );
 }
@@ -274,6 +279,14 @@ const styles = StyleSheet.create({
         fontWeight: "bold"
     },
 
+    tabText: {
+        color: "#000000",
+        textAlign: "center",
+        fontSize: 14,
+        // fontFamily: "Roboto-Regular",
+        textAlignVertical: "bottom"
+    },
+
     button: {
         marginTop: 8,
         paddingVertical: 8,
@@ -312,6 +325,19 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         marginRight: 10,
         marginVertical: 5,
+    },
+
+    buttonTouchableActive: {
+        padding: 10,
+        backgroundColor: "#E76766",
+        width: 120,
+        height: 40,
+        borderRadius: 30,
+        alignItems: "center",
+        justifyContent: "center",
+        marginRight: 10,
+        marginVertical: 5,
+        elevation: 3
     },
 
     buttonNavigation: {
