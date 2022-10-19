@@ -144,7 +144,7 @@ export function MapScreen({ navigation }) {
                             borderBottomWidth: 1,
                           }}
                         />
-                        <Text style={styles.tooltip_description}>Believe the power of coffee! Student-Owned Cafe At NTU With Lor Bak And Gyudon Bowls From $7</Text>
+                        <Text style={styles.tooltip_description}>Believe the power of coffee!☕ Student-Owned Cafe At NTU With Lor Bak And Gyudon Bowls From $7</Text>
                         <View>
                           <WebView style={styles.tooltip_image} source={{ uri: 'https://www.tastingtable.com/img/gallery/20-different-types-of-coffee-explained/intro-1659544996.jpg' }}
                           />
@@ -171,7 +171,7 @@ export function MapScreen({ navigation }) {
                             borderBottomWidth: 1,
                           }}
                         />
-                        <Text style={styles.tooltip_description}>NTU Students' Favorite Place. No need to say more you know a big Mac can make your day.</Text>
+                        <Text style={styles.tooltip_description}>NTU Students' Favorite Place.😁🐔 No need to say more you know a big Mac can make your day.</Text>
                         <View>
                           <WebView style={styles.tooltip_image} source={{ uri: 'https://cdn.foodadvisor.com.sg/uploads/images/image_default_5625f71ea9013077.jpg' }}
                           />
