@@ -45,7 +45,8 @@ export function PaymentScreen({ navigation, route }) {
     try {
       const response = await fetch('http://dip.totallynormal.website/getOrderAddress/' + 'ricky.winarko@gmail.com');
       const json = await response.json();
-      setOrderData(json);
+      setOrderData(json[0]);
+      
     } catch (error) {
       console.error(error);
     } finally {
@@ -200,12 +201,12 @@ export function PaymentScreen({ navigation, route }) {
             <Text style={styles.header}> {delivery ? (<Text> {newAddressVisible? 'New Address' : 'Home'}</Text>) : 'Restaurant'} </Text>
             <View>
               {isLoading ? <ActivityIndicator /> : (
-                <Text> {delivery ? data['customer.name'] : data['shop.name']} </Text> //This one need to get the value using json['key'] because the key got '.' so the phone is confused when you put data.customer.name
+                <Text> {delivery ? orderData['customer.name'] : orderData['shop.name']} </Text> //This one need to get the value using json['key'] because the key got '.' so the phone is confused when you put data.customer.name
               )}
             </View>
             <View>
               {isLoading ? <ActivityIndicator /> : (
-                <Text> {delivery ? (<Text> {newAddressVisible? newAddress : data['customer.address'] }</Text>)  : data['shop.address']} </Text>
+                <Text> {delivery ? (<Text> {newAddressVisible? newAddress : orderData['customer.address'] }</Text>)  : orderData['shop.address']} </Text>
               )}
             </View>
 
