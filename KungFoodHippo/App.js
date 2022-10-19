@@ -3,7 +3,7 @@ import { setStatusBarNetworkActivityIndicatorVisible, StatusBar } from 'expo-sta
 import { StyleSheet, View, Image, TouchableOpacity } from 'react-native';
 import * as Font from 'expo-font';
 import { useState, createContext } from 'react';
-import { DrawerActions, createAppContainer } from 'react-navigation';
+import { DrawerActions, createAppContainer, NavigationEvents } from 'react-navigation';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import { MD3LightTheme as DefaultTheme, Provider as PaperProvider, Text, Appbar, Snackbar, BottomNavigation, Button, Card, Surface, Title, Paragraph, Drawer, IconButton } from 'react-native-paper';
@@ -11,6 +11,7 @@ import { CheckoutScreen } from './Checkout';
 import { PaymentScreen } from './Payment';
 import { HomeScreen } from './Home.js';
 import { MapScreen } from './MapStatus';
+import { DrawerContentScrollView,DrawerItemList,} from '@react-navigation/drawer';
 import { ListingScreen } from './RestaurantListing';
 import { StoreScreen } from './Store';
 import { DemoScreen } from './Demo.js';
@@ -124,7 +125,7 @@ export default function KungFoodHippo() {
         (
           <userContext.Provider value={{userEmail, userName, userToken}}>
             <NavigationContainer>
-              <Menu.Navigator initialRouteName="Home">
+              <Menu.Navigator initialRouteName="Home" drawerContent={() => (<MenuScreen/>)}>
                 {/* <Menu.Screen name="Login" component={LoginScreen} /> */}
                 <Menu.Screen name="Home" component={HomeScreen} />
                 <Menu.Screen name="Menu" component={MenuScreen} />
