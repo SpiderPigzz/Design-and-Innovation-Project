@@ -6,6 +6,8 @@ import { useState } from 'react';
 import { DrawerActions, createAppContainer } from 'react-navigation';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { MSuggest } from './Components/Menu/MSuggest.js';
+import { MSuggest2 } from './Components/Menu/MSuggest2.js';
 import { MD3LightTheme as DefaultTheme, Provider as PaperProvider, Text, Appbar, Snackbar, BottomNavigation, Button, Card, Surface, Title, Paragraph, Drawer } from 'react-native-paper';
 import { HippoCard } from './Components/TestCard.js';
 import {
@@ -39,7 +41,7 @@ export function MenuScreen({}) {
             {/* START WRITING CODE BELOW!!!! */}
 
 
-            <ScrollView horizontal={false} showsHorizontalScrollIndicator={false}>
+           
             {/* PROFILE NAME */}
             <View style={{ flex: 0, alignItems: 'flex-start', justifyContent: 'center' , backgroundColor: '#E76766'}}>
                 <View style={theme.btnContainer}>                    
@@ -175,43 +177,17 @@ export function MenuScreen({}) {
                         </Button>                          
                         </View>     
             </View>
-
-            {/*grey box below buy again*/}
-            <View style={{ flex: 0.02, alignItems: 'center', justifyContent: 'space-between'}}></View>
-            {/*white box box below buy again*/}
-            <TouchableOpacity onPress={() => navigation.navigate('Suggestion')}>  
-            <View style={{ flex: 1.6, alignItems: 'flex-start', justifyContent: 'space-between', backgroundColor: '#FFFFFF', flexDirection: 'row',}}>
-                <View style={theme.box}>
-                    <View style={theme.boxUI}>
-                        <View style={theme.image}>
-                            <Image source={require('./assets/Pastamania.png')} style={theme.image}  />
-                        </View>    
-
-                        <View style={theme.text}>
-                            <Text style={{color: 'grey'}}>Bought 1 time</Text>                            
-                            <Text style={styles.text}>$17</Text>
-                            
-                        </View>
-                    </View>
-                </View>
-
-                <View style={theme.box}>
-                    <View style={theme.boxUI}>
-                        <View style={theme.image}>
-                            <Image source={require('./assets/images/subway.png')} style={theme.image}  />
-                        </View>    
-
-                        <View style={theme.text}>
-                            <Text style={{color: 'grey'}}>Bought 1 time</Text>                            
-                            <Text style={styles.text}>$8.50</Text>
-                        </View>
-                    </View>
-                </View>
+            <View style={{flexDirection:'row'}}>
+            <MSuggest></MSuggest> 
+            <MSuggest2></MSuggest2>
 
             </View>
-            </TouchableOpacity>
+            
+            {/*grey box below buy again*/}
+            <View style={{ flex: 0.02, alignItems: 'center', justifyContent: 'space-between'}}></View>
+           
             {/*grey box below bought 1 time*/}
-            <View style={{ flex: 0.05, alignItems: 'center', justifyContent: 'space-between'}}></View>
+            <View style={{ flex: 0.5, alignItems: 'center', justifyContent: 'space-between'}}></View>
             {/*grey box below buy again*/}
             <View style={{ flex: 0, alignItems: 'flex-start', justifyContent: 'space-between', backgroundColor: '#FFFFFF', flexDirection: 'row',}}>
                 <TouchableOpacity                                                        
@@ -282,7 +258,7 @@ export function MenuScreen({}) {
             </View>
 
             {/*grey box below help centere*/}
-            <View style={{ flex: 0.02, alignItems: 'center', justifyContent: 'space-between'}}></View>
+            <View style={{ flex: 0, alignItems: 'center', justifyContent: 'space-between'}}></View>
             {/*grey box below help center*/}
             <View style={{ flex: 0, alignItems: 'flex-start', justifyContent: 'space-between', backgroundColor: '#FFFFFF', flexDirection: 'row',}}>
                 <TouchableOpacity                                                        
@@ -295,7 +271,7 @@ export function MenuScreen({}) {
                 </TouchableOpacity>
             </View>
 
-            </ScrollView>
+            
 
         </PaperProvider>
 
@@ -444,7 +420,8 @@ const theme = {
         margin: '2%',
         padding: '2%',        
         padding: 5,
-        flex: 0.5,
+        flex: 1,
+        backgroundColor: 'black'
         
     },
 
@@ -469,7 +446,7 @@ const theme = {
           },
         shadowRadius: 5,
         shadowOpacity: 1.0,
-        
+        elevation: 12,
     },
 
     //image 
