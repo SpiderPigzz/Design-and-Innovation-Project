@@ -105,7 +105,7 @@ export const styles = StyleSheet.create({
     },
 
     cardSec: {
-        width:160,
+        flex:1,
         paddingVertical: 8,
         paddingHorizontal: 16,
         marginLeft: 10,

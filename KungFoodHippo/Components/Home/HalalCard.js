@@ -108,10 +108,9 @@ export const styles = StyleSheet.create({
     },
 
     cardSec: {
-        width:175,
+        flex: 1,
         paddingVertical: 8,
         paddingHorizontal: 16,
-        marginLeft: 10,
         marginVertical: 8,
         elevation: 3,
         backgroundColor: "#FCD077",
@@ -131,7 +130,7 @@ export const styles = StyleSheet.create({
 
 
     Image: {
-        width: 140,
+        flex: 1,
         height: 120,
     },
 

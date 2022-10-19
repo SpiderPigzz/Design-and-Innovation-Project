@@ -138,7 +138,7 @@ export function ListingScreen({ route, navigation }) {
             </Portal>
 
             <SafeAreaView style={[restaurantStyle.container, { flexDirection: 'column' }]}>
-                <View style={[restaurantStyle.searchBoxWrapper, { flex: 1, minHeight: 60 }]}>
+                <View style={[restaurantStyle.searchBoxWrapper, { flex: 1, minHeight: 60, marginHorizontal: 10 }]}>
 
                     <TextInput placeholder={queryString}
                         onChangeText={onChangeSearch}
@@ -227,8 +227,7 @@ const theme = {
 export const restaurantStyle = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
-        padding: 0,
+        backgroundColor: '#fff'
     },
 
     textBold: {
@@ -282,12 +281,10 @@ export const restaurantStyle = StyleSheet.create({
 
     searchBoxWrapper: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
         backgroundColor: '#EC8C8C' + 20,
         padding: 10,
         borderRadius: 5,
         minHeight: 40,
-        width: '100%',
     },
 
     filterBar: {

@@ -59,7 +59,7 @@ export function HomeScreen({ navigation, route }) {
     return (
         <View style={[style1.container]}>
             <Portal>
-                <FloatingButton setVisibility={isFocused} navigation={navigation}/>
+                <FloatingButton setVisibility={isFocused} navigation={navigation} />
             </Portal>
             <ScrollView style={style1.container} vertical={true}>
                 <View style={style1.searchBoxWrapper1}>
@@ -140,8 +140,8 @@ export function HomeScreen({ navigation, route }) {
                         <FoodDeliveryCard></FoodDeliveryCard>
                     </TouchableOpacity>
 
-                    <View style={style1.FDCard} horizontal={true}>
-                        <View>
+                    <View style={{ flexDirection: "row", justifyContent: "space-evenly" }}>
+                        <View style={[style1.FDCard]}>
                             <TouchableOpacity
 
                                 onPress={() => navigation.navigate('Listing', {
@@ -151,8 +151,8 @@ export function HomeScreen({ navigation, route }) {
                             </TouchableOpacity>
                         </View>
 
-                        <View vertical={true}>
-                            <View style={style1.FDCard2}>
+                        <View>
+                            <View style={[style1.FDCard2]}>
                                 <TouchableOpacity
 
                                     onPress={() => navigation.navigate('Listing', {
@@ -174,13 +174,14 @@ export function HomeScreen({ navigation, route }) {
                             </View>
                         </View>
                     </View>
+
                 </View>
                 <View>
                     {/* <userContext.Consumer>
                     {name => <Text style={style1.cuisineText}>{name}</Text>}
                     </userContext.Consumer> */}
                     <Text style={style1.cuisineText}>Cuisines</Text>
-                    <View style={style1.cuisinesCard} horizontal={true}>
+                    <View style={[style1.cuisinesCard, {justifyContent:'space-evenly'}]} horizontal={true}>
 
                         <TouchableOpacity
 
@@ -207,7 +208,7 @@ export function HomeScreen({ navigation, route }) {
 
 
                     </View>
-                    <View style={style1.cuisinesCard} horizontal={true}>
+                    <View style={[style1.cuisinesCard, {justifyContent:'space-evenly'}]} horizontal={true}>
                         <TouchableOpacity
 
                             onPress={() => navigation.navigate('Listing', {
@@ -242,17 +243,15 @@ export function HomeScreen({ navigation, route }) {
                     <Image source={require('./assets/images/Rightarrow.png')} style={style1.arrowWrapper} />
                 </View>
                 <ScrollView
-                    contentContainerStyle={style1.foodListingWrapper} horizontal={true} >
-                    <View style={style1.FDCard} horizontal={true}>
-                        <TouchableOpacity
-
+                    contentContainerStyle={[style1.foodListingWrapper]} horizontal={true} >
+                    <View style={{margin: 10, flex: 1, justifyContent: 'space-between', flexDirection: 'row'}} horizontal={true}>
+                        <TouchableOpacity 
                             onPress={() => navigation.navigate('Listing', {
                                 queryString: 'Takagiramen'
                             })}>
                             <RamenCard></RamenCard>
                         </TouchableOpacity>
                         <TouchableOpacity
-
                             onPress={() => navigation.navigate('Listing', {
                                 queryString: 'Pastamania'
                             })}>
@@ -284,17 +283,14 @@ const style1 = StyleSheet.create({
         flex: 1,
     },
     FDCard: {
+        marginLeft: 10,
         backgroundColor: '#fff',
-        display: 'flex',
-        flexDirection: 'row',
         flex: 1,
-        padding: 2,
     },
     FDCard2: {
         backgroundColor: '#fff',
-        display: 'flex',
-        flexDirection: 'row',
         flex: 1,
+        marginRight: 10,
     },
     container: {
         backgroundColor: '#fff',
@@ -426,12 +422,8 @@ const style1 = StyleSheet.create({
         marginTop: 10,
     },
     foodListingWrapper: {
-        display: 'flex',
         flex: 1,
-        alignSelf: 'flex-start',
-        flexDirection: 'row',
-        margin: 5,
-        marginBottom: 128
+        flexDirection: 'row'
 
     },
     subHeadingWrapper: {
