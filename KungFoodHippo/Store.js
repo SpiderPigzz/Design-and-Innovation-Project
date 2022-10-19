@@ -48,8 +48,9 @@ export function StoreScreen({ navigation, route }) {
     const [status, setStatus] = useState('All');
     const [dataList, setDataList] = useState(data);
     const setStatusFilter = status => {
+        console.log(status);
         if (status !== 'All') {
-            setDataList([...data.filter(e => e.category === status)])
+            setDataList([data.filter(e => e.category === status)])
         } else {
             setDataList(data)
         }
@@ -73,7 +74,10 @@ export function StoreScreen({ navigation, route }) {
                 setData(json);
             })
             .catch((error) => console.error(error))
-            .finally(() => setLoading(false));
+            .finally(() => {
+                setStatusFilter("All");
+                setLoading(false)
+            });
 
         fetch(url + shopPath)
             .then((response) => response.json())
@@ -101,6 +105,8 @@ export function StoreScreen({ navigation, route }) {
             })
             .catch((error) => alert(error))
             .finally(() => setLoading(false));
+
+            
     }, [shopID]);
 
     const renderItem = ({ item }) => (
