@@ -5,9 +5,10 @@ import * as Font from 'expo-font';
 import { useState, useEffect } from 'react';
 import { DrawerActions, createAppContainer } from 'react-navigation';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { NavigationContainer } from '@react-navigation/native';
-import { MD3LightTheme as DefaultTheme, Provider as PaperProvider, Text, Appbar, Snackbar, BottomNavigation, Button, Card, Surface, Title, Paragraph, Drawer, Searchbar, TextInput } from 'react-native-paper';
+import { NavigationContainer, useIsFocused } from '@react-navigation/native';
+import { MD3LightTheme as DefaultTheme, Provider as PaperProvider, Text, Appbar, Snackbar, BottomNavigation, Button, Card, Surface, Title, Paragraph, Drawer, Searchbar, TextInput, Portal } from 'react-native-paper';
 import { HippoCard } from './Components/TestCard.js';
+import FloatingButton from './Components/Home/FloatingButton'
 import {
     SafeAreaView,
     SafeAreaProvider,
@@ -32,7 +33,7 @@ export function ListingScreen({ route, navigation }) {
     const onChangeSearch = query => setSearchQuery(query);
     const [searchDisplay, setSearchDisplay] = React.useState('All');
     const [sortByPrice, setSortByPrice] = useState(false);
-    const { itemId, otherParam } = route.params;
+    const { queryString } = route.params;
 
     const getData = () => {
         fetch(url + path)
@@ -42,7 +43,7 @@ export function ListingScreen({ route, navigation }) {
                     json[i]['imageURI'] = 'http://dip.totallynormal.website/picture/' + json[i]['ID'];
                     //console.log(json[i]['imageURI']);
                 }
-                console.log(json);
+                //console.log(json);
 
                 setData(json);
             })
@@ -53,12 +54,21 @@ export function ListingScreen({ route, navigation }) {
     useEffect(() => {
 
         navigation.addListener('focus', () => {
-            setSearchQuery(otherParam);
+            if (queryString != 'Search for restaurants') {
+                setSearchQuery(queryString);
+            }
+
+            else {
+                setSearchQuery("");
+            }
+
         });
+
+        console.log(queryString);
 
         getData();
 
-    }, []);
+    }, [queryString]);
 
 
 
@@ -118,14 +128,19 @@ export function ListingScreen({ route, navigation }) {
         }
     };
 
+    const isFocused = useIsFocused();
+
 
     return (
         <PaperProvider theme={theme}>
+            <Portal>
+                <FloatingButton setVisibility={isFocused} navigation={navigation} />
+            </Portal>
 
             <SafeAreaView style={[restaurantStyle.container, { flexDirection: 'column' }]}>
                 <View style={[restaurantStyle.searchBoxWrapper, { flex: 1, minHeight: 60 }]}>
 
-                    <TextInput placeholder={otherParam}
+                    <TextInput placeholder={queryString}
                         onChangeText={onChangeSearch}
                         value={searchQuery}
                         style={{ flex: 50 }}

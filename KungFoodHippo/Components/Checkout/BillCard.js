@@ -1,16 +1,40 @@
 import { Icon } from 'react-native-elements';
 import { MD3LightTheme as DefaultTheme, Provider as PaperProvider, Text, Appbar, Snackbar, BottomNavigation, Button, Card, Title, Paragraph, Divider } from 'react-native-paper';
-import { StyleSheet, View, Image, ImageBackground } from 'react-native';
+import { StyleSheet, View, Image, ImageBackground, TouchableOpacity } from 'react-native';
 import React, { useState, useEffect } from "react";
 import { proc } from 'react-native-reanimated';
+import { userContext } from '../../App.js';
+import { useContext } from 'react';
 
-export function BillCard({ dishName, quantity, description, category, price, imageURI }) {
+export function BillCard({ dishName, quantity, description, category, price, imageURI, shopID }) {
 
+    const { userEmail, userName, userToken } = useContext(userContext);
     const [showDefault, setState] = useState(require('../../assets/images/subway.png'));
-    const [processedPrice, setProcessedPrice] = useState(0)
+    const [processedPrice, setProcessedPrice] = useState(0);
+    const [totalItemPrice, setTotalItemPrice] = useState(0);
+    const [count, setCount] = useState(0);
+    const add = () => {
+        setCount(prevCount => prevCount + 1);
+    };
+    const subtract = () => {
+        setCount(prevCount => (count > 0) ? (prevCount - 1) : prevCount);
+    };
     //var image = showDefault ? require('../../assets/images/subway.png') : { uri: imageURI };
+    var submitOrder = {
+        'customer.email': userEmail,
+        'shop.ID': shopID,
+        'dish.name': dishName,
+        'quantity': count
+    };
 
     useEffect(() => {
+        setProcessedPrice((price / 10000).toFixed(2));
+        setTotalItemPrice((price * count / 10000).toFixed(2));
+        changeQuantity();
+    }, [count]);
+
+    useEffect(() => {
+        setCount(quantity);
         fetch(imageURI)
             .then((res) => {
                 if (res.status != 404) {
@@ -21,9 +45,37 @@ export function BillCard({ dishName, quantity, description, category, price, ima
                 console.log("unable to fetch site data");
             });
 
-        setProcessedPrice((price / 10000).toFixed(2))
+        setProcessedPrice((price / 10000).toFixed(2));
+        setTotalItemPrice((price * count / 10000).toFixed(2));
 
-    }, []);
+    }, [price, quantity, dishName]);
+
+    const changeQuantity = async () => {
+        try {
+            var formBody = [];
+            for (var property in submitOrder) {
+                var encodedKey = encodeURIComponent(property);
+                var encodedValue = encodeURIComponent(submitOrder[property]);
+                formBody.push(encodedKey + "=" + encodedValue);
+            }
+            formBody = formBody.join("&");
+
+            const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+                body: formBody
+            };
+            await fetch('http://dip.totallynormal.website/updateCart', requestOptions)
+                .then(response => {
+                    console.log(response.status)
+                    console.log(formBody)
+                })
+        }
+        catch (error) {
+            console.error(error);
+        }
+    }
+
 
     return (
 
@@ -43,8 +95,24 @@ export function BillCard({ dishName, quantity, description, category, price, ima
                         <Text style={[styles.backgroundText, { fontWeight: 'normal', fontSize: 12, textAlignVertical: 'top', marginHorizontal: 8, flexWrap: 'wrap', flex: 1 }]}>{description}</Text>
                     </View>
                     <View style={[styles.container, { flexDirection: 'column', justifyContent: 'space-evenly' }]}>
+                        <View style={{ flexDirection: "row", justifyContent: "center", paddingVertical: 24 }}>
+                            <TouchableOpacity
+                                style={{ backgroundColor: count > 0 ? "#E76766" : "#c0c0c0", width: 36, height: 36, borderRadius: 50, justifyContent: "center" }}
+                                onPress={subtract}
+                            >
+                                <Text style={[styles.buttonText, { fontSize: 30 }]}>-</Text>
+                            </TouchableOpacity>
+                            <Text style={[styles.backgroundText, { fontSize: 24, textAlignVertical: "center", paddingHorizontal: 30 }]}>{count}</Text>
+                            <TouchableOpacity
+                                style={{ backgroundColor: "#E76766", width: 36, height: 36, borderRadius: 50, justifyContent: "center" }}
+                                onPress={add}
+                            >
+                                <Text style={[styles.buttonText, { fontSize: 30 }]}>+</Text>
+                            </TouchableOpacity>
+                        </View>
                         <Text style={[styles.text, { fontSize: 16, textAlignVertical: 'top' }]}>{"S$"}{processedPrice}</Text>
-                        <Text style={[styles.text, { textAlignVertical: 'top' }]}>{quantity}{"pcs"}</Text>
+                        <Text style={[styles.text, { textAlignVertical: 'top' }]}>{count}{"pcs"}</Text>
+                        <Text style={[styles.text, { fontSize: 16, textAlignVertical: 'top' }]}>{"S$"}{totalItemPrice}</Text>
                     </View>
 
                 </View>

@@ -4,11 +4,12 @@ import { StyleSheet, View, Image, TouchableOpacity, ActivityIndicator } from 're
 import * as Font from 'expo-font';
 import { useState, useEffect } from 'react';
 import { DrawerActions, createAppContainer } from 'react-navigation';
+import { NavigationContainer, useIsFocused } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { NavigationContainer } from '@react-navigation/native';
-import { MD3LightTheme as DefaultTheme, Provider as PaperProvider, Text, Appbar, Snackbar, BottomNavigation, Button, Card, Surface, Title, Paragraph, Drawer, shadow } from 'react-native-paper';
+import { MD3LightTheme as DefaultTheme, Provider as PaperProvider, Text, Appbar, Snackbar, BottomNavigation, Button, Card, Surface, Title, Paragraph, Drawer, shadow, Portal } from 'react-native-paper';
 import { FoodCard } from './Components/Store/FoodCard.js';
 import { ReviewCard } from './Components/Store/ReviewCard.js';
+import FloatingButton from './Components/Home/FloatingButton';
 import {
     SafeAreaView,
     SafeAreaProvider,
@@ -57,12 +58,17 @@ export function StoreScreen({ navigation, route }) {
     }, [shopID]);
 
     const renderItem = ({ item }) => (
-        <FoodCard title={item.name} description={item.description} price={item.price} imageURI={item.imageURI}></FoodCard>
+        <FoodCard title={item.name} description={item.description} price={item.price} imageURI={item.imageURI} shopID={shopID}></FoodCard>
     );
+
+    const isFocused = useIsFocused();
 
     return (
         <PaperProvider theme={theme}>
             {/* START WRITING CODE BELOW!!!! */}
+            <Portal>
+                <FloatingButton setVisibility={isFocused} navigation={navigation}/>
+            </Portal>
             <View style={{ flex: 1 }}>
                 <Image source={require('./assets/Pastamania.png')} style={{ height: 160, width: null }} />
                 <TouchableOpacity

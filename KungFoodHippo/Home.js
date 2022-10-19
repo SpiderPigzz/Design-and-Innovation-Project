@@ -67,8 +67,7 @@ export function HomeScreen({ navigation, route }) {
                 </View>
                 <TouchableOpacity
                     onPress={() => navigation.navigate('Listing', {
-                        itemId: 86,
-                        otherParam: 'Search for restaurants'
+                        queryString: 'Search for restaurants'
                     })}>
                     <View style={style1.searchBoxWrapper} >
                         <TextInput placeholder={'Search for restaurants'} />
@@ -80,8 +79,7 @@ export function HomeScreen({ navigation, route }) {
                     <TouchableOpacity
 
                         onPress={() => navigation.navigate('Listing', {
-                            itemId: 86,
-                            otherParam: 'Hot Deals'
+                            queryString: 'Hot Deals'
                         })}>
                         <View style={style1.categoryItem}>
                             <View style={style1.categoryCard}>
@@ -95,8 +93,7 @@ export function HomeScreen({ navigation, route }) {
                     <TouchableOpacity
 
                         onPress={() => navigation.navigate('Listing', {
-                            itemId: 86,
-                            otherParam: 'Favourite'
+                            queryString: 'Favourite'
                         })}>
                         <View style={style1.categoryItem}>
                             <View style={style1.categoryCard}>
@@ -109,8 +106,7 @@ export function HomeScreen({ navigation, route }) {
                     <TouchableOpacity
 
                         onPress={() => navigation.navigate('Listing', {
-                            itemId: 86,
-                            otherParam: 'Offers'
+                            queryString: 'Offers'
                         })}>
                         <View style={style1.categoryItem}>
                             <View style={style1.categoryCard}>
@@ -123,8 +119,7 @@ export function HomeScreen({ navigation, route }) {
                     <TouchableOpacity
 
                         onPress={() => navigation.navigate('Listing', {
-                            itemId: 86,
-                            otherParam: 'Order Later'
+                            queryString: 'Order Later'
                         })}>
                         <View style={style1.categoryItem}>
                             <View style={style1.categoryCard}>
@@ -140,8 +135,7 @@ export function HomeScreen({ navigation, route }) {
                     <TouchableOpacity
 
                         onPress={() => navigation.navigate('Listing', {
-                            itemId: 86,
-                            otherParam: 'Food'
+                            queryString: 'Food'
                         })}>
                         <FoodDeliveryCard></FoodDeliveryCard>
                     </TouchableOpacity>
@@ -151,8 +145,7 @@ export function HomeScreen({ navigation, route }) {
                             <TouchableOpacity
 
                                 onPress={() => navigation.navigate('Listing', {
-                                    itemId: 86,
-                                    otherParam: 'Halal'
+                                    queryString: 'Halal'
                                 })}>
                                 <HalalCard></HalalCard>
                             </TouchableOpacity>
@@ -163,8 +156,7 @@ export function HomeScreen({ navigation, route }) {
                                 <TouchableOpacity
 
                                     onPress={() => navigation.navigate('Listing', {
-                                        itemId: 86,
-                                        otherParam: 'Vegans'
+                                        queryString: 'Vegans'
                                     })}>
                                     <VeganCard></VeganCard>
                                 </TouchableOpacity>
@@ -174,8 +166,7 @@ export function HomeScreen({ navigation, route }) {
                                 <TouchableOpacity
 
                                     onPress={() => navigation.navigate('Listing', {
-                                        itemId: 86,
-                                        otherParam: 'PickUp'
+                                        queryString: 'PickUp'
                                     })}>
                                     <PickUpCard></PickUpCard>
                                 </TouchableOpacity>
@@ -194,24 +185,21 @@ export function HomeScreen({ navigation, route }) {
                         <TouchableOpacity
 
                             onPress={() => navigation.navigate('Listing', {
-                                itemId: 86,
-                                otherParam: 'Japanese'
+                                queryString: 'Japanese'
                             })}>
                             <JapaneseCard></JapaneseCard>
                         </TouchableOpacity>
                         <TouchableOpacity
 
                             onPress={() => navigation.navigate('Listing', {
-                                itemId: 86,
-                                otherParam: 'Korean'
+                                queryString: 'Korean'
                             })}>
                             <KoreanCard></KoreanCard>
                         </TouchableOpacity>
                         <TouchableOpacity
 
                             onPress={() => navigation.navigate('Listing', {
-                                itemId: 86,
-                                otherParam: 'Western'
+                                queryString: 'Western'
                             })}>
                             <WesternCard></WesternCard>
                         </TouchableOpacity>
@@ -223,24 +211,21 @@ export function HomeScreen({ navigation, route }) {
                         <TouchableOpacity
 
                             onPress={() => navigation.navigate('Listing', {
-                                itemId: 86,
-                                otherParam: 'Italian'
+                                queryString: 'Italian'
                             })}>
                             <ItalianCard></ItalianCard>
                         </TouchableOpacity>
                         <TouchableOpacity
 
                             onPress={() => navigation.navigate('Listing', {
-                                itemId: 86,
-                                otherParam: 'Chinese'
+                                queryString: 'Chinese'
                             })}>
                             <ChineseCard></ChineseCard>
                         </TouchableOpacity>
                         <TouchableOpacity
 
                             onPress={() => navigation.navigate('Listing', {
-                                itemId: 86,
-                                otherParam: 'Mexican'
+                                queryString: 'Mexican'
                             })}>
                             <MexicanCard></MexicanCard>
                         </TouchableOpacity>
@@ -262,16 +247,14 @@ export function HomeScreen({ navigation, route }) {
                         <TouchableOpacity
 
                             onPress={() => navigation.navigate('Listing', {
-                                itemId: 86,
-                                otherParam: 'Takagiramen'
+                                queryString: 'Takagiramen'
                             })}>
                             <RamenCard></RamenCard>
                         </TouchableOpacity>
                         <TouchableOpacity
 
                             onPress={() => navigation.navigate('Listing', {
-                                itemId: 86,
-                                otherParam: 'Pastamania'
+                                queryString: 'Pastamania'
                             })}>
                             <PastamaniaCard></PastamaniaCard>
                         </TouchableOpacity>

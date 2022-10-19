@@ -7,7 +7,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { userContext } from '../../App.js';
 import { useContext } from 'react';
 
-export function FoodCard({ title, description, price, imageURI }) {
+export function FoodCard({ title, description, price, imageURI, shopID }) {
     const { userEmail, userName, userToken } = useContext(userContext);
 
     const [visible, setVisible] = useState(false);
@@ -17,7 +17,7 @@ export function FoodCard({ title, description, price, imageURI }) {
     const [showDefault, setState] = useState(require('../../assets/Pastamania-meal1.png'));
     const submitOrder = {
         'customer.email': userEmail,
-        'shop.ID': 1,
+        'shop.ID': shopID,
         'dish.name': { title }.title,
         'quantity': { count }.count
     }

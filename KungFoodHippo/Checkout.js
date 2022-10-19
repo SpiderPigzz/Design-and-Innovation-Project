@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, ScrollView, View, Image, FlatList, ActivityIndicator, InteractionManager } from 'react-native';
+import { StyleSheet, ScrollView, View, Image, FlatList, ActivityIndicator, InteractionManager, Touchable } from 'react-native';
 import * as Font from 'expo-font';
 import { useState, useEffect } from 'react';
 import { DrawerActions, createAppContainer } from 'react-navigation';
@@ -19,6 +19,7 @@ import {
 } from 'react-native-safe-area-context';
 import { userContext } from './App.js';
 import { useContext } from 'react';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const url = 'http://dip.totallynormal.website/';
 
@@ -86,7 +87,7 @@ export function CheckoutScreen({ navigation }) {
     }, []);
 
     const renderItem = ({ item }) => (
-        <BillCard dishName={item['dish.name']} quantity={item['quantity']} description={item['description']} category={item['category']} price={item['price']} imageURI={item.imageURI}></BillCard>
+        <BillCard dishName={item['dish.name']} quantity={item['quantity']} description={item['description']} category={item['category']} price={item['price']} imageURI={item.imageURI} shopID={item['shop.ID']}></BillCard>
     );
 
 
@@ -110,7 +111,10 @@ export function CheckoutScreen({ navigation }) {
 
                 <View style={[styles.container, { flex: 1, marginBottom: 4, flexDirection: 'row', justifyContent: "space-between", }]}>
                     <Text style={[styles.backgroundText, { marginLeft: 16 }]}>Order</Text>
-                    <Text style={[styles.text, { marginRight: 16 }]}>Add Items</Text>
+                    <TouchableOpacity onPress={() => {navigation.navigate('Listing')}}>
+                        <Text style={[styles.text, { marginRight: 16 }]}>Add Items</Text>
+                    </TouchableOpacity>
+                    
                 </View>
 
                 <View style={[styles.container, { flex: 15 }]}>
