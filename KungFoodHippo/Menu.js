@@ -91,8 +91,7 @@ export function MenuScreen({}) {
                     </View>
                 </TouchableOpacity>
 
-                <TouchableOpacity                                       
-                    >
+                
                     <View style={{alignItems:'center'}}>
                             <Image 
                                 source={require('./assets/rate-icon.png')}
@@ -100,7 +99,7 @@ export function MenuScreen({}) {
                             />
                             <Text style={theme.smalltext}> To Rate</Text>
                     </View>    
-                </TouchableOpacity>
+                
                 </View>
             </View>
 
@@ -121,8 +120,7 @@ export function MenuScreen({}) {
             <View style={theme.productsContainer}>
 
                 {/*WALLET */}
-                <TouchableOpacity                                                       
-                    >
+                
                     <View style={{alignItems:'center',  marginTop:5}}>
                             <Image 
                                 style = {theme.midlogo}
@@ -132,13 +130,11 @@ export function MenuScreen({}) {
                                 <Text style={theme.wordtext}>$50</Text>
                             </Text>     
                         </View>                       
-                </TouchableOpacity>
+                
                 
                 
                 {/*COINS */}
                 
-                <TouchableOpacity                                       
-                   >
                     <View style={{alignItems:'center'}}>
                             <Image 
                                 style = {theme.midlogo}
@@ -148,12 +144,10 @@ export function MenuScreen({}) {
                                 <Text style={theme.wordtext}>100 Coins</Text>
                             </Text>
                     </View>                            
-                </TouchableOpacity>
                 
 
                 {/*VOUCHERS */}
-                <TouchableOpacity                                       
-                   >
+
                     <View style={{alignItems:'center'}}>
                             <Image 
                                 style = {theme.midlogo}
@@ -163,7 +157,6 @@ export function MenuScreen({}) {
                                 <Text style={theme.wordtext}>10 Vouchers</Text>
                             </Text>                     
                     </View>        
-                </TouchableOpacity>
                 </View>
 
             </View>
@@ -204,14 +197,11 @@ export function MenuScreen({}) {
             <View style={{ flex: 0.01, alignItems: 'center', justifyContent: 'space-between'}}></View>
             {/*grey box below recently viewed*/}
             <View style={{ flex: 0, alignItems: 'flex-start', justifyContent: 'space-between', backgroundColor: '#FFFFFF', flexDirection: 'row',}}>
-                <TouchableOpacity                                                        
-                   >
                         <View style={theme.Container}>   
                         <Button labelStyle={{fontSize: 35}} icon = "heart" >   
                             <Text style={theme.text}>Favourites</Text>                            
                         </Button>
                         </View>
-                </TouchableOpacity>
 
             </View>
             
@@ -219,14 +209,12 @@ export function MenuScreen({}) {
             <View style={{ flex: 0.01, alignItems: 'center', justifyContent: 'space-between'}}></View>
             {/*grey box below fav*/}
             <View style={{ flex: 0, alignItems: 'flex-start', justifyContent: 'space-between', backgroundColor: '#FFFFFF', flexDirection: 'row',}}>
-                <TouchableOpacity                                                        
-                   >
+                
                         <View style={theme.Container}>   
                         <Button labelStyle={{fontSize: 35}} icon = "earth" >   
                             <Text style={theme.text}>Foodie Community</Text>                            
                         </Button>
                         </View>
-                </TouchableOpacity>
             </View>            
 
             {/*grey box below refer a friend*/}
@@ -247,28 +235,24 @@ export function MenuScreen({}) {
             <View style={{ flex: 0.02, alignItems: 'center', justifyContent: 'space-between'}}></View>
             {/*grey box below raf*/}
             <View style={{ flex: 0, alignItems: 'flex-start', justifyContent: 'space-between', backgroundColor: '#FFFFFF', flexDirection: 'row',}}>
-                <TouchableOpacity                                                        
-                   >
+
                         <View style={theme.Container}>   
                         <Button labelStyle={{fontSize: 35}} icon = "help-circle-outline" >   
                             <Text style={theme.text}>Help Center</Text>                            
                         </Button>
                         </View>
-                </TouchableOpacity>
             </View>
 
             {/*grey box below help centere*/}
             <View style={{ flex: 0, alignItems: 'center', justifyContent: 'space-between'}}></View>
             {/*grey box below help center*/}
             <View style={{ flex: 0, alignItems: 'flex-start', justifyContent: 'space-between', backgroundColor: '#FFFFFF', flexDirection: 'row',}}>
-                <TouchableOpacity                                                        
-                   >
+
                         <View style={theme.Container}>   
                         <Button labelStyle={{fontSize: 35}} icon = "chat-outline" >   
                             <Text style={theme.text}>Chat with Hippo</Text>                            
                         </Button>
                         </View>
-                </TouchableOpacity>
             </View>
 
             
