@@ -31,15 +31,23 @@ export function MSuggest2() {
                 </View>
 
 
+<<<<<<< Updated upstream
 
             </View>
 
 
+=======
+            </View>
+
+>>>>>>> Stashed changes
         </Card>);
 }
 
 
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -127,13 +135,19 @@ export const styles = StyleSheet.create({
         zIndex: 1
     },
 
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
     Image: {
         width: 100,
         height: 100,
     },
 
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
     cardAlign: {
         flexDirection: 'row',
     },
@@ -141,4 +155,8 @@ export const styles = StyleSheet.create({
 
     secColor: "#E76766"
 
+<<<<<<< Updated upstream
 });
+=======
+});
+>>>>>>> Stashed changes

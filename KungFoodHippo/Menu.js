@@ -41,7 +41,10 @@ export function MenuScreen({}) {
             {/* START WRITING CODE BELOW!!!! */}
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
            
@@ -469,5 +472,8 @@ const InitialIcon = ({ initials, name }) => {
     );
   };
 
+<<<<<<< Updated upstream
 
 
+=======
+>>>>>>> Stashed changes
