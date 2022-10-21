@@ -22,6 +22,7 @@ import { Map2Screen } from './Components/Home/Map.js';
 //import { MenuScreen } from './Menu.js';
 import { MenuScreen } from './Menu.js';
 import { AccountScreen } from './Account.js';
+import { CookingScreen } from './Cooking.js';
 import {
   SafeAreaView,
   SafeAreaProvider,
@@ -195,7 +196,7 @@ export default function KungFoodHippo() {
                 <Menu.Screen name="Payment" component={PaymentScreen} />
                 <Menu.Screen name="Map" component={MapScreen} />
                 <Menu.Screen name="Suggestion" component={SuggestionScreen} />
-                <Menu.Screen name="Map2" component={Map2Screen} />
+                <Menu.Screen name="Cooking" component={CookingScreen} />
 
                 {/*<Menu.Screen name="Tracking" component={TrackingScreen} />*/}
               </Menu.Navigator>

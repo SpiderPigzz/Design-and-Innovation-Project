@@ -310,7 +310,7 @@ export function PaymentScreen({ navigation, route }) {
 
       <TouchableOpacity
         style={styles.order}
-        onPress={() => navigation.navigate('Map')}>
+        onPress={() => navigation.navigate('Cooking')}>
         <Text style={styles.buttonText}>Place Order</Text>
       </TouchableOpacity>
     </View>

@@ -51,7 +51,9 @@ export function StoreScreen({ navigation, route }) {
     const setStatusFilter = status => {
         console.log(status);
         if (status !== 'All') {
-            setDataList([data.filter(e => e.category === status)])
+            
+            setDataList(data.filter(e => e.category === status))
+            console.log(dataList);
         } else {
             setDataList(data)
         }
@@ -63,8 +65,12 @@ export function StoreScreen({ navigation, route }) {
     const photoPath = "picture/" + shopID;
     const reviewPath = "getShopRating/" + shopID;
 
+    useEffect(() => {
+        setStatusFilter('All');
+    }, [data]);
 
     useEffect(() => {
+        setLoading(true);
         fetch(url + menuPath)
             .then((response) => response.json())
             .then((json) => {
@@ -76,7 +82,7 @@ export function StoreScreen({ navigation, route }) {
             })
             .catch((error) => console.error(error))
             .finally(() => {
-                setStatusFilter("All");
+               
                 setLoading(false)
             });
 
@@ -109,6 +115,9 @@ export function StoreScreen({ navigation, route }) {
 
             
     }, [shopID]);
+
+
+    
 
     const renderItem = ({ item }) => (
         <FoodCard title={item.name} description={item.description} price={item.price} imageURI={item.imageURI} shopID={shopID}></FoodCard>
@@ -145,12 +154,12 @@ export function StoreScreen({ navigation, route }) {
                 </TouchableOpacity>
             </View>
 
-            <View style={[styles.container, { paddingHorizontal: 16, paddingVertical: 8, flex: 4 }]}>
-                <View style={{ flexDirection: "row" }}>
+            <View style={[styles.container, {paddingVertical: 8, flex: 4 }]}>
+                <View style={{ flexDirection: "row", marginHorizontal: 16, marginBottom: 2}}>
                     <Text style={[styles.backgroundText, { textAlign: "left", fontSize: 24, textAlignVertical: "bottom" }]}>{restaurant}</Text>
                 </View>
 
-                <ScrollView>
+                <ScrollView style={{paddingHorizontal: 16}}>
                     <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                         <View style={{ flexDirection: "row", justifyContent: "flex-start", paddingVertical: 4, paddingRight: 4, flex: 4.5 }}>
                             <Image
