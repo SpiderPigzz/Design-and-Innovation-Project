@@ -40,7 +40,10 @@ export function MenuScreen({}) {
         <PaperProvider theme={theme}>
             {/* START WRITING CODE BELOW!!!! */}
 
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
            
             {/* PROFILE NAME */}
             <View style={{ flex: 0, alignItems: 'flex-start', justifyContent: 'center' , backgroundColor: '#E76766'}}>
@@ -465,5 +468,6 @@ const InitialIcon = ({ initials, name }) => {
       
     );
   };
+
 
 

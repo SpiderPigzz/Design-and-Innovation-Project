@@ -141,4 +141,9 @@ export const styles = StyleSheet.create({
 
     secColor: "#E76766"
 
+<<<<<<< Updated upstream
 });
+=======
+});
+
+>>>>>>> Stashed changes

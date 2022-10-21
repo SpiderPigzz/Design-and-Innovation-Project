@@ -43,7 +43,10 @@ export const userContext = React.createContext();
 
 WebBrowser.maybeCompleteAuthSession();
 
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 export default function KungFoodHippo() {
   const [active, setActive] = React.useState('');
   const [userEmail, setUserEmail] = React.useState();
@@ -81,7 +84,6 @@ export default function KungFoodHippo() {
     androidClientId: '409793276708-3q6gqf67nek5gtiftjo9ojl9kklq0s3k.apps.googleusercontent.com',
     webClientId: '409793276708-3q6gqf67nek5gtiftjo9ojl9kklq0s3k.apps.googleusercontent.com',
   });
-
 
 
 
@@ -142,14 +144,15 @@ export default function KungFoodHippo() {
               </Menu.Navigator>
             </NavigationContainer>
           </userContext.Provider>)}
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 
     </PaperProvider>
 
-
   );
 }
-
 
 const Menu = createDrawerNavigator();
 
@@ -167,7 +170,6 @@ const theme = {
     primary: styles.primColor,
     secondary: styles.secColor,
   },
-
 
   btnContainer: {
     backgroundColor: "#E4A478",
@@ -235,3 +237,4 @@ const theme = {
 
   },
 };
+
