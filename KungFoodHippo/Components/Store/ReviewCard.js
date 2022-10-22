@@ -22,7 +22,7 @@ export function ReviewCard({ overall, food, packaging, value, count }) {
                             <CircularProgress
                                 showProgressValue={false}
                                 value={overall}
-                                maxValue={5}
+                                maxValue={10}
                                 radius={32}
                                 title={overall.toFixed(2)}
                                 titleFontSize={20}
@@ -39,7 +39,7 @@ export function ReviewCard({ overall, food, packaging, value, count }) {
                             <CircularProgress
                                 showProgressValue={false}
                                 value={food}
-                                maxValue={5}
+                                maxValue={10}
                                 radius={32}
                                 title={food.toFixed(2)}
                                 titleFontSize={20}
@@ -56,7 +56,7 @@ export function ReviewCard({ overall, food, packaging, value, count }) {
                             <CircularProgress
                                 showProgressValue={false}
                                 value={packaging}
-                                maxValue={5}
+                                maxValue={10}
                                 radius={32}
                                 title={packaging.toFixed(2)}
                                 titleFontSize={20}
@@ -73,7 +73,7 @@ export function ReviewCard({ overall, food, packaging, value, count }) {
                             <CircularProgress
                                 showProgressValue={false}
                                 value={value}
-                                maxValue={5}
+                                maxValue={10}
                                 radius={32}
                                 title={value.toFixed(2)}
                                 titleFontSize={20}
