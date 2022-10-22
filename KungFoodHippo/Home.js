@@ -1,4 +1,5 @@
 import * as React from 'react';
+import AnimatedSplash from "react-native-animated-splash-screen";
 import { StatusBar } from 'expo-status-bar';
 import {
     StyleSheet,
@@ -50,12 +51,26 @@ export function HomeScreen({ navigation, route }) {
     function updateSearch(value) {
         console.log(value);
     }
+    const [loading, settoLoading] = useState(false);
+
+  setTimeout(() => {
+    settoLoading(true);
+  }, 2000);
 
     const { userEmail, userName, userToken } = useContext(userContext);
 
 
     return (
+        <AnimatedSplash
+        translucent={false}
+        isLoaded={loading}
+        logoImage={require("./assets/rungif.gif")}
+        backgroundColor={"#000"}
+        logoHeight={300}
+        logoWidth={300}
+        > 
         <View style={[style1.container]}>
+            
             <ScrollView style={style1.container} vertical={true}>
                 <View style={style1.searchBoxWrapper} >
                     <TextInput placeholder={'Search for shops and restaurants'} />
@@ -141,6 +156,7 @@ export function HomeScreen({ navigation, route }) {
 
 
         </View>
+        </AnimatedSplash>
         // <PaperProvider theme={theme}>
         //   <View style={style.searchBoxWrapper}>
         //         <TextInput placeholder={'Search for shops and restaurants'}/>
@@ -148,6 +164,7 @@ export function HomeScreen({ navigation, route }) {
         ///     </View>
 
         //   </PaperProvider>
+        
     );
 }
 const style1 = StyleSheet.create({
