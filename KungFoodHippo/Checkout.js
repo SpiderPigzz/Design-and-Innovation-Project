@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, ScrollView, View, Image, FlatList, ActivityIndicator, InteractionManager, Touchable } from 'react-native';
+import AnimatedSplash from "react-native-animated-splash-screen";
 import * as Font from 'expo-font';
 import { useState, useEffect } from 'react';
 import { DrawerActions, createAppContainer } from 'react-navigation';
@@ -49,7 +50,6 @@ export function CheckoutScreen({ navigation }) {
 
     useEffect(() => {
         navigation.addListener('focus', () => {
-
             fetch(url + cartPath)
                 .then((response) => response.json())
                 .then((json) => {
@@ -89,10 +89,16 @@ export function CheckoutScreen({ navigation }) {
     const renderItem = ({ item }) => (
         <BillCard dishName={item['dish.name']} quantity={item['quantity']} description={item['description']} category={item['category']} price={item['price']} imageURI={item.imageURI} shopID={item['shop.ID']}></BillCard>
     );
-
-
     return (
         <PaperProvider theme={theme}>
+            <AnimatedSplash
+            translucent={false}
+            isLoaded={!isLoading}
+            logoImage={require("./assets/rungif.gif")}
+            backgroundColor={"#f2a6a6"}
+            logoHeight={300}
+            logoWidth={300}
+            > 
             {/* START WRITING CODE BELOW!!!! */}
             <View style={[styles.container, { flex: 1, flexDirection: 'column', justifyContent: 'space-between' }]}>
                 <Card style={[styles.cardSec, { margin: 16, flex: 3 }]}>
@@ -193,7 +199,9 @@ export function CheckoutScreen({ navigation }) {
                         <Text style={styles.text}>{"S$"}{totalPrice}</Text>
                     </View>
 
-                    <Button style={[styles.button, { marginHorizontal: 16, borderRadius: 15 }]} android_ripple={{ color: 'white', borderless: false }} onPress={() => {navigation.navigate('Payment', {totalCheckout: totalPrice});}}>
+                    <Button style={[styles.button, { marginHorizontal: 16, borderRadius: 15 }]} android_ripple={{ color: 'white', borderless: false }} onPress={() => {
+                        navigation.navigate('Payment', {totalCheckout: totalPrice});
+                    }}>
                         <Text style={styles.buttonText}>Checkout</Text>
                     </Button>
 
@@ -202,7 +210,7 @@ export function CheckoutScreen({ navigation }) {
 
 
             </View>
-
+            </AnimatedSplash>
         </PaperProvider >
     );
 }

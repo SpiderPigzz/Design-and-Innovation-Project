@@ -1,4 +1,5 @@
 import * as React from 'react';
+import AnimatedSplash from "react-native-animated-splash-screen";
 import { StatusBar } from 'expo-status-bar';
 import {
     StyleSheet,
@@ -46,10 +47,15 @@ import { useContext } from 'react';
 
 
 export function HomeScreen({ navigation, route }) {
-    const [value, setValue] = useState()
+    const [value, setValue] = useState();
     function updateSearch(value) {
         console.log(value);
     }
+    const [loading, settoLoading] = useState(false);
+
+    setTimeout(() => {
+        settoLoading(true);
+    }, 2000);
 
     const isFocused = useIsFocused();
 
@@ -57,214 +63,223 @@ export function HomeScreen({ navigation, route }) {
 
 
     return (
-        <View style={[style1.container]}>
-            <Portal>
-                <FloatingButton setVisibility={isFocused} navigation={navigation} />
-            </Portal>
-            <ScrollView style={style1.container} vertical={true}>
-                <View style={style1.searchBoxWrapper1}>
-                    <Text style={{ fontSize: 24, fontWeight: "bold" }}>Hello {userName}, what do you want to eat today?</Text>
-                </View>
-                <TouchableOpacity
-                    onPress={() => navigation.navigate('Listing', {
-                        queryString: 'Search for restaurants'
-                    })}>
-                    <View style={style1.searchBoxWrapper} >
-                        <TextInput placeholder={'Search for restaurants'} />
-                        <Image source={require('./assets/images/search.png')} />
+        <AnimatedSplash
+            translucent={false}
+            isLoaded={loading}
+            logoImage={require("./assets/rungif.gif")}
+            backgroundColor={"#f2a6a6"}
+            logoHeight={300}
+            logoWidth={300}
+        >
+            <View style={[style1.container]}>
+                <Portal>
+                    <FloatingButton setVisibility={isFocused} navigation={navigation} />
+                </Portal>
+                <ScrollView style={style1.container} vertical={true}>
+                    <View style={style1.searchBoxWrapper1}>
+                        <Text style={{ fontSize: 24, fontWeight: "bold" }}>Hello {userName}, what do you want to eat today?</Text>
                     </View>
-                </TouchableOpacity>
-
-                <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                     <TouchableOpacity
-
                         onPress={() => navigation.navigate('Listing', {
-                            queryString: 'Hot Deals'
+                            queryString: 'Search for restaurants'
                         })}>
-                        <View style={style1.categoryItem}>
-                            <View style={style1.categoryCard}>
-                                <Image source={require('./assets/images/HotDeals.png')} style={style1.image} />
+                        <View style={style1.searchBoxWrapper} >
+                            <TextInput placeholder={'Search for restaurants'} />
+                            <Image source={require('./assets/images/search.png')} />
+                        </View>
+                    </TouchableOpacity>
+
+                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                        <TouchableOpacity
+
+                            onPress={() => navigation.navigate('Listing', {
+                                queryString: 'Hot Deals'
+                            })}>
+                            <View style={style1.categoryItem}>
+                                <View style={style1.categoryCard}>
+                                    <Image source={require('./assets/images/HotDeals.png')} style={style1.image} />
+                                </View>
+                                <Text style={style1.label1}>Hot Deals</Text>
                             </View>
-                            <Text style={style1.label1}>Hot Deals</Text>
+
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+
+                            onPress={() => navigation.navigate('Listing', {
+                                queryString: 'Favourite'
+                            })}>
+                            <View style={style1.categoryItem}>
+                                <View style={style1.categoryCard}>
+                                    <Image source={require('./assets/images/FavouriteFood.png')} style={style1.image} />
+                                </View>
+                                <Text style={style1.label1}>Favourite</Text>
+                            </View>
+
+                        </TouchableOpacity>
+                        <TouchableOpacity
+
+                            onPress={() => navigation.navigate('Listing', {
+                                queryString: 'Offers'
+                            })}>
+                            <View style={style1.categoryItem}>
+                                <View style={style1.categoryCard}>
+                                    <Image source={require('./assets/images/BadgetMeal.png')} style={style1.image} />
+                                </View>
+                                <Text style={style1.label1}>Offers</Text>
+                            </View>
+
+                        </TouchableOpacity>
+                        <TouchableOpacity
+
+                            onPress={() => navigation.navigate('Listing', {
+                                queryString: 'Order Later'
+                            })}>
+                            <View style={style1.categoryItem}>
+                                <View style={style1.categoryCard}>
+                                    <Image source={require('./assets/images/NewFood.png')} style={style1.image} />
+                                </View>
+                                <Text style={style1.label1}>Order Later </Text>
+                            </View>
+
+                        </TouchableOpacity>
+
+                    </ScrollView>
+                    <View>
+                        <TouchableOpacity
+
+                            onPress={() => navigation.navigate('Listing', {
+                                queryString: 'Food'
+                            })}>
+                            <FoodDeliveryCard></FoodDeliveryCard>
+                        </TouchableOpacity>
+
+                        <View style={{ flexDirection: "row", justifyContent: "space-evenly" }}>
+                            <View style={[style1.FDCard]}>
+                                <TouchableOpacity
+
+                                    onPress={() => navigation.navigate('Listing', {
+                                        queryString: 'Halal'
+                                    })}>
+                                    <HalalCard></HalalCard>
+                                </TouchableOpacity>
+                            </View>
+
+                            <View>
+                                <View style={[style1.FDCard2]}>
+                                    <TouchableOpacity
+
+                                        onPress={() => navigation.navigate('Listing', {
+                                            queryString: 'Vegans'
+                                        })}>
+                                        <VeganCard></VeganCard>
+                                    </TouchableOpacity>
+
+                                </View>
+                                <View style={style1.FDCard2}>
+                                    <TouchableOpacity
+
+                                        onPress={() => navigation.navigate('Listing', {
+                                            queryString: 'PickUp'
+                                        })}>
+                                        <PickUpCard></PickUpCard>
+                                    </TouchableOpacity>
+
+                                </View>
+                            </View>
                         </View>
 
-                    </TouchableOpacity>
+                    </View>
+                    <View>
+                        {/* <userContext.Consumer>
+                    {name => <Text style={style1.cuisineText}>{name}</Text>}
+                    </userContext.Consumer> */}
+                        <Text style={style1.cuisineText}>Cuisines</Text>
+                        <View style={[style1.cuisinesCard, { justifyContent: 'space-evenly' }]} horizontal={true}>
 
-                    <TouchableOpacity
-
-                        onPress={() => navigation.navigate('Listing', {
-                            queryString: 'Favourite'
-                        })}>
-                        <View style={style1.categoryItem}>
-                            <View style={style1.categoryCard}>
-                                <Image source={require('./assets/images/FavouriteFood.png')} style={style1.image} />
-                            </View>
-                            <Text style={style1.label1}>Favourite</Text>
-                        </View>
-
-                    </TouchableOpacity>
-                    <TouchableOpacity
-
-                        onPress={() => navigation.navigate('Listing', {
-                            queryString: 'Offers'
-                        })}>
-                        <View style={style1.categoryItem}>
-                            <View style={style1.categoryCard}>
-                                <Image source={require('./assets/images/BadgetMeal.png')} style={style1.image} />
-                            </View>
-                            <Text style={style1.label1}>Offers</Text>
-                        </View>
-
-                    </TouchableOpacity>
-                    <TouchableOpacity
-
-                        onPress={() => navigation.navigate('Listing', {
-                            queryString: 'Order Later'
-                        })}>
-                        <View style={style1.categoryItem}>
-                            <View style={style1.categoryCard}>
-                                <Image source={require('./assets/images/NewFood.png')} style={style1.image} />
-                            </View>
-                            <Text style={style1.label1}>Order Later </Text>
-                        </View>
-
-                    </TouchableOpacity>
-
-                </ScrollView>
-                <View>
-                    <TouchableOpacity
-
-                        onPress={() => navigation.navigate('Listing', {
-                            queryString: 'Food'
-                        })}>
-                        <FoodDeliveryCard></FoodDeliveryCard>
-                    </TouchableOpacity>
-
-                    <View style={{ flexDirection: "row", justifyContent: "space-evenly" }}>
-                        <View style={[style1.FDCard]}>
                             <TouchableOpacity
 
                                 onPress={() => navigation.navigate('Listing', {
-                                    queryString: 'Halal'
+                                    queryString: 'Japanese'
                                 })}>
-                                <HalalCard></HalalCard>
+                                <JapaneseCard></JapaneseCard>
                             </TouchableOpacity>
+                            <TouchableOpacity
+
+                                onPress={() => navigation.navigate('Listing', {
+                                    queryString: 'Korean'
+                                })}>
+                                <KoreanCard></KoreanCard>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+
+                                onPress={() => navigation.navigate('Listing', {
+                                    queryString: 'Western'
+                                })}>
+                                <WesternCard></WesternCard>
+                            </TouchableOpacity>
+
+
+
                         </View>
+                        <View style={[style1.cuisinesCard, { justifyContent: 'space-evenly' }]} horizontal={true}>
+                            <TouchableOpacity
 
-                        <View>
-                            <View style={[style1.FDCard2]}>
-                                <TouchableOpacity
+                                onPress={() => navigation.navigate('Listing', {
+                                    queryString: 'Italian'
+                                })}>
+                                <ItalianCard></ItalianCard>
+                            </TouchableOpacity>
+                            <TouchableOpacity
 
-                                    onPress={() => navigation.navigate('Listing', {
-                                        queryString: 'Vegans'
-                                    })}>
-                                    <VeganCard></VeganCard>
-                                </TouchableOpacity>
+                                onPress={() => navigation.navigate('Listing', {
+                                    queryString: 'Chinese'
+                                })}>
+                                <ChineseCard></ChineseCard>
+                            </TouchableOpacity>
+                            <TouchableOpacity
 
-                            </View>
-                            <View style={style1.FDCard2}>
-                                <TouchableOpacity
+                                onPress={() => navigation.navigate('Listing', {
+                                    queryString: 'Mexican'
+                                })}>
+                                <MexicanCard></MexicanCard>
+                            </TouchableOpacity>
 
-                                    onPress={() => navigation.navigate('Listing', {
-                                        queryString: 'PickUp'
-                                    })}>
-                                    <PickUpCard></PickUpCard>
-                                </TouchableOpacity>
 
-                            </View>
+
                         </View>
                     </View>
 
-                </View>
-                <View>
-                    {/* <userContext.Consumer>
-                    {name => <Text style={style1.cuisineText}>{name}</Text>}
-                    </userContext.Consumer> */}
-                    <Text style={style1.cuisineText}>Cuisines</Text>
-                    <View style={[style1.cuisinesCard, {justifyContent:'space-evenly'}]} horizontal={true}>
-
-                        <TouchableOpacity
-
-                            onPress={() => navigation.navigate('Listing', {
-                                queryString: 'Japanese'
-                            })}>
-                            <JapaneseCard></JapaneseCard>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-
-                            onPress={() => navigation.navigate('Listing', {
-                                queryString: 'Korean'
-                            })}>
-                            <KoreanCard></KoreanCard>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-
-                            onPress={() => navigation.navigate('Listing', {
-                                queryString: 'Western'
-                            })}>
-                            <WesternCard></WesternCard>
-                        </TouchableOpacity>
-
-
-
+                    <View style={style1.ListingWrapper}>
+                        <Text style={style1.subHeadingWrapper}>
+                            Recommended For You
+                        </Text>
+                        <Image source={require('./assets/images/Rightarrow.png')} style={style1.arrowWrapper} />
                     </View>
-                    <View style={[style1.cuisinesCard, {justifyContent:'space-evenly'}]} horizontal={true}>
-                        <TouchableOpacity
+                    <ScrollView
+                        contentContainerStyle={[style1.foodListingWrapper]} horizontal={true} >
+                        <View style={{ margin: 10, flex: 1, justifyContent: 'space-between', flexDirection: 'row' }} horizontal={true}>
+                            <TouchableOpacity
+                                onPress={() => navigation.navigate('Listing', {
+                                    queryString: 'Takagiramen'
+                                })}>
+                                <RamenCard></RamenCard>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                onPress={() => navigation.navigate('Listing', {
+                                    queryString: 'Pastamania'
+                                })}>
+                                <PastamaniaCard></PastamaniaCard>
+                            </TouchableOpacity>
 
-                            onPress={() => navigation.navigate('Listing', {
-                                queryString: 'Italian'
-                            })}>
-                            <ItalianCard></ItalianCard>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-
-                            onPress={() => navigation.navigate('Listing', {
-                                queryString: 'Chinese'
-                            })}>
-                            <ChineseCard></ChineseCard>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-
-                            onPress={() => navigation.navigate('Listing', {
-                                queryString: 'Mexican'
-                            })}>
-                            <MexicanCard></MexicanCard>
-                        </TouchableOpacity>
-
-
-
-                    </View>
-                </View>
-
-                <View style={style1.ListingWrapper}>
-                    <Text style={style1.subHeadingWrapper}>
-                        Recommended For You
-                    </Text>
-                    <Image source={require('./assets/images/Rightarrow.png')} style={style1.arrowWrapper} />
-                </View>
-                <ScrollView
-                    contentContainerStyle={[style1.foodListingWrapper]} horizontal={true} >
-                    <View style={{margin: 10, flex: 1, justifyContent: 'space-between', flexDirection: 'row'}} horizontal={true}>
-                        <TouchableOpacity 
-                            onPress={() => navigation.navigate('Listing', {
-                                queryString: 'Takagiramen'
-                            })}>
-                            <RamenCard></RamenCard>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            onPress={() => navigation.navigate('Listing', {
-                                queryString: 'Pastamania'
-                            })}>
-                            <PastamaniaCard></PastamaniaCard>
-                        </TouchableOpacity>
-
-                    </View>
+                        </View>
+                    </ScrollView>
                 </ScrollView>
-            </ScrollView>
 
 
 
-        </View>
+            </View>
+        </AnimatedSplash>
         // <PaperProvider theme={theme}>
         //   <View style={style.searchBoxWrapper}>
         //         <TextInput placeholder={'Search for shops and restaurants'}/>
@@ -272,6 +287,7 @@ export function HomeScreen({ navigation, route }) {
         ///     </View>
 
         //   </PaperProvider>
+
     );
 }
 const style1 = StyleSheet.create({

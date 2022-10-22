@@ -9,6 +9,8 @@ import MapView from 'react-native-maps';
 import { ScrollView } from 'react-native-gesture-handler';
 import { userContext } from './App.js';
 
+
+
 const tabs = [
   {
     title: 'Cart',
@@ -64,6 +66,7 @@ export function PaymentScreen({ navigation, route }) {
   }
 
   return (
+    
     <View style={[styles.container]}>
       <>
         <Appbar.Header style={styles.topbar}>
@@ -314,7 +317,7 @@ export function PaymentScreen({ navigation, route }) {
         <Text style={styles.buttonText}>Place Order</Text>
       </TouchableOpacity>
     </View>
-
+  
   );
 }
 
