@@ -141,6 +141,7 @@ export function PaymentScreen({ navigation, route }) {
                       style={styles.addressInput}
                       onChangeText={setPostalCode}
                       value={postalCode}
+                      //convert postal code to lat and long
                       placeholder="eg. 685478"
                       keyboardType='numeric'
                     />
