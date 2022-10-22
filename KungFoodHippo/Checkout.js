@@ -31,7 +31,7 @@ export function CheckoutScreen({ navigation }) {
             translucent={false}
             isLoaded={loading}
             logoImage={require("./assets/rungif.gif")}
-            backgroundColor={"#000"}
+            backgroundColor={"#f2a6a6"}
             logoHeight={300}
             logoWidth={300}
             > 
