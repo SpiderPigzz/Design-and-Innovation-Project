@@ -4,6 +4,7 @@ import {
     StyleSheet,
     View,
     Image,
+    ImageBackground,
     ScrollView,
     FlatList,
     TouchableOpacity,
@@ -57,9 +58,10 @@ export function CookingScreen({ navigation }) {
     return (
         <SafeAreaView style={[style1.container]}>
             <View style={{flex: 1, justifyContent:'space-evenly', alignItems:'center', flexDirection: "column"}}>
-                <Image source={require("./assets/videos/loading-cooking.gif")} style={{width: "100%", resizeMode: 'contain'}}></Image>
+                <ImageBackground source={require("./assets/fdbg.jpg")}  style={style1.bg}>
+                <Image source={require("./assets/videos/loading-cooking.gif")} style={style1.cooking}></Image>
                 <Text style={{fontWeight: 'bold',textAlign: 'center', color: 'black', fontSize: 24, flex: 1, flexWrap: 'wrap',}}>{loadingText}</Text>
-
+                </ImageBackground>
                 
             </View>
 
@@ -288,6 +290,18 @@ const style1 = StyleSheet.create({
         flex: 1,
         backgroundColor: '#85C0FC', // light blue
     },
+    bg: {
+        flex: 1,
+      justifyContent: "center",
+      height: 800,
+    },
+    cooking: {
+        resizeMode:"contain",
+        height:350,
+        opacity: 0.8,
+        justifyContent: "center",
+        marginVertical: 80
+    }
 });
 //const theme = {
    // DefaultTheme,
