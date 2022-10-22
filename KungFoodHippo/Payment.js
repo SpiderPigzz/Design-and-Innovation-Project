@@ -68,21 +68,8 @@ export function PaymentScreen({ navigation, route }) {
   return (
     
     <View style={[styles.container]}>
-      <>
-        <Appbar.Header style={styles.topbar}>
-          <Appbar.Action icon="close" onPress={() => { }} />
-          <Appbar.Content style={{ fontWeight: "bold" }} title="Checkout" />
-        </Appbar.Header>
-        <ProgressBarMultiStep
-          progressive={true}
-          page={page}
-          setPage={setPage}
-          tabs={tabs}
-          circleStyle={{ width: 25, height: 25 }}
-          lineStyle={{ width: 80 }}
-          finishedBackgroundColor='#E76766'
-          inProgressBackgroundColor='grey'
-        />
+      
+        
         <View style={{
           flexDirection: 'row',
         }}>
@@ -103,7 +90,7 @@ export function PaymentScreen({ navigation, route }) {
             <Text style={{ fontWeight: "bold" }} >Pick Up</Text>
           </Pressable>
         </View>
-      </>
+      
 
 
       <Divider style={styles.divider} horizontalInset='true' bold='true' />
