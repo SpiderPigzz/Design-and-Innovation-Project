@@ -185,7 +185,7 @@ export default function KungFoodHippo() {
         (
           <userContext.Provider value={{userEmail, userName, userToken}}>
             <NavigationContainer>
-              <Menu.Navigator initialRouteName="Home">
+              <Menu.Navigator initialRouteName="Home" drawerContent={() => (<MenuScreen/>)}>
                 {/* <Menu.Screen name="Login" component={LoginScreen} /> */}
                 <Menu.Screen name="Home" component={HomeScreen} />
                 <Menu.Screen name="Menu" component={MenuScreen} />

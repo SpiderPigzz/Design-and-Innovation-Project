@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, Image, TouchableOpacity , Pressable, TextInput } from 'react-native';
+import { StyleSheet, View, Image, TouchableOpacity, ActivityIndicator, Pressable, TextInput, Modal } from 'react-native';
 import * as Font from 'expo-font';
-import { useState } from 'react';
+import {useState, useEffect} from 'react';
 import { DrawerActions, createAppContainer, ThemeContext } from 'react-navigation';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
@@ -16,10 +16,53 @@ import {
     initialWindowMetrics,
 } from 'react-native-safe-area-context';
 import { Icon } from 'react-native-elements';
+import {userContext} from './App.js';
+import {useContext} from 'react';
+import renderNode from 'react-native-elements/dist/helpers/renderNode.js';
+import { add } from 'react-native-reanimated';
 
 export function AccountScreen({ navigation }) {
     
-    const [address, setAddress] = useState("");
+    
+    function updateSearch(value) {
+        console.log(value);
+        console.log(Number(value));
+    }
+
+    const { userEmail, userName, userToken } = useContext(userContext);
+
+    const [addressModalVisible, setAddressModalVisible] = useState(false);
+    const [newAddress, onChangeAddress] = React.useState(false);
+    const [address, changedAddress] = useState();
+    
+    const [phoneModalVisible, setPhoneModalVisible] = useState(false);
+    const [newPhone, onChangePhone] = React.useState(false);
+    const [phone, changedPhone] = useState(false);
+
+  const [isLoading, setLoading] = useState(true);
+  const [customerData, setCustomerData] = useState();
+  
+  
+    const customerURL =  `http://dip.totallynormal.website/getCustomer/${userEmail}`;
+    
+    
+    const getCustomerFromDatabase = async () => {
+      try {
+        const response = await fetch(customerURL);
+        const json = await response.json();
+        setCustomerData(json);
+        
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    }
+   
+    
+  useEffect(() => {
+    getCustomerFromDatabase();
+  }, []);
 
     return (
         <PaperProvider theme={theme}>
@@ -28,8 +71,8 @@ export function AccountScreen({ navigation }) {
             {/* PINK ACC PART */}
             <View style={{ flex: 0.3, alignItems: 'flex-start', justifyContent: 'center' , backgroundColor: '#E76766', }}>
                 <View style={theme.Container}>      
-                <TouchableOpacity                                       
-                onPress={() => navigation.navigate('Menu')}>   
+                <TouchableOpacity                                         
+                onPress={() => navigation.navigate('Home')}>   
                     <View style={theme.Container}>      
                         <Image
                             source={require('./assets/back-logo.png')}
@@ -41,7 +84,6 @@ export function AccountScreen({ navigation }) {
                 </View>
             </View>
 
-
             {/* GREY BOX MY ACCOUNT */}
             <View style={{ flex: 0.3, justifyContent: 'center'}}>
                 <Text style={theme.maintext}>My Account</Text>
@@ -51,7 +93,7 @@ export function AccountScreen({ navigation }) {
             <View style={{ flex: 0.3, alignItems: 'center', justifyContent: 'space-between', backgroundColor: '#FFFFFF', flexDirection: 'row',}}>
                 <View style={theme.Container}>
                     <Button labelStyle={{fontSize: 35}} icon = "account" >   
-                        <Text style={theme.text}>Kfh</Text>                            
+                        <Text style={theme.text}>{userName}</Text>                            
                     </Button>
                 </View>
             </View>
@@ -62,39 +104,130 @@ export function AccountScreen({ navigation }) {
             {/*ADDRESS BOX*/}
             <View style={{ flex: 0.3, alignItems: 'center', justifyContent: 'space-between', backgroundColor: '#FFFFFF', flexDirection: 'row',}}>
                 <View style={theme.Container}>   
+              
                     <Button labelStyle={{fontSize: 35}} icon = "home" >   
-                        <Text style={theme.text}>Sk</Text>                            
+
+                        {isLoading ? <ActivityIndicator /> : (
+
+                        <Text style={theme.text}> {address ? newAddress : customerData[0].address } </Text>
+                        
+                        )}
+
+
+
                     </Button>
                 <View style={{ flex: 1,  flexDirection:'row-reverse' ,justifyContent: 'flex-start'}}>
+                {<TouchableOpacity
+                    onPress={() => setAddressModalVisible(!addressModalVisible)}
+                    style={theme.edit}>
+
+                    <Button labelStyle={{fontSize: 25}} icon="square-edit-outline"/>
+                    <Text style={theme.selectedText}></Text>
+                </TouchableOpacity>}
+
+                <View>
+                <Modal
+                    multiline ={true}
+                    animationType="slide"
+                    transparent={true}
+                    visible={addressModalVisible}
+                    onRequestClose={() => {
+                    setAddressModalVisible(!addressModalVisible);
+                    }}
+                >
             
-                <Button labelStyle={{fontSize: 25}} icon="square-edit-outline"
-                onPress={() => navigation.navigate('')}>
-                </Button>
+                <View style={theme.centeredView}>
+                  <View style={theme.modalView}>
+                    <Text style={theme.modalText}>Please input your new address:</Text>
+                    <TextInput
+                      style={theme.addressInput}
+                      onChangeText={onChangeAddress}
+                      value={newAddress}
+                      placeholder="eg. 42 nanyang avenue"
+                      placeholderTextColor="grey"
+                      
+                    />
+
+                    <Pressable
+                      style={[theme.modalButton]}
+                      onPress={() =>{ setAddressModalVisible(!addressModalVisible)
+                        changedAddress(newAddress);}}
+                      
+                    >
+                      <Text style={{color : "white"}}>Confirm</Text>
+                    </Pressable>
+                </View>
+                </View>
+              </Modal>
             </View>
             </View>
             </View>
+            </View>
+            
 
             {/*SMALL GREY BOX*/}
             <View style={{ flex: 0.05, alignItems: 'center', justifyContent: 'space-between'}}></View>
 
             {/*PHONE BOX*/}
             <View style={{ flex: 0.3, alignItems: 'center', justifyContent: 'space-between', backgroundColor: '#FFFFFF', flexDirection: 'row',}}>
-            <View style={theme.Container}>   
-                <TouchableOpacity                                                        
-                    onPress={() => navigation.navigate('Home')}>   
+            <View style={theme.Container}>      
                         
                         <Button labelStyle={{fontSize: 35}} icon = "phone" >   
-                            <Text style={theme.text}>+65 999</Text>                            
+                            <Text style={theme.text}>{phone ? newPhone : "87654321"}</Text>                            
                         </Button>
                         
-                </TouchableOpacity>
                 <View style={{ flex: 1,  flexDirection:'row-reverse' ,justifyContent: 'flex-start'}}>
-                <Button labelStyle={{fontSize: 25}} icon="square-edit-outline"
-                    onPress={() => navigation.navigate('')}>
-                </Button>
                 </View>
+
+                {<TouchableOpacity
+                    onPress={() => setPhoneModalVisible(!phoneModalVisible)}
+                    style={theme.edit}>
+
+                    <Button labelStyle={{fontSize: 25}} icon="square-edit-outline"/>
+                    <Text style={theme.selectedText}></Text>
+                </TouchableOpacity>}
+
+                <View>
+                <Modal
+                    multiline ={true}
+                    animationType="slide"
+                    transparent={true}
+                    visible={phoneModalVisible}
+                    onRequestClose={() => {
+                    setPhoneModalVisible(!phoneModalVisible);
+                    }}
+                >
+            
+                <View style={theme.centeredView}>
+                  <View style={theme.modalView}>
+                    <Text style={theme.modalText}>Please input your new phone number:</Text>
+                    <TextInput
+                      style={theme.addressInput}
+                      onChangeText={onChangePhone}
+                      value={newPhone}
+                      placeholder="eg. +65 87654321"
+                      placeholderTextColor="grey"
+                    keyboardType={'phone-pad'}  
+                    pattern = {/^([0-9]{1,8})+$/}
+                    />                    
+                    
+
+                    <Pressable
+                      style={[theme.modalButton]}
+                      onPress={() =>{ setPhoneModalVisible(!phoneModalVisible)
+                        changedPhone(newPhone);
+                        }}
+                    >
+                      <Text style={{color : "white"}}>Confirm</Text>
+                    </Pressable>
+                  </View>
                 </View>
+              </Modal>
             </View>
+            </View>
+            </View>
+                
+            
 
             {/*SMALL GREY BOX*/}
             <View style={{ flex: 0.05, alignItems: 'center', justifyContent: 'space-between'}}></View>
@@ -102,22 +235,16 @@ export function AccountScreen({ navigation }) {
             {/*EMAIL BOX*/}
             <View style={{ flex: 0.3, alignItems: 'center', justifyContent: 'space-between', backgroundColor: '#FFFFFF', flexDirection: 'row',}}>
                 <View style={theme.Container}>
-                <TouchableOpacity                                                        
-                    onPress={() => navigation.navigate('Home')}>   
+                
                         <View style={theme.picContainer}>
                             <Image 
                             source={require('./assets/google.png')}
                             style = {theme.logo}/>
-                            <Text style={theme.text}>kfh@gmail.com</Text> 
+                            <Text style={theme.text}>{userEmail}</Text> 
                             </View>
-                </TouchableOpacity>
-                <View style={{ flex: 1,  flexDirection:'row-reverse' ,justifyContent: 'flex-start'}}>
-                <Button labelStyle={{fontSize: 25}} icon="square-edit-outline"
-                    onPress={() => navigation.navigate('')}>
-                </Button>
-                </View>
                 </View>
             </View>
+            
 
             {/*GREY BOX*/}
             <View style={{ flex: 0.3, justifyContent: 'center'}}>
@@ -127,7 +254,7 @@ export function AccountScreen({ navigation }) {
             {/*HELP CENTER BOX*/}
             <View style={{ flex: 0.3, alignItems: 'center', justifyContent: 'space-between', backgroundColor: '#FFFFFF', flexDirection: 'row',}}>
                 <TouchableOpacity                                                        
-                    onPress={() => navigation.navigate('Home')}>   
+                    onPress={() => navigation.navigate('')}>   
                         <View style={theme.Container}>   
                         <Button labelStyle={{fontSize: 35}} icon = "help-circle-outline" >   
                             <Text style={theme.text}>Help Center</Text>                            
@@ -143,16 +270,19 @@ export function AccountScreen({ navigation }) {
             {/*LOG OUT BOX*/}
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#FFFFFF'}}>
                 <TouchableOpacity                                       
-                    onPress={() => navigation.navigate('Login')} >  
+                    onPress={() => navigation.navigate('Login') }
+                     >  
                     <View style={theme.btnContainer}>                    
                         <Text style={theme.btntext}>LOG OUT</Text>
                     </View>
                 </TouchableOpacity>
             </View>
-            
 
+        
 
         </PaperProvider>
+
+        
 
         
     );  
@@ -166,15 +296,66 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF",
 });
 
-
 const theme = {
     DefaultTheme,
     colors: {
         primary: styles.primColor,
         secondary: styles.secColor,
     },
-    
+    centeredView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 0,
+        backgroundColor: "#000000aa"
+      },
+      modalView: {
+        flex:0,
+        margin: 20,
+        backgroundColor: "white",
+        borderRadius: 20,
+        padding: 40,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5
+      },
+      modalText: {
+        margin: 15,
+        fontSize: 18
+      },
+      modalButton:{
+        backgroundColor: "#E76766",
+        margin: 15,
+        borderRadius: 20,
+        width: 90,
+        elevation: 10,
+        shadowColor: '#52006A',
+        height: 45,
+        padding: 15,
+        alignItems:'center'
+      },
 
+      selectedText: {
+        color: "#E76766",
+      },
+      edit: {
+        flexDirection: 'row',
+        alignItems: 'center'
+      },
+      addressInput: {
+        height: 40,
+        width:240,
+        margin: 5,
+        borderWidth: 0.3,
+        borderColor: 'grey',
+        padding: 10,
+      },
     picContainer: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -247,7 +428,7 @@ const theme = {
 
     logo:{
         justifyContent: 'center',
-        left:1,
+        left:10,
         width: 40,
         height: 40,
         aspectRatio: 1,
@@ -275,6 +456,11 @@ const theme = {
         borderWidth: 1,
         padding: 10,
       },
+
+      
+    textStyle: {
+      color:"white"
+  }
 
 };
 const InitialIcon = ({ initials, name }) => {

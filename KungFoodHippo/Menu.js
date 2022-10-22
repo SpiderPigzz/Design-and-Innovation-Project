@@ -5,7 +5,9 @@ import * as Font from 'expo-font';
 import { useState } from 'react';
 import { DrawerActions, createAppContainer } from 'react-navigation';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { MSuggest } from './Components/Menu/MSuggest.js';
+import { MSuggest2 } from './Components/Menu/MSuggest2.js';
 import { MD3LightTheme as DefaultTheme, Provider as PaperProvider, Text, Appbar, Snackbar, BottomNavigation, Button, Card, Surface, Title, Paragraph, Drawer } from 'react-native-paper';
 import { HippoCard } from './Components/TestCard.js';
 import {
@@ -15,43 +17,47 @@ import {
     useSafeAreaInsets,
     initialWindowMetrics,
 } from 'react-native-safe-area-context';
+import {userContext} from './App.js';
+import {useContext} from 'react';
 import { Icon } from 'react-native-elements';
 import { color } from 'react-native-reanimated';
+import { FlatList, ScrollView } from 'react-native-gesture-handler';
+import { useEffect } from 'react';
 
-export function MenuScreen({ navigation }) {
-    
+export function MenuScreen({}) {
+    const navigation = useNavigation();
+    const { userEmail, userName, userToken } = useContext(userContext);
+    const [nameInitial, setInitials] = useState("");
+
+    useEffect(() => {
+        if( userName != null){
+            setInitials(userName[0]);
+        }
+
+    }, [userName]);
+
     return (
         <PaperProvider theme={theme}>
             {/* START WRITING CODE BELOW!!!! */}
 
+           
             {/* PROFILE NAME */}
             <View style={{ flex: 0, alignItems: 'flex-start', justifyContent: 'center' , backgroundColor: '#E76766'}}>
-            <TouchableOpacity                                       
-                
-                onPress={() => navigation.navigate('Home')}>   
                 <View style={theme.btnContainer}>                    
-                    <InitialIcon initials="K"/>
+                    <InitialIcon initials={nameInitial}/>
 
-                    <Text style={theme.btnText}>Kung Food Hippo</Text>
+                    <Text style={theme.btnText}>{userName}</Text>
                 </View>
-                </TouchableOpacity>
             </View>
 
             {/* PURCHASE */}
             
                 <View style={{ flex: 0, alignItems: 'flex-start', justifyContent: 'center', backgroundColor: '#FFFFFF'}}> 
-                                
-                    <TouchableOpacity                                       
-                    
-                    onPress={() => navigation.navigate('Home')}>   
                         <View style={theme.Container}>   
                         <Button labelStyle={{fontSize: 35}} icon = "shopping-outline" >   
                             <Text style={theme.text}>My Purchases </Text>
                         </Button>
-                        <Text style={theme.sidetxt}>View History</Text>
                         </View>
-                    </TouchableOpacity>
-                
                 </View>
             
             {/*my purchase white box */}
@@ -59,22 +65,22 @@ export function MenuScreen({ navigation }) {
             {/*grey box after my purchase*/}
             <View style={{ flex: 0.02, alignItems: 'center', justifyContent: 'space-between'}}></View>
             {/* white box */}
-            <View style={{ flex: 0, alignItems: 'center', justifyContent: 'space-between', backgroundColor: '#FFFFFF'}}>
+            <View style={{ flex:0, alignItems: 'center', justifyContent: 'space-between', backgroundColor: '#FFFFFF'}}>
                 <View style={theme.productsContainer}>
                 <TouchableOpacity                                                       
-                    onPress={() => navigation.navigate('Home')}>   
+                    onPress={() => navigation.navigate('Checkout')}>   
                         <View style={{alignItems:'center', marginTop:5}}>
                             <Image 
-                                source={require('./assets/to-deliver-icon.png')}
+                                source={require('./assets/shopping-cart.png')}
                                 style = {theme.midlogo}
                             />
-                            <Text style={theme.smalltext}> To Deliver</Text>
+                            <Text style={theme.smalltext}>Cart</Text>
                         </View>
                 </TouchableOpacity>
                 
                 
                 <TouchableOpacity                                       
-                    onPress={() => navigation.navigate('Home')}>   
+                    onPress={() => navigation.navigate('Map')}>   
                     <View style={{alignItems:'center'}}>
                             <Image 
                                 style = {theme.midlogo}
@@ -84,8 +90,7 @@ export function MenuScreen({ navigation }) {
                     </View>
                 </TouchableOpacity>
 
-                <TouchableOpacity                                       
-                    onPress={() => navigation.navigate('Home')}>   
+                
                     <View style={{alignItems:'center'}}>
                             <Image 
                                 source={require('./assets/rate-icon.png')}
@@ -93,7 +98,7 @@ export function MenuScreen({ navigation }) {
                             />
                             <Text style={theme.smalltext}> To Rate</Text>
                     </View>    
-                </TouchableOpacity>
+                
                 </View>
             </View>
 
@@ -101,16 +106,12 @@ export function MenuScreen({ navigation }) {
             <View style={{ flex: 0.04, alignItems: 'center', justifyContent: 'space-between'}}></View>
             {/*my wallet white box */}
             <View style={{ flex: 0, alignItems: 'flex-start', justifyContent: 'space-between', backgroundColor: '#FFFFFF'}}>
-            <TouchableOpacity                                       
-                    
-                onPress={() => navigation.navigate('Home')}>   
                     <View style={theme.Container}>   
                     <Button labelStyle={{fontSize: 35}} icon="wallet">
                         <Text style={theme.text}>My Wallet </Text>                                              
                     </Button>
                     
-                    </View>
-            </TouchableOpacity>
+                    </View> 
             </View>
             <View style={{ flex: 0.02, alignItems: 'center', justifyContent: 'space-between'}}></View>
     
@@ -118,8 +119,7 @@ export function MenuScreen({ navigation }) {
             <View style={theme.productsContainer}>
 
                 {/*WALLET */}
-                <TouchableOpacity                                                       
-                    onPress={() => navigation.navigate('Home')}> 
+                
                     <View style={{alignItems:'center',  marginTop:5}}>
                             <Image 
                                 style = {theme.midlogo}
@@ -129,13 +129,11 @@ export function MenuScreen({ navigation }) {
                                 <Text style={theme.wordtext}>$50</Text>
                             </Text>     
                         </View>                       
-                </TouchableOpacity>
+                
                 
                 
                 {/*COINS */}
                 
-                <TouchableOpacity                                       
-                    onPress={() => navigation.navigate('Home')}>   
                     <View style={{alignItems:'center'}}>
                             <Image 
                                 style = {theme.midlogo}
@@ -145,12 +143,10 @@ export function MenuScreen({ navigation }) {
                                 <Text style={theme.wordtext}>100 Coins</Text>
                             </Text>
                     </View>                            
-                </TouchableOpacity>
                 
 
                 {/*VOUCHERS */}
-                <TouchableOpacity                                       
-                    onPress={() => navigation.navigate('Home')}>  
+
                     <View style={{alignItems:'center'}}>
                             <Image 
                                 style = {theme.midlogo}
@@ -160,7 +156,6 @@ export function MenuScreen({ navigation }) {
                                 <Text style={theme.wordtext}>10 Vouchers</Text>
                             </Text>                     
                     </View>        
-                </TouchableOpacity>
                 </View>
 
             </View>
@@ -168,65 +163,25 @@ export function MenuScreen({ navigation }) {
             <View style={{ flex: 0.02, alignItems: 'center', justifyContent: 'space-between'}}></View>
             {/*buy again white box */}
             <View style={{ flex: 0, alignItems: 'flex-start', justifyContent: 'center', backgroundColor: '#FFFFFF'}}>
-                <TouchableOpacity                                       
-                    onPress={() => navigation.navigate('Home')}>   
                         <View style={theme.Container}>   
-                        <Button labelStyle={{fontSize: 35}} icon = "shopping" >   
-                            <Text style={theme.text}>Buy again</Text>                            
-                        </Button>                        
-                        <Text style={[theme.sidetxt,{textAlign:'right'}]}>View Items</Text>       
+                        <Button labelStyle={{fontSize: 35}} icon = "shopping" onPress={() => navigation.navigate('Suggestion')} >   
+                            <Text style={theme.text}>Suggestions</Text>                            
+                        </Button>                          
                         </View>     
-                    </TouchableOpacity>
             </View>
+
+            
+            <View style={{flexDirection:'row'}}>
+            <MSuggest></MSuggest> 
+            <MSuggest2></MSuggest2>
+
+            </View>            
 
             {/*grey box below buy again*/}
             <View style={{ flex: 0.02, alignItems: 'center', justifyContent: 'space-between'}}></View>
-            {/*white box box below buy again*/}
-            <View style={{ flex: 1.6, alignItems: 'flex-start', justifyContent: 'space-between', backgroundColor: '#FFFFFF', flexDirection: 'row',}}>
-                <View style={theme.box}>
-                    <View style={theme.boxUI}>
-                        <View style={theme.image}>
-                            <Image source={require('./assets/Pastamania.png')} style={theme.image}  />
-                        </View>    
-
-                        <View style={theme.text}>
-                            <Text style={{color: 'grey'}}>Bought 1 time</Text>                            
-                            <Button icon = "plus-circle"><Text style={styles.text}>$17</Text></Button>
-                            
-                        </View>
-                    </View>
-                </View>
-
-                <View style={theme.box}>
-                    <View style={theme.boxUI}>
-                        <View style={theme.image}>
-                            <Image source={require('./assets/images/subway.png')} style={theme.image}  />
-                        </View>    
-
-                        <View style={theme.text}>
-                            <Text style={{color: 'grey'}}>Bought 1 time</Text>                            
-                            <Button icon = "plus-circle"><Text style={styles.text}>$8.50</Text></Button>
-                            
-                        </View>
-                    </View>
-                </View>
-
-                <View style={theme.box}>
-                    <View style={theme.boxUI}>
-                        <View style={theme.image}>
-                            <Image source={require('./assets/images/takagiramen.png')} style={theme.image}  />
-                        </View>    
-
-                        <View style={theme.text}>
-                            <Text style={{color: 'grey'}}>Bought 1 time</Text>                            
-                            <Button icon = "plus-circle"><Text style={styles.text}>$12</Text></Button>
-                            
-                        </View>
-                    </View>
-                </View>
-            </View>
+           
             {/*grey box below bought 1 time*/}
-            <View style={{ flex: 0.05, alignItems: 'center', justifyContent: 'space-between'}}></View>
+            <View style={{ flex: 0.5, alignItems: 'center', justifyContent: 'space-between'}}></View>
             {/*grey box below buy again*/}
             <View style={{ flex: 0, alignItems: 'flex-start', justifyContent: 'space-between', backgroundColor: '#FFFFFF', flexDirection: 'row',}}>
                 <TouchableOpacity                                                        
@@ -243,14 +198,11 @@ export function MenuScreen({ navigation }) {
             <View style={{ flex: 0.01, alignItems: 'center', justifyContent: 'space-between'}}></View>
             {/*grey box below recently viewed*/}
             <View style={{ flex: 0, alignItems: 'flex-start', justifyContent: 'space-between', backgroundColor: '#FFFFFF', flexDirection: 'row',}}>
-                <TouchableOpacity                                                        
-                    onPress={() => navigation.navigate('Home')}>   
                         <View style={theme.Container}>   
                         <Button labelStyle={{fontSize: 35}} icon = "heart" >   
                             <Text style={theme.text}>Favourites</Text>                            
                         </Button>
                         </View>
-                </TouchableOpacity>
 
             </View>
             
@@ -258,14 +210,12 @@ export function MenuScreen({ navigation }) {
             <View style={{ flex: 0.01, alignItems: 'center', justifyContent: 'space-between'}}></View>
             {/*grey box below fav*/}
             <View style={{ flex: 0, alignItems: 'flex-start', justifyContent: 'space-between', backgroundColor: '#FFFFFF', flexDirection: 'row',}}>
-                <TouchableOpacity                                                        
-                    onPress={() => navigation.navigate('Home')}>   
+                
                         <View style={theme.Container}>   
                         <Button labelStyle={{fontSize: 35}} icon = "earth" >   
                             <Text style={theme.text}>Foodie Community</Text>                            
                         </Button>
                         </View>
-                </TouchableOpacity>
             </View>            
 
             {/*grey box below refer a friend*/}
@@ -286,31 +236,27 @@ export function MenuScreen({ navigation }) {
             <View style={{ flex: 0.02, alignItems: 'center', justifyContent: 'space-between'}}></View>
             {/*grey box below raf*/}
             <View style={{ flex: 0, alignItems: 'flex-start', justifyContent: 'space-between', backgroundColor: '#FFFFFF', flexDirection: 'row',}}>
-                <TouchableOpacity                                                        
-                    onPress={() => navigation.navigate('Home')}>   
+
                         <View style={theme.Container}>   
                         <Button labelStyle={{fontSize: 35}} icon = "help-circle-outline" >   
                             <Text style={theme.text}>Help Center</Text>                            
                         </Button>
                         </View>
-                </TouchableOpacity>
             </View>
 
             {/*grey box below help centere*/}
-            <View style={{ flex: 0.02, alignItems: 'center', justifyContent: 'space-between'}}></View>
+            <View style={{ flex: 0, alignItems: 'center', justifyContent: 'space-between'}}></View>
             {/*grey box below help center*/}
             <View style={{ flex: 0, alignItems: 'flex-start', justifyContent: 'space-between', backgroundColor: '#FFFFFF', flexDirection: 'row',}}>
-                <TouchableOpacity                                                        
-                    onPress={() => navigation.navigate('Home')}>   
+
                         <View style={theme.Container}>   
                         <Button labelStyle={{fontSize: 35}} icon = "chat-outline" >   
                             <Text style={theme.text}>Chat with Hippo</Text>                            
                         </Button>
                         </View>
-                </TouchableOpacity>
             </View>
 
-
+            
 
         </PaperProvider>
 
@@ -366,7 +312,7 @@ const theme = {
         justifyContent: 'space-between',
         //justifyContent: 'center',
         flexDirection: 'row',
-        //backgroundColor:'#000',
+        //backgroundColor:'black',
         alignItems: 'center',
         textAlign:'center'
         
@@ -459,7 +405,8 @@ const theme = {
         margin: '2%',
         padding: '2%',        
         padding: 5,
-        flex: 0.5,
+        flex: 1,
+        backgroundColor: 'black'
         
     },
 
@@ -484,7 +431,7 @@ const theme = {
           },
         shadowRadius: 5,
         shadowOpacity: 1.0,
-        
+        elevation: 12,
     },
 
     //image 
