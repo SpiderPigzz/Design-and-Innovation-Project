@@ -38,6 +38,7 @@ export function MenuScreen({}) {
 
     return (
         <PaperProvider theme={theme}>
+            <SafeAreaView style={[theme.container]}>
             {/* START WRITING CODE BELOW!!!! */}
 
            
@@ -256,7 +257,7 @@ export function MenuScreen({}) {
                         </View>
             </View>
 
-            
+            </SafeAreaView>
 
         </PaperProvider>
 
@@ -277,6 +278,10 @@ const theme = {
     colors: {
         primary: styles.primColor,
         secondary: styles.secColor,
+    },
+
+    container: {
+        flex: 1,
     },
 
     sidetxt: {
