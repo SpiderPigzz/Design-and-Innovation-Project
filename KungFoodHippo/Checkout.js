@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, ScrollView, View, Image } from 'react-native';
+import AnimatedSplash from "react-native-animated-splash-screen";
 import * as Font from 'expo-font';
 import { useState } from 'react';
 import { DrawerActions, createAppContainer } from 'react-navigation';
@@ -19,8 +20,21 @@ import {
 } from 'react-native-safe-area-context';
 
 export function CheckoutScreen({ navigation }) {
+    const [loading, setLoading] = useState(false);
+
+  setTimeout(() => {
+    setLoading(true);
+  }, 900);
     return (
         <PaperProvider theme={theme}>
+            <AnimatedSplash
+            translucent={false}
+            isLoaded={loading}
+            logoImage={require("./assets/rungif.gif")}
+            backgroundColor={"#000"}
+            logoHeight={300}
+            logoWidth={300}
+            > 
             {/* START WRITING CODE BELOW!!!! */}
             <View style={[styles.container, {flex:1, flexDirection: 'column', justifyContent:'space-between'}]}>
                 <Card style={[styles.cardSec, { margin: 16, flex: 3}]}>
@@ -118,7 +132,7 @@ export function CheckoutScreen({ navigation }) {
 
 
             </View>
-
+            </AnimatedSplash>
         </PaperProvider >
     );
 }

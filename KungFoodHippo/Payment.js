@@ -8,6 +8,8 @@ import ProgressBarMultiStep from "react-native-progress-bar-multi-step";
 import MapView from 'react-native-maps';
 import { ScrollView } from 'react-native-gesture-handler';
 
+
+
 const tabs = [
   {
     title: 'Cart',
@@ -34,6 +36,7 @@ export function PaymentScreen({ navigation }) {
   const [isLoading, setLoading] = useState(true);
   const [customerData, setCustomerData] = useState();
   const [restaurantData, setRestaurantData] = useState();
+  
 
   const getCustomerFromDatabase = async () => {
     try {
@@ -47,7 +50,7 @@ export function PaymentScreen({ navigation }) {
     }
   }
 
-  const getRestaurantFromDatabase = async () => {
+  const getOrderFromDatabase = async () => {
     try {
       const response = await fetch('http://dip.totallynormal.website/listShop');
       const json = await response.json();
@@ -70,6 +73,7 @@ export function PaymentScreen({ navigation }) {
   }
 
   return (
+    
     <View style={[styles.container]}>
       <>
         <Appbar.Header style={styles.topbar}>
@@ -306,7 +310,7 @@ export function PaymentScreen({ navigation }) {
         <Text style={styles.buttonText}>Place Order</Text>
       </TouchableOpacity>
     </View>
-
+  
   );
 }
 
