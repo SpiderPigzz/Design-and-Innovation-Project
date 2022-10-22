@@ -16,13 +16,12 @@ import { ListingScreen } from './RestaurantListing';
 import { StoreScreen } from './Store';
 import { DemoScreen } from './Demo.js';
 import { SuggestionScreen } from './Suggestion.js';
-import { Map2Screen } from './Components/Home/Map.js';
+import { CookingScreen } from './Cooking.js';
 //import { TrackingScreen } from './Tracking.js';
 //import { TEST } from './TEST.js';
 //import { MenuScreen } from './Menu.js';
 import { MenuScreen } from './Menu.js';
 import { AccountScreen } from './Account.js';
-import { CookingScreen } from './Cooking.js';
 import {
   SafeAreaView,
   SafeAreaProvider,
@@ -187,16 +186,15 @@ export default function KungFoodHippo() {
             <NavigationContainer>
               <Menu.Navigator initialRouteName="Home" drawerContent={() => (<MenuScreen/>)}>
                 {/* <Menu.Screen name="Login" component={LoginScreen} /> */}
-                <Menu.Screen name="Home" component={HomeScreen} />
-                <Menu.Screen name="Menu" component={MenuScreen} />
+                <Menu.Screen name="Home" component={HomeScreen}  />
                 <Menu.Screen name="Account" component={AccountScreen} />
-                <Menu.Screen name="Listing" component={ListingScreen} initialParams={{queryString:'Search for restaurants'}}/>
-                <Menu.Screen name="Store" component={StoreScreen} />
-                <Menu.Screen name="Checkout" component={CheckoutScreen} />
-                <Menu.Screen name="Payment" component={PaymentScreen} />
-                <Menu.Screen name="Map" component={MapScreen} />
-                <Menu.Screen name="Suggestion" component={SuggestionScreen} />
-                <Menu.Screen name="Cooking" component={CookingScreen} />
+                <Menu.Screen name="Listing" component={ListingScreen} />
+                <Menu.Screen name="Store" component={StoreScreen} options={{ headerShown: false }}/>
+                <Menu.Screen name="Checkout" component={CheckoutScreen} options={{ headerShown: false }}/>
+                <Menu.Screen name="Payment" component={PaymentScreen} options={{ headerShown: false }}/>
+                <Menu.Screen name="Map" component={MapScreen} options={{ headerShown: false }}/>
+                <Menu.Screen name="Suggestion" component={SuggestionScreen} options={{ headerShown: false }}/>
+                <Menu.Screen name="Cooking" component={CookingScreen} options={{ headerShown: false }}/>
 
                 {/*<Menu.Screen name="Tracking" component={TrackingScreen} />*/}
               </Menu.Navigator>
