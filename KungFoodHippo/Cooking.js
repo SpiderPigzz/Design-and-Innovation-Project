@@ -57,14 +57,13 @@ export function CookingScreen({ navigation }) {
 
     return (
         <SafeAreaView style={[style1.container]}>
+            <ImageBackground source={require("./assets/fdbg.jpg")}  style={style1.bg}> 
             <View style={{flex: 1, justifyContent:'space-evenly', alignItems:'center', flexDirection: "column"}}>
-                <ImageBackground source={require("./assets/fdbg.jpg")}  style={style1.bg}>
+                
                 <Image source={require("./assets/videos/loading-cooking.gif")} style={style1.cooking}></Image>
                 <Text style={{fontWeight: 'bold',textAlign: 'center', color: 'black', fontSize: 24, flex: 1, flexWrap: 'wrap',}}>{loadingText}</Text>
-                </ImageBackground>
-                
             </View>
-
+            </ImageBackground>
 
 
 
@@ -293,12 +292,12 @@ const style1 = StyleSheet.create({
     bg: {
         flex: 1,
       justifyContent: "center",
+      opacity: 0.95,
       height: 800,
     },
     cooking: {
         resizeMode:"contain",
         height:350,
-        opacity: 0.8,
         justifyContent: "center",
         marginVertical: 80
     }
