@@ -92,7 +92,7 @@ export function BillCard({ dishName, quantity, description, category, price, ima
                     <ImageBackground style={[styles.Image]} imageStyle={{ borderRadius: 10 }} source={showDefault}></ImageBackground>
                     <View style={[styles.container, { flexDirection: 'column', flex: 1 }]}>
                         <Text style={[styles.backgroundText, { fontWeight: 'bold', fontSize: 14, textAlignVertical: 'top', marginHorizontal: 8 }]}>{category}</Text>
-                        <Text style={[styles.backgroundText, { fontWeight: 'normal', fontSize: 12, textAlignVertical: 'top', marginHorizontal: 8, flexWrap: 'wrap', flex: 1 }]}>{description}</Text>
+                        <Text numberOfLines={8} style={[styles.backgroundText, { fontWeight: 'normal', fontSize: 12, textAlignVertical: 'top', marginHorizontal: 8, flexWrap: 'wrap', flex: 1 }]}>{description}</Text>
                     </View>
                     <View style={[styles.container, { flexDirection: 'column', justifyContent: 'space-evenly' }]}>
                         <View style={{ flexDirection: "row", justifyContent: "center", paddingVertical: 24 }}>

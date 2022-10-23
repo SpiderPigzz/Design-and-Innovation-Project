@@ -43,8 +43,12 @@ export function CheckoutScreen({ navigation }) {
     const [shop, setShop] = useState();
     const [address, setAddress] = useState();
 
+    const [shopNames, setShopNames] = useState([]);
+
     const cartPath = "getCart/" + userEmail;
     const shopPath = "getShop/";
+
+    const orderPath = "getOrderAddress/"
 
 
 
@@ -79,8 +83,24 @@ export function CheckoutScreen({ navigation }) {
                             setAddress(json[0]['address']);
                         })
                 })
+                .then(() => {
+                    fetch(url + orderPath + userEmail)
+                        .then((response) => response.json())
+                        .then((json) => {
+                            console.log(json);
+                            setShopNames(json[0]['shop.name'])
+
+                            console.log(json[0]['shop.name'])
+
+                        })
+                }
+
+                )
                 .catch((error) => console.error(error))
                 .finally(() => setLoading(false));
+
+
+
 
         });
 
@@ -92,124 +112,127 @@ export function CheckoutScreen({ navigation }) {
     return (
         <PaperProvider theme={theme}>
             <AnimatedSplash
-            translucent={false}
-            isLoaded={!isLoading}
-            logoImage={require("./assets/rungif.gif")}
-            backgroundColor={"#f2a6a6"}
-            logoHeight={300}
-            logoWidth={300}
-            > 
-            {/* START WRITING CODE BELOW!!!! */}
-            <View style={[styles.container, { flex: 1, flexDirection: 'column', justifyContent: 'space-between' }]}>
-                <Card style={[styles.cardSec, { margin: 16, flex: 3 }]}>
-                    <Card.Content>
-                        <View style={[styles.container, { flexDirection: 'row', justifyContent: 'space-around', }]}>
-                            <Image source={require('./assets/scooter-icon.png')} style={[styles.imageIcon, {}]}></Image>
-                            <View style={[styles.container, { flex: 1 }]}>
-                                <Text style={[styles.backgroundText, { fontWeight: 'normal' }]}>Estimated Delivery</Text>
-                                <Text style={styles.text}>ASAP (35 mins)</Text>
-                                <Text style={[styles.text, { fontWeight: 'normal', flexWrap: 'wrap', flex: 1 }]}>{shop}{' - '}{address}</Text>
-                            </View>
-                        </View>
-
-                    </Card.Content>
-                </Card>
-
-                <View style={[styles.container, { flex: 1, marginBottom: 4, flexDirection: 'row', justifyContent: "space-between", }]}>
-                    <Text style={[styles.backgroundText, { marginLeft: 16 }]}>Order</Text>
-                    <TouchableOpacity onPress={() => {navigation.navigate('Listing')}}>
-                        <Text style={[styles.text, { marginRight: 16 }]}>Add Items</Text>
-                    </TouchableOpacity>
-                    
-                </View>
-
-                <View style={[styles.container, { flex: 15 }]}>
-                    <ScrollView>
-
-                        {isLoading ? <ActivityIndicator style={{ flex: 35 }} /> : (
-                            <View style={{ flex: 35 }}>
-                                <FlatList
-                                    data={data}
-                                    renderItem={renderItem}
-                                    keyExtractor={item => item.id}
-                                    style={{ flex: 1 }}
-                                />
-                            </View>)}
-
-                        <Divider style={styles.divider} horizontalInset='true' bold='true' />
-
-                        <RecommendedOrderCard></RecommendedOrderCard>
-
-                        <View>
-                            <View style={[styles.container, { flexDirection: 'row', justifyContent: 'space-between' }]}>
-                                <Text style={[styles.backgroundText, { marginLeft: 16, fontSize: 14 }]}>Subtotal</Text>
-                                <Text style={[styles.backgroundText, { marginRight: 16, fontSize: 14 }]}>{'S$'}{subtotal}</Text>
-                            </View>
-                            <View style={[styles.container, { flexDirection: 'row', justifyContent: 'space-between' }]}>
-                                <Text style={[styles.backgroundText, { marginLeft: 16, fontSize: 14 }]}>Delivery fee</Text>
-                                <Text style={[styles.backgroundText, { marginRight: 16, fontSize: 14 }]}>S$3.00</Text>
-                            </View>
-                            <View style={[styles.container, { flexDirection: 'row', justifyContent: 'space-between' }]}>
-                                <Text style={[styles.backgroundText, { marginLeft: 16, fontSize: 14, textAlignVertical: 'center' }]}>Redeem 100 Hippo coins</Text>
-                                <Switch style={[{ marginRight: 8 }]} onValueChange={toggleVoucherSwitch} value={voucher} />
-                            </View>
-                        </View>
-
-                        <Divider style={styles.divider} horizontalInset='true' bold='true' />
-
-                        <View style={[styles.container, { flexDirection: 'row', justifyContent: 'space-between' }]}>
-                            <View style={[styles.container, { flexDirection: 'row' }]}>
-                                <Button style={styles.iconPrimTint} icon={'ticket-percent-outline'}></Button>
-                                <Text style={[styles.text, { marginLeft: 8, textAlignVertical: 'center' }]}>Hippo Voucher</Text>
-                            </View>
-
-                            <Button style={styles.iconPrimTint} icon={'chevron-right'}></Button>
-                        </View>
-
-                        <Divider style={styles.divider} horizontalInset='true' bold='true' />
-
-                        <View style={[styles.container, { flexDirection: 'row', justifyContent: 'space-between' }]}>
-                            <View style={[styles.container, { flexDirection: 'row' }]}>
-                                <View style={[{ justifyContent: 'center' }]} >
-                                    <Button style={styles.iconPrimTint} icon={'food-fork-drink'}></Button>
+                translucent={false}
+                isLoaded={!isLoading}
+                logoImage={require("./assets/rungif.gif")}
+                backgroundColor={"#f2a6a6"}
+                logoHeight={300}
+                logoWidth={300}
+            >
+                {/* START WRITING CODE BELOW!!!! */}
+                <View style={[styles.container, { flex: 1, flexDirection: 'column', justifyContent: 'space-between' }]}>
+                    <Card style={[styles.cardSec, { margin: 16, flex: 3 }]}>
+                        <Card.Content>
+                            <View style={[styles.container, { flexDirection: 'row', justifyContent: 'space-around', }]}>
+                                <Image source={require('./assets/scooter-icon.png')} style={[styles.imageIcon, {}]}></Image>
+                                <View style={[styles.container, { flex: 1 }]}>
+                                    <Text style={[styles.backgroundText, { fontWeight: 'normal', fontSize: 16 }]}>Ordering From:</Text>
+                                    <FlatList
+                                        style={{flexDirection: 'column'}}
+                                        data={shopNames}
+                                        renderItem={({ item }) => <Text style={[styles.text, { fontWeight: 'normal', flexWrap: 'wrap', flex: 1 }]}>{"•"}{item}</Text>}
+                                    />
                                 </View>
-
-                                <Text style={[styles.backgroundText, { marginLeft: 8, textAlignVertical: 'center', fontSize: 14 }]}>Cutlery</Text>
                             </View>
-                            <Switch style={[{ marginRight: 8 }]} onValueChange={toggleSwitch} value={cutlery} />
-                        </View>
-                        <Text style={[styles.infoText, { marginHorizontal: 16, }]}>
-                            {cutlery ? (
-                                "We won’t bring cutlery. Thanks for helping us to reduce waste.") :
-                                ("")}
-                        </Text>
-                    </ScrollView>
 
-                </View>
+                        </Card.Content>
+                    </Card>
 
-                <Divider style={styles.divider} horizontalInset='true' bold='true' />
+                    <View style={[styles.container, { flex: 1, marginBottom: 4, flexDirection: 'row', justifyContent: "space-between", }]}>
+                        <Text style={[styles.backgroundText, { marginLeft: 16 }]}>Order</Text>
+                        <TouchableOpacity onPress={() => { navigation.navigate('Listing') }}>
+                            <Text style={[styles.text, { marginRight: 16 }]}>Add Items</Text>
+                        </TouchableOpacity>
 
-                <View style={[styles.container, { flex: 3, marginBottom: 8 }]}>
-
-                    <View style={[styles.container, { flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 16 }]}>
-                        <View style={[styles.container, { flexDirection: 'row' }]}>
-                            <Text style={[styles.backgroundText, {}]}>Total</Text>
-                            <Text style={[styles.infoText, { marginHorizontal: 4 }]}>(includes GST)</Text>
-                        </View>
-                        <Text style={styles.text}>{"S$"}{totalPrice}</Text>
                     </View>
 
-                    <Button style={[styles.button, { marginHorizontal: 16, borderRadius: 15 }]} android_ripple={{ color: 'white', borderless: false }} onPress={() => {
-                        navigation.navigate('Payment', {totalCheckout: totalPrice});
-                    }}>
-                        <Text style={styles.buttonText}>Checkout</Text>
-                    </Button>
+                    <View style={[styles.container, { flex: 15 }]}>
+                        <ScrollView>
+
+                            {isLoading ? <ActivityIndicator style={{ flex: 35 }} /> : (
+                                <View style={{ flex: 35 }}>
+                                    <FlatList
+                                        data={data}
+                                        renderItem={renderItem}
+                                        keyExtractor={item => item.id}
+                                        style={{ flex: 1 }}
+                                    />
+                                </View>)}
+
+                            <Divider style={styles.divider} horizontalInset='true' bold='true' />
+
+                            <RecommendedOrderCard></RecommendedOrderCard>
+
+                            <View>
+                                <View style={[styles.container, { flexDirection: 'row', justifyContent: 'space-between' }]}>
+                                    <Text style={[styles.backgroundText, { marginLeft: 16, fontSize: 14 }]}>Subtotal</Text>
+                                    <Text style={[styles.backgroundText, { marginRight: 16, fontSize: 14 }]}>{'S$'}{subtotal}</Text>
+                                </View>
+                                <View style={[styles.container, { flexDirection: 'row', justifyContent: 'space-between' }]}>
+                                    <Text style={[styles.backgroundText, { marginLeft: 16, fontSize: 14 }]}>Delivery fee</Text>
+                                    <Text style={[styles.backgroundText, { marginRight: 16, fontSize: 14 }]}>S$3.00</Text>
+                                </View>
+                                <View style={[styles.container, { flexDirection: 'row', justifyContent: 'space-between' }]}>
+                                    <Text style={[styles.backgroundText, { marginLeft: 16, fontSize: 14, textAlignVertical: 'center' }]}>Redeem 100 Hippo coins</Text>
+                                    <Switch style={[{ marginRight: 8 }]} onValueChange={toggleVoucherSwitch} value={voucher} />
+                                </View>
+                            </View>
+
+                            <Divider style={styles.divider} horizontalInset='true' bold='true' />
+
+                            <View style={[styles.container, { flexDirection: 'row', justifyContent: 'space-between' }]}>
+                                <View style={[styles.container, { flexDirection: 'row' }]}>
+                                    <Button style={styles.iconPrimTint} icon={'ticket-percent-outline'}></Button>
+                                    <Text style={[styles.text, { marginLeft: 8, textAlignVertical: 'center' }]}>Hippo Voucher</Text>
+                                </View>
+
+                                <Button style={styles.iconPrimTint} icon={'chevron-right'}></Button>
+                            </View>
+
+                            <Divider style={styles.divider} horizontalInset='true' bold='true' />
+
+                            <View style={[styles.container, { flexDirection: 'row', justifyContent: 'space-between' }]}>
+                                <View style={[styles.container, { flexDirection: 'row' }]}>
+                                    <View style={[{ justifyContent: 'center' }]} >
+                                        <Button style={styles.iconPrimTint} icon={'food-fork-drink'}></Button>
+                                    </View>
+
+                                    <Text style={[styles.backgroundText, { marginLeft: 8, textAlignVertical: 'center', fontSize: 14 }]}>Cutlery</Text>
+                                </View>
+                                <Switch style={[{ marginRight: 8 }]} onValueChange={toggleSwitch} value={cutlery} />
+                            </View>
+                            <Text style={[styles.infoText, { marginHorizontal: 16, }]}>
+                                {cutlery ? (
+                                    "We won’t bring cutlery. Thanks for helping us to reduce waste.") :
+                                    ("")}
+                            </Text>
+                        </ScrollView>
+
+                    </View>
+
+                    <Divider style={styles.divider} horizontalInset='true' bold='true' />
+
+                    <View style={[styles.container, { flex: 3, marginBottom: 8 }]}>
+
+                        <View style={[styles.container, { flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 16 }]}>
+                            <View style={[styles.container, { flexDirection: 'row' }]}>
+                                <Text style={[styles.backgroundText, {}]}>Total</Text>
+                                <Text style={[styles.infoText, { marginHorizontal: 4 }]}>(includes GST)</Text>
+                            </View>
+                            <Text style={styles.text}>{"S$"}{totalPrice}</Text>
+                        </View>
+
+                        <Button style={[styles.button, { marginHorizontal: 16, borderRadius: 15 }]} android_ripple={{ color: 'white', borderless: false }} onPress={() => {
+                            navigation.navigate('Payment', { totalCheckout: totalPrice });
+                        }}>
+                            <Text style={styles.buttonText}>Checkout</Text>
+                        </Button>
+
+                    </View>
+
+
 
                 </View>
-
-
-
-            </View>
             </AnimatedSplash>
         </PaperProvider >
     );

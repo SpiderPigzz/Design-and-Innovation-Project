@@ -45,7 +45,7 @@ export function PaymentScreen({ navigation, route }) {
 
   const getOrderFromDatabase = async () => {
     try {
-      const response = await fetch('http://dip.totallynormal.website/getOrderAddress/' + 'ricky.winarko@gmail.com');
+      const response = await fetch('http://dip.totallynormal.website/getOrderAddress/' + userEmail);
       const json = await response.json();
       setOrderData(json[0]);
       
