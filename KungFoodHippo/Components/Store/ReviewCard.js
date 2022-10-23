@@ -4,93 +4,103 @@ import { View, Image, TouchableOpacity, Modal, FlatList, ActivityIndicator, Styl
 import CircularProgress from 'react-native-circular-progress-indicator';
 
 
-export function ReviewCard({ overall, food, packaging, value, count }) {
+export function ReviewCard({ overall, food, packaging, value, count, shopID, navigation }) {
 
     return (
 
         <Card style={[styles.card, { marginBottom: 8, paddingHorizontal: 0, paddingVertical: 0 }]}>
             <Card.Content>
+                <TouchableOpacity 
+                    activeOpacity={0.85} 
+                    onPress={() => {navigation.navigate('Review', {shopID: shopID})}}
+                >
+                    <View>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                            <View style={{ flexDirection: "row", paddingBottom: 6 }}>
+                                <Text style={{ fontWeight: "bold", color: "#E76766", paddingRight: 10 }}>Reviews</Text>
+                                <Text style={{ fontStyle: "italic", paddingLeft: 10, color: '#808080' }}>{count} ratings</Text>
+                            </View>
 
-                <View>
-                    <View style={{ flexDirection: "row", paddingBottom: 6 }}>
-                        <Text style={{ fontWeight: "bold", color: "#E76766", paddingRight: 10 }}>Reviews</Text>
-                        <Text style={{ fontStyle: "italic", paddingLeft: 10 }}>{count} ratings</Text>
+                            <Image
+                                source={require('../../assets/rightArrowHead.png')}
+                                style={{ height: 14, width: 14, tintColor: "#808080" }}
+                            />
+                        </View>
+
+                        <View style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 4 }}>
+                            <View style={{ alignItems: "center" }}>
+                                <CircularProgress
+                                    showProgressValue={false}
+                                    value={overall}
+                                    maxValue={10}
+                                    radius={32}
+                                    title={overall.toFixed(1)}
+                                    titleFontSize={20}
+                                    titleColor={'#000000'}
+                                    inActiveStrokeColor={'#F5C2C2'}
+                                    inActiveStrokeWidth={8}
+                                    activeStrokeColor={'#E76766'}
+                                    activeStrokeWidth={8}
+                                />
+                                <Text>Overall</Text>
+                            </View>
+
+                            <View style={{ alignItems: "center" }}>
+                                <CircularProgress
+                                    showProgressValue={false}
+                                    value={food}
+                                    maxValue={10}
+                                    radius={32}
+                                    title={food.toFixed(1)}
+                                    titleFontSize={20}
+                                    titleColor={'#000000'}
+                                    inActiveStrokeColor={'#F5C2C2'}
+                                    inActiveStrokeWidth={8}
+                                    activeStrokeColor={'#E76766'}
+                                    activeStrokeWidth={8}
+                                />
+                                <Text>Food</Text>
+                            </View>
+
+                            <View style={{ alignItems: "center" }}>
+                                <CircularProgress
+                                    showProgressValue={false}
+                                    value={packaging}
+                                    maxValue={10}
+                                    radius={32}
+                                    title={packaging.toFixed(1)}
+                                    titleFontSize={20}
+                                    titleColor={'#000000'}
+                                    inActiveStrokeColor={'#F5C2C2'}
+                                    inActiveStrokeWidth={8}
+                                    activeStrokeColor={'#E76766'}
+                                    activeStrokeWidth={8}
+                                />
+                                <Text>Packaging</Text>
+                            </View>
+
+                            <View style={{ alignItems: "center" }}>
+                                <CircularProgress
+                                    showProgressValue={false}
+                                    value={value}
+                                    maxValue={10}
+                                    radius={32}
+                                    title={value.toFixed(1)}
+                                    titleFontSize={20}
+                                    titleColor={'#000000'}
+                                    inActiveStrokeColor={'#F5C2C2'}
+                                    inActiveStrokeWidth={8}
+                                    activeStrokeColor={'#E76766'}
+                                    activeStrokeWidth={8}
+                                />
+                                <Text>Value</Text>
+                            </View>
+
+                        </View>
+
                     </View>
 
-                    <View style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 4 }}>
-                        <View style={{ alignItems: "center" }}>
-                            <CircularProgress
-                                showProgressValue={false}
-                                value={overall}
-                                maxValue={5}
-                                radius={32}
-                                title={overall.toFixed(2)}
-                                titleFontSize={20}
-                                titleColor={'#000000'}
-                                inActiveStrokeColor={'#F5C2C2'}
-                                inActiveStrokeWidth={6}
-                                activeStrokeColor={'#E76766'}
-                                activeStrokeWidth={6}
-                            />
-                            <Text>Overall</Text>
-                        </View>
-
-                        <View style={{ alignItems: "center" }}>
-                            <CircularProgress
-                                showProgressValue={false}
-                                value={food}
-                                maxValue={5}
-                                radius={32}
-                                title={food.toFixed(2)}
-                                titleFontSize={20}
-                                titleColor={'#000000'}
-                                inActiveStrokeColor={'#F5C2C2'}
-                                inActiveStrokeWidth={6}
-                                activeStrokeColor={'#E76766'}
-                                activeStrokeWidth={6}
-                            />
-                            <Text>Food</Text>
-                        </View>
-
-                        <View style={{ alignItems: "center" }}>
-                            <CircularProgress
-                                showProgressValue={false}
-                                value={packaging}
-                                maxValue={5}
-                                radius={32}
-                                title={packaging.toFixed(2)}
-                                titleFontSize={20}
-                                titleColor={'#000000'}
-                                inActiveStrokeColor={'#F5C2C2'}
-                                inActiveStrokeWidth={6}
-                                activeStrokeColor={'#E76766'}
-                                activeStrokeWidth={6}
-                            />
-                            <Text>Packaging</Text>
-                        </View>
-
-                        <View style={{ alignItems: "center" }}>
-                            <CircularProgress
-                                showProgressValue={false}
-                                value={value}
-                                maxValue={5}
-                                radius={32}
-                                title={value.toFixed(2)}
-                                titleFontSize={20}
-                                titleColor={'#000000'}
-                                inActiveStrokeColor={'#F5C2C2'}
-                                inActiveStrokeWidth={6}
-                                activeStrokeColor={'#E76766'}
-                                activeStrokeWidth={6}
-                            />
-                            <Text>Value</Text>
-                        </View>
-
-                    </View>
-
-                </View>
-
-
+                </TouchableOpacity>
 
             </Card.Content>
         </Card>
@@ -200,13 +210,12 @@ const styles = StyleSheet.create({
     },
 
     card: {
-        marginTop: 8,
+        marginTop: 4,
         paddingVertical: 8,
         paddingHorizontal: 16,
         elevation: 3,
-        borderWidth: 0,
         backgroundColor: "#F9E6E6",
-        borderRadius: 5,
+        borderRadius: 10,
     },
 
     cardSec: {

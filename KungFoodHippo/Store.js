@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, Image, TouchableOpacity, Modal, ActivityIndicator } from 'react-native';
 import * as Font from 'expo-font';
 import { useState, useEffect } from 'react';
 import { DrawerActions, createAppContainer } from 'react-navigation';
@@ -41,6 +41,7 @@ export function StoreScreen({ navigation, route }) {
     const { shopID } = route.params;
 
     const [isLoading, setLoading] = useState(true);
+    const [visible, setVisible] = useState(false);
     const [data, setData] = useState([]);
     const [restaurant, setRestaurant] = useState();
     const [address, setAddress] = useState();
@@ -51,7 +52,7 @@ export function StoreScreen({ navigation, route }) {
     const setStatusFilter = status => {
         console.log(status);
         if (status !== 'All') {
-            
+
             setDataList(data.filter(e => e.category === status))
             console.log(dataList);
         } else {
@@ -82,7 +83,7 @@ export function StoreScreen({ navigation, route }) {
             })
             .catch((error) => console.error(error))
             .finally(() => {
-               
+
                 setLoading(false)
             });
 
@@ -104,7 +105,7 @@ export function StoreScreen({ navigation, route }) {
             .catch((err) => {
                 console.log("unable to fetch site data");
             });
-        
+
         fetch(url + reviewPath)
             .then((response) => response.json())
             .then((json) => {
@@ -113,11 +114,11 @@ export function StoreScreen({ navigation, route }) {
             .catch((error) => alert(error))
             .finally(() => setLoading(false));
 
-            
+
     }, [shopID]);
 
 
-    
+
 
     const renderItem = ({ item }) => (
         <FoodCard title={item.name} description={item.description} price={item.price} imageURI={item.imageURI} shopID={shopID}></FoodCard>
@@ -131,7 +132,7 @@ export function StoreScreen({ navigation, route }) {
         setSelectedCategory(category)
     }*/
     const renderReview = ({ item }) => (
-        <ReviewCard overall={item.overall} food={item.food} packaging={item.packaging} value={item.value} count={item.count}></ReviewCard>
+        <ReviewCard overall={item.overall} food={item.food} packaging={item.packaging} value={item.value} count={item.count} navigation={navigation} shopID={shopID}></ReviewCard>
     );
 
 
@@ -139,7 +140,7 @@ export function StoreScreen({ navigation, route }) {
         <PaperProvider theme={theme}>
             {/* START WRITING CODE BELOW!!!! */}
             <Portal>
-                <FloatingButton setVisibility={isFocused} navigation={navigation}/>
+                <FloatingButton setVisibility={isFocused} navigation={navigation} />
             </Portal>
             <View style={{ flex: 1 }}>
                 <Image source={defaultPhoto} style={{ height: 160, width: null }} />
@@ -154,12 +155,12 @@ export function StoreScreen({ navigation, route }) {
                 </TouchableOpacity>
             </View>
 
-            <View style={[styles.container, {paddingVertical: 8, flex: 4 }]}>
-                <View style={{ flexDirection: "row", marginHorizontal: 16, marginBottom: 2}}>
-                    <Text style={[styles.backgroundText, { textAlign: "left", fontSize: 24, textAlignVertical: "bottom" }]}>{restaurant}</Text>
+            <View style={[styles.container, { paddingVertical: 8, flex: 4 }]}>
+                <View style={{ flexDirection: "row", marginHorizontal: 16, marginBottom: 2 }}>
+                    <Text style={[styles.title, { textAlign: "left" }]}>{restaurant}</Text>
                 </View>
 
-                <ScrollView style={{paddingHorizontal: 16}}>
+                <ScrollView style={{ paddingHorizontal: 16 }}>
                     <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                         <View style={{ flexDirection: "row", justifyContent: "flex-start", paddingVertical: 4, paddingRight: 4, flex: 4.5 }}>
                             <Image
@@ -180,8 +181,44 @@ export function StoreScreen({ navigation, route }) {
                             />
                             <Text style={{ fontWeight: "bold", textAlignVertical: "center" }}>  Delivery: 30 min</Text>
                         </View>
-                        <Text style={[styles.innerText, { textAlignVertical: "center" }]}>Change</Text>
+
+                        <View>
+                            <Button onPress={() => setVisible(true)}>
+                                <Text style={[styles.innerText, { textAlignVertical: "center" }]}>Change</Text>
+                            </Button>
+                        </View>
+                        
                     </View>
+
+                    <Modal
+                        transparent={true}
+                        visible={visible}
+                        animationType="slide"
+                    >
+                        <View style={{ backgroundColor: "#000000aa", flex: 1, justifyContent: "flex-end" }}>
+                            <View style={{ backgroundColor: "#ffffff", marginHorizontal: 20, padding: 20, borderTopLeftRadius: 20, borderTopRightRadius:20 }}>
+                                <TouchableOpacity 
+                                    style={[styles.buttonNavigation, { position: "absolute", top: 10, left: 10, elevation: 0 }]}
+                                    onPress={() => setVisible(false)}
+                                >
+                                    <Image
+                                        source={require('./assets/Cross.png')}
+                                        style={{ height: 16, width: 16 }}
+                                    />
+                                </TouchableOpacity>
+                                <View style={{ marginTop: 26, flexDirection: 'row', justifyContent: 'center' }}>
+                                    <TouchableOpacity style={[styles.buttonTouchable, {width: 120}]}>
+                                        <Text>Delivery</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity style={[styles.buttonTouchable, {width: 120}]}>
+                                        <Text>Self Pick-up</Text>
+                                    </TouchableOpacity>
+                                </View>
+
+                                {/* insert drop down box here */}
+                            </View>
+                        </View>
+                    </Modal>
 
                     {isLoading ? <ActivityIndicator /> : (
                         <View>
@@ -197,7 +234,7 @@ export function StoreScreen({ navigation, route }) {
                     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                         {
                             listTab.map(e => (
-                                <TouchableOpacity 
+                                <TouchableOpacity
                                     style={[styles.buttonTouchable, status === e.status && styles.buttonTouchableActive]}
                                     onPress={() => setStatusFilter(e.status)}
                                 >
@@ -246,6 +283,14 @@ const styles = StyleSheet.create({
         fontSize: 30,
         // fontFamily: "Roboto-Regular",
         fontWeight: "bold"
+    },
+
+    title: {
+        color: '#000000',
+        fontSize: 24,
+        fontWeight: 'bold',
+        textAlignVertical: 'bottom',
+        // fontFamily: "Roboto-Regular",
     },
 
     text: {
@@ -327,25 +372,23 @@ const styles = StyleSheet.create({
     buttonTouchable: {
         padding: 10,
         backgroundColor: "#F9E6E6",
-        width: 120,
+        width: 100,
         height: 40,
         borderRadius: 30,
         alignItems: "center",
         justifyContent: "center",
-        marginRight: 10,
-        marginVertical: 5,
+        margin: 5,
     },
 
     buttonTouchableActive: {
         padding: 10,
         backgroundColor: "#E76766",
-        width: 120,
+        width: 100,
         height: 40,
         borderRadius: 30,
         alignItems: "center",
         justifyContent: "center",
-        marginRight: 10,
-        marginVertical: 5,
+        margin: 5,
         elevation: 3
     },
 
@@ -358,6 +401,18 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignContent: "center",
         alignItems: "center",
+        marginVertical: 5,
+        elevation: 5,
+    },
+
+    touchableHighlight: {
+        padding: 10,
+        width: 120,
+        height: 40,
+        borderRadius: 30,
+        alignItems: "center",
+        justifyContent: "center",
+        marginRight: 10,
         marginVertical: 5,
     },
 

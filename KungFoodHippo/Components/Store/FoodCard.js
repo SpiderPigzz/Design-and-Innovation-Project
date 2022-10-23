@@ -82,7 +82,11 @@ export function FoodCard({ title, description, price, imageURI, shopID }) {
                     </View>
                 </TouchableOpacity>
 
-                <Modal transparent={true} visible={visible}>
+                <Modal 
+                    transparent={true} 
+                    visible={visible}
+                    animationType= "fade"
+                >
                     <View style={{ backgroundColor: "#000000aa", flex: 1, justifyContent: "center" }}>
                         <View style={{ backgroundColor: "#ffffff", margin: 20, padding: 20, borderRadius: 20 }}>
                             <View style={{ flexDirection: 'row', justifyContent: "center", paddingBottom: 6 }}>
@@ -261,14 +265,14 @@ const styles = StyleSheet.create({
     },
 
     cardSec: {
-        marginTop: 8,
+        marginVertical: 8,
         paddingVertical: 8,
         paddingHorizontal: 16,
         elevation: 3,
         borderWidth: 1,
         borderColor: "#0000001A",
         backgroundColor: "#FFFFFF",
-        borderRadius: 5
+        borderRadius: 10
     },
 
     imageIcon: {
