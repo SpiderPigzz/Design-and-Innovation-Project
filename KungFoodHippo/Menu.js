@@ -65,7 +65,7 @@ export function MenuScreen({}) {
             
 
             {/* HOME / CART / DELIVER */}
-            <View style={{ flex:1.6, alignItems: 'center', justifyContent: 'space-between', backgroundColor: '#FFFFFF'}}>
+            <View style={{ flex:1.8, alignItems: 'center', justifyContent: 'space-between', backgroundColor: '#FFFFFF'}}>
                 <View style={theme.productsContainer}>
                 
                     <TouchableOpacity                                       

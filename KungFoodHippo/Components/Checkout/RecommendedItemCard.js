@@ -12,7 +12,7 @@ export function RecommendedItemCard() {
                 <Text style={[styles.backgroundText, {alignSelf:'center', fontSize:12}]}>Crispy Chicken</Text>
                 <View style={[{flexDirection:'row'}]}>
 
-                    <Image source={require('../../assets/food-sample-image.jpeg')} style={[styles.imageIcon, {width: 55, height:50, borderRadius: 2}]}></Image>
+                    <Image source={require('../../assets/food-sample-image.jpeg')} style={[styles.imageIcon, {width: 45, height:45, borderRadius: 2}]}></Image>
                     <Text style={[styles.infoText, {fontSize:10, color:'grey'}]}> S$4.50</Text>
 
                 </View>
@@ -135,8 +135,8 @@ const styles = StyleSheet.create({
 
     cardSec: {
         marginTop: 8,
-        paddingVertical: 8,
-        paddingHorizontal: 16,
+        paddingVertical: 4,
+        paddingHorizontal: 8,
         elevation: 3,
         borderWidth: 1,
         borderColor: "#0000001A",
@@ -145,8 +145,8 @@ const styles = StyleSheet.create({
     },
 
     imageIcon: {
-        width: 60,
-        height: 60,
+        width: 50,
+        height: 50,
         borderRadius: 10,
     },
 
