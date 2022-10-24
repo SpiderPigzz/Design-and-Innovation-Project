@@ -6,17 +6,16 @@ import { StyleSheet, View, Image } from 'react-native';
 export function RecommendedItemCard() {
     return (
 
-        <Card style={[styles.cardSec, { marginHorizontal: 2, marginTop: 4,
-            paddingVertical: 0,
-            paddingHorizontal: 0}]}>
+        <Card style={[styles.cardSec, { marginHorizontal:0, marginTop: 4,
+            paddingVertical: 0, paddingHorizontal: 0}]}>
             <Card.Content style={[{ justifyContent: 'center' }]}>
-            <Text style={[styles.backgroundText, {alignSelf:'center', fontSize:10}]}>Crispy Chicken</Text>
-            <View style={[{flexDirection:'row'}]}>
+                <Text style={[styles.backgroundText, {alignSelf:'center', fontSize:12}]}>Crispy Chicken</Text>
+                <View style={[{flexDirection:'row'}]}>
 
-            <Image source={require('../../assets/food-sample-image.jpeg')} style={[styles.imageIcon, {width: 35, height:30, borderRadius: 2}]}></Image>
-            <Text style={[styles.infoText, {fontSize:6, color:'#878787'}]}>S$4.50</Text>
+                    <Image source={require('../../assets/food-sample-image.jpeg')} style={[styles.imageIcon, {width: 55, height:50, borderRadius: 2}]}></Image>
+                    <Text style={[styles.infoText, {fontSize:10, color:'grey'}]}> S$4.50</Text>
 
-            </View>
+                </View>
             
             </Card.Content>
         </Card>);

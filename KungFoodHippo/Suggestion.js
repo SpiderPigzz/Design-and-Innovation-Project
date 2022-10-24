@@ -15,7 +15,7 @@ import { useState } from 'react';
 import { DrawerActions, createAppContainer } from 'react-navigation';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
-import { MD3LightTheme as DefaultTheme, Provider as PaperProvider, Text, Appbar, Snackbar, BottomNavigation, Button, Card, Surface, Title, Paragraph, Drawer, shadow } from 'react-native-paper';
+import { MD3LightTheme as DefaultTheme, Provider as PaperProvider, Text, Appbar, Snackbar, BottomNavigation, Button, Card, Surface, Title, Paragraph, Drawer, shadow, Portal, Provider } from 'react-native-paper';
 import { CardTitle } from './Components/Suggestion/CardTitle.js';
 import { RamenCard } from './Components/Suggestion/RamenCard.js';
 import { AjiyaCard } from './Components/Suggestion/AjiyaCard.js';
@@ -39,6 +39,7 @@ export function SuggestionScreen({ navigation }) {
     }
 
     return (
+        
         <SafeAreaView style={style1.container}>
             <FloatingButton/>
             <CardTitle></CardTitle>
@@ -54,6 +55,7 @@ export function SuggestionScreen({ navigation }) {
                     More of what you like
                 </Text>
             </View>
+            
             <ScrollView
                 horizontal={true} showsHorizontalScrollIndicator={false}>
                 <MakisanCard></MakisanCard>
@@ -61,7 +63,7 @@ export function SuggestionScreen({ navigation }) {
                 <JinjiaCard></JinjiaCard>
                 <SExpressCard></SExpressCard>
             </ScrollView>
-
+            
         </SafeAreaView>
         // <PaperProvider theme={theme}>
         //   <View style={style.searchBoxWrapper}>

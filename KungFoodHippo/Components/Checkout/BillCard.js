@@ -91,8 +91,8 @@ export function BillCard({ dishName, quantity, description, category, price, ima
 
                     <ImageBackground style={[styles.Image]} imageStyle={{ borderRadius: 10 }} source={showDefault}></ImageBackground>
                     <View style={[styles.container, { flexDirection: 'column', flex: 1 }]}>
-                        <Text style={[styles.backgroundText, { fontWeight: 'bold', fontSize: 14, textAlignVertical: 'top', marginHorizontal: 8 }]}>{category}</Text>
-                        <Text numberOfLines={8} style={[styles.backgroundText, { fontWeight: 'normal', fontSize: 12, textAlignVertical: 'top', marginHorizontal: 8, flexWrap: 'wrap', flex: 1 }]}>{description}</Text>
+                        <Text style={[styles.backgroundText, { fontWeight: 'bold', fontSize: 14, fontStyle:'italic', color:'#454545', textAlignVertical: 'top', marginHorizontal: 8 }]}>{category}</Text>
+                        <Text numberOfLines={8} style={[styles.backgroundText, { fontWeight: 'normal', fontSize: 12, color:'#787878' , fontStyle:'italic', textAlignVertical: 'top', marginHorizontal: 8, flexWrap: 'wrap', flex: 1 }]}>{description}</Text>
                     </View>
                     <View style={[styles.container, { flexDirection: 'column', justifyContent: 'space-evenly' }]}>
                         <View style={{ flexDirection: "row", justifyContent: "center", paddingVertical: 24 }}>
@@ -110,9 +110,9 @@ export function BillCard({ dishName, quantity, description, category, price, ima
                                 <Text style={[styles.buttonText, { fontSize: 30 }]}>+</Text>
                             </TouchableOpacity>
                         </View>
-                        <Text style={[styles.text, { fontSize: 16, textAlignVertical: 'top' }]}>{"S$"}{processedPrice}</Text>
                         <Text style={[styles.text, { textAlignVertical: 'top' }]}>{count}{"pcs"}</Text>
-                        <Text style={[styles.text, { fontSize: 16, textAlignVertical: 'top' }]}>{"S$"}{totalItemPrice}</Text>
+                        <Text style={[styles.text, { textAlignVertical: 'top' }]}>{"S$"}{processedPrice}/ea</Text>
+                        <Text style={[styles.text, { fontSize: 15, textAlignVertical: 'top' }]}>Total: {"S$"}{totalItemPrice}</Text>
                     </View>
 
                 </View>
@@ -144,15 +144,16 @@ const styles = StyleSheet.create({
     },
 
     text: {
-        color: "#E76766",
+        color: "black",
         fontSize: 14,
         // fontFamily: "Roboto-Regular",
         fontWeight: "bold",
+        textAlign: 'right',
         textAlignVertical: 'bottom'
     },
 
     infoText: {
-        color: "#b8b8b880",
+        color: "grey",
         fontSize: 14,
         // fontFamily: "Roboto-Regular",
         textAlignVertical: 'bottom'

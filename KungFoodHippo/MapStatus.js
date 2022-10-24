@@ -216,10 +216,12 @@ export function MapScreen({ navigation }) {
 
 
       <FAB
+        color='#E76766'
         icon="arrow-left"
         style={styles.fab}
-        onPress={() => console.log('Pressed')}
+        onPress={() => navigation.goBack()}
       />
+
       <View
         style={{
           position: 'absolute',
@@ -361,7 +363,7 @@ const styles = StyleSheet.create({
     margin: 10,
     left: 0,
     top: 20,
-    backgroundColor: '#D60665',
+    backgroundColor: 'white',
     borderRadius: 30,
   },
   ProgressBar: {

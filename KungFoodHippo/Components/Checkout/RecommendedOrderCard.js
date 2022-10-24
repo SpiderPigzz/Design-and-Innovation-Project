@@ -6,21 +6,23 @@ import { RecommendedItemCard } from './RecommendedItemCard.js';
 export function RecommendedOrderCard() {
     return (
 
-        <Card style={[styles.card, {marginHorizontal:16, marginVertical:4,paddingVertical: 4,
-            paddingHorizontal: 4,}]}>
-            <Card.Content style={[styles.container, {justifyContent:'flex-start', backgroundColor:styles.secColor}]}>
+        <Card style={[styles.card, {marginHorizontal:10, marginVertical:8,paddingVertical: 4,
+            paddingHorizontal: 4}]}>
+            {/*<Card.Content style={[styles.container, {justifyContent:'flex-start', backgroundColor:styles.secColor}]}>*/}
                 <View style={[styles.container, {flexDirection:'row', justifyContent:'flex-start', backgroundColor:styles.secColor}]}>
-                    <Text style={[styles.backgroundText]}>People also ordered</Text>
+                    <Text style={[styles.backgroundText]}> People also ordered:</Text>
                 </View>
 
-                <View style={[styles.container, {flexDirection:'row', justifyContent:'space-between', backgroundColor:styles.secColor}]}>
+                <View style={[styles.container, {flexDirection:'row', justifyContent:'space-between', backgroundColor:styles.secColor, marginTop:10}]}>
                     <RecommendedItemCard></RecommendedItemCard>
+
                     <RecommendedItemCard></RecommendedItemCard>
+
                     <RecommendedItemCard></RecommendedItemCard>
                 </View>
 
                 
-            </Card.Content>
+            {/*</Card.Content>*/}
         </Card>);
 }
 
@@ -75,7 +77,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         // fontFamily: "Roboto-Regular",
         fontWeight: "bold",
-        textAlignVertical: 'bottom'
+        textAlignVertical: 'bottom',
     },
 
     innerText: {

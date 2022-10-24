@@ -6,33 +6,33 @@ export function PickUpCard() {
 
         <Card style={styles.cardSec}>
             <View>
+            
+                <View style={{flexDirection:'row'}}>
+                
+                    <View style={{marginTop:20}}>
+                        <Text style={styles.textBold}>
+                            Pick Up
+                        </Text>
+                    </View>
 
-                <View style={{ marginVertical: 1, marginTop:1 }}>
-
-                    <ImageBackground style={[styles.Image, { justifyContent: 'center' }]} imageStyle={{ borderRadius: 10 }} source={require('../../assets/images/pickup.png')}>
-
-                    </ImageBackground>
+                    <View style={{ alignContent:'center', marginTop:0 }}>
+                        <ImageBackground style={[styles.Image, { justifyContent: 'center', top:25 }]} imageStyle={{ borderRadius: 10 }} source={require('../../assets/images/pickup.png')}>
+                        
+                        </ImageBackground>
+                    </View>
 
                 </View>
 
-                <View>
-                    <Text style={styles.textBold}>
-                        Pick Up
-                    </Text>
+                <View style={{bottom:10}}>
                     <Text style={styles.text}>
-                        Everyday up to 
-                    </Text>
-                    <Text style={styles.text}>
+                        Every up to {'\n'}
                         10% off
                     </Text>
                 </View>
 
-
-
             </View>
-
-
-        </Card>);
+        </Card>
+    );
 }
 
 
@@ -48,14 +48,14 @@ export const styles = StyleSheet.create({
     textBold: {
         color: '#000',
         textAlign: "left",
-        fontSize: 12,
+        fontSize: 20,
         fontWeight: "bold"
     },
 
     text: {
         color: '#000',
         textAlign: "left",
-        fontSize: 12,
+        fontSize: 13,
     },
 
     dealText: {
@@ -103,9 +103,10 @@ export const styles = StyleSheet.create({
 
     cardSec: {
         flex: 1,
-        paddingVertical: 4,
+        paddingVertical: 8,
         paddingHorizontal: 16,
         marginLeft: 10,
+        marginVertical: 8,
         elevation: 3,
         borderWidth: 0,
         backgroundColor: "#EB9FBE",
@@ -124,9 +125,11 @@ export const styles = StyleSheet.create({
 
 
     Image: {
-        marginLeft:60,
-        width: 50,
-        height: 50,
+        width: 70,
+        height:70,
+        marginLeft:20,
+
+
     },
 
 

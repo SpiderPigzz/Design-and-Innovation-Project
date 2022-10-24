@@ -283,9 +283,10 @@ const styles = StyleSheet.create({
     innerText: {
         color: "#E76766",
         textAlign: "right",
-        fontSize: 14,
+        fontSize: 12,
         // fontFamily: "Roboto-Regular",
-        fontWeight: "bold"
+        fontWeight: "normal",
+        
     },
 
     tabText: {

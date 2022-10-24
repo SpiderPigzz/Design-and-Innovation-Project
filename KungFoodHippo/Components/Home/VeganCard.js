@@ -7,15 +7,15 @@ export function VeganCard() {
         <Card style={styles.cardSec}>
             <View>
                 <View style={{ flexDirection: 'row' }}>
-                    <View style={{ marginTop: 50 }}>
+                    <View style={{ marginTop: 20 }}>
 
                         <Text style={styles.textBold}>
-                            Vegans
+                            Vegan
                         </Text>
                     </View>
-                    <View style={{  alignContent: 'center',marginTop:9 }}>
+                    <View style={{  alignContent: 'center',marginTop:0 }}>
 
-                        <ImageBackground style={[styles.Image, { justifyContent: 'space-between' }]} imageStyle={{ borderRadius: 10 }} source={require('../../assets/images/veganfoodv1.png')}>
+                        <ImageBackground style={[styles.Image, { justifyContent: 'center', top:25}]} imageStyle={{ borderRadius: 10 }} source={require('../../assets/images/veganfoodv1.png')}>
 
                         </ImageBackground>
 
@@ -24,12 +24,11 @@ export function VeganCard() {
                 </View>
 
 
-                <View style={{ marginTop:3}}>
+                <View style={{ bottom:10 }}>
 
                     <Text style={styles.text}>
-                        Salads and others
-                    </Text>
-                    <Text style={styles.text}>
+                        Salads and{'\n'}
+                        others {'\n'}
                         15% off
                     </Text>
                 </View>
@@ -55,14 +54,14 @@ export const styles = StyleSheet.create({
     textBold: {
         color: '#000',
         textAlign: "left",
-        fontSize: 12,
+        fontSize: 20,
         fontWeight: "bold"
     },
 
     text: {
         color: '#000',
         textAlign: "left",
-        fontSize: 12,
+        fontSize: 13,
     },
 
     dealText: {
@@ -132,9 +131,11 @@ export const styles = StyleSheet.create({
 
 
     Image: {
-        width: 50,
-        height: 50,
+        width: 70,
+        height:70,
         marginLeft:20,
+
+
     },
 
 

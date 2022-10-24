@@ -51,7 +51,7 @@ export const styles = StyleSheet.create({
     textBold: {
         color: '#000',
         textAlign: "left",
-        fontSize: 12,
+        fontSize: 13,
         fontWeight: "bold"
     },
 

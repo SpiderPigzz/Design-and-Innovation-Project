@@ -15,7 +15,7 @@ export function MakisanCard() {
 
                 <View style={{ marginTop: 5, alignSelf:'center' }}>
                     <Text style={styles.textBold}>
-                        Makisan(Jurong...)
+                        Makisan
                     </Text>
                 </View>
             </View>
@@ -35,7 +35,7 @@ export const styles = StyleSheet.create({
     textBold: {
         color: '#000',
         textAlign: "left",
-        fontSize: 12,
+        fontSize: 13,
         fontWeight: "bold"
     },
 

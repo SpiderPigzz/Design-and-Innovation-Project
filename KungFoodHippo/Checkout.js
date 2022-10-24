@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react';
 import { DrawerActions, createAppContainer } from 'react-navigation';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
-import { MD3LightTheme as DefaultTheme, Provider as PaperProvider, Text, Appbar, Snackbar, BottomNavigation, Button, Card, Surface, Title, Paragraph, Drawer, Divider, Switch } from 'react-native-paper';
+import { MD3LightTheme as DefaultTheme, Provider as PaperProvider, Text, Appbar, Snackbar, BottomNavigation, Button, Card, FAB, Surface, Title, Paragraph, Drawer, Divider, Switch } from 'react-native-paper';
 import { BillCard } from './Components/Checkout/BillCard';
 import { RecommendedOrderCard } from './Components/Checkout/RecommendedOrderCard';
 import { HippoCard } from './Components/TestCard.js';
@@ -27,7 +27,7 @@ const url = 'http://dip.totallynormal.website/';
 
 
 export function CheckoutScreen({ navigation }) {
-    const [cutlery, setCutlery] = useState(false);
+    const [cutlery, setCutlery] = useState(true);
     const toggleSwitch = () => setCutlery(previousState => !previousState);
 
     const [voucher, setVoucher] = useState(false);
@@ -111,6 +111,7 @@ export function CheckoutScreen({ navigation }) {
     );
     return (
         <PaperProvider theme={theme}>
+        
             <AnimatedSplash
                 translucent={false}
                 isLoaded={!isLoading}
@@ -119,18 +120,29 @@ export function CheckoutScreen({ navigation }) {
                 logoHeight={300}
                 logoWidth={300}
             >
-                {/* START WRITING CODE BELOW!!!! */}
+                {/* START WRITING CODE BELOW!!!! */}                
+                <View style={{flex:0.09, backgroundColor:'white'}}>
+                <FAB
+                        color='#E76766'
+                        icon="arrow-left"
+                        style={styles.fab}
+                        onPress={() => navigation.goBack()}
+                    />
+                </View>
                 <View style={[styles.container, { flex: 1, flexDirection: 'column', justifyContent: 'space-between' }]}>
+
                     <Card style={[styles.cardSec, { margin: 16, flex: 3 }]}>
                         <Card.Content>
+                        
                             <View style={[styles.container, { flexDirection: 'row', justifyContent: 'space-around', }]}>
+                            
                                 <Image source={require('./assets/scooter-icon.png')} style={[styles.imageIcon, {}]}></Image>
                                 <View style={[styles.container, { flex: 1 }]}>
-                                    <Text style={[styles.backgroundText, { fontWeight: 'normal', fontSize: 16 }]}>Ordering From:</Text>
+                                    <Text style={[styles.backgroundText, { fontWeight: 'bold', fontSize: 16, marginLeft:20 }]}>Ordering From:</Text>
                                     <FlatList
                                         style={{flexDirection: 'column'}}
                                         data={shopNames}
-                                        renderItem={({ item }) => <Text style={[styles.text, { fontWeight: 'normal', flexWrap: 'wrap', flex: 1 }]}>{"•"}{item}</Text>}
+                                        renderItem={({ item }) => <Text style={[styles.text, { fontWeight: 'normal', flexWrap: 'wrap', flex: 1 , marginLeft:20}]}>{"•"}{item}</Text>}
                                     />
                                 </View>
                             </View>
@@ -163,15 +175,17 @@ export function CheckoutScreen({ navigation }) {
 
                             <RecommendedOrderCard></RecommendedOrderCard>
 
-                            <View>
+                            <View style={{marginTop:10}}>
                                 <View style={[styles.container, { flexDirection: 'row', justifyContent: 'space-between' }]}>
                                     <Text style={[styles.backgroundText, { marginLeft: 16, fontSize: 14 }]}>Subtotal</Text>
                                     <Text style={[styles.backgroundText, { marginRight: 16, fontSize: 14 }]}>{'S$'}{subtotal}</Text>
                                 </View>
-                                <View style={[styles.container, { flexDirection: 'row', justifyContent: 'space-between' }]}>
+
+                                <View style={[styles.container, { flexDirection: 'row', justifyContent: 'space-between', marginTop:10 }]}>
                                     <Text style={[styles.backgroundText, { marginLeft: 16, fontSize: 14 }]}>Delivery fee</Text>
                                     <Text style={[styles.backgroundText, { marginRight: 16, fontSize: 14 }]}>S$3.00</Text>
                                 </View>
+
                                 <View style={[styles.container, { flexDirection: 'row', justifyContent: 'space-between' }]}>
                                     <Text style={[styles.backgroundText, { marginLeft: 16, fontSize: 14, textAlignVertical: 'center' }]}>Redeem 100 Hippo coins</Text>
                                     <Switch style={[{ marginRight: 8 }]} onValueChange={toggleVoucherSwitch} value={voucher} />
@@ -182,11 +196,11 @@ export function CheckoutScreen({ navigation }) {
 
                             <View style={[styles.container, { flexDirection: 'row', justifyContent: 'space-between' }]}>
                                 <View style={[styles.container, { flexDirection: 'row' }]}>
-                                    <Button style={styles.iconPrimTint} icon={'ticket-percent-outline'}></Button>
+                                    <Button style={styles.iconPrimTint}  labelStyle={{fontSize: 30}} icon={'ticket-percent-outline'}></Button>
                                     <Text style={[styles.text, { marginLeft: 8, textAlignVertical: 'center' }]}>Hippo Voucher</Text>
                                 </View>
 
-                                <Button style={styles.iconPrimTint} icon={'chevron-right'}></Button>
+                                <Button style={styles.iconPrimTint}  icon={'chevron-right'}></Button>
                             </View>
 
                             <Divider style={styles.divider} horizontalInset='true' bold='true' />
@@ -194,12 +208,12 @@ export function CheckoutScreen({ navigation }) {
                             <View style={[styles.container, { flexDirection: 'row', justifyContent: 'space-between' }]}>
                                 <View style={[styles.container, { flexDirection: 'row' }]}>
                                     <View style={[{ justifyContent: 'center' }]} >
-                                        <Button style={styles.iconPrimTint} icon={'food-fork-drink'}></Button>
+                                        <Button style={styles.iconPrimTint} labelStyle={{fontSize: 30}} icon={'food-fork-drink'}></Button>
                                     </View>
 
                                     <Text style={[styles.backgroundText, { marginLeft: 8, textAlignVertical: 'center', fontSize: 14 }]}>Cutlery</Text>
                                 </View>
-                                <Switch style={[{ marginRight: 8 }]} onValueChange={toggleSwitch} value={cutlery} />
+                                <Switch style={[{ marginRight: 8 }]} onValueChange={toggleSwitch} value={!cutlery} />
                             </View>
                             <Text style={[styles.infoText, { marginHorizontal: 16, }]}>
                                 {cutlery ? (
@@ -261,7 +275,7 @@ const styles = StyleSheet.create({
     },
 
     text: {
-        color: "#E76766",
+        color: "black",
         fontSize: 14,
         // fontFamily: "Roboto-Regular",
         fontWeight: "bold",
@@ -269,8 +283,8 @@ const styles = StyleSheet.create({
     },
 
     infoText: {
-        color: "#b8b8b880",
-        fontSize: 14,
+        color: "grey",
+        fontSize: 12,
         // fontFamily: "Roboto-Regular",
         textAlignVertical: 'bottom'
     },
@@ -299,6 +313,15 @@ const styles = StyleSheet.create({
         // fontFamily: "Roboto-Regular",
         fontWeight: "bold"
     },
+
+    fab: {
+        position: 'absolute',
+        margin: 10,
+        left: 0,
+        top: 0,
+        backgroundColor: 'white',
+        borderRadius: 30,
+      },
 
     button: {
         marginTop: 8,

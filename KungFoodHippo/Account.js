@@ -6,7 +6,7 @@ import {useState, useEffect} from 'react';
 import { DrawerActions, createAppContainer, ThemeContext } from 'react-navigation';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
-import { MD3LightTheme as DefaultTheme, Provider as PaperProvider, Text, Appbar, Snackbar, BottomNavigation, Button, Card, Surface, Title, Paragraph, Drawer } from 'react-native-paper';
+import { MD3LightTheme as DefaultTheme, Provider as PaperProvider, Text, FAB, Appbar, Snackbar, BottomNavigation, Button, Card, Surface, Title, Paragraph, Drawer } from 'react-native-paper';
 import { HippoCard } from './Components/TestCard.js';
 import {
     SafeAreaView,
@@ -69,9 +69,9 @@ export function AccountScreen({ navigation }) {
             {/* START WRITING CODE BELOW!!!! */}
 
             {/* PINK ACC PART */}
-            <View style={{ flex: 0.3, alignItems: 'flex-start', justifyContent: 'center' , backgroundColor: '#E76766', }}>
+            {/*<View style={{ flex: 0.3, alignItems: 'flex-start', justifyContent: 'center' , backgroundColor: '#E76766', }}>
                 <View style={theme.Container}>      
-                <TouchableOpacity                                         
+                  <TouchableOpacity                                         
                 onPress={() => navigation.navigate('Home')}>   
                     <View style={theme.Container}>      
                         <Image
@@ -79,10 +79,12 @@ export function AccountScreen({ navigation }) {
                             style={theme.backlogo}
                         />                    
                     </View>
-                </TouchableOpacity>
+                </TouchableOpacity> 
                 <Text style={theme.bigText}>Account</Text>                
                 </View>
             </View>
+            */}
+
 
             {/* GREY BOX MY ACCOUNT */}
             <View style={{ flex: 0.3, justifyContent: 'center'}}>
@@ -277,7 +279,6 @@ export function AccountScreen({ navigation }) {
                     </View>
                 </TouchableOpacity>
             </View>
-
         
 
         </PaperProvider>
@@ -339,6 +340,14 @@ const theme = {
         height: 45,
         padding: 15,
         alignItems:'center'
+      },
+      fab: {
+        position: 'absolute',
+        margin: 10,
+        left: 0,
+        top: 20,
+        backgroundColor: 'white',
+        borderRadius: 30,
       },
 
       selectedText: {
