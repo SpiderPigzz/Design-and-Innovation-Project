@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Dimensions, Image, ScrollView, ActivityIndicator, FlatList, Pressable, Modal } from 'react-native';
 import MapView, { Animated, Callout, Marker, Polyline } from 'react-native-maps';
 import * as React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { markers } from './mapData';
 import { WebView } from 'react-native-webview';
 import { FAB, Avatar, Button, Card, Title, Paragraph } from 'react-native-paper';
@@ -39,12 +39,16 @@ export function StoreLocationScreen({ navigation, route }) {
 
   //for extracting address
   useEffect(() => {
+    getAddress();
+  }, [shopAddress]);
 
+  const getAddress = async () => {
     fetch(convertor + String(shopAddress).replace('#', '') + key)
       .then((response) => response.json())
       .then((json) => {
+        console.log(shopAddress);
         console.log(json['results'][0]['geometry']['location']);
-        setPosition(json['results'][0]['geometry']['location']);
+        setPosition([json['results'][0]['geometry']['location']]);
         return json
         // console.log(json);
       })
@@ -52,7 +56,7 @@ export function StoreLocationScreen({ navigation, route }) {
       .finally(() => {
         setLoading(false)
       });
-  }, []);
+  };
 
   // useEffect(() => {
   //   fetch(convertor + data[0]['address'] + key)
@@ -65,7 +69,6 @@ export function StoreLocationScreen({ navigation, route }) {
   //     .finally(() => setLoading(false));
   // }, []);
 
-
   return (
     <View style={styles.container}>
 
@@ -73,49 +76,50 @@ export function StoreLocationScreen({ navigation, route }) {
         <MapView
           style={styles.map}
           key={isLoading}
-          onMapReady={isLoading}
           initialRegion={{
-            latitude: 1.348,
-            longitude: 103.683,
+            latitude: position[0]["lat"],
+            longitude: position[0]["lng"],
             latitudeDelta: 0.00822,
             longitudeDelta: 0.00821,
           }}
           showsUserLocation={true}
           followsUserLocation={true}>
           {
-              <Marker coordinate={{ latitude: position["lat"], longitude: position["lng"] }}
-                key={shopID}
-                pinColor={"red"}
-                title={shopName}
-                description={shopDescription}>
-                <Callout tooltip
-                  onPress={() => navigation.navigate('Listing')}>
-                  <View>
-                    <View style={styles.bubble}>
-                      <Text style={styles.tooltip_name}>{shopName}</Text>
-                      <View
-                        style={{
-                          borderBottomColor: '#FCD077',
-                          borderBottomWidth: 1,
-                        }}
-                      />
-                      <Text style={styles.tooltip_description}>{shopDescription}</Text>
-                      <View>
-                        <WebView style={styles.tooltip_image} source={{ uri: 'https://img.freepik.com/free-photo/flat-lay-batch-cooking-composition_23-2148765597.jpg?w=2000' }}
-                        />
-                      </View>
-                    </View>
-                  </View>
-                  <View style={styles.arrowBorder} />
-                  <View sytle={styles.arrow} />
-                </Callout>
-              </Marker>
             
-         }
+              position.map(positions => {
+                return (
+                  <Marker coordinate={{ latitude: positions["lat"], longitude: positions["lng"] }}
+                    key={shopID}
+                    pinColor={"red"}
+                    title={shopName}
+                    description={shopDescription}>
+                    <Callout tooltip
+                      onPress={() => navigation.navigate('Listing')}>
+                      <View>
+                        <View style={styles.bubble}>
+                          <Text style={styles.tooltip_name}>{shopName}</Text>
+                          <View
+                            style={{
+                              borderBottomColor: '#FCD077',
+                              borderBottomWidth: 1,
+                            }}
+                          />
+                          <Text style={styles.tooltip_description}>{shopDescription}</Text>
+                          <View>
+                            <WebView style={styles.tooltip_image} source={{ uri: 'https://img.freepik.com/free-photo/flat-lay-batch-cooking-composition_23-2148765597.jpg?w=2000' }}
+                            />
+                          </View>
+                        </View>
+                      </View>
+                      <View style={styles.arrowBorder} />
+                      <View sytle={styles.arrow} />
+                    </Callout>
+                  </Marker>)
+              })
+            }
+      
+            </MapView>)}
 
-        </MapView>
-      )
-      }
 
 
       <FAB
