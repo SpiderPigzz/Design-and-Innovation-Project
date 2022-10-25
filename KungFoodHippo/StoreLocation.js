@@ -58,17 +58,6 @@ export function StoreLocationScreen({ navigation, route }) {
       });
   };
 
-  // useEffect(() => {
-  //   fetch(convertor + data[0]['address'] + key)
-  //     .then((response) => response.json())
-  //     .then((convetedAddress) => {
-  //       setData([convetedAddress]);
-  //       console.log(convertedAddress)
-  //     })
-  //     .catch((error) => console.error(error))
-  //     .finally(() => setLoading(false));
-  // }, []);
-
   return (
     <View style={styles.container}>
 
@@ -94,7 +83,7 @@ export function StoreLocationScreen({ navigation, route }) {
                     title={shopName}
                     description={shopDescription}>
                     <Callout tooltip
-                      onPress={() => navigation.navigate('Listing')}>
+                      onPress={() => navigation.goBack()}>
                       <View>
                         <View style={styles.bubble}>
                           <Text style={styles.tooltip_name}>{shopName}</Text>
@@ -126,92 +115,11 @@ export function StoreLocationScreen({ navigation, route }) {
         color='#E76766'
         icon="arrow-left"
         style={styles.fab}
-        onPress={() => navigation.goBack()}
+        onPress={() => navigation.navigate('Store', {shopID: shopID})}
       />
-
-      <View
-        style={{
-          position: 'absolute',
-          bottom: 20,
-          left: 10,
-          right: 10,
-          alignItems: 'flex-start',
-          justifyContent: 'center',
-          backgroundColor: 'rgba(255, 255, 255, 0.99)',
-          borderRadius: 10,
-        }}>
-        <View style={{ flexDirection: 'row' }}>
-          <View style={{ flexDirection: "column", alignItems: 'flex-start', padding: 10 }}>
-            {shouldShow ? (
-              <Text style={{ color: 'grey', fontSize: 16 }}>Estimated Arrival</Text>
-            ) : null}
-            {shouldShow ? (
-              <Text style={{ color: 'black', fontSize: 30, fontWeight: 'bold' }}>45-55 Minutes</Text>
-            ) : null}
-            {shouldShow ? (
-              <Progress.Bar
-                size={30}
-                style={styles.ProgressBar}
-                indeterminate={true}
-                width={200}
-                borderWidth={3}
-                height={10}
-                borderRadius={10}
-                animationType='timing'
-                color="#D60665"
-              />
-            ) : null}
-
-          </View>
-
-          <View style={styles.centeredView}>
-            <Modal
-              animationType="slide"
-              transparent={true}
-              visible={modalVisible}
-              onRequestClose={() => {
-                Alert.alert("Modal has been closed.");
-                setModalVisible(!modalVisible);
-              }}>
-              <View style={styles.centeredView}>
-                <View style={styles.modalView}>
-                  <Image style={{ paddingTop: 10, resizeMode: 'cover', height: 100, width: 100, }}
-                    source={require('./assets/images/thumbsupgif.gif')} />
-                  <Text style={styles.modalText}>Your delivery is here!😘</Text>
-                  <Text style={styles.modalText}>Thanks for shopping with Hippo</Text>
-                  <Pressable
-                    style={[styles.button, styles.buttonClose]}
-                    onPress={() => { setModalVisible(!modalVisible), navigation.navigate('Home') }}>
-                    <Text style={styles.textStyle}>Go to Home</Text>
-                  </Pressable>
-                </View>
-              </View>
-            </Modal>
-          </View>
-
-          {shouldShow ? (
-            <Pressable
-              // style={[styles.button, styles.buttonOpen]}
-              onPress={() => { setModalVisible(true), setShouldShow(!shouldShow) }}>
-              <View style={{ padding: 10, }}>
-                <Image style={{ paddingTop: 10, resizeMode: 'cover', height: 100, width: 100, }}
-                  source={require('./assets/images/delivery.gif')} />
-              </View>
-            </Pressable>
-          ) : null}
-
-        </View>
-
-        {shouldShow ? (
-          <View style={{ flexDirection: 'column', alignItems: 'flex-start', paddingLeft: 10 }}>
-            <Text style={{ padding: 5, paddingLeft: 0, fontSize: 16, fontStyle: 'italic' }}>Your order is on it's way!</Text>
-          </View>
-        ) : null}
-
 
       </View>
 
-    </View>
 
 
   );
