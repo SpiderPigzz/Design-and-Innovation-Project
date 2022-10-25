@@ -17,6 +17,7 @@ import { StoreScreen } from './Store';
 import { DemoScreen } from './Demo.js';
 import { SuggestionScreen } from './Suggestion.js';
 import { CookingScreen } from './Cooking.js';
+import { StoreLocationScreen } from './StoreLocation';
 //import { TrackingScreen } from './Tracking.js';
 //import { TEST } from './TEST.js';
 //import { MenuScreen } from './Menu.js';
@@ -195,6 +196,7 @@ export default function KungFoodHippo() {
                 <Menu.Screen name="Map" component={MapScreen} options={{ headerShown: false }}/>
                 <Menu.Screen name="Suggestion" component={SuggestionScreen} options={{ headerShown: false }}/>
                 <Menu.Screen name="Cooking" component={CookingScreen} options={{ headerShown: false }}/>
+                <Menu.Screen name="Location" component={StoreLocationScreen} options={{ headerShown: false }}/>
 
                 {/*<Menu.Screen name="Tracking" component={TrackingScreen} />*/}
               </Menu.Navigator>

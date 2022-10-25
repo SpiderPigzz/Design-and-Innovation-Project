@@ -44,6 +44,7 @@ export function StoreScreen({ navigation, route }) {
     const [data, setData] = useState([]);
     const [restaurant, setRestaurant] = useState();
     const [address, setAddress] = useState();
+    const [description, setDescription] = useState();
     const [reviewData, setReviewData] = useState([]);
     const [defaultPhoto, setState] = useState(require('./assets/Pastamania.png'));
     const [status, setStatus] = useState('All');
@@ -91,6 +92,7 @@ export function StoreScreen({ navigation, route }) {
             .then((json) => {
                 setRestaurant(json[0].name);
                 setAddress(json[0].address);
+                setDescription(json[0].description);
             })
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
@@ -168,7 +170,9 @@ export function StoreScreen({ navigation, route }) {
                             />
                             <Text numberOfLines={1} style={{ textAlignVertical: "center" }}>   {address}</Text>
                         </View>
+                        <TouchableOpacity onPress={() => {navigation.navigate("Location", {shopAddress: address, shopID: shopID, shopName: restaurant, shopDescription: description})}}>
                         <Text style={[styles.innerText, { textAlignVertical: "center", flex: 1 }]}>More info</Text>
+                        </TouchableOpacity>
                     </View>
 
 
