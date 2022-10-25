@@ -297,7 +297,7 @@ export function MapScreen({ navigation }) {
 
         {shouldShow ?(
           <View style={{ flexDirection: 'column', alignItems: 'flex-start', paddingLeft: 10 }}>
-            <Text style={{ padding: 5, paddingLeft: 90 }}>Your order is on it's way!</Text>
+            <Text style={{ padding: 5, paddingLeft: 0, fontSize:16, fontStyle:'italic' }}>Your order is on it's way!</Text>
           </View>
         ):null}
         
@@ -323,10 +323,11 @@ const styles = StyleSheet.create({
   },
 
   modalView: {
+    flex:0,
     margin: 20,
     backgroundColor: "white",
     borderRadius: 20,
-    padding: 35,
+    padding: 40,
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
@@ -346,7 +347,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F194FF",
   },
   buttonClose: {
-    backgroundColor: "#2196F3",
+    backgroundColor: "#E76766",
   },
   textStyle: {
     color: "white",
@@ -355,7 +356,8 @@ const styles = StyleSheet.create({
   },
   modalText: {
     marginBottom: 15,
-    textAlign: "center"
+    textAlign: "center",
+    fontSize:16
   },
 
   fab: {

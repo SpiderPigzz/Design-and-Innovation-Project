@@ -31,7 +31,7 @@ export function PaymentScreen({ navigation, route }) {
   const [newAddress, setAddress] = React.useState(null);
   const [postalCode, setPostalCode] = React.useState(null);
   const [addressModalVisible, setAddressModalVisible] = useState(false);
-  const [newAddressVisible, setNewAddressVisible] = React.useState(false);
+  const [newAddressVisible, setNewAddressVisible] = useState();
 
   const [instruction, setInstruction] = React.useState(null);
   const [instructionModalVisible, setInstructionModalVisible] = useState(false);
@@ -111,8 +111,10 @@ export function PaymentScreen({ navigation, route }) {
                 onPress={() => setAddressModalVisible(!addressModalVisible)}
                 style={styles.edit}
               >
-                <FontAwesome name="edit" size={25} color="#E76766" />
+                <Button labelStyle={{fontSize: 25}} icon="square-edit-outline">
                 <Text style={styles.selectedText}>Edit</Text>
+                </Button>
+                
               </TouchableOpacity>) : null}
             </View>
 
@@ -149,7 +151,7 @@ export function PaymentScreen({ navigation, route }) {
                       style={[styles.modalButton]}
                       onPress={() => 
                       setAddressModalVisible(!addressModalVisible) +
-                      setNewAddressVisible(true)
+                      setNewAddressVisible(newAddress)
                       }
                     >
                       <Text style={styles.textStyle}>Confirm</Text>
@@ -192,12 +194,12 @@ export function PaymentScreen({ navigation, route }) {
             <Text style={styles.header}> {delivery ? (<Text> {newAddressVisible? 'New Address' : 'Home'}</Text>) : 'Restaurant'} </Text>
             <View>
               {isLoading ? <ActivityIndicator /> : (
-                <Text> {delivery ? orderData['customer.name'] : orderData['shop.name']} </Text> //This one need to get the value using json['key'] because the key got '.' so the phone is confused when you put data.customer.name
+                <Text style={styles.smallText}> {delivery ? "  "+orderData['customer.name'] : orderData['shop.name']} </Text> //This one need to get the value using json['key'] because the key got '.' so the phone is confused when you put data.customer.name
               )}
             </View>
             <View>
               {isLoading ? <ActivityIndicator /> : (
-                <Text> {delivery ? (<Text> {newAddressVisible? newAddress : orderData['customer.address'] }</Text>)  : orderData['shop.address']} </Text>
+                <Text style={styles.smallText}> {delivery ? (<Text> {newAddressVisible? newAddress : " "+orderData['customer.address'] }</Text>)  : orderData['shop.address']} </Text>
               )}
             </View>
 
@@ -265,7 +267,7 @@ export function PaymentScreen({ navigation, route }) {
           <RadioButton.Group style={styles.radiogroup} onValueChange={newValue => setValue(newValue)} value={value}>
             <View style={styles.radiobutton}>
               <RadioButton value="Credit Card" />
-              <Text>Credit Card</Text>
+              <Text style={styles.smallText}>Credit Card</Text>
               <Image source={require('./assets/PayPal.png')} style={styles.icon} />
               <Image source={require('./assets/Mastercard.png')} style={styles.icon} />
               <Image source={require('./assets/Amex.png')} style={styles.icon} />
@@ -273,12 +275,12 @@ export function PaymentScreen({ navigation, route }) {
             </View>
             <View style={styles.radiobutton}>
               <RadioButton value="Paylah!" />
-              <Text>Paylah!</Text>
+              <Text style={styles.smallText}>Paylah!</Text>
               <Image source={require('./assets/Paylah.png')} style={styles.icon} />
             </View>
             <View style={styles.radiobutton}>
               <RadioButton value="Google Pay" />
-              <Text>Google Pay</Text>
+              <Text style={styles.smallText}>Google Pay</Text>
               <Image source={require('./assets/GooglePay.png')} style={styles.icon} />
             </View>
           </RadioButton.Group>
@@ -316,7 +318,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 22
   },
+  smallText:{
+    fontSize:15,
+  },
   modalView: {
+    flex:0,
     margin: 20,
     backgroundColor: "white",
     borderRadius: 20,
@@ -333,7 +339,18 @@ const styles = StyleSheet.create({
   },
   modalText: {
     margin: 15,
+    fontSize:16,
+    
   },
+  textStyle: {
+    color:'white',
+    fontSize:13,
+    fontWeight:'bold',
+    alignSelf:'center',
+    justifyContent:'center'
+    
+  },
+
   modalButton: {
     backgroundColor: "#E76766",
     margin: 15,
@@ -342,8 +359,7 @@ const styles = StyleSheet.create({
     elevation: 10,
     shadowColor: '#52006A',
     height: 45,
-    padding: 15,
-    alignItems: 'center'
+    padding: 12,
   },
   instructionInput: {
     height: 80,
@@ -355,7 +371,7 @@ const styles = StyleSheet.create({
     textAlign: 'left'
   },
   addressInput: {
-    height: 30,
+    height: 50,
     width: 240,
     margin: 5,
     borderWidth: 0.3,
@@ -385,7 +401,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   buttonText: {
-    color: "black",
+    color: "white",
     textAlign: 'center',
   },
   divider: {
@@ -405,11 +421,12 @@ const styles = StyleSheet.create({
   },
   selectedText: {
     color: "#E76766",
+    fontSize:15,
   },
   header: {
     color: "black",
     fontWeight: 'bold',
-    fontSize: 20
+    fontSize: 20,
   },
   viewbox: {
     padding: 10,

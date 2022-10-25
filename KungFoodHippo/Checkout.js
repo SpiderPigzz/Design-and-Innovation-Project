@@ -21,6 +21,7 @@ import {
 import { userContext } from './App.js';
 import { useContext } from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { color } from 'react-native-reanimated';
 
 const url = 'http://dip.totallynormal.website/';
 
@@ -153,7 +154,7 @@ export function CheckoutScreen({ navigation }) {
                     <View style={[styles.container, { flex: 1, marginBottom: 4, flexDirection: 'row', justifyContent: "space-between", }]}>
                         <Text style={[styles.backgroundText, { marginLeft: 16 }]}>Order</Text>
                         <TouchableOpacity onPress={() => { navigation.navigate('Listing') }}>
-                            <Text style={[styles.text, { marginRight: 16 }]}>Add Items</Text>
+                            <Text style={[styles.innerText, { marginRight: 16 }]}>Add Items</Text>
                         </TouchableOpacity>
 
                     </View>
