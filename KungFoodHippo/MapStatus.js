@@ -2,10 +2,11 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Dimensions, Image, ScrollView, ActivityIndicator, FlatList, Pressable,Modal } from 'react-native';
 import MapView, { Animated, Callout, Marker, Polyline } from 'react-native-maps';
 import * as React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { markers } from './mapData';
 import { WebView } from 'react-native-webview';
 import { FAB, Avatar, Button, Card, Title, Paragraph } from 'react-native-paper';
+import { userContext } from './App.js';
 import MapViewDirections from 'react-native-maps-directions';
 import * as Progress from 'react-native-progress';
 import { decay } from 'react-native-reanimated';
@@ -19,11 +20,15 @@ import {
 
 const origin = { latitude: 1.335, longitude: 103.683 };
 const destination = { latitude: 1.329, longitude: 103.625 };
+
 const GOOGLE_MAPS_APIKEY = 'AIzaSyC5TVAWgFHBs_ABdfzbsgzHbdJJecaQiO0';
 const url = 'http://dip.totallynormal.website/';
 const path = "listShop";
 const convertor = 'https://maps.googleapis.com/maps/api/geocode/json?address=';
 const key = '&key=AIzaSyC5TVAWgFHBs_ABdfzbsgzHbdJJecaQiO0';
+
+const orderAddress = 'http://dip.totallynormal.website/getOrderLocation/'
+
 
 // convetor + 'item.address' + key
 export function MapScreen({ navigation }) {
@@ -34,7 +39,7 @@ export function MapScreen({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [listShops, setListShop] = useState({});
   const [shouldShow, setShouldShow] = useState(true);
-
+  const { userEmail, userName, userToken } = useContext(userContext);
 
   //for extracting address
   useEffect(() => {
@@ -210,6 +215,40 @@ export function MapScreen({ navigation }) {
                     <View sytle={styles.arrow} />
                 </Callout>
               </Marker>
+
+              <MapViewDirections
+                origin={origin}
+                destination={{ latitude: 1.34415, longitude: 103.6800792 }}
+                apikey={GOOGLE_MAPS_APIKEY}
+                strokeWidth={5}
+                strokeColor="#F194FF"
+                optimizeWaypoints={true}
+                mode='DRIVING'
+                timePrecision='now'
+              />
+
+              <MapViewDirections
+                origin={{ latitude: 1.34415, longitude: 103.6800792 }}
+                destination={{ latitude:  1.3542608, longitude: 103.6876753 }}
+                apikey={GOOGLE_MAPS_APIKEY}
+                strokeWidth={5}
+                strokeColor="#F194FF"
+                optimizeWaypoints={true}
+                mode='DRIVING'
+                timePrecision='now'
+              />
+
+              <MapViewDirections
+                origin={{ latitude:  1.3542608, longitude: 103.6876753 }}
+                destination={{ latitude:  1.3576474, longitude: 103.8824703 }}
+                apikey={GOOGLE_MAPS_APIKEY}
+                strokeWidth={5}
+                strokeColor="#F194FF"
+                optimizeWaypoints={true}
+                mode='DRIVING'
+                timePrecision='now'
+              />
+
         </MapView>
       )
       }
@@ -297,7 +336,7 @@ export function MapScreen({ navigation }) {
 
         {shouldShow ?(
           <View style={{ flexDirection: 'column', alignItems: 'flex-start', paddingLeft: 10 }}>
-            <Text style={{ padding: 5, paddingLeft: 0, fontSize:16, fontStyle:'italic' }}>Your order is on it's way!</Text>
+            <Text style={{ padding: 5, paddingLeft: 0, fontSize:16, fontStyle:'italic' }}>{userName}, Your order is on it's way!</Text>
           </View>
         ):null}
         

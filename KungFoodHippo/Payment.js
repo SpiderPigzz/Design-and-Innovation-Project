@@ -5,9 +5,10 @@ import { MaterialIcons, Entypo, FontAwesome } from '@expo/vector-icons';
 import { Card, Title, Button, Paragraph, RadioButton, Divider } from 'react-native-paper';
 import { Appbar } from 'react-native-paper';
 import ProgressBarMultiStep from "react-native-progress-bar-multi-step";
-import MapView from 'react-native-maps';
+import MapView, { Animated, Callout, Marker,Polyline } from 'react-native-maps';
 import { ScrollView } from 'react-native-gesture-handler';
 import { userContext } from './App.js';
+
 
 
 
@@ -180,7 +181,15 @@ export function PaymentScreen({ navigation, route }) {
                     latitudeDelta: 0.00822,
                     longitudeDelta: 0.00821,
                   }}
-                  showsUserLocation={true} />)
+                  showsUserLocation={true} >
+                    <Marker coordinate = {{latitude: 1.347,longitude: 103.682}}
+                      pinColor = {"red"}
+                      title={"Home"}
+                      description={"Yes this is you"}>
+                      </Marker>
+                  </MapView>
+                  
+                  )
             ) : (
               <MapView
               //For Yijie to input map (Restaurant Address)
