@@ -46,11 +46,16 @@ export function CookingScreen({ navigation }) {
         await delay(3000);
         setLoadingText("Voíla, your food is done, now delivering!");
         await delay(3000);
+        setLoadingText("");
         navigation.navigate("Map")
     }
 
     useEffect(() => {
-        loadingFunction();
+        navigation.addListener('focus', () => {
+            loadingFunction();
+          });
+      
+        
 
     }, []);
 

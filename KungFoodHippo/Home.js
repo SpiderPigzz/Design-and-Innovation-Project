@@ -96,7 +96,7 @@ export function HomeScreen({ navigation, route }) {
  {/* HOT DEALS / FAV / OFFERS / ORDER LATER*/}
                     <View style={{marginTop: 15}}/>
 
-                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                    <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
 
                         <TouchableOpacity
                             onPress={() => navigation.navigate('Listing', {
@@ -146,7 +146,7 @@ export function HomeScreen({ navigation, route }) {
                             </View>
                         </TouchableOpacity>
 
-                    </ScrollView>
+                    </View>
 
 {/* FOOD DELIVERY CARD*/}
 
@@ -201,7 +201,7 @@ export function HomeScreen({ navigation, route }) {
                     {name => <Text style={style1.cuisineText}>{name}</Text>}
                     </userContext.Consumer> */}
                         <Text style={style1.cuisineText}>Cuisines</Text>
-                        <View style={[style1.cuisinesCard, { justifyContent: 'space-evenly' }]} horizontal={true}>
+                        <View style={[style1.cuisinesCard, { justifyContent: 'space-around' }]} horizontal={true}>
 
                             <TouchableOpacity
 
@@ -228,7 +228,7 @@ export function HomeScreen({ navigation, route }) {
 
 
                         </View>
-                        <View style={[style1.cuisinesCard, { justifyContent: 'space-evenly' }]} horizontal={true}>
+                        <View style={[style1.cuisinesCard, { justifyContent: 'space-around' }]} horizontal={true}>
                             <TouchableOpacity
 
                                 onPress={() => navigation.navigate('Listing', {
