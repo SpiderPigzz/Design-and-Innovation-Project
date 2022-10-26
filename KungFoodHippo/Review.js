@@ -78,7 +78,7 @@ export function ReviewScreen({ navigation, route }) {
                 <View style={styles.header}>
                     <TouchableOpacity
                         style={styles.buttonNavigation}
-                        onPress={() => navigation.goBack()}
+                        onPress={() => navigation.navigate('Store', {shopID: shopID})}
                     >
                         <Image
                             source={require('./assets/ArrowLeft.png')}

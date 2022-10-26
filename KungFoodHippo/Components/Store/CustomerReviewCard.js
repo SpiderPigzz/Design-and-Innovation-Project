@@ -2,32 +2,45 @@ import React, { useState, useEffect } from 'react';
 import { MD3LightTheme as DefaultTheme, Provider as PaperProvider, Text, Appbar, Snackbar, BottomNavigation, Button, Card, Title, Paragraph } from 'react-native-paper';
 import { StyleSheet, View, Image, TouchableOpacity, Modal, FlatList, ActivityIndicator } from 'react-native';
 
+
+
+
 export function CustomerReviewCard({ name, date, comments, overall, food, packaging, value }) {
+
+    // useEffect(() => {
+    //     dates= new Intl.DateTimeFormat('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' }).format(date);
+
+    //     setFormattedDate(dates);
+    
+    // }, []);
+
+    //const [formattedDate, setFormattedDate] = useState();
+
     return (
 
         <Card style={styles.cardSec}>
             <Card.Content>
                 <View style={styles.container}>
-                    <View style={{flexDirection: 'row', justifyContent: 'space-between', marginBottom: 8}}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 8 }}>
                         <Text style={styles.backgroundText}>{name}</Text>
 
                         <Text style={styles.infoText}>{date}</Text>
                     </View>
-                    
-                    <View style={{flexDirection: 'row', justifyContent: 'space-between' }}>
-                        <Card style={[styles.cardReview, {width: 130}]}>
-                            <View style={{margin: 10, alignItems: 'center', justifyContent: 'center'}}>
+
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <Card style={[styles.cardReview, { width: 130 }]}>
+                            <View style={{ margin: 10, alignItems: 'center', justifyContent: 'center' }}>
                                 <Text style={styles.smallText}>Great Packaging</Text>
                             </View>
                         </Card>
 
                         <Card style={styles.cardReview}>
-                            <View style={{margin: 10, alignItems: 'center', justifyContent: 'center'}}>
+                            <View style={{ margin: 10, alignItems: 'center', justifyContent: 'center' }}>
                                 <Text style={styles.smallText}>Delicious Food</Text>
                             </View>
                         </Card>
                         <Card style={styles.cardReview}>
-                            <View style={{margin: 10, alignItems: 'center', justifyContent: 'center'}}>
+                            <View style={{ margin: 10, alignItems: 'center', justifyContent: 'center' }}>
                                 <Text style={styles.smallText}>Worth It</Text>
                             </View>
                         </Card>
@@ -35,10 +48,10 @@ export function CustomerReviewCard({ name, date, comments, overall, food, packag
                     <Text>Overall rating: {overall.toFixed(1)}</Text>
                     <Text>{comments}</Text>
                 </View>
-                
+
 
             </Card.Content>
-            
+
         </Card>);
 }
 

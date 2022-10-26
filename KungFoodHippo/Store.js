@@ -148,7 +148,7 @@ export function StoreScreen({ navigation, route }) {
                 <Image source={defaultPhoto} style={{ height: 160, width: null }} />
                 <TouchableOpacity
                     style={[styles.buttonNavigation, { position: "absolute", left: 10, top: 5 }]}
-                    onPress={() => navigation.goBack()}
+                    onPress={() => navigation.navigate('Listing')}
                 >
                     <Image
                         source={require('./assets/ArrowLeft.png')}

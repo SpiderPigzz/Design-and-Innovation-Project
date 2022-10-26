@@ -121,7 +121,6 @@ export function StoreLocationScreen({ navigation, route }) {
       </View>
 
 
-
   );
 }
 

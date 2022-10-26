@@ -137,7 +137,7 @@ export function CheckoutScreen({ navigation }) {
                         
                             <View style={[styles.container, { flexDirection: 'row', justifyContent: 'space-around', }]}>
                             
-                                <Image source={require('./assets/scooter-icon.png')} style={[styles.imageIcon, {}]}></Image>
+                                <Image source={require('./assets/images/delivery.gif')} style={[styles.imageIcon, {}]}></Image>
                                 <View style={[styles.container, { flex: 1 }]}>
                                     <Text style={[styles.backgroundText, { fontWeight: 'bold', fontSize: 16, marginLeft:20 }]}>Ordering From:</Text>
                                     <FlatList
