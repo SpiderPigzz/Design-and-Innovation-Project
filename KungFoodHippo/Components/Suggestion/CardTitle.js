@@ -10,6 +10,7 @@ export function CardTitle() {
                     <Text style={styles.text}>
                         Because you have eaten 
                     </Text>
+                    
                     <Text style={[styles.text,{alignSelf:'center'}]}>
                         Genkin sushi ... 
                     </Text>

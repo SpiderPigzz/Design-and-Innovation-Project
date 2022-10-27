@@ -1,28 +1,57 @@
-import { Icon } from 'react-native-elements';
-import { MD3LightTheme as DefaultTheme, Provider as PaperProvider, Text, Appbar, Snackbar, BottomNavigation, Button, Card, Title, Paragraph, Divider } from 'react-native-paper';
-import { StyleSheet, View, Image } from 'react-native';
-import { RecommendedItemCard } from './RecommendedItemCard.js';
+import React, { useState, useEffect } from 'react';
+import { MD3LightTheme as DefaultTheme, Provider as PaperProvider, Text, Appbar, Snackbar, BottomNavigation, Button, Card, Title, Paragraph } from 'react-native-paper';
+import { StyleSheet, View, Image, TouchableOpacity, Modal, FlatList, ActivityIndicator } from 'react-native';
 
-export function RecommendedOrderCard() {
+
+
+
+export function CustomerReviewCard({ name, date, comments, overall, food, packaging, value }) {
+
+    // useEffect(() => {
+    //     dates= new Intl.DateTimeFormat('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' }).format(date);
+
+    //     setFormattedDate(dates);
+    
+    // }, []);
+
+    //const [formattedDate, setFormattedDate] = useState();
+
     return (
 
-        <Card style={[styles.card, {marginHorizontal:10, marginVertical:8,paddingVertical: 4,
-            paddingHorizontal: 4}]}>
-            {/*<Card.Content style={[styles.container, {justifyContent:'flex-start', backgroundColor:styles.secColor}]}>*/}
-                <View style={[styles.container, {flexDirection:'row', justifyContent:'flex-start', backgroundColor:styles.secColor}]}>
-                    <Text style={[styles.backgroundText]}> People also ordered:</Text>
+        <Card style={styles.cardSec}>
+            <Card.Content>
+                <View style={styles.container}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 8 }}>
+                        <Text style={styles.backgroundText}>{name}</Text>
+
+                        <Text style={styles.infoText}>{date}</Text>
+                    </View>
+
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <Card style={[styles.cardReview, { width: 130 }]}>
+                            <View style={{ margin: 10, alignItems: 'center', justifyContent: 'center' }}>
+                                <Text style={styles.smallText}>Great Packaging</Text>
+                            </View>
+                        </Card>
+
+                        <Card style={styles.cardReview}>
+                            <View style={{ margin: 10, alignItems: 'center', justifyContent: 'center' }}>
+                                <Text style={styles.smallText}>Delicious Food</Text>
+                            </View>
+                        </Card>
+                        <Card style={styles.cardReview}>
+                            <View style={{ margin: 10, alignItems: 'center', justifyContent: 'center' }}>
+                                <Text style={styles.smallText}>Worth It</Text>
+                            </View>
+                        </Card>
+                    </View>
+                    <Text>Overall rating: {overall.toFixed(1)}</Text>
+                    <Text>{comments}</Text>
                 </View>
 
-                <View style={[styles.container, {flexDirection:'row', justifyContent:'space-between', backgroundColor:styles.secColor, marginTop:10}]}>
-                    <RecommendedItemCard></RecommendedItemCard>
 
-                    <RecommendedItemCard></RecommendedItemCard>
+            </Card.Content>
 
-                    <RecommendedItemCard></RecommendedItemCard>
-                </View>
-
-                
-            {/*</Card.Content>*/}
         </Card>);
 }
 
@@ -57,7 +86,7 @@ const styles = StyleSheet.create({
     },
 
     infoText: {
-        color: "#b8b8b880",
+        color: "#808080",
         fontSize: 14,
         // fontFamily: "Roboto-Regular",
         textAlignVertical: 'bottom'
@@ -77,7 +106,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         // fontFamily: "Roboto-Regular",
         fontWeight: "bold",
-        textAlignVertical: 'bottom',
+        textAlignVertical: 'bottom'
     },
 
     innerText: {
@@ -86,6 +115,13 @@ const styles = StyleSheet.create({
         fontSize: 14,
         // fontFamily: "Roboto-Regular",
         fontWeight: "bold"
+    },
+
+    smallText: {
+        color: "#000000",
+        fontSize: 12,
+        // fontFamily: "Roboto-Regular",
+        textAlign: "center",
     },
 
     button: {
@@ -135,18 +171,27 @@ const styles = StyleSheet.create({
         elevation: 3,
         borderWidth: 0,
         backgroundColor: "#F9E6E6",
-        borderRadius: 5,
+        borderRadius: 10,
     },
 
     cardSec: {
-        marginTop: 8,
-        paddingVertical: 8,
-        paddingHorizontal: 16,
+        marginVertical: 8,
+        padding: 8,
         elevation: 3,
         borderWidth: 1,
         borderColor: "#0000001A",
         backgroundColor: "#FFFFFF",
-        borderRadius: 5
+        borderRadius: 10
+    },
+
+    cardReview: {
+        width: 80,
+        height: 36,
+        backgroundColor: "#F9E6E6",
+        borderRadius: 20,
+        elevation: 3,
+        margin: 4,
+        alignItems: 'center',
     },
 
     imageIcon: {

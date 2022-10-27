@@ -76,9 +76,12 @@ export function HomeScreen({ navigation, route }) {
                     <FloatingButton setVisibility={isFocused} navigation={navigation} />
                 </Portal>
                 <ScrollView style={style1.container} vertical={true}>
+                    
                     <View style={style1.searchBoxWrapper1}>
-                        <Text style={{ fontSize: 24, fontWeight: "bold" }}>Hello {userName}, what do you want to eat today?</Text>
+                        <Text style={{ fontSize: 24, fontStyle:'italic', fontWeight: "bold"}}>Hello {userName} ! {'\n'}</Text>
+                        <Text style={{ fontSize:18, fontStyle:'italic', bottom: 30}}>What would you like to eat today?</Text>
                     </View>
+
                     <TouchableOpacity
                         onPress={() => navigation.navigate('Listing', {
                             queryString: 'Search for restaurants'
@@ -88,10 +91,14 @@ export function HomeScreen({ navigation, route }) {
                             <Image source={require('./assets/images/search.png')} />
                         </View>
                     </TouchableOpacity>
+                    
 
-                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+ {/* HOT DEALS / FAV / OFFERS / ORDER LATER*/}
+                    <View style={{marginTop: 15}}/>
+
+                    <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
+
                         <TouchableOpacity
-
                             onPress={() => navigation.navigate('Listing', {
                                 queryString: 'Hot Deals'
                             })}>
@@ -101,11 +108,9 @@ export function HomeScreen({ navigation, route }) {
                                 </View>
                                 <Text style={style1.label1}>Hot Deals</Text>
                             </View>
-
                         </TouchableOpacity>
 
                         <TouchableOpacity
-
                             onPress={() => navigation.navigate('Listing', {
                                 queryString: 'Favourite'
                             })}>
@@ -115,10 +120,9 @@ export function HomeScreen({ navigation, route }) {
                                 </View>
                                 <Text style={style1.label1}>Favourite</Text>
                             </View>
-
                         </TouchableOpacity>
-                        <TouchableOpacity
 
+                        <TouchableOpacity
                             onPress={() => navigation.navigate('Listing', {
                                 queryString: 'Offers'
                             })}>
@@ -128,10 +132,9 @@ export function HomeScreen({ navigation, route }) {
                                 </View>
                                 <Text style={style1.label1}>Offers</Text>
                             </View>
-
                         </TouchableOpacity>
-                        <TouchableOpacity
 
+                        <TouchableOpacity
                             onPress={() => navigation.navigate('Listing', {
                                 queryString: 'Order Later'
                             })}>
@@ -139,15 +142,16 @@ export function HomeScreen({ navigation, route }) {
                                 <View style={style1.categoryCard}>
                                     <Image source={require('./assets/images/NewFood.png')} style={style1.image} />
                                 </View>
-                                <Text style={style1.label1}>Order Later </Text>
+                                <Text style={style1.label1}>Order Later</Text>
                             </View>
-
                         </TouchableOpacity>
 
-                    </ScrollView>
-                    <View>
-                        <TouchableOpacity
+                    </View>
 
+{/* FOOD DELIVERY CARD*/}
+
+                    <View style={{marginTop: 15}}>
+                        <TouchableOpacity
                             onPress={() => navigation.navigate('Listing', {
                                 queryString: 'Food'
                             })}>
@@ -157,7 +161,6 @@ export function HomeScreen({ navigation, route }) {
                         <View style={{ flexDirection: "row", justifyContent: "space-evenly" }}>
                             <View style={[style1.FDCard]}>
                                 <TouchableOpacity
-
                                     onPress={() => navigation.navigate('Listing', {
                                         queryString: 'Halal'
                                     })}>
@@ -190,12 +193,15 @@ export function HomeScreen({ navigation, route }) {
                         </View>
 
                     </View>
-                    <View>
+
+{/* CUISINES CARD*/}
+
+                    <View style={{marginTop: 15}}>
                         {/* <userContext.Consumer>
                     {name => <Text style={style1.cuisineText}>{name}</Text>}
                     </userContext.Consumer> */}
                         <Text style={style1.cuisineText}>Cuisines</Text>
-                        <View style={[style1.cuisinesCard, { justifyContent: 'space-evenly' }]} horizontal={true}>
+                        <View style={[style1.cuisinesCard, { justifyContent: 'space-around' }]} horizontal={true}>
 
                             <TouchableOpacity
 
@@ -222,7 +228,7 @@ export function HomeScreen({ navigation, route }) {
 
 
                         </View>
-                        <View style={[style1.cuisinesCard, { justifyContent: 'space-evenly' }]} horizontal={true}>
+                        <View style={[style1.cuisinesCard, { justifyContent: 'space-around' }]} horizontal={true}>
                             <TouchableOpacity
 
                                 onPress={() => navigation.navigate('Listing', {
@@ -250,6 +256,8 @@ export function HomeScreen({ navigation, route }) {
                         </View>
                     </View>
 
+{/* RECOMMENDED FOR YOU*/}
+
                     <View style={style1.ListingWrapper}>
                         <Text style={style1.subHeadingWrapper}>
                             Recommended For You
@@ -258,7 +266,7 @@ export function HomeScreen({ navigation, route }) {
                     </View>
                     <ScrollView
                         contentContainerStyle={[style1.foodListingWrapper]} horizontal={true} >
-                        <View style={{ margin: 10, flex: 1, justifyContent: 'space-between', flexDirection: 'row' }} horizontal={true}>
+                        <View style={{ margin: 10, flex: 1, justifyContent: 'space-evenly', flexDirection: 'row' }} horizontal={true}>
                             <TouchableOpacity
                                 onPress={() => navigation.navigate('Listing', {
                                     queryString: 'Takagiramen'
@@ -334,30 +342,34 @@ const style1 = StyleSheet.create({
         width: '96%',
     },
     searchBoxWrapper1: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
+        //flexDirection: 'column',
+        //justifyContent: 'center',
         backgroundColor: '#FFFFFF',
         padding: 10,
+        marginBottom:-20,
         borderRadius: 5,
         marginLeft: 10,
-        width: '96%',
+        width: '100%',
     },
     categoryCard: {
-        flex: 1,
-        //backgroundColor: '#000000',
-        justifyContent: 'center',
+
+        //backgroundColor: 'black',
+        flexDirection:'row',
+        justifyContent: 'space-evenly',
         alignItems: 'center',
         borderRadius: 15,
-        padding: 9,
+        //padding: 9,
 
     },
     categoryItem: {
-        marginleft: 6,
+        //flexDirection:'row',
+        justifyContent: 'space-evenly',
         marginTop: 5,
-        marginVertical: 10,
+        //marginVertical: 10,
+        width:103,
         alignItems: 'center',
-        //backgroundColor:'#EB9FBE',
-        padding: 10,
+        //backgroundColor:'grey',
+        //padding: 10,
     },
     image: {
         flex: 1,
@@ -416,7 +428,7 @@ const style1 = StyleSheet.create({
         marginBottom: 40,
     },
     label1: {
-        color: '#000000',
+        color: 'black',
         fontSize: 12,
         marginTop: 5,
     },
@@ -443,10 +455,11 @@ const style1 = StyleSheet.create({
 
     },
     subHeadingWrapper: {
+        marginTop:5,
         fontSize: 20,
         marginRight: 10,
         marginLeft: 10,
-        // fontWeight:"bold",
+        fontWeight:"bold",
     },
     arrowWrapper: {
         marginBottom: 1,

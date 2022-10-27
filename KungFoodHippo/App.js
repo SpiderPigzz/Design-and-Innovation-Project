@@ -13,10 +13,12 @@ import { PaymentScreen } from './Payment';
 import { HomeScreen } from './Home.js';
 import { MapScreen } from './MapStatus';
 import { ListingScreen } from './RestaurantListing';
+import { ReviewScreen } from './Review.js';
 import { StoreScreen } from './Store';
 import { DemoScreen } from './Demo.js';
 import { SuggestionScreen } from './Suggestion.js';
 import { CookingScreen } from './Cooking.js';
+import { StoreLocationScreen } from './StoreLocation';
 //import { TrackingScreen } from './Tracking.js';
 //import { TEST } from './TEST.js';
 //import { MenuScreen } from './Menu.js';
@@ -188,13 +190,15 @@ export default function KungFoodHippo() {
                 {/* <Menu.Screen name="Login" component={LoginScreen} /> */}
                 <Menu.Screen name="Home" component={HomeScreen}  />
                 <Menu.Screen name="Account" component={AccountScreen} />
-                <Menu.Screen name="Listing" component={ListingScreen} />
+                <Menu.Screen name="Listing" component={ListingScreen} initialParams={{queryString: 'Search for restaurants'}}/>
                 <Menu.Screen name="Store" component={StoreScreen} options={{ headerShown: false }}/>
                 <Menu.Screen name="Checkout" component={CheckoutScreen} options={{ headerShown: false }}/>
                 <Menu.Screen name="Payment" component={PaymentScreen} options={{ headerShown: false }}/>
                 <Menu.Screen name="Map" component={MapScreen} options={{ headerShown: false }}/>
                 <Menu.Screen name="Suggestion" component={SuggestionScreen} options={{ headerShown: false }}/>
                 <Menu.Screen name="Cooking" component={CookingScreen} options={{ headerShown: false }}/>
+                <Menu.Screen name="Location" component={StoreLocationScreen} options={{ headerShown: false }}/>
+                <Menu.Screen name="Review" component={ReviewScreen} options={{ headerShown: false }}/>
 
                 {/*<Menu.Screen name="Tracking" component={TrackingScreen} />*/}
               </Menu.Navigator>

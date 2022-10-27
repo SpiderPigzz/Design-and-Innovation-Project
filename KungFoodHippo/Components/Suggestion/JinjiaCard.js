@@ -15,7 +15,7 @@ export function JinjiaCard() {
 
                 <View style={{ marginTop: 5, alignSelf:'center' }}>
                     <Text style={styles.textBold}>
-                        Jinjja Chicken(W ...)
+                        Jinjja Chicken
                     </Text>
                 </View>
             </View>
@@ -35,7 +35,7 @@ export const styles = StyleSheet.create({
     textBold: {
         color: '#000',
         textAlign: "left",
-        fontSize: 12,
+        fontSize: 13,
         fontWeight: "bold"
     },
 

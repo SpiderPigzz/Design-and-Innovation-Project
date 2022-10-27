@@ -16,7 +16,7 @@ export function FoodDeliveryCard() {
                         </Text>
                     </View>
 
-                    <View style={{ marginVertical: 4, marginLeft: 80 }}>
+                    <View style={{ marginVertical: 4, marginLeft: 50 }}>
 
                         <ImageBackground style={[styles.Image, { justifyContent: 'space-between' }]} imageStyle={{ borderRadius: 10 }} source={require('../../assets/images/food_delivery.png')}>
 
@@ -45,14 +45,14 @@ export const styles = StyleSheet.create({
     textBold: {
         color: '#FFFFFF',
         textAlign: "left",
-        fontSize: 12,
+        fontSize: 25,
         fontWeight: "bold"
     },
 
     text: {
         color: '#FFFFFF',
         textAlign: "left",
-        fontSize: 12,
+        fontSize: 14,
     },
 
     dealText: {
@@ -121,8 +121,8 @@ export const styles = StyleSheet.create({
 
 
     Image: {
-        width: 120,
-        height: 120,
+        width: 150,
+        height: 150,
     },
 
 
