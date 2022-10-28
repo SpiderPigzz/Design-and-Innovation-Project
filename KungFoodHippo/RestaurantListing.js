@@ -83,9 +83,9 @@ export function ListingScreen({ route, navigation }) {
 
         console.log(queryString);
 
-        //getData();
+        getData();
 
-        getNearest('24 nanyang avenue');
+        //getNearest('24 nanyang avenue');
 
     }, [queryString]);
 
