@@ -24,6 +24,7 @@ import { debug } from 'react-native-reanimated';
 
 const url = 'http://dip.totallynormal.website/';
 const path = "listShop";
+const nearest = "getNearest/";
 
 
 export function ListingScreen({ route, navigation }) {
@@ -34,6 +35,22 @@ export function ListingScreen({ route, navigation }) {
     const [searchDisplay, setSearchDisplay] = React.useState('All');
     const [sortByPrice, setSortByPrice] = useState(false);
     const { queryString } = route.params;
+
+    const getNearest = (address) => {
+        fetch(url + nearest + address)
+            .then((response) => response.json())
+            .then((json) => {
+                for (var i = 0; i < json.length; i++) {
+                    json[i]['imageURI'] = 'http://dip.totallynormal.website/picture/' + json[i]['ID'];
+                    //console.log(json[i]['imageURI']);
+                }
+                //console.log(json);
+
+                setData(json);
+            })
+            .catch((error) => console.error(error))
+            .finally(() => setLoading(false));
+    };
 
     const getData = () => {
         fetch(url + path)
@@ -66,7 +83,9 @@ export function ListingScreen({ route, navigation }) {
 
         console.log(queryString);
 
-        getData();
+        //getData();
+
+        getNearest('24 nanyang avenue');
 
     }, [queryString]);
 
