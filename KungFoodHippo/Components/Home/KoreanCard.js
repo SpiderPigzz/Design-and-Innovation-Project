@@ -15,7 +15,7 @@ export function KoreanCard() {
 
                 <View style={{ marginTop: 5, alignSelf:'center' }}>
                     <Text style={styles.textBold}>
-                        Korean
+                        Thai
                     </Text>
                 </View>
             </View>

@@ -194,7 +194,7 @@ export default function KungFoodHippo() {
                   {/* <Menu.Screen name="Login" component={LoginScreen} /> */}
                   <Menu.Screen name="Home" component={HomeScreen} options={{ headerStyle: { backgroundColor: '#f2a6a6' } }} />
                   <Menu.Screen name="Account" component={AccountScreen} />
-                  <Menu.Screen name="Listing" component={ListingScreen} initialParams={{ queryString: 'Search for restaurants' }} />
+                  <Menu.Screen name="Listing" component={ListingScreen} initialParams={{ queryString: 'Search for restaurants' }} options={{headerStyle: { backgroundColor: '#f2a6a6' }}}/>
                   <Menu.Screen name="Store" component={StoreScreen} options={{ headerShown: false }} />
                   <Menu.Screen name="Checkout" component={CheckoutScreen} options={({ navigation }) => ({
                     headerStyle: { backgroundColor: '#f2a6a6' },

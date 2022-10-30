@@ -25,7 +25,7 @@ import { debug } from 'react-native-reanimated';
 const url = 'http://dip.totallynormal.website/';
 const path = "listShop";
 const nearest = "getNearest/";
-
+const cuisinePath = "listShopByTag/";
 
 export function ListingScreen({ route, navigation }) {
     const [isLoading, setLoading] = useState(true);
@@ -37,18 +37,20 @@ export function ListingScreen({ route, navigation }) {
     const { queryString } = route.params;
     const [shopNames, setShopNames] = useState([]);
 
+    const [selectState, setSelectState] = useState([false, false, false, false, false, false, false, false, false, false, false, false, false]);
+
     const getNearest = async (address) => {
-        await fetch(url + orderPath + userEmail)
-                        .then((response) => response.json())
-                        .then((json) => {
-                            console.log(json);
-                            setShopNames(json[0]['shop.name'])
+        // await fetch(url + orderPath + userEmail)
+        //     .then((response) => response.json())
+        //     .then((json) => {
+        //         console.log(json);
+        //         setShopNames(json[0]['shop.name'])
 
-                            console.log(json[0]['shop.name'])
+        //         console.log(json[0]['shop.name'])
 
-                        });
+        //     });
 
-        
+
         await fetch(url + nearest + address)
             .then((response) => response.json())
             .then((json) => {
@@ -80,28 +82,159 @@ export function ListingScreen({ route, navigation }) {
             .finally(() => setLoading(false));
     };
 
+    const getCuisine = (cuisineType) => {
+        fetch(url + cuisinePath + cuisineType)
+            .then((response) => response.json())
+            .then((json) => {
+                for (var i = 0; i < json.length; i++) {
+                    json[i]['imageURI'] = 'http://dip.totallynormal.website/picture/' + json[i]['ID'];
+                    //console.log(json[i]['imageURI']);
+                }
+                //console.log(json);
+
+                setData(json);
+            })
+            .catch((error) => console.error(error))
+            .finally(() => setLoading(false));
+    };
+
     useEffect(() => {
 
-        navigation.addListener('focus', () => {
-            if (queryString != 'Search for restaurants') {
-                setSearchQuery(queryString);
+        //navigation.addListener('focus', () => {
+            if (queryString == 'Halal') {
+                setSelectState(selectArray('Halal'));
+            }
+
+            else if (queryString == 'Vegan') {
+                setSelectState(selectArray('Vegan'));
+            }
+
+            else if (queryString == 'Japanese') {
+                setSelectState(selectArray('Japanese'));
+            }
+
+            else if (queryString == 'Thai') {
+                setSelectState(selectArray('Thai'));
+            }
+
+            else if (queryString == 'Western') {
+                setSelectState(selectArray('Western'));
+            }
+
+            else if (queryString == 'Italian') {
+                setSelectState(selectArray('Italian'));
+            }
+
+            else if (queryString == 'Chinese') {
+                setSelectState(selectArray('Chinese'));
+            }
+
+            else if (queryString == 'Mexican') {
+                setSelectState(selectArray('Mexican'));
+            }
+
+            else if (queryString == 'Search for restaurants' || queryString == 'PickUp') {
+                setSearchQuery("");
+                setSelectState(selectArray('All'));
             }
 
             else {
-                setSearchQuery("");
+                setSearchQuery(queryString);
+                setSelectState(selectArray('All'));
+                searchButton();
             }
 
-        });
+        //});
 
-        console.log(queryString);
-
-        getData();
 
         //getNearest('24 nanyang avenue');
 
     }, [queryString]);
 
+    const selectArray = (buttonName) => {
+        console.log(buttonName);
+        if (buttonName == 'All') {
+            getData();
+            return [true, false, false, false, false, false, false, false, false, false, false, false, false];
+        }
 
+        else if (buttonName == 'Nearby') {
+            getNearest('50 nanyang avenue');
+            setSearchDisplay('Nearby');
+            return [false, true, false, false, false, false, false, false, false, false, false, false, false];
+        }
+
+        else if (buttonName == 'Halal') {
+            getCuisine('cuisine_halal');
+            setSearchDisplay('Halal');
+            return [false, false, true, false, false, false, false, false, false, false, false, false, false];
+        }
+
+        else if (buttonName == 'Drinks') {
+            getCuisine('cuisine_drinks');
+            setSearchDisplay('Drinks');
+            return [false, false, false, true, false, false, false, false, false, false, false, false, false];
+        }
+
+        else if (buttonName == 'Vegan') {
+            getCuisine('cuisine_vegan');
+            setSearchDisplay('Vegan');
+            return [false, false, false, false, true, false, false, false, false, false, false, false, false];
+        }
+
+        else if (buttonName == 'Chinese') {
+            getCuisine('cuisine_chinese');
+            setSearchDisplay('Chinese');
+            return [false, false, false, false, false, true, false, false, false, false, false, false, false];
+        }
+
+        else if (buttonName == 'Indian') {
+            getCuisine('cuisine_indian');
+            setSearchDisplay('Indian');
+            return [false, false, false, false, false, false, true, false, false, false, false, false, false];
+        }
+
+        else if (buttonName == 'Italian') {
+            getCuisine('cuisine_italian');
+            setSearchDisplay('Italian');
+            return [false, false, false, false, false, false, false, true, false, false, false, false, false];
+        }
+
+        else if (buttonName == 'Japanese') {
+            getCuisine('cuisine_japanese');
+            setSearchDisplay('Japanese');
+            return [false, false, false, false, false, false, false, false, true, false, false, false, false];
+        }
+
+        else if (buttonName == 'Malay') {
+            getCuisine('cuisine_malay');
+            setSearchDisplay('Malay');
+            return [false, false, false, false, false, false, false, false, false, true, false, false, false];
+        }
+
+        else if (buttonName == 'Mexican') {
+            getCuisine('cuisine_mexican');
+            setSearchDisplay('Mexican');
+            return [false, false, false, false, false, false, false, false, false, false, true, false, false];
+        }
+
+        else if (buttonName == 'Thai') {
+            getCuisine('cuisine_thai');
+            setSearchDisplay('Thai');
+            return [false, false, false, false, false, false, false, false, false, false, false, true, false];
+        }
+
+        else if (buttonName == 'Western') {
+            getCuisine('cuisine_western');
+            setSearchDisplay('Western');
+            return [false, false, false, false, false, false, false, false, false, false, false, false, true];
+        }
+
+        else if (buttonName == 'None') {
+            setSearchDisplay('');
+            return [false, false, false, false, false, false, false, false, false, false, false, false, false];
+        }
+    };
 
 
     const renderItem = ({ item }) => (
@@ -161,6 +294,19 @@ export function ListingScreen({ route, navigation }) {
 
     const isFocused = useIsFocused();
 
+    const searchButton = () => {
+        if (searchQuery == '') {
+            getData();
+            setSearchDisplay('All');
+        }
+
+        else {
+            searchShops(searchQuery);
+            setSearchDisplay(searchQuery);
+        }
+
+    };
+
 
     return (
         <PaperProvider theme={theme}>
@@ -169,7 +315,7 @@ export function ListingScreen({ route, navigation }) {
             </Portal>
 
             <SafeAreaView style={[restaurantStyle.container, { flexDirection: 'column' }]}>
-                <View style={[restaurantStyle.searchBoxWrapper, { flex: 1, minHeight: 60, marginHorizontal: 10 }]}>
+                <View style={[restaurantStyle.searchBoxWrapper, { flex: 1, minHeight: 60, marginHorizontal: 10, marginVertical: 16 }]}>
 
                     <TextInput placeholder={queryString}
                         onChangeText={onChangeSearch}
@@ -177,28 +323,118 @@ export function ListingScreen({ route, navigation }) {
                         style={{ flex: 50 }}
                     />
 
-                    <Button icon={require('./assets/images/search.png')} mode="text" onPress={() => {
-                        if (searchQuery == '') {
-                            getData();
-                            setSearchDisplay('All');
-                        }
-
-                        else {
-                            searchShops(searchQuery);
-                            setSearchDisplay(searchQuery);
-                        }
-
-                    }} style={{ flex: 1 }} />
+                    <Button icon={require('./assets/images/search.png')} mode="text" onPress={searchButton} style={{ flex: 1 }} />
                 </View>
                 <View style={{ flex: 1, minHeight: 40 }}>
                     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={restaurantStyle.filterBar}>
-                        <Button icon={"filter-variant"} textColor={"#000000"} style={restaurantStyle.button}>
+                        <Button icon={"all-inclusive"} textColor={"#000000"} buttonColor={selectState[0] ? '#f2a6a6' : '#FFFFFF'} style={restaurantStyle.button} onPress={() => {
+                            setSelectState(selectArray('All'))
+                        }}>
                             <Text style={restaurantStyle.text}>
-                                Filter
+                                All
                             </Text>
                         </Button>
 
-                        <Button icon={"sort"} textColor={"#000000"} style={restaurantStyle.button} onPress={() => {
+                        <Button icon={"near-me"} textColor={"#000000"} buttonColor={selectState[1] ? '#f2a6a6' : '#FFFFFF'} style={restaurantStyle.button} onPress={() => {
+                            setSelectState(selectArray('Nearby'))
+                        }}>
+                            <Text style={restaurantStyle.text}>
+                                Nearby
+                            </Text>
+                        </Button>
+
+                        <Button icon={"food-halal"} textColor={"#000000"} buttonColor={selectState[2] ? '#f2a6a6' : '#FFFFFF'} style={restaurantStyle.button} onPress={() => {
+                            setSelectState(selectArray('Halal'))
+                        }}>
+                            <Text style={restaurantStyle.text}>
+                                Halal
+                            </Text>
+                        </Button>
+
+                        <Button icon={"cup"} textColor={"#000000"} buttonColor={selectState[3] ? '#f2a6a6' : '#FFFFFF'} style={restaurantStyle.button} onPress={() => {
+                            setSelectState(selectArray('Drinks'))
+                        }}>
+                            <Text style={restaurantStyle.text}>
+                                Drinks
+                            </Text>
+                        </Button>
+
+
+                        <Button icon={"leaf"} textColor={"#000000"} buttonColor={selectState[4] ? '#f2a6a6' : '#FFFFFF'} style={restaurantStyle.button} onPress={() => {
+                            setSelectState(selectArray('Vegan'))
+                        }}>
+                            <Text style={restaurantStyle.text}>
+                                Vegan
+                            </Text>
+                        </Button>
+
+
+
+                        <Button textColor={"#000000"} buttonColor={selectState[5] ? '#f2a6a6' : '#FFFFFF'} style={restaurantStyle.button} onPress={() => {
+                            setSelectState(selectArray('Chinese'))
+                        }}>
+                            <Text style={restaurantStyle.text}>
+                                Chinese
+                            </Text>
+                        </Button>
+
+                        <Button textColor={"#000000"} buttonColor={selectState[6] ? '#f2a6a6' : '#FFFFFF'} style={restaurantStyle.button} onPress={() => {
+                            setSelectState(selectArray('Indian'))
+                        }}>
+                            <Text style={restaurantStyle.text}>
+                                Indian
+                            </Text>
+                        </Button>
+
+                        <Button textColor={"#000000"} buttonColor={selectState[7] ? '#f2a6a6' : '#FFFFFF'} style={restaurantStyle.button} onPress={() => {
+                            setSelectState(selectArray('Italian'))
+                        }}>
+                            <Text style={restaurantStyle.text}>
+                                Italian
+                            </Text>
+                        </Button>
+
+                        <Button textColor={"#000000"} buttonColor={selectState[8] ? '#f2a6a6' : '#FFFFFF'} style={restaurantStyle.button} onPress={() => {
+                            setSelectState(selectArray('Japanese'))
+                        }}>
+                            <Text style={restaurantStyle.text}>
+                                Japanese
+                            </Text>
+                        </Button>
+
+                        <Button textColor={"#000000"} buttonColor={selectState[9] ? '#f2a6a6' : '#FFFFFF'} style={restaurantStyle.button} onPress={() => {
+                            setSelectState(selectArray('Malay'))
+                        }}>
+                            <Text style={restaurantStyle.text}>
+                                Malay
+                            </Text>
+                        </Button>
+
+                        <Button textColor={"#000000"} buttonColor={selectState[10] ? '#f2a6a6' : '#FFFFFF'} style={restaurantStyle.button} onPress={() => {
+                            setSelectState(selectArray('Mexican'))
+                        }}>
+                            <Text style={restaurantStyle.text}>
+                                Mexican
+                            </Text>
+                        </Button>
+
+                        <Button textColor={"#000000"} buttonColor={selectState[11] ? '#f2a6a6' : '#FFFFFF'} style={restaurantStyle.button} onPress={() => {
+                            setSelectState(selectArray('Thai'))
+                        }}>
+                            <Text style={restaurantStyle.text}>
+                                Thai
+                            </Text>
+                        </Button>
+
+                        <Button textColor={"#000000"} buttonColor={selectState[12] ? '#f2a6a6' : '#FFFFFF'} style={restaurantStyle.button} onPress={() => {
+                            setSelectState(selectArray('Western'))
+                        }}>
+                            <Text style={restaurantStyle.text}>
+                                Western
+                            </Text>
+                        </Button>
+
+                        {/* <Button icon={"sort"} textColor={"#000000"} style={restaurantStyle.button} onPress={() => {
                             setSortByPrice(!sortByPrice);
 
                             sortShopsByName();
@@ -208,11 +444,14 @@ export function ListingScreen({ route, navigation }) {
                             </Text>
                         </Button>
 
-                        <Button icon={"food"} textColor={"#000000"} style={restaurantStyle.button}>
+                        <Button icon={"food"} textColor={"#000000"} buttonColor={selectState[2] ? '#f2a6a6' : '#FFFFFF'} style={restaurantStyle.button} onPress={() => {
+                            setSelectState(selectArray('Cuisines'))
+                        }}>
+
                             <Text style={restaurantStyle.text}>
                                 Cuisines
                             </Text>
-                        </Button>
+                        </Button> */}
                     </ScrollView>
                 </View>
 

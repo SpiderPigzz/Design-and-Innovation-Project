@@ -153,7 +153,7 @@ export function HomeScreen({ navigation, route }) {
                     <View style={{marginTop: 15}}>
                         <TouchableOpacity
                             onPress={() => navigation.navigate('Listing', {
-                                queryString: 'Food'
+                                queryString: 'Search for restaurants'
                             })}>
                             <FoodDeliveryCard></FoodDeliveryCard>
                         </TouchableOpacity>
@@ -173,7 +173,7 @@ export function HomeScreen({ navigation, route }) {
                                     <TouchableOpacity
 
                                         onPress={() => navigation.navigate('Listing', {
-                                            queryString: 'Vegans'
+                                            queryString: 'Vegan'
                                         })}>
                                         <VeganCard></VeganCard>
                                     </TouchableOpacity>
@@ -213,7 +213,7 @@ export function HomeScreen({ navigation, route }) {
                             <TouchableOpacity
 
                                 onPress={() => navigation.navigate('Listing', {
-                                    queryString: 'Korean'
+                                    queryString: 'Thai'
                                 })}>
                                 <KoreanCard></KoreanCard>
                             </TouchableOpacity>

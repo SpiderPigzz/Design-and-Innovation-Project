@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Dimensions, Image, ScrollView, ActivityIndicator, FlatList, Pressable,Modal } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, Image, ScrollView, ActivityIndicator, FlatList, Pressable, Modal } from 'react-native';
 import MapView, { Animated, Callout, Marker, Polyline } from 'react-native-maps';
 import * as React from 'react';
 import { useState, useEffect, useContext } from 'react';
@@ -18,12 +18,13 @@ import {
   initialWindowMetrics,
 } from 'react-native-safe-area-context';
 
-const origin = { latitude: 1.335, longitude: 103.683 };
+//const origin = { latitude: 1.335, longitude: 103.683 };
 const destination = { latitude: 1.329, longitude: 103.625 };
 
 const GOOGLE_MAPS_APIKEY = 'AIzaSyC5TVAWgFHBs_ABdfzbsgzHbdJJecaQiO0';
 const url = 'http://dip.totallynormal.website/';
-const path = "listShop";
+const orderAddressPath = "getOrderAddress/";
+const coordinatePath = "getOrderLocation/";
 const convertor = 'https://maps.googleapis.com/maps/api/geocode/json?address=';
 const key = '&key=AIzaSyC5TVAWgFHBs_ABdfzbsgzHbdJJecaQiO0';
 
@@ -39,37 +40,49 @@ export function MapScreen({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [listShops, setListShop] = useState({});
   const [shouldShow, setShouldShow] = useState(true);
+  const [homeAddress, setHomeAddress] = useState({});
   const { userEmail, userName, userToken } = useContext(userContext);
 
   //for extracting address
   useEffect(() => {
 
-    fetch(url + path)
+    fetch(url + orderAddressPath + userEmail)
       .then((response) => response.json())
       .then((json) => {
-        setData(json);
+        fetch(convertor + json[0]['customer.address'] + key)
+          .then((addressResponse) => addressResponse.json())
+          .then((convertedAddress) => {
+            setHomeAddress(convertedAddress['results'][0]['geometry']['location']);
+            console.log(convertedAddress['results'][0]['geometry']['location'])
+          })
+          .catch((error) => console.error(error))
+          .finally(() => setLoading(false));
+        setData(json[0]['shop.name']);
+        console.log(json);
         return json
         // console.log(json);
       })
-      .then(async (json)=>{
-        for (var i = 0; i < json.length; i++) {
-          var location = await fetch(convertor + json[i]['address'].replace('#', '') + key)
-          .then((response) => {
-            return response.json()})
-          .then((googleJson) =>{
-            locationArray.push(googleJson['results'][0]['geometry']['location']);
-          })
+      .then(async (json) => {
+        // for (var i = 0; i < json.length; i++) {
+        //   var location = await fetch(convertor + json[i]['address'].replace('#', '') + key)
+        //   .then((response) => {
+        //     return response.json()})
+        //   .then((googleJson) =>{
+        //     locationArray.push(googleJson['results'][0]['geometry']['location']);
+        //   })
         // setData([json]))
-        }
-        setPosition(locationArray);
+        //}
+        await fetch(url + coordinatePath + userEmail)
+          .then((response) => response.json())
+          .then((json) => {
+            setPosition(json);
+            return json
+            // console.log(json);
+          })
 
-        return(locationArray);
+
+        //return (locationArray);
       })
-      .then(
-        async (locations) => {
-          //await setListShop()
-        }
-      )
       .catch((error) => console.error(error))
       .finally(() => {
         setLoading(false)
@@ -87,7 +100,6 @@ export function MapScreen({ navigation }) {
   //     .finally(() => setLoading(false));
   // }, []);
 
-
   return (
     <View style={styles.container}>
 
@@ -104,150 +116,155 @@ export function MapScreen({ navigation }) {
           }}
           showsUserLocation={true}
           followsUserLocation={true}>
-        {data.map((shop, index) => {
-            return ( 
-              <Marker coordinate={{ latitude: position[index]["lat"], longitude: position[index]["lng"] }}
-                key={shop.ID}
+          {data.map((shop, index) => {
+            return (
+              <Marker coordinate={{ latitude: position[index]["lat"], longitude: position[index]["long"] }}
+                key={shop}
                 pinColor={"red"}
-                title={shop.name}
-                description={shop.description}>
+                title={shop}
+                description={shop}>
                 <Callout tooltip
-                onPress= {() => navigation.navigate('Listing')}>
-                <View>
-                      <View style={styles.bubble}>
-                        <Text style={styles.tooltip_name}>{shop.name}</Text>
-                        <View
-                          style={{
-                            borderBottomColor: '#FCD077',
-                            borderBottomWidth: 1,
-                          }}
+                  onPress={() => navigation.navigate('Listing')}>
+                  <View>
+                    <View style={styles.bubble}>
+                      <Text style={styles.tooltip_name}>{shop}</Text>
+                      <View
+                        style={{
+                          borderBottomColor: '#FCD077',
+                          borderBottomWidth: 1,
+                        }}
+                      />
+                      <Text style={styles.tooltip_description}>{shop.description}</Text>
+                      <View>
+                        <WebView style={styles.tooltip_image} source={{ uri: 'https://img.freepik.com/free-photo/flat-lay-batch-cooking-composition_23-2148765597.jpg?w=2000' }}
                         />
-                        <Text style={styles.tooltip_description}>{shop.description}</Text>
-                        <View>
-                          <WebView style={styles.tooltip_image} source={{ uri: 'https://img.freepik.com/free-photo/flat-lay-batch-cooking-composition_23-2148765597.jpg?w=2000' }}
-                          />
-                        </View>
                       </View>
                     </View>
-                    <View style={styles.arrowBorder} />
-                    <View sytle={styles.arrow} />
+                  </View>
+                  <View style={styles.arrowBorder} />
+                  <View sytle={styles.arrow} />
                 </Callout>
               </Marker>
-            )})}
+            )
+          })}
 
-            <Marker coordinate={{ latitude: 1.344, longitude:103.681 }}
-                pinColor={"red"}
-                title={"McDonald's"}
-                description={"Don't know what to eat on campus? Try this! NTU students' favorite."}>
-                <Callout tooltip
-                onPress= {() => navigation.navigate('Listing')}>
-                <View>
-                      <View style={styles.bubble}>
-                        <Text style={styles.tooltip_name}>71 Connect</Text>
-                        <View
-                          style={{
-                            borderBottomColor: '#FCD077',
-                            borderBottomWidth: 1,
-                          }}
-                        />
-                        <Text style={styles.tooltip_description}>Believe the power of coffee!☕ Student-Owned Cafe At NTU With Lor Bak And Gyudon Bowls From $7</Text>
-                        <View>
-                          <WebView style={styles.tooltip_image} source={{ uri: 'https://www.tastingtable.com/img/gallery/20-different-types-of-coffee-explained/intro-1659544996.jpg' }}
-                          />
-                        </View>
-                      </View>
-                    </View>
-                    <View style={styles.arrowBorder} />
-                    <View sytle={styles.arrow} />
-                </Callout>
-              </Marker>
+          <Marker coordinate={{ latitude: homeAddress["lat"], longitude: homeAddress["lng"] }}
+            pinColor={"green"}>
+          </Marker>
 
-              <Marker coordinate={{ latitude: 1.349, longitude:103.683 }}
-                pinColor={"red"}
-                title={"McDonald's"}
-                description={"Don't know what to eat on campus? Try this! NTU students' favorite."}>
-                <Callout tooltip
-                onPress= {() => navigation.navigate('Listing')}>
-                <View>
-                      <View style={styles.bubble}>
-                        <Text style={styles.tooltip_name}>McDonald's</Text>
-                        <View
-                          style={{
-                            borderBottomColor: '#FCD077',
-                            borderBottomWidth: 1,
-                          }}
-                        />
-                        <Text style={styles.tooltip_description}>NTU Students' Favorite Place.😁🐔 No need to say more you know a big Mac can make your day.</Text>
-                        <View>
-                          <WebView style={styles.tooltip_image} source={{ uri: 'https://cdn.foodadvisor.com.sg/uploads/images/image_default_5625f71ea9013077.jpg' }}
-                          />
-                        </View>
-                      </View>
-                    </View>
-                    <View style={styles.arrowBorder} />
-                    <View sytle={styles.arrow} />
-                </Callout>
-              </Marker>
+          {/* <Marker coordinate={{ latitude: 1.344, longitude: 103.681 }}
+            pinColor={"red"}
+            title={"McDonald's"}
+            description={"Don't know what to eat on campus? Try this! NTU students' favorite."}>
+            <Callout tooltip
+              onPress={() => navigation.navigate('Listing')}>
+              <View>
+                <View style={styles.bubble}>
+                  <Text style={styles.tooltip_name}>71 Connect</Text>
+                  <View
+                    style={{
+                      borderBottomColor: '#FCD077',
+                      borderBottomWidth: 1,
+                    }}
+                  />
+                  <Text style={styles.tooltip_description}>Believe the power of coffee!☕ Student-Owned Cafe At NTU With Lor Bak And Gyudon Bowls From $7</Text>
+                  <View>
+                    <WebView style={styles.tooltip_image} source={{ uri: 'https://www.tastingtable.com/img/gallery/20-different-types-of-coffee-explained/intro-1659544996.jpg' }}
+                    />
+                  </View>
+                </View>
+              </View>
+              <View style={styles.arrowBorder} />
+              <View sytle={styles.arrow} />
+            </Callout>
+          </Marker>
 
-              <Marker coordinate={{ latitude: 1.2797723975657078, longitude:103.8415368190478 }}
-                pinColor={"green"}
-                title={"McDonald's"}
-                description={"Don't know what to eat on campus? Try this! NTU students' favorite."}>
-                <Callout tooltip
-                onPress= {() => navigation.navigate('Listing')}>
-                <View>
-                      <View style={styles.bubble}>
-                        <Text style={styles.tooltip_name}>Unagi Tei Japanese Restaurant</Text>
-                        <View
-                          style={{
-                            borderBottomColor: '#FCD077',
-                            borderBottomWidth: 1,
-                          }}
-                        />
-                        <Text style={styles.tooltip_description}>Japan Food Cllectionが運営する、和食店 Did you know that eel is good for preventing summer fatigue? 🤫Charcoal-grilled eel has crispy skin and fluffy flesh. Let's eat eel and become energeti</Text>
-                        <View>
-                          <WebView style={styles.tooltip_image} source={{ uri: 'https://2.bp.blogspot.com/-52pT1gIWghE/Wd7bTfkofMI/AAAAAAAAaXY/RbwZLyWDckM-c9Lxf8mtMDttq6TZIZstACLcBGAs/s1600/Man%2BMan%2BUnagi%2BDUO%2BGalleria%2B13.JPG' }}
-                          />
-                        </View>
-                      </View>
-                    </View>
-                    <View style={styles.arrowBorder} />
-                    <View sytle={styles.arrow} />
-                </Callout>
-              </Marker>
+          <Marker coordinate={{ latitude: 1.349, longitude: 103.683 }}
+            pinColor={"red"}
+            title={"McDonald's"}
+            description={"Don't know what to eat on campus? Try this! NTU students' favorite."}>
+            <Callout tooltip
+              onPress={() => navigation.navigate('Listing')}>
+              <View>
+                <View style={styles.bubble}>
+                  <Text style={styles.tooltip_name}>McDonald's</Text>
+                  <View
+                    style={{
+                      borderBottomColor: '#FCD077',
+                      borderBottomWidth: 1,
+                    }}
+                  />
+                  <Text style={styles.tooltip_description}>NTU Students' Favorite Place.😁🐔 No need to say more you know a big Mac can make your day.</Text>
+                  <View>
+                    <WebView style={styles.tooltip_image} source={{ uri: 'https://cdn.foodadvisor.com.sg/uploads/images/image_default_5625f71ea9013077.jpg' }}
+                    />
+                  </View>
+                </View>
+              </View>
+              <View style={styles.arrowBorder} />
+              <View sytle={styles.arrow} />
+            </Callout>
+          </Marker>
 
-              <MapViewDirections
-                origin={origin}
-                destination={{ latitude: 1.34415, longitude: 103.6800792 }}
-                apikey={GOOGLE_MAPS_APIKEY}
-                strokeWidth={5}
-                strokeColor="#F194FF"
-                optimizeWaypoints={true}
-                mode='DRIVING'
-                timePrecision='now'
-              />
+          <Marker coordinate={{ latitude: 1.2797723975657078, longitude: 103.8415368190478 }}
+            pinColor={"green"}
+            title={"McDonald's"}
+            description={"Don't know what to eat on campus? Try this! NTU students' favorite."}>
+            <Callout tooltip
+              onPress={() => navigation.navigate('Listing')}>
+              <View>
+                <View style={styles.bubble}>
+                  <Text style={styles.tooltip_name}>Unagi Tei Japanese Restaurant</Text>
+                  <View
+                    style={{
+                      borderBottomColor: '#FCD077',
+                      borderBottomWidth: 1,
+                    }}
+                  />
+                  <Text style={styles.tooltip_description}>Japan Food Cllectionが運営する、和食店 Did you know that eel is good for preventing summer fatigue? 🤫Charcoal-grilled eel has crispy skin and fluffy flesh. Let's eat eel and become energeti</Text>
+                  <View>
+                    <WebView style={styles.tooltip_image} source={{ uri: 'https://2.bp.blogspot.com/-52pT1gIWghE/Wd7bTfkofMI/AAAAAAAAaXY/RbwZLyWDckM-c9Lxf8mtMDttq6TZIZstACLcBGAs/s1600/Man%2BMan%2BUnagi%2BDUO%2BGalleria%2B13.JPG' }}
+                    />
+                  </View>
+                </View>
+              </View>
+              <View style={styles.arrowBorder} />
+              <View sytle={styles.arrow} />
+            </Callout>
+          </Marker> */}
 
-              <MapViewDirections
-                origin={{ latitude: 1.34415, longitude: 103.6800792 }}
-                destination={{ latitude:  1.3542608, longitude: 103.6876753 }}
-                apikey={GOOGLE_MAPS_APIKEY}
-                strokeWidth={5}
-                strokeColor="#F194FF"
-                optimizeWaypoints={true}
-                mode='DRIVING'
-                timePrecision='now'
-              />
+          <MapViewDirections
+            origin={{ latitude: homeAddress["lat"], longitude: homeAddress["lng"] }}
+            destination={{ latitude: position[0]["lat"], longitude: position[0]["long"] }}
+            apikey={GOOGLE_MAPS_APIKEY}
+            strokeWidth={5}
+            strokeColor="#F194FF"
+            optimizeWaypoints={true}
+            mode='DRIVING'
+            timePrecision='now'
+          />
 
-              <MapViewDirections
-                origin={{ latitude:  1.3542608, longitude: 103.6876753 }}
-                destination={{ latitude:  1.3576474, longitude: 103.8824703 }}
-                apikey={GOOGLE_MAPS_APIKEY}
-                strokeWidth={5}
-                strokeColor="#F194FF"
-                optimizeWaypoints={true}
-                mode='DRIVING'
-                timePrecision='now'
-              />
+          {/* <MapViewDirections
+            origin={{ latitude: 1.34415, longitude: 103.6800792 }}
+            destination={{ latitude: 1.3542608, longitude: 103.6876753 }}
+            apikey={GOOGLE_MAPS_APIKEY}
+            strokeWidth={5}
+            strokeColor="#F194FF"
+            optimizeWaypoints={true}
+            mode='DRIVING'
+            timePrecision='now'
+          />
+
+          <MapViewDirections
+            origin={{ latitude: 1.3542608, longitude: 103.6876753 }}
+            destination={{ latitude: 1.3576474, longitude: 103.8824703 }}
+            apikey={GOOGLE_MAPS_APIKEY}
+            strokeWidth={5}
+            strokeColor="#F194FF"
+            optimizeWaypoints={true}
+            mode='DRIVING'
+            timePrecision='now'
+          /> */}
 
         </MapView>
       )
@@ -274,72 +291,72 @@ export function MapScreen({ navigation }) {
         }}>
         <View style={{ flexDirection: 'row' }}>
           <View style={{ flexDirection: "column", alignItems: 'flex-start', padding: 10 }}>
-            {shouldShow ?(
+            {shouldShow ? (
               <Text style={{ color: 'grey', fontSize: 16 }}>Estimated Arrival</Text>
-            ):null}
-            {shouldShow ?(
+            ) : null}
+            {shouldShow ? (
               <Text style={{ color: 'black', fontSize: 30, fontWeight: 'bold' }}>45-55 Minutes</Text>
-            ):null}
+            ) : null}
             {shouldShow ? (
               <Progress.Bar
-              size={30}
-              style={styles.ProgressBar}
-              indeterminate={true}
-              width={200}
-              borderWidth={3}
-              height={10}
-              borderRadius={10}
-              animationType='timing'
-              color="#D60665"
-            />
-            ):null}
-            
+                size={30}
+                style={styles.ProgressBar}
+                indeterminate={true}
+                width={200}
+                borderWidth={3}
+                height={10}
+                borderRadius={10}
+                animationType='timing'
+                color="#D60665"
+              />
+            ) : null}
+
           </View>
 
           <View style={styles.centeredView}>
-          <Modal
-            animationType="slide"
-            transparent={true}
-            visible={modalVisible}
-            onRequestClose={() => {
-              Alert.alert("Modal has been closed.");
-              setModalVisible(!modalVisible);
-            }}>
-            <View style={styles.centeredView}>
-              <View style={styles.modalView}>
-              <Image style={{ paddingTop: 10, resizeMode: 'cover', height: 100, width: 100, }}
-              source={require('./assets/images/thumbsupgif.gif')} />
-                <Text style={styles.modalText}>Your delivery is here!😘</Text>
-                <Text style={styles.modalText}>Thanks for shopping with Hippo</Text>
-                <Pressable
-                  style={[styles.button, styles.buttonClose]}
-                  onPress={() => {setModalVisible(!modalVisible), navigation.navigate('Home')}}>
-                  <Text style={styles.textStyle}>Go to Home</Text>
-                </Pressable>
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={modalVisible}
+              onRequestClose={() => {
+                Alert.alert("Modal has been closed.");
+                setModalVisible(!modalVisible);
+              }}>
+              <View style={styles.centeredView}>
+                <View style={styles.modalView}>
+                  <Image style={{ paddingTop: 10, resizeMode: 'cover', height: 100, width: 100, }}
+                    source={require('./assets/images/thumbsupgif.gif')} />
+                  <Text style={styles.modalText}>Your delivery is here!😘</Text>
+                  <Text style={styles.modalText}>Thanks for shopping with Hippo</Text>
+                  <Pressable
+                    style={[styles.button, styles.buttonClose]}
+                    onPress={() => { setModalVisible(!modalVisible), navigation.navigate('Home') }}>
+                    <Text style={styles.textStyle}>Go to Home</Text>
+                  </Pressable>
+                </View>
               </View>
-            </View>
-          </Modal>
-        </View>
-        
-        {shouldShow ?(
-          <Pressable
-          // style={[styles.button, styles.buttonOpen]}
-          onPress={() => {setModalVisible(true), setShouldShow(!shouldShow)}}>
-        <View style={{ padding: 10, }}>
-          <Image style={{ paddingTop: 10, resizeMode: 'cover', height: 100, width: 100, }}
-            source={require('./assets/images/delivery.gif')} />
-        </View>
-        </Pressable>
-        ) : null}
-          
+            </Modal>
+          </View>
+
+          {shouldShow ? (
+            <Pressable
+              // style={[styles.button, styles.buttonOpen]}
+              onPress={() => { setModalVisible(true), setShouldShow(!shouldShow) }}>
+              <View style={{ padding: 10, }}>
+                <Image style={{ paddingTop: 10, resizeMode: 'cover', height: 100, width: 100, }}
+                  source={require('./assets/images/delivery.gif')} />
+              </View>
+            </Pressable>
+          ) : null}
+
         </View>
 
-        {shouldShow ?(
+        {shouldShow ? (
           <View style={{ flexDirection: 'column', alignItems: 'flex-start', paddingLeft: 10 }}>
-            <Text style={{ padding: 5, paddingLeft: 0, fontSize:16, fontStyle:'italic' }}>{userName}, Your order is on it's way!</Text>
+            <Text style={{ padding: 5, paddingLeft: 0, fontSize: 16, fontStyle: 'italic' }}>{userName}, Your order is on it's way!</Text>
           </View>
-        ):null}
-        
+        ) : null}
+
 
       </View>
 
@@ -362,7 +379,7 @@ const styles = StyleSheet.create({
   },
 
   modalView: {
-    flex:0,
+    flex: 0,
     margin: 20,
     backgroundColor: "white",
     borderRadius: 20,
@@ -396,7 +413,7 @@ const styles = StyleSheet.create({
   modalText: {
     marginBottom: 15,
     textAlign: "center",
-    fontSize:16
+    fontSize: 16
   },
 
   fab: {
