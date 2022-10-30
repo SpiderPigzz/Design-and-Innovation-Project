@@ -41,9 +41,6 @@ export function CheckoutScreen({ navigation }) {
     const [totalPrice, setTotalPrice] = useState(0);
     const [subtotal, setSubtotal] = useState(0);
 
-    const [shop, setShop] = useState();
-    const [address, setAddress] = useState();
-
     const [shopNames, setShopNames] = useState([]);
 
     const cartPath = "getCart/" + userEmail;
@@ -75,14 +72,6 @@ export function CheckoutScreen({ navigation }) {
                     setData(json);
 
                     return json[0]['shop.ID']
-                })
-                .then((shopID) => {
-                    fetch(url + shopPath + shopID)
-                        .then((response) => response.json())
-                        .then((json) => {
-                            setShop(json[0]['name']);
-                            setAddress(json[0]['address']);
-                        })
                 })
                 .then(() => {
                     fetch(url + orderPath + userEmail)
@@ -122,14 +111,14 @@ export function CheckoutScreen({ navigation }) {
                 logoWidth={300}
             >
                 {/* START WRITING CODE BELOW!!!! */}                
-                <View style={{flex:0.09, backgroundColor:'white'}}>
+                {/* <View style={{flex:0.09, backgroundColor:'white'}}>
                 <FAB
                         color='#E76766'
                         icon="arrow-left"
-                        style={styles.fab}
+                        style={[styles.fab, {margin: 8}]}
                         onPress={() => navigation.goBack()}
                     />
-                </View>
+                </View> */}
                 <View style={[styles.container, { flex: 1, flexDirection: 'column', justifyContent: 'space-between' }]}>
 
                     <Card style={[styles.cardSec, { margin: 16, flex: 3 }]}>

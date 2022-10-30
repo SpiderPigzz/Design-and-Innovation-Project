@@ -7,7 +7,7 @@ import { DrawerActions, createAppContainer } from 'react-navigation';
 import AnimatedSplash from "react-native-animated-splash-screen";
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
-import { MD3LightTheme as DefaultTheme, Provider as PaperProvider, Text, Appbar, Snackbar, BottomNavigation, Button, Card, Surface, Title, Paragraph, Drawer, IconButton } from 'react-native-paper';
+import { MD3LightTheme as DefaultTheme, Provider as PaperProvider, Text, FAB, Appbar, Snackbar, BottomNavigation, Button, Card, Surface, Title, Paragraph, Drawer, IconButton } from 'react-native-paper';
 import { CheckoutScreen } from './Checkout';
 import { PaymentScreen } from './Payment';
 import { HomeScreen } from './Home.js';
@@ -41,6 +41,10 @@ import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
 import { acc } from 'react-native-reanimated';
 
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();//Ignore all log notifications
+
 export const userContext = React.createContext();
 
 WebBrowser.maybeCompleteAuthSession();
@@ -50,47 +54,47 @@ const MovingView = (props) => {
   const logoFade = useRef(new Animated.Value(0)).current;
   const logoMovement = useRef(new Animated.Value(800)).current;
   useEffect(() => {
-     Animated.timing(backgroundFade, {
-        toValue: 1,
-        duration: 5000,
+    Animated.timing(backgroundFade, {
+      toValue: 1,
+      duration: 5000,
+      useNativeDriver: true,
+    }).start();
+    Animated.timing(logoFade, {
+      toValue: 1,
+      duration: 8000,
+      useNativeDriver: true,
+    }).start();
+    setTimeout(() => {
+      Animated.timing(logoMovement, {
+        toValue: -50,
+        duration: 4000,
+        easing: Easing.inOut(Easing.exp),
         useNativeDriver: true,
-     }).start();
-     Animated.timing(logoFade, {
-        toValue: 1,
-        duration: 8000,
-        useNativeDriver: true,
-     }).start();
-     setTimeout(() => {
-        Animated.timing(logoMovement, {
-              toValue: -50,
-              duration: 4000,
-              easing: Easing.inOut(Easing.exp),
-              useNativeDriver: true,
-        }).start();
-     }, 500);
+      }).start();
+    }, 500);
   }, []);
   const styles = StyleSheet.create({
-     img: {
+    img: {
       height: 300,
       width: 300,
       justifyContent: 'center',
       alignItems: 'center',
       opacity: logoFade,
-      transform: [{translateY: logoMovement}],
-     },
+      transform: [{ translateY: logoMovement }],
+    },
   });
   return (
     <Animated.View style={{
       ...props.style,
       opacity: backgroundFade,         // Bind opacity to animated value
-          }}
-      >
-        <Animated.Image 
-					source={require('./assets/kfhlogo.png')}
-					style={styles.img}
-				/>{props.children}
+    }}
+    >
+      <Animated.Image
+        source={require('./assets/kfhlogo.png')}
+        style={styles.img}
+      />{props.children}
     </Animated.View>
- );
+  );
 }
 
 export default function KungFoodHippo() {
@@ -152,61 +156,83 @@ export default function KungFoodHippo() {
   }, [response]);
 
   return (
-    
+
     <PaperProvider theme={theme}>
       <AnimatedSplash
-      translucent={true}
-      isLoaded={loading}
-      logoImage={require("./assets/slash.gif")}
-      backgroundColor={"#000"}
-      logoHeight={600}
-      logoWidth={600}
-    >
-      {loginState ? (
-        <MovingView style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#E76766' }}>
+        translucent={true}
+        isLoaded={loading}
+        logoImage={require("./assets/slash.gif")}
+        backgroundColor={"#000"}
+        logoHeight={600}
+        logoWidth={600}
+      >
+        {loginState ? (
+          <MovingView style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#E76766' }}>
 
-          <Text style={theme.bigtext}>LOGIN</Text>
+            <Text style={theme.bigtext}>LOGIN</Text>
 
-          <TouchableOpacity
-            //style={theme.button}
-            android_ripple={{ color: 'white', borderless: false }} disabled={!request}
-            onPress={() => { promptAsync(); }}>
-            <View style={theme.btnContainer}>
-              <Image
-                source={require('./assets/google.png')}
-                style={theme.logo}
-              />
-              <Text style={theme.btnText}>LOGIN WITH GOOGLE</Text>
-            </View>
-          </TouchableOpacity>
+            <TouchableOpacity
+              //style={theme.button}
+              android_ripple={{ color: 'white', borderless: false }} disabled={!request}
+              onPress={() => { promptAsync(); }}>
+              <View style={theme.btnContainer}>
+                <Image
+                  source={require('./assets/google.png')}
+                  style={theme.logo}
+                />
+                <Text style={theme.btnText}>LOGIN WITH GOOGLE</Text>
+              </View>
+            </TouchableOpacity>
 
-        </MovingView>
-      ) :
+          </MovingView>
+        ) :
 
-        (
-          <userContext.Provider value={{userEmail, userName, userToken}}>
-            <NavigationContainer>
-              <Menu.Navigator initialRouteName="Home" drawerContent={() => (<MenuScreen/>)}>
-                {/* <Menu.Screen name="Login" component={LoginScreen} /> */}
-                <Menu.Screen name="Home" component={HomeScreen}  />
-                <Menu.Screen name="Account" component={AccountScreen} />
-                <Menu.Screen name="Listing" component={ListingScreen} initialParams={{queryString: 'Search for restaurants'}}/>
-                <Menu.Screen name="Store" component={StoreScreen} options={{ headerShown: false }}/>
-                <Menu.Screen name="Checkout" component={CheckoutScreen} options={{ headerShown: false }}/>
-                <Menu.Screen name="Payment" component={PaymentScreen} options={{ headerShown: false }}/>
-                <Menu.Screen name="Map" component={MapScreen} options={{ headerShown: false }}/>
-                <Menu.Screen name="Suggestion" component={SuggestionScreen} options={{ headerShown: false }}/>
-                <Menu.Screen name="Cooking" component={CookingScreen} options={{ headerShown: false }}/>
-                <Menu.Screen name="Location" component={StoreLocationScreen} options={{ headerShown: false }}/>
-                <Menu.Screen name="Review" component={ReviewScreen} options={{ headerShown: false }}/>
+          (
+            <userContext.Provider value={{ userEmail, userName, userToken }}>
+              <NavigationContainer>
+                <Menu.Navigator initialRouteName="Home" drawerContent={() => (<MenuScreen />)}>
+                  {/* <Menu.Screen name="Login" component={LoginScreen} /> */}
+                  <Menu.Screen name="Home" component={HomeScreen} options={{ headerStyle: { backgroundColor: '#f2a6a6' } }} />
+                  <Menu.Screen name="Account" component={AccountScreen} />
+                  <Menu.Screen name="Listing" component={ListingScreen} initialParams={{ queryString: 'Search for restaurants' }} />
+                  <Menu.Screen name="Store" component={StoreScreen} options={{ headerShown: false }} />
+                  <Menu.Screen name="Checkout" component={CheckoutScreen} options={({ navigation }) => ({
+                    headerStyle: { backgroundColor: '#f2a6a6' },
+                    headerLeft: () => (
+                      <FAB
+                        color='#E76766'
+                        icon="arrow-left"
+                        size='small'
+                        style={[styles.fab]}
+                        onPress={() => navigation.goBack()}
+                    />
+                    ),
+                  })}/>
+                  <Menu.Screen name="Payment" component={PaymentScreen} options={({ navigation }) => ({
+                    headerStyle: { backgroundColor: '#f2a6a6' },
+                    headerLeft: () => (
+                      <FAB
+                        color='#E76766'
+                        icon="arrow-left"
+                        size='small'
+                        style={[styles.fab]}
+                        onPress={() => navigation.navigate("Checkout")}
+                    />
+                    ),
+                  })} />
+                  <Menu.Screen name="Map" component={MapScreen} options={{ headerShown: false }} />
+                  <Menu.Screen name="Suggestion" component={SuggestionScreen} options={{ headerShown: false }} />
+                  <Menu.Screen name="Cooking" component={CookingScreen} options={{ headerShown: false }} />
+                  <Menu.Screen name="Location" component={StoreLocationScreen} options={{ headerShown: false }} />
+                  <Menu.Screen name="Review" component={ReviewScreen} options={{ headerShown: false }} />
 
-                {/*<Menu.Screen name="Tracking" component={TrackingScreen} />*/}
-              </Menu.Navigator>
-            </NavigationContainer>
-          </userContext.Provider>)}
-          
-      
-    </AnimatedSplash>
+                  {/*<Menu.Screen name="Tracking" component={TrackingScreen} />*/}
+                </Menu.Navigator>
+              </NavigationContainer>
+            </userContext.Provider>)}
+
+
+      </AnimatedSplash>
 
     </PaperProvider>
 
@@ -223,6 +249,12 @@ const styles = StyleSheet.create({
   primIconColor: "#FFFFFF",
   secColor: "#F9E6E6",
   backgroundColor: "#FFFFFF",
+
+  fab: {
+    margin: 10,
+    backgroundColor: 'white',
+    borderRadius: 30,
+  },
 });
 
 const theme = {

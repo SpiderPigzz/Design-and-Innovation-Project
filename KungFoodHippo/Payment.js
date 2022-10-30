@@ -5,7 +5,7 @@ import { MaterialIcons, Entypo, FontAwesome } from '@expo/vector-icons';
 import { Card, Title, Button, Paragraph, RadioButton, Divider } from 'react-native-paper';
 import { Appbar } from 'react-native-paper';
 import ProgressBarMultiStep from "react-native-progress-bar-multi-step";
-import MapView, { Animated, Callout, Marker,Polyline } from 'react-native-maps';
+import MapView, { Animated, Callout, Marker, Polyline } from 'react-native-maps';
 import { ScrollView } from 'react-native-gesture-handler';
 import { userContext } from './App.js';
 
@@ -37,19 +37,19 @@ export function PaymentScreen({ navigation, route }) {
   const [instruction, setInstruction] = React.useState(null);
   const [instructionModalVisible, setInstructionModalVisible] = useState(false);
   const [newInstructionVisible, setNewInstructionVisible] = React.useState(false);
-  
+
   const { userEmail, userName, userToken } = useContext(userContext);
   const [isLoading, setLoading] = useState(true);
   const [orderData, setOrderData] = useState();
 
-  const {totalCheckout} = route.params;
+  const { totalCheckout } = route.params;
 
   const getOrderFromDatabase = async () => {
     try {
       const response = await fetch('http://dip.totallynormal.website/getOrderAddress/' + userEmail);
       const json = await response.json();
       setOrderData(json[0]);
-      
+
     } catch (error) {
       console.error(error);
     } finally {
@@ -67,31 +67,30 @@ export function PaymentScreen({ navigation, route }) {
   }
 
   return (
-    
+
     <View style={[styles.container]}>
-      
-        
-        <View style={{
-          flexDirection: 'row',
-        }}>
-          <Pressable
-            onPress={toggle}
-            style={({ pressed }) => [
-              { backgroundColor: delivery ? '#E76766' : '#F9E6E6' },
-              styles.button
-            ]}>
-            <Text style={{ fontWeight: "bold" }} >Delivery</Text>
-          </Pressable>
-          <Pressable
-            onPress={toggle}
-            style={({ pressed }) => [
-              { backgroundColor: delivery ? '#F9E6E6' : '#E76766' },
-              styles.button
-            ]}>
-            <Text style={{ fontWeight: "bold" }} >Pick Up</Text>
-          </Pressable>
-        </View>
-      
+
+      <View style={{
+        flexDirection: 'row',
+      }}>
+        <Pressable
+          onPress={toggle}
+          style={({ pressed }) => [
+            { backgroundColor: delivery ? '#E76766' : '#F9E6E6' },
+            styles.button
+          ]}>
+          <Text style={{ fontWeight: "bold" }} >Delivery</Text>
+        </Pressable>
+        <Pressable
+          onPress={toggle}
+          style={({ pressed }) => [
+            { backgroundColor: delivery ? '#F9E6E6' : '#E76766' },
+            styles.button
+          ]}>
+          <Text style={{ fontWeight: "bold" }} >Pick Up</Text>
+        </Pressable>
+      </View>
+
 
 
       <Divider style={styles.divider} horizontalInset='true' bold='true' />
@@ -112,10 +111,10 @@ export function PaymentScreen({ navigation, route }) {
                 onPress={() => setAddressModalVisible(!addressModalVisible)}
                 style={styles.edit}
               >
-                <Button labelStyle={{fontSize: 25}} icon="square-edit-outline">
-                <Text style={styles.selectedText}>Edit</Text>
+                <Button labelStyle={{ fontSize: 25 }} icon="square-edit-outline">
+                  <Text style={styles.selectedText}>Edit</Text>
                 </Button>
-                
+
               </TouchableOpacity>) : null}
             </View>
 
@@ -150,9 +149,9 @@ export function PaymentScreen({ navigation, route }) {
                     />
                     <Pressable
                       style={[styles.modalButton]}
-                      onPress={() => 
-                      setAddressModalVisible(!addressModalVisible) +
-                      setNewAddressVisible(newAddress)
+                      onPress={() =>
+                        setAddressModalVisible(!addressModalVisible) +
+                        setNewAddressVisible(newAddress)
                       }
                     >
                       <Text style={styles.textStyle}>Confirm</Text>
@@ -169,27 +168,27 @@ export function PaymentScreen({ navigation, route }) {
           </View>
           <View style={styles.mapbox}>
             {delivery ? (
-              newAddressVisible?(
+              newAddressVisible ? (
                 <MapView
                 //For Yijie to input map (Change Address)
 
                 />
-              ):(<MapView style={styles.map}
-                  initialRegion={{
-                    latitude: 1.348,
-                    longitude: 103.683,
-                    latitudeDelta: 0.00822,
-                    longitudeDelta: 0.00821,
-                  }}
-                  showsUserLocation={true} >
-                    <Marker coordinate = {{latitude: 1.347,longitude: 103.682}}
-                      pinColor = {"red"}
-                      title={"Home"}
-                      description={"Yes this is you"}>
-                      </Marker>
-                  </MapView>
-                  
-                  )
+              ) : (<MapView style={styles.map}
+                initialRegion={{
+                  latitude: 1.348,
+                  longitude: 103.683,
+                  latitudeDelta: 0.00822,
+                  longitudeDelta: 0.00821,
+                }}
+                showsUserLocation={true} >
+                <Marker coordinate={{ latitude: 1.347, longitude: 103.682 }}
+                  pinColor={"red"}
+                  title={"Home"}
+                  description={"Yes this is you"}>
+                </Marker>
+              </MapView>
+
+              )
             ) : (
               <MapView
               //For Yijie to input map (Restaurant Address)
@@ -200,15 +199,15 @@ export function PaymentScreen({ navigation, route }) {
 
 
           <View>
-            <Text style={styles.header}> {delivery ? (<Text> {newAddressVisible? 'New Address' : 'Home'}</Text>) : 'Restaurant'} </Text>
+            <Text style={styles.header}> {delivery ? (<Text> {newAddressVisible ? 'New Address' : 'Home'}</Text>) : 'Restaurant'} </Text>
             <View>
               {isLoading ? <ActivityIndicator /> : (
-                <Text style={styles.smallText}> {delivery ? "  "+orderData['customer.name'] : orderData['shop.name']} </Text> //This one need to get the value using json['key'] because the key got '.' so the phone is confused when you put data.customer.name
+                <Text style={styles.smallText}> {delivery ? "  " + orderData['customer.name'] : orderData['shop.name']} </Text> //This one need to get the value using json['key'] because the key got '.' so the phone is confused when you put data.customer.name
               )}
             </View>
             <View>
               {isLoading ? <ActivityIndicator /> : (
-                <Text style={styles.smallText}> {delivery ? (<Text> {newAddressVisible? newAddress : " "+orderData['customer.address'] }</Text>)  : orderData['shop.address']} </Text>
+                <Text style={styles.smallText}> {delivery ? (<Text> {newAddressVisible ? newAddress : " " + orderData['customer.address']}</Text>) : orderData['shop.address']} </Text>
               )}
             </View>
 
@@ -222,7 +221,7 @@ export function PaymentScreen({ navigation, route }) {
               onPress={() => setInstructionModalVisible(true)}
             >
               <Text style={styles.selectedText}>
-                {newInstructionVisible? 'Instructions:'+ instruction : '+ Add Delivery Instructions'}
+                {newInstructionVisible ? 'Instructions:' + instruction : '+ Add Delivery Instructions'}
               </Text>
             </TouchableOpacity>
           ) : null}
@@ -249,10 +248,10 @@ export function PaymentScreen({ navigation, route }) {
                   placeholder="Intructions"
                 />
                 <Pressable
-                  style={[styles.modalButton ]}
-                  onPress={() => 
-                  setInstructionModalVisible(!instructionModalVisible) +
-                  setNewInstructionVisible(true)
+                  style={[styles.modalButton]}
+                  onPress={() =>
+                    setInstructionModalVisible(!instructionModalVisible) +
+                    setNewInstructionVisible(true)
                   }
                 >
                   <Text style={styles.textStyle}>Confirm</Text>
@@ -316,7 +315,7 @@ export function PaymentScreen({ navigation, route }) {
         <Text style={styles.buttonText}>Place Order</Text>
       </TouchableOpacity>
     </View>
-  
+
   );
 }
 
@@ -325,13 +324,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 22
+    marginTop: 0
   },
-  smallText:{
-    fontSize:15,
+  smallText: {
+    fontSize: 15,
   },
   modalView: {
-    flex:0,
+    flex: 0,
     margin: 20,
     backgroundColor: "white",
     borderRadius: 20,
@@ -348,16 +347,16 @@ const styles = StyleSheet.create({
   },
   modalText: {
     margin: 15,
-    fontSize:16,
-    
+    fontSize: 16,
+
   },
   textStyle: {
-    color:'white',
-    fontSize:13,
-    fontWeight:'bold',
-    alignSelf:'center',
-    justifyContent:'center'
-    
+    color: 'white',
+    fontSize: 13,
+    fontWeight: 'bold',
+    alignSelf: 'center',
+    justifyContent: 'center'
+
   },
 
   modalButton: {
@@ -430,7 +429,7 @@ const styles = StyleSheet.create({
   },
   selectedText: {
     color: "#E76766",
-    fontSize:15,
+    fontSize: 15,
   },
   header: {
     color: "black",

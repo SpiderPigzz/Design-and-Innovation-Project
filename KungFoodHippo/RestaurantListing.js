@@ -35,9 +35,21 @@ export function ListingScreen({ route, navigation }) {
     const [searchDisplay, setSearchDisplay] = React.useState('All');
     const [sortByPrice, setSortByPrice] = useState(false);
     const { queryString } = route.params;
+    const [shopNames, setShopNames] = useState([]);
 
-    const getNearest = (address) => {
-        fetch(url + nearest + address)
+    const getNearest = async (address) => {
+        await fetch(url + orderPath + userEmail)
+                        .then((response) => response.json())
+                        .then((json) => {
+                            console.log(json);
+                            setShopNames(json[0]['shop.name'])
+
+                            console.log(json[0]['shop.name'])
+
+                        });
+
+        
+        await fetch(url + nearest + address)
             .then((response) => response.json())
             .then((json) => {
                 for (var i = 0; i < json.length; i++) {
