@@ -48,49 +48,49 @@ export function MapScreen({ navigation }) {
 
   //for extracting address
   useEffect(() => {
-    if (isFocused){
+    if (isFocused) {
 
-    fetch(url + orderAddressPath + userEmail)
-      .then((response) => response.json())
-      .then((json) => {
-        fetch(convertor + json[0]['customer.address'] + key)
-          .then((addressResponse) => addressResponse.json())
-          .then((convertedAddress) => {
-            setHomeAddress(convertedAddress['results'][0]['geometry']['location']);
-            console.log(convertedAddress['results'][0]['geometry']['location'])
-          })
-          .catch((error) => console.error(error))
-          .finally(() => setLoading(false));
-        setData(json[0]['shop.name']);
-        console.log(json);
-        return json
-        // console.log(json);
-      })
-      .then(async (json) => {
-        // for (var i = 0; i < json.length; i++) {
-        //   var location = await fetch(convertor + json[i]['address'].replace('#', '') + key)
-        //   .then((response) => {
-        //     return response.json()})
-        //   .then((googleJson) =>{
-        //     locationArray.push(googleJson['results'][0]['geometry']['location']);
-        //   })
-        // setData([json]))
-        //}
-        await fetch(url + coordinatePath + userEmail)
-          .then((response) => response.json())
-          .then((json) => {
-            setPosition(json);
-            return json
-            // console.log(json);
-          })
+      fetch(url + orderAddressPath + userEmail)
+        .then((response) => response.json())
+        .then((json) => {
+          fetch(convertor + json[0]['customer.address'] + key)
+            .then((addressResponse) => addressResponse.json())
+            .then((convertedAddress) => {
+              setHomeAddress(convertedAddress['results'][0]['geometry']['location']);
+              console.log(convertedAddress['results'][0]['geometry']['location'])
+            })
+            .catch((error) => console.error(error))
+            .finally(() => setLoading(false));
+          setData(json[0]['shop.name']);
+          console.log(json);
+          return json
+          // console.log(json);
+        })
+        .then(async (json) => {
+          // for (var i = 0; i < json.length; i++) {
+          //   var location = await fetch(convertor + json[i]['address'].replace('#', '') + key)
+          //   .then((response) => {
+          //     return response.json()})
+          //   .then((googleJson) =>{
+          //     locationArray.push(googleJson['results'][0]['geometry']['location']);
+          //   })
+          // setData([json]))
+          //}
+          await fetch(url + coordinatePath + userEmail)
+            .then((response) => response.json())
+            .then((json) => {
+              setPosition(json);
+              return json
+              // console.log(json);
+            })
 
 
-        //return (locationArray);
-      })
-      .catch((error) => console.error(error))
-      .finally(() => {
-        setLoading(false)
-      });
+          //return (locationArray);
+        })
+        .catch((error) => console.error(error))
+        .finally(() => {
+          setLoading(false)
+        });
     }
   }, [isFocused]);
 
@@ -122,35 +122,40 @@ export function MapScreen({ navigation }) {
           showsUserLocation={true}
           followsUserLocation={true}>
           {data.map((shop, index) => {
-            return (
-              <Marker coordinate={{ latitude: position[index]["lat"], longitude: position[index]["long"] }}
-                key={shop}
-                pinColor={"red"}
-                title={shop}
-                description={shop}>
-                <Callout tooltip
-                  onPress={() => navigation.navigate('Listing')}>
-                  <View>
-                    <View style={styles.bubble}>
-                      <Text style={styles.tooltip_name}>{shop}</Text>
-                      <View
-                        style={{
-                          borderBottomColor: '#FCD077',
-                          borderBottomWidth: 1,
-                        }}
-                      />
-                      <Text style={styles.tooltip_description}>{shop.description}</Text>
-                      <View>
-                        <WebView style={styles.tooltip_image} source={{ uri: 'https://img.freepik.com/free-photo/flat-lay-batch-cooking-composition_23-2148765597.jpg?w=2000' }}
+            try {
+              return (
+                <Marker coordinate={{ latitude: position[index]["lat"], longitude: position[index]["long"] }}
+                  key={shop}
+                  pinColor={"red"}
+                  title={shop}
+                  description={shop}>
+                  <Callout tooltip
+                    onPress={() => navigation.navigate('Listing')}>
+                    <View>
+                      <View style={styles.bubble}>
+                        <Text style={styles.tooltip_name}>{shop}</Text>
+                        <View
+                          style={{
+                            borderBottomColor: '#FCD077',
+                            borderBottomWidth: 1,
+                          }}
                         />
+                        <Text style={styles.tooltip_description}>{shop.description}</Text>
+                        <View>
+                          <WebView style={styles.tooltip_image} source={{ uri: 'https://img.freepik.com/free-photo/flat-lay-batch-cooking-composition_23-2148765597.jpg?w=2000' }}
+                          />
+                        </View>
                       </View>
                     </View>
-                  </View>
-                  <View style={styles.arrowBorder} />
-                  <View sytle={styles.arrow} />
-                </Callout>
-              </Marker>
-            )
+                    <View style={styles.arrowBorder} />
+                    <View sytle={styles.arrow} />
+                  </Callout>
+                </Marker>
+              )
+            }
+            catch {
+
+            }
           })}
 
           <Marker coordinate={{ latitude: homeAddress["lat"], longitude: homeAddress["lng"] }}
@@ -239,7 +244,8 @@ export function MapScreen({ navigation }) {
           </Marker> */}
 
           {position.map((shop, index) => {
-            if (position.length > 0) {
+            try {
+              if (position.length > 0){
               if (index > 0) {
                 return (
                   <MapViewDirections
@@ -270,7 +276,12 @@ export function MapScreen({ navigation }) {
                 );
               }
             }
-          })}
+            }
+            catch {
+
+            }
+          }
+          )}
 
           <MapViewDirections
             origin={{ latitude: homeAddress["lat"], longitude: homeAddress["lng"] }}

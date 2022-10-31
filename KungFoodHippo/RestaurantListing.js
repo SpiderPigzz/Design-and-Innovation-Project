@@ -20,10 +20,13 @@ import { RestaurantCard } from './Components/RestaurantListing/RestaurantCard.js
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { DebugInstructions } from 'react-native/Libraries/NewAppScreen';
 import { debug } from 'react-native-reanimated';
+import { userContext } from './App.js';
+import { useContext } from 'react';
 
 
 const url = 'http://dip.totallynormal.website/';
 const path = "listShop";
+const orderAddress = "getOrderAddress/"
 const nearest = "getNearest/";
 const cuisinePath = "listShopByTag/";
 
@@ -36,8 +39,108 @@ export function ListingScreen({ route, navigation }) {
     const [sortByPrice, setSortByPrice] = useState(false);
     const { queryString } = route.params;
     const [shopNames, setShopNames] = useState([]);
+    const { userEmail, userName, userToken } = useContext(userContext);
+
+    const [stateNearby, setStateNearby] = useState(false);
 
     const [selectState, setSelectState] = useState([false, false, false, false, false, false, false, false, false, false, false, false, false]);
+
+    const cartPath = "getCart/";
+
+    const isFocused = useIsFocused();
+
+    useEffect(() => {
+        if (isFocused) {
+            fetch(url + cartPath + userEmail)
+                .then((response) => response.json())
+                .then((json) => {
+                    console.log(json);
+                    if (json.length == 0) {
+                        setStateNearby(false);
+                        if (queryString == 'Halal') {
+                            setSelectState(selectArray('Halal'));
+                        }
+
+                        else if (queryString == 'Vegan') {
+                            setSelectState(selectArray('Vegan'));
+                        }
+
+                        else if (queryString == 'Japanese') {
+                            setSelectState(selectArray('Japanese'));
+                        }
+
+                        else if (queryString == 'Thai') {
+                            setSelectState(selectArray('Thai'));
+                        }
+
+                        else if (queryString == 'Western') {
+                            setSelectState(selectArray('Western'));
+                        }
+
+                        else if (queryString == 'Italian') {
+                            setSelectState(selectArray('Italian'));
+                        }
+
+                        else if (queryString == 'Chinese') {
+                            setSelectState(selectArray('Chinese'));
+                        }
+
+                        else if (queryString == 'Mexican') {
+                            setSelectState(selectArray('Mexican'));
+                        }
+
+                        else if (queryString == 'Search for restaurants' || queryString == 'PickUp') {
+                            setSearchQuery("");
+                            setSelectState(selectArray('All'));
+                        }
+
+                        else {
+                            setSearchQuery(queryString);
+                            setSelectState(selectArray('All'));
+                            searchButton();
+                        }
+                    }
+                    else {
+                        setStateNearby(true);
+                        getNearby();
+                    }
+                })
+                .catch((error) => console.error(error))
+                .finally(() => setLoading(false));
+
+
+        }
+
+    }, [isFocused]);
+
+    const getNearby = async () => {
+        var address = "";
+        await fetch(url + orderAddress + userEmail)
+            .then((response) => response.json())
+            .then((json) => {
+                address = json[0]['shop.address'][0].replace('#', '');
+
+            });
+
+        console.log(address);
+        console.log(url + nearest + address + '?range=3000');
+
+
+        await fetch(url + nearest + address + '?range=3000')
+            .then((response) => response.json())
+            .then((json) => {
+                for (var i = 0; i < json.length; i++) {
+                    json[i]['imageURI'] = 'http://dip.totallynormal.website/picture/' + json[i]['ID'];
+                    //console.log(json[i]['imageURI']);
+                }
+                //console.log(json);
+
+                setData(json);
+            })
+            .catch((error) => console.error(error))
+            .finally(() => setLoading(false));
+    };
+
 
     const getNearest = async (address) => {
         // await fetch(url + orderPath + userEmail)
@@ -97,59 +200,6 @@ export function ListingScreen({ route, navigation }) {
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
     };
-
-    useEffect(() => {
-
-        //navigation.addListener('focus', () => {
-            if (queryString == 'Halal') {
-                setSelectState(selectArray('Halal'));
-            }
-
-            else if (queryString == 'Vegan') {
-                setSelectState(selectArray('Vegan'));
-            }
-
-            else if (queryString == 'Japanese') {
-                setSelectState(selectArray('Japanese'));
-            }
-
-            else if (queryString == 'Thai') {
-                setSelectState(selectArray('Thai'));
-            }
-
-            else if (queryString == 'Western') {
-                setSelectState(selectArray('Western'));
-            }
-
-            else if (queryString == 'Italian') {
-                setSelectState(selectArray('Italian'));
-            }
-
-            else if (queryString == 'Chinese') {
-                setSelectState(selectArray('Chinese'));
-            }
-
-            else if (queryString == 'Mexican') {
-                setSelectState(selectArray('Mexican'));
-            }
-
-            else if (queryString == 'Search for restaurants' || queryString == 'PickUp') {
-                setSearchQuery("");
-                setSelectState(selectArray('All'));
-            }
-
-            else {
-                setSearchQuery(queryString);
-                setSelectState(selectArray('All'));
-                searchButton();
-            }
-
-        //});
-
-
-        //getNearest('24 nanyang avenue');
-
-    }, [queryString]);
 
     const selectArray = (buttonName) => {
         console.log(buttonName);
@@ -292,7 +342,7 @@ export function ListingScreen({ route, navigation }) {
         }
     };
 
-    const isFocused = useIsFocused();
+
 
     const searchButton = () => {
         if (searchQuery == '') {
@@ -325,116 +375,117 @@ export function ListingScreen({ route, navigation }) {
 
                     <Button icon={require('./assets/images/search.png')} mode="text" onPress={searchButton} style={{ flex: 1 }} />
                 </View>
-                <View style={{ flex: 1, minHeight: 40 }}>
-                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={restaurantStyle.filterBar}>
-                        <Button icon={"all-inclusive"} textColor={"#000000"} buttonColor={selectState[0] ? '#f2a6a6' : '#FFFFFF'} style={restaurantStyle.button} onPress={() => {
-                            setSelectState(selectArray('All'))
-                        }}>
-                            <Text style={restaurantStyle.text}>
-                                All
-                            </Text>
-                        </Button>
+                {stateNearby ? <></> :
+                    <View style={{ flex: 1, minHeight: 40 }}>
+                        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={restaurantStyle.filterBar}>
+                            <Button icon={"all-inclusive"} textColor={"#000000"} buttonColor={selectState[0] ? '#f2a6a6' : '#FFFFFF'} style={restaurantStyle.button} onPress={() => {
+                                setSelectState(selectArray('All'))
+                            }}>
+                                <Text style={restaurantStyle.text}>
+                                    All
+                                </Text>
+                            </Button>
 
-                        <Button icon={"near-me"} textColor={"#000000"} buttonColor={selectState[1] ? '#f2a6a6' : '#FFFFFF'} style={restaurantStyle.button} onPress={() => {
-                            setSelectState(selectArray('Nearby'))
-                        }}>
-                            <Text style={restaurantStyle.text}>
-                                Nearby
-                            </Text>
-                        </Button>
+                            <Button icon={"near-me"} textColor={"#000000"} buttonColor={selectState[1] ? '#f2a6a6' : '#FFFFFF'} style={restaurantStyle.button} onPress={() => {
+                                setSelectState(selectArray('Nearby'))
+                            }}>
+                                <Text style={restaurantStyle.text}>
+                                    Nearby
+                                </Text>
+                            </Button>
 
-                        <Button icon={"food-halal"} textColor={"#000000"} buttonColor={selectState[2] ? '#f2a6a6' : '#FFFFFF'} style={restaurantStyle.button} onPress={() => {
-                            setSelectState(selectArray('Halal'))
-                        }}>
-                            <Text style={restaurantStyle.text}>
-                                Halal
-                            </Text>
-                        </Button>
+                            <Button icon={"food-halal"} textColor={"#000000"} buttonColor={selectState[2] ? '#f2a6a6' : '#FFFFFF'} style={restaurantStyle.button} onPress={() => {
+                                setSelectState(selectArray('Halal'))
+                            }}>
+                                <Text style={restaurantStyle.text}>
+                                    Halal
+                                </Text>
+                            </Button>
 
-                        <Button icon={"cup"} textColor={"#000000"} buttonColor={selectState[3] ? '#f2a6a6' : '#FFFFFF'} style={restaurantStyle.button} onPress={() => {
-                            setSelectState(selectArray('Drinks'))
-                        }}>
-                            <Text style={restaurantStyle.text}>
-                                Drinks
-                            </Text>
-                        </Button>
-
-
-                        <Button icon={"leaf"} textColor={"#000000"} buttonColor={selectState[4] ? '#f2a6a6' : '#FFFFFF'} style={restaurantStyle.button} onPress={() => {
-                            setSelectState(selectArray('Vegan'))
-                        }}>
-                            <Text style={restaurantStyle.text}>
-                                Vegan
-                            </Text>
-                        </Button>
+                            <Button icon={"cup"} textColor={"#000000"} buttonColor={selectState[3] ? '#f2a6a6' : '#FFFFFF'} style={restaurantStyle.button} onPress={() => {
+                                setSelectState(selectArray('Drinks'))
+                            }}>
+                                <Text style={restaurantStyle.text}>
+                                    Drinks
+                                </Text>
+                            </Button>
 
 
+                            <Button icon={"leaf"} textColor={"#000000"} buttonColor={selectState[4] ? '#f2a6a6' : '#FFFFFF'} style={restaurantStyle.button} onPress={() => {
+                                setSelectState(selectArray('Vegan'))
+                            }}>
+                                <Text style={restaurantStyle.text}>
+                                    Vegan
+                                </Text>
+                            </Button>
 
-                        <Button textColor={"#000000"} buttonColor={selectState[5] ? '#f2a6a6' : '#FFFFFF'} style={restaurantStyle.button} onPress={() => {
-                            setSelectState(selectArray('Chinese'))
-                        }}>
-                            <Text style={restaurantStyle.text}>
-                                Chinese
-                            </Text>
-                        </Button>
 
-                        <Button textColor={"#000000"} buttonColor={selectState[6] ? '#f2a6a6' : '#FFFFFF'} style={restaurantStyle.button} onPress={() => {
-                            setSelectState(selectArray('Indian'))
-                        }}>
-                            <Text style={restaurantStyle.text}>
-                                Indian
-                            </Text>
-                        </Button>
 
-                        <Button textColor={"#000000"} buttonColor={selectState[7] ? '#f2a6a6' : '#FFFFFF'} style={restaurantStyle.button} onPress={() => {
-                            setSelectState(selectArray('Italian'))
-                        }}>
-                            <Text style={restaurantStyle.text}>
-                                Italian
-                            </Text>
-                        </Button>
+                            <Button textColor={"#000000"} buttonColor={selectState[5] ? '#f2a6a6' : '#FFFFFF'} style={restaurantStyle.button} onPress={() => {
+                                setSelectState(selectArray('Chinese'))
+                            }}>
+                                <Text style={restaurantStyle.text}>
+                                    Chinese
+                                </Text>
+                            </Button>
 
-                        <Button textColor={"#000000"} buttonColor={selectState[8] ? '#f2a6a6' : '#FFFFFF'} style={restaurantStyle.button} onPress={() => {
-                            setSelectState(selectArray('Japanese'))
-                        }}>
-                            <Text style={restaurantStyle.text}>
-                                Japanese
-                            </Text>
-                        </Button>
+                            <Button textColor={"#000000"} buttonColor={selectState[6] ? '#f2a6a6' : '#FFFFFF'} style={restaurantStyle.button} onPress={() => {
+                                setSelectState(selectArray('Indian'))
+                            }}>
+                                <Text style={restaurantStyle.text}>
+                                    Indian
+                                </Text>
+                            </Button>
 
-                        <Button textColor={"#000000"} buttonColor={selectState[9] ? '#f2a6a6' : '#FFFFFF'} style={restaurantStyle.button} onPress={() => {
-                            setSelectState(selectArray('Malay'))
-                        }}>
-                            <Text style={restaurantStyle.text}>
-                                Malay
-                            </Text>
-                        </Button>
+                            <Button textColor={"#000000"} buttonColor={selectState[7] ? '#f2a6a6' : '#FFFFFF'} style={restaurantStyle.button} onPress={() => {
+                                setSelectState(selectArray('Italian'))
+                            }}>
+                                <Text style={restaurantStyle.text}>
+                                    Italian
+                                </Text>
+                            </Button>
 
-                        <Button textColor={"#000000"} buttonColor={selectState[10] ? '#f2a6a6' : '#FFFFFF'} style={restaurantStyle.button} onPress={() => {
-                            setSelectState(selectArray('Mexican'))
-                        }}>
-                            <Text style={restaurantStyle.text}>
-                                Mexican
-                            </Text>
-                        </Button>
+                            <Button textColor={"#000000"} buttonColor={selectState[8] ? '#f2a6a6' : '#FFFFFF'} style={restaurantStyle.button} onPress={() => {
+                                setSelectState(selectArray('Japanese'))
+                            }}>
+                                <Text style={restaurantStyle.text}>
+                                    Japanese
+                                </Text>
+                            </Button>
 
-                        <Button textColor={"#000000"} buttonColor={selectState[11] ? '#f2a6a6' : '#FFFFFF'} style={restaurantStyle.button} onPress={() => {
-                            setSelectState(selectArray('Thai'))
-                        }}>
-                            <Text style={restaurantStyle.text}>
-                                Thai
-                            </Text>
-                        </Button>
+                            <Button textColor={"#000000"} buttonColor={selectState[9] ? '#f2a6a6' : '#FFFFFF'} style={restaurantStyle.button} onPress={() => {
+                                setSelectState(selectArray('Malay'))
+                            }}>
+                                <Text style={restaurantStyle.text}>
+                                    Malay
+                                </Text>
+                            </Button>
 
-                        <Button textColor={"#000000"} buttonColor={selectState[12] ? '#f2a6a6' : '#FFFFFF'} style={restaurantStyle.button} onPress={() => {
-                            setSelectState(selectArray('Western'))
-                        }}>
-                            <Text style={restaurantStyle.text}>
-                                Western
-                            </Text>
-                        </Button>
+                            <Button textColor={"#000000"} buttonColor={selectState[10] ? '#f2a6a6' : '#FFFFFF'} style={restaurantStyle.button} onPress={() => {
+                                setSelectState(selectArray('Mexican'))
+                            }}>
+                                <Text style={restaurantStyle.text}>
+                                    Mexican
+                                </Text>
+                            </Button>
 
-                        {/* <Button icon={"sort"} textColor={"#000000"} style={restaurantStyle.button} onPress={() => {
+                            <Button textColor={"#000000"} buttonColor={selectState[11] ? '#f2a6a6' : '#FFFFFF'} style={restaurantStyle.button} onPress={() => {
+                                setSelectState(selectArray('Thai'))
+                            }}>
+                                <Text style={restaurantStyle.text}>
+                                    Thai
+                                </Text>
+                            </Button>
+
+                            <Button textColor={"#000000"} buttonColor={selectState[12] ? '#f2a6a6' : '#FFFFFF'} style={restaurantStyle.button} onPress={() => {
+                                setSelectState(selectArray('Western'))
+                            }}>
+                                <Text style={restaurantStyle.text}>
+                                    Western
+                                </Text>
+                            </Button>
+
+                            {/* <Button icon={"sort"} textColor={"#000000"} style={restaurantStyle.button} onPress={() => {
                             setSortByPrice(!sortByPrice);
 
                             sortShopsByName();
@@ -452,13 +503,16 @@ export function ListingScreen({ route, navigation }) {
                                 Cuisines
                             </Text>
                         </Button> */}
-                    </ScrollView>
-                </View>
+                        </ScrollView>
+                    </View>
+                }
 
 
-                <Text style={[restaurantStyle.textBold, { flex: 1, minHeight: 20, margin: 4 }]}>
+                {stateNearby ? <Text style={[restaurantStyle.textBold, { flex: 1, minHeight: 20, margin: 8, fontSize: 18 }]}>
+                    Listing available restaurants for group order
+                </Text> : <Text style={[restaurantStyle.textBold, { flex: 1, minHeight: 20, margin: 4 }]}>
                     Searching for '{searchDisplay}'
-                </Text>
+                </Text>}
 
                 {isLoading ? <ActivityIndicator style={{ flex: 35 }} /> : (
                     <View style={{ flex: 35 }}>
