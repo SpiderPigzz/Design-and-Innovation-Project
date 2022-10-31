@@ -10,6 +10,7 @@ import { userContext } from './App.js';
 import MapViewDirections from 'react-native-maps-directions';
 import * as Progress from 'react-native-progress';
 import { decay } from 'react-native-reanimated';
+import { NavigationContainer, useIsFocused } from '@react-navigation/native';
 import {
   SafeAreaView,
   SafeAreaProvider,
@@ -31,6 +32,7 @@ const key = '&key=AIzaSyC5TVAWgFHBs_ABdfzbsgzHbdJJecaQiO0';
 const orderAddress = 'http://dip.totallynormal.website/getOrderLocation/'
 
 
+
 // convetor + 'item.address' + key
 export function MapScreen({ navigation }) {
   const [isLoading, setLoading] = useState(true);
@@ -42,9 +44,11 @@ export function MapScreen({ navigation }) {
   const [shouldShow, setShouldShow] = useState(true);
   const [homeAddress, setHomeAddress] = useState({});
   const { userEmail, userName, userToken } = useContext(userContext);
+  const isFocused = useIsFocused();
 
   //for extracting address
   useEffect(() => {
+    if (isFocused){
 
     fetch(url + orderAddressPath + userEmail)
       .then((response) => response.json())
@@ -87,7 +91,8 @@ export function MapScreen({ navigation }) {
       .finally(() => {
         setLoading(false)
       });
-  }, []);
+    }
+  }, [isFocused]);
 
   // useEffect(() => {
   //   fetch(convertor + data[0]['address'] + key)
@@ -232,6 +237,40 @@ export function MapScreen({ navigation }) {
               <View sytle={styles.arrow} />
             </Callout>
           </Marker> */}
+
+          {position.map((shop, index) => {
+            if (position.length > 0) {
+              if (index > 0) {
+                return (
+                  <MapViewDirections
+                    origin={{ latitude: position[index - 1]["lat"], longitude: position[index - 1]["long"] }}
+                    destination={{ latitude: position[index]["lat"], longitude: position[index]["long"] }}
+                    apikey={GOOGLE_MAPS_APIKEY}
+                    strokeWidth={5}
+                    strokeColor="#F194FF"
+                    optimizeWaypoints={true}
+                    mode='DRIVING'
+                    timePrecision='now'
+                  />
+                )
+              }
+
+              else if (index == 0) {
+                return (
+                  <MapViewDirections
+                    origin={{ latitude: homeAddress["lat"], longitude: homeAddress["lng"] }}
+                    destination={{ latitude: position[index]["lat"], longitude: position[index]["long"] }}
+                    apikey={GOOGLE_MAPS_APIKEY}
+                    strokeWidth={5}
+                    strokeColor="#F194FF"
+                    optimizeWaypoints={true}
+                    mode='DRIVING'
+                    timePrecision='now'
+                  />
+                );
+              }
+            }
+          })}
 
           <MapViewDirections
             origin={{ latitude: homeAddress["lat"], longitude: homeAddress["lng"] }}
