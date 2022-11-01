@@ -54,7 +54,6 @@ export function MapScreen({ navigation }) {
     await fetch(url + orderAddressPath + userEmail)
         .then((response) => response.json())
         .then(async (json) => {
-          await delay(100);
           await fetch(convertor + json[0]['customer.address'] + key)
             .then((addressResponse) => addressResponse.json())
             .then((convertedAddress) => {
