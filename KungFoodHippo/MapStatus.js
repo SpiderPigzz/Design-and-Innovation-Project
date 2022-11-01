@@ -46,14 +46,16 @@ export function MapScreen({ navigation }) {
   const { userEmail, userName, userToken } = useContext(userContext);
   const isFocused = useIsFocused();
 
-  //for extracting address
-  useEffect(() => {
-    if (isFocused) {
+  const delay = ms => new Promise(
+    resolve => setTimeout(resolve, ms)
+  );
 
-      fetch(url + orderAddressPath + userEmail)
+  const getMapData = async() => {
+    await fetch(url + orderAddressPath + userEmail)
         .then((response) => response.json())
-        .then((json) => {
-          fetch(convertor + json[0]['customer.address'] + key)
+        .then(async (json) => {
+          await delay(100);
+          await fetch(convertor + json[0]['customer.address'] + key)
             .then((addressResponse) => addressResponse.json())
             .then((convertedAddress) => {
               setHomeAddress(convertedAddress['results'][0]['geometry']['location']);
@@ -91,6 +93,11 @@ export function MapScreen({ navigation }) {
         .finally(() => {
           setLoading(false)
         });
+  }
+  //for extracting address
+  useEffect(() => {
+    if (isFocused) {
+      getMapData();
     }
   }, [isFocused]);
 
@@ -245,37 +252,39 @@ export function MapScreen({ navigation }) {
 
           {position.map((shop, index) => {
             try {
-              if (position.length > 0){
-              if (index > 0) {
-                return (
-                  <MapViewDirections
-                    origin={{ latitude: position[index - 1]["lat"], longitude: position[index - 1]["long"] }}
-                    destination={{ latitude: position[index]["lat"], longitude: position[index]["long"] }}
-                    apikey={GOOGLE_MAPS_APIKEY}
-                    strokeWidth={5}
-                    strokeColor="#F194FF"
-                    optimizeWaypoints={true}
-                    mode='DRIVING'
-                    timePrecision='now'
-                  />
-                )
-              }
+              
+              if (position.length > 0 && position != null) {
+                if (index > 0) {
+                  return (
+                    <MapViewDirections
+                      origin={{ latitude: position[index - 1]["lat"], longitude: position[index - 1]["long"] }}
+                      destination={{ latitude: position[index]["lat"], longitude: position[index]["long"] }}
+                      apikey={GOOGLE_MAPS_APIKEY}
+                      strokeWidth={5}
+                      strokeColor="#F194FF"
+                      optimizeWaypoints={true}
+                      mode='DRIVING'
+                      timePrecision='now'
+                    />
+                  )
+                }
 
-              else if (index == 0) {
-                return (
-                  <MapViewDirections
-                    origin={{ latitude: homeAddress["lat"], longitude: homeAddress["lng"] }}
-                    destination={{ latitude: position[index]["lat"], longitude: position[index]["long"] }}
-                    apikey={GOOGLE_MAPS_APIKEY}
-                    strokeWidth={5}
-                    strokeColor="#F194FF"
-                    optimizeWaypoints={true}
-                    mode='DRIVING'
-                    timePrecision='now'
-                  />
-                );
+                else if (index == 0) {
+                  console.log(position[0]);
+                  return (
+                    <MapViewDirections
+                      origin={{ latitude: homeAddress["lat"], longitude: homeAddress["lng"] }}
+                      destination={{ latitude: position[index]["lat"], longitude: position[index]["long"] }}
+                      apikey={GOOGLE_MAPS_APIKEY}
+                      strokeWidth={5}
+                      strokeColor="#F194FF"
+                      optimizeWaypoints={true}
+                      mode='DRIVING'
+                      timePrecision='now'
+                    />
+                  );
+                }
               }
-            }
             }
             catch {
 
@@ -283,7 +292,7 @@ export function MapScreen({ navigation }) {
           }
           )}
 
-          <MapViewDirections
+          {/* <MapViewDirections
             origin={{ latitude: homeAddress["lat"], longitude: homeAddress["lng"] }}
             destination={{ latitude: position[0]["lat"], longitude: position[0]["long"] }}
             apikey={GOOGLE_MAPS_APIKEY}
@@ -292,7 +301,7 @@ export function MapScreen({ navigation }) {
             optimizeWaypoints={true}
             mode='DRIVING'
             timePrecision='now'
-          />
+          /> */}
 
           {/* <MapViewDirections
             origin={{ latitude: 1.34415, longitude: 103.6800792 }}
