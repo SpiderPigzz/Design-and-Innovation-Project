@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Dimensions, Image, ScrollView, ActivityIndicator, FlatList, Pressable, Modal } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, Image, ScrollView, ActivityIndicator, FlatList, Pressable, Modal, TouchableOpacity } from 'react-native';
 import MapView, { Animated, Callout, Marker, Polyline } from 'react-native-maps';
 import * as React from 'react';
 import { useState, useEffect, useRef } from 'react';
@@ -61,6 +61,9 @@ export function StoreLocationScreen({ navigation, route }) {
   return (
     <View style={styles.container}>
 
+
+
+
       {isLoading ? (<ActivityIndicator />) : (
         <MapView
           style={styles.map}
@@ -74,51 +77,60 @@ export function StoreLocationScreen({ navigation, route }) {
           showsUserLocation={true}
           followsUserLocation={true}>
           {
-            
-              position.map(positions => {
-                return (
-                  <Marker coordinate={{ latitude: positions["lat"], longitude: positions["lng"] }}
-                    key={shopID}
-                    pinColor={"red"}
-                    title={shopName}
-                    description={shopDescription}>
-                    <Callout tooltip
-                      onPress={() => navigation.goBack()}>
-                      <View>
-                        <View style={styles.bubble}>
-                          <Text style={styles.tooltip_name}>{shopName}</Text>
-                          <View
-                            style={{
-                              borderBottomColor: '#FCD077',
-                              borderBottomWidth: 1,
-                            }}
+
+            position.map(positions => {
+              return (
+                <Marker coordinate={{ latitude: positions["lat"], longitude: positions["lng"] }}
+                  key={shopID}
+                  pinColor={"red"}
+                  title={shopName}
+                  description={shopDescription}>
+                  <Callout tooltip
+                    onPress={() => navigation.goBack()}>
+                    <View>
+                      <View style={styles.bubble}>
+                        <Text style={styles.tooltip_name}>{shopName}</Text>
+                        <View
+                          style={{
+                            borderBottomColor: '#FCD077',
+                            borderBottomWidth: 1,
+                          }}
+                        />
+                        <Text style={styles.tooltip_description}>{shopDescription}</Text>
+                        <View>
+                          <WebView style={styles.tooltip_image} source={{ uri: 'https://img.freepik.com/free-photo/flat-lay-batch-cooking-composition_23-2148765597.jpg?w=2000' }}
                           />
-                          <Text style={styles.tooltip_description}>{shopDescription}</Text>
-                          <View>
-                            <WebView style={styles.tooltip_image} source={{ uri: 'https://img.freepik.com/free-photo/flat-lay-batch-cooking-composition_23-2148765597.jpg?w=2000' }}
-                            />
-                          </View>
                         </View>
                       </View>
-                      <View style={styles.arrowBorder} />
-                      <View sytle={styles.arrow} />
-                    </Callout>
-                  </Marker>)
-              })
-            }
-      
-            </MapView>)}
+                    </View>
+                    <View style={styles.arrowBorder} />
+                    <View sytle={styles.arrow} />
+                  </Callout>
+                </Marker>)
+            })
+          }
 
+        </MapView>)}
 
+      <TouchableOpacity
+        style={[styles.buttonNavigation, { position: "absolute", left: 16, top: 16 }]}
+        activeOpacity={0.85}
+        onPress={() => navigation.navigate('Store', { shopID: shopID })}
+      >
+        <Image
+          source={require('./assets/ArrowLeft.png')}
+          style={[styles.iconPrimTint, { height: 18, width: 18, }]}
+        />
+      </TouchableOpacity>
 
-      <FAB
+      {/*<FAB
         color='#E76766'
         icon="arrow-left"
         style={styles.fab}
-        onPress={() => navigation.navigate('Store', {shopID: shopID})}
-      />
+        onPress={() => navigation.navigate('Store', { shopID: shopID })}
+      />*/}
 
-      </View>
+    </View>
 
 
   );
@@ -334,6 +346,19 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
 
+  buttonNavigation: {
+    padding: 10,
+    backgroundColor: "#FFFFFF",
+    width: 42,
+    height: 42,
+    borderRadius: 50,
+    justifyContent: "center",
+    alignContent: "center",
+    alignItems: "center",
+    marginVertical: 5,
+    elevation: 5,
+  },
+
   card: {
     marginTop: 8,
     paddingVertical: 8,
@@ -352,6 +377,10 @@ const styles = StyleSheet.create({
     borderWidth: 0,
     backgroundColor: "#FFFFFF",
     borderRadius: 5
+  },
+
+  iconPrimTint: {
+    tintColor: "#E76766",
   },
 
   primColor: "#E76766",

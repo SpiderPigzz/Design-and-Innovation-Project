@@ -38,6 +38,7 @@ export function ReviewScreen({ navigation, route }) {
     const custReviewPath = "getShopReview/" + shopID;
 
     useEffect(() => {
+        setLoading(true);
         fetch(url + shopPath)
             .then((response) => response.json())
             .then((json) => {
@@ -69,7 +70,7 @@ export function ReviewScreen({ navigation, route }) {
     }, [shopID]);
 
     const renderItem = ({ item }) => (
-        <CustomerReviewCard name={item["customer.email"]} date={item.date} comments={item.comments} overall={item.overall} food={item.food} packaging={item.packaging} value={item.value}></CustomerReviewCard>
+        <CustomerReviewCard name={item.name} date={item.date} comments={item.comments} overall={item.overall} food={item.food} packaging={item.packaging} value={item.value}></CustomerReviewCard>
     );
 
     return (
@@ -78,11 +79,12 @@ export function ReviewScreen({ navigation, route }) {
                 <View style={styles.header}>
                     <TouchableOpacity
                         style={styles.buttonNavigation}
+                        activeOpacity={0.85}
                         onPress={() => navigation.navigate('Store', {shopID: shopID})}
                     >
                         <Image
                             source={require('./assets/ArrowLeft.png')}
-                            style={[styles.iconPrimTint, { height: 16, width: 16, }]}
+                            style={[styles.iconPrimTint, { height: 18, width: 18, }]}
                         />
                     </TouchableOpacity>
 
@@ -312,8 +314,8 @@ const styles = StyleSheet.create({
     buttonNavigation: {
         padding: 10,
         backgroundColor: "#FFFFFF",
-        width: 40,
-        height: 40,
+        width: 42,
+        height: 42,
         borderRadius: 50,
         justifyContent: "center",
         alignContent: "center",

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, Image, TouchableOpacity, Modal, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, Image, TouchableOpacity, Modal, ActivityIndicator, FlatList, ScrollView } from 'react-native';
 import * as Font from 'expo-font';
 import { useState, useEffect } from 'react';
 import { DrawerActions, createAppContainer } from 'react-navigation';
@@ -17,7 +17,6 @@ import {
     useSafeAreaInsets,
     initialWindowMetrics,
 } from 'react-native-safe-area-context';
-import { FlatList, ScrollView } from 'react-native-gesture-handler';
 
 const url = 'http://dip.totallynormal.website/';
 
@@ -147,12 +146,13 @@ export function StoreScreen({ navigation, route }) {
             <View style={{ flex: 1 }}>
                 <Image source={defaultPhoto} style={{ height: 160, width: null }} />
                 <TouchableOpacity
-                    style={[styles.buttonNavigation, { position: "absolute", left: 10, top: 5 }]}
+                    style={[styles.buttonNavigation, { position: "absolute", left: 16, top: 16 }]}
+                    activeOpacity={0.85}
                     onPress={() => navigation.navigate('Listing')}
                 >
                     <Image
                         source={require('./assets/ArrowLeft.png')}
-                        style={[styles.iconPrimTint, { height: 16, width: 16, }]}
+                        style={[styles.iconPrimTint, { height: 18, width: 18, }]}
                     />
                 </TouchableOpacity>
             </View>
@@ -171,9 +171,9 @@ export function StoreScreen({ navigation, route }) {
                             />
                             <Text numberOfLines={1} style={{ textAlignVertical: "center" }}>   {address}</Text>
                         </View>
-                        <TouchableOpacity onPress={() => {navigation.navigate("Location", {shopAddress: address, shopID: shopID, shopName: restaurant, shopDescription: description})}}>
-                        <Text style={[styles.innerText, { textAlignVertical: "center", flex: 1 }]}>More info</Text>
-                        </TouchableOpacity>
+                        <Button onPress={() => {navigation.navigate("Location", {shopAddress: address, shopID: shopID, shopName: restaurant, shopDescription: description})}}>
+                            <Text style={[styles.innerText, { textAlignVertical: "center", flex: 1 }]}>More info</Text>
+                        </Button>
                     </View>
 
 
@@ -394,14 +394,14 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         margin: 5,
-        elevation: 3
+        elevation: 3,
     },
 
     buttonNavigation: {
         padding: 10,
         backgroundColor: "#FFFFFF",
-        width: 40,
-        height: 40,
+        width: 42,
+        height: 42,
         borderRadius: 50,
         justifyContent: "center",
         alignContent: "center",
