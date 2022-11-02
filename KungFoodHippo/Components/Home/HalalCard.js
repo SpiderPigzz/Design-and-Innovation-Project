@@ -108,7 +108,7 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 16,
         marginVertical: 8,
         elevation: 3,
-        backgroundColor: "#FCD077",
+        backgroundColor: "#fc9b95",
         borderRadius: 10
 
     },
