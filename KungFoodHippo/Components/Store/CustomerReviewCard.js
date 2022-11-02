@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { MD3LightTheme as DefaultTheme, Provider as PaperProvider, Text, Appbar, Snackbar, BottomNavigation, Button, Card, Title, Paragraph } from 'react-native-paper';
+import { MD3LightTheme as DefaultTheme, Provider as PaperProvider, Text, Appbar, Snackbar, BottomNavigation, Button, Card, Divider, Title, Paragraph, ProgressBar } from 'react-native-paper';
 import { StyleSheet, View, Image, TouchableOpacity, Modal, FlatList, ActivityIndicator } from 'react-native';
-
-
+import * as Progress from 'react-native-progress';
 
 
 export function CustomerReviewCard({ name, date, comments, overall, food, packaging, value }) {
@@ -11,42 +10,64 @@ export function CustomerReviewCard({ name, date, comments, overall, food, packag
     //     dates= new Intl.DateTimeFormat('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' }).format(date);
 
     //     setFormattedDate(dates);
-    
+
     // }, []);
 
     //const [formattedDate, setFormattedDate] = useState();
+
+    const [nameInitial, setInitials] = useState("");
+
+    useEffect(() => {
+        if( name != null){
+            setInitials(name[0]);
+        }
+
+    }, [name]);
 
     return (
 
         <Card style={styles.cardSec}>
             <Card.Content>
                 <View style={styles.container}>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 8 }}>
-                        <Text style={styles.backgroundText}>{name}</Text>
-
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                    <InitialIcon initials={nameInitial}/>
+                        <Text style={[styles.backgroundText, { textTransform: 'capitalize' }]}>{name}</Text>
                         <Text style={styles.infoText}>{date}</Text>
                     </View>
 
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                        <Card style={[styles.cardReview, { width: 130 }]}>
-                            <View style={{ margin: 10, alignItems: 'center', justifyContent: 'center' }}>
-                                <Text style={styles.smallText}>Great Packaging</Text>
-                            </View>
-                        </Card>
+                    <View style={styles.ratingsView}>
+                        <View>
+                            <Text>Overall</Text>
+                            <Text style={{ fontSize: 26, fontWeight: 'bold' }}>{overall.toFixed(1)}</Text>
+                        </View>
 
-                        <Card style={styles.cardReview}>
-                            <View style={{ margin: 10, alignItems: 'center', justifyContent: 'center' }}>
-                                <Text style={styles.smallText}>Delicious Food</Text>
+                        <Divider style={styles.divider} bold='true' />
+
+                        <View style={{ alignSelf: 'center' }}>
+                            <Text>Food</Text>
+                            <Text>Packaging</Text>
+                            <Text>Value
+                            </Text>
+                        </View>
+                        <View>
+                            <View style={{ flexDirection: 'row' }}>
+                                <ProgressBar progress={(food / 10)} color={'#E76766'} style={styles.bar} />
+                                <Text style={styles.innerText}>{food}</Text>
                             </View>
-                        </Card>
-                        <Card style={styles.cardReview}>
-                            <View style={{ margin: 10, alignItems: 'center', justifyContent: 'center' }}>
-                                <Text style={styles.smallText}>Worth It</Text>
+
+                            <View style={{ flexDirection: 'row' }}>
+                                <ProgressBar progress={(packaging / 10)} color={'#E76766'} style={styles.bar} />
+                                <Text style={styles.innerText}>{packaging}</Text>
                             </View>
-                        </Card>
+
+                            <View style={{ flexDirection: 'row' }}>
+                                <ProgressBar progress={(value / 10)} color={'#E76766'} style={styles.bar} />
+                                <Text style={styles.innerText}>{value}</Text>
+                            </View>
+                        </View>
                     </View>
-                    <Text>Overall rating: {overall.toFixed(1)}</Text>
-                    <Text>{comments}</Text>
+
+                    <Text style={{ fontSize: 16 }}>{comments}</Text>
                 </View>
 
 
@@ -60,6 +81,16 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         justifyContent: 'center',
 
+    },
+
+    ratingsView: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        backgroundColor: '#F9E6E6',
+        borderRadius: 10,
+        elevation: 2,
+        marginVertical: 8,
+        padding: 16,
     },
 
     scrollView: {
@@ -88,6 +119,7 @@ const styles = StyleSheet.create({
     infoText: {
         color: "#808080",
         fontSize: 14,
+        fontStyle: 'italic',
         // fontFamily: "Roboto-Regular",
         textAlignVertical: 'bottom'
     },
@@ -111,10 +143,12 @@ const styles = StyleSheet.create({
 
     innerText: {
         color: "#E76766",
-        textAlign: "right",
+        fontWeight: "bold",
         fontSize: 14,
         // fontFamily: "Roboto-Regular",
-        fontWeight: "bold"
+        marginLeft: 8,
+        textAlign: "right",
+        textAlignVertical: 'center'
     },
 
     smallText: {
@@ -122,6 +156,13 @@ const styles = StyleSheet.create({
         fontSize: 12,
         // fontFamily: "Roboto-Regular",
         textAlign: "center",
+    },
+
+    bar: {
+        marginVertical: 4,
+        height: 12,
+        width: 100,
+        borderRadius: 10,
     },
 
     button: {
@@ -202,7 +243,8 @@ const styles = StyleSheet.create({
 
     divider: {
         backgroundColor: '#b8b8b880',
-        margin: 8,
+        width: 1,
+        height: '100%',
     },
 
     iconPrimTint: {
@@ -220,3 +262,21 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF",
 
 });
+
+const InitialIcon = ({ initials, name }) => {
+    return (
+        <View
+            style={{
+                backgroundColor: '#E76766',
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderRadius: 30,
+                width: 40,
+                height: 40,
+            }}>
+            <Text style={{ color: '#FFFFFF', fontSize: 25, fontWeight: "bold", textTransform: 'uppercase', textAlign: 'center' }}>{initials}</Text>
+
+        </View>
+
+    );
+};
