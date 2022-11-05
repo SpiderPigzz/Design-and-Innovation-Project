@@ -30,14 +30,16 @@ export function CustomerReviewCard({ name, date, comments, overall, food, packag
             <Card.Content>
                 <View style={styles.container}>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <InitialIcon initials={nameInitial}/>
-                        <Text style={[styles.backgroundText, { textTransform: 'capitalize' }]}>{name}</Text>
+                        <View style={{ flexDirection: 'row' }}>
+                            <InitialIcon initials={nameInitial}/>
+                            <Text style={[styles.backgroundText, { textTransform: 'capitalize' }]}>{name}</Text>
+                        </View>
                         <Text style={styles.infoText}>{date}</Text>
                     </View>
 
                     <View style={styles.ratingsView}>
                         <View>
-                            <Text>Overall</Text>
+                            <Text style={styles.text}>Overall</Text>
                             <Text style={{ fontSize: 26, fontWeight: 'bold' }}>{overall.toFixed(1)}</Text>
                         </View>
 
@@ -110,7 +112,7 @@ const styles = StyleSheet.create({
 
     text: {
         color: "#E76766",
-        fontSize: 14,
+        fontSize: 16,
         // fontFamily: "Roboto-Regular",
         fontWeight: "bold",
         textAlignVertical: 'bottom'
@@ -271,10 +273,11 @@ const InitialIcon = ({ initials, name }) => {
                 alignItems: 'center',
                 justifyContent: 'center',
                 borderRadius: 30,
-                width: 40,
-                height: 40,
+                width: 30,
+                height: 30,
+                marginRight: 8,
             }}>
-            <Text style={{ color: '#FFFFFF', fontSize: 25, fontWeight: "bold", textTransform: 'uppercase', textAlign: 'center' }}>{initials}</Text>
+            <Text style={{ color: '#FFFFFF', fontSize: 20, fontWeight: "bold", textTransform: 'uppercase', textAlign: 'center' }}>{initials}</Text>
 
         </View>
 

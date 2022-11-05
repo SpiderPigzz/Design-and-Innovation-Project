@@ -25,6 +25,7 @@ export function ReviewScreen({ navigation, route }) {
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const [shopOverall, setShopOverall] = useState();
+    const [overallDelta, setOverallDelta] = useState();
     const [shopFood, setShopFood] = useState();
     const [shopPackaging, setShopPackaging] = useState();
     const [shopValue, setShopValue] = useState();
@@ -51,6 +52,7 @@ export function ReviewScreen({ navigation, route }) {
             .then((response) => response.json())
             .then((json) => {
                 setShopOverall(parseFloat(json[0].overall).toFixed(1));
+                setOverallDelta(parseFloat(json[0]['overall delta']));
                 setShopFood(json[0].food);
                 setShopPackaging(json[0].packaging);
                 setShopValue(json[0].value);
@@ -80,7 +82,7 @@ export function ReviewScreen({ navigation, route }) {
                     <TouchableOpacity
                         style={styles.buttonNavigation}
                         activeOpacity={0.85}
-                        onPress={() => navigation.navigate('Store', {shopID: shopID})}
+                        onPress={() => navigation.navigate('Store', { shopID: shopID })}
                     >
                         <Image
                             source={require('./assets/ArrowLeft.png')}
@@ -94,66 +96,29 @@ export function ReviewScreen({ navigation, route }) {
                     </View>
                 </View>
 
-
-
-                <ScrollView style={{ paddingBottom: 16 }}>
+                <ScrollView style={{ paddingVertical: 8 }}>
                     <SafeAreaView style={{ flex: 1 }}>
                         <View style={styles.container}>
                             <Text style={styles.title}>Overall Rating</Text>
                             <Text style={[styles.infoText, { fontStyle: "italic", textAlign: 'center' }]}>{ratingCount} ratings</Text>
                             <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                                 <Text style={[styles.title, { fontSize: 42 }]}>{shopOverall}</Text>
-                                <Button labelStyle={{ fontSize: 45, color: '#F8CD44' }} style={{ backgroundColor: '#fff', height: 45, width: 45 }} icon="star" />
+                                <Image
+                                    source={require('./assets/Star.png')}
+                                    style={{ tintColor: '#F8CD44', height: 34, width: 34, marginLeft: 4 }}
+                                />
                             </View>
 
-                            <View style={{ flexDirection: 'row', padding: 16, justifyContent: 'center' }}>
-                                <Card style={styles.cardRating}>
-                                    <Card.Content>
-                                        <View style={{ alignItems: 'center' }}>
-                                            <Text style={{ fontSize: 12 }}>Most rate</Text>
-                                            <Text style={{ fontWeight: 'bold' }}>8</Text>
-                                        </View>
-
-                                    </Card.Content>
-                                </Card>
-
-                                <Card style={styles.cardRating}>
-                                    <Card.Content>
-                                        <View style={{ alignItems: 'center' }}>
-                                            <Text style={{ fontSize: 12 }}>Most rate</Text>
-                                            <Text style={{ fontWeight: 'bold' }}>8</Text>
-                                        </View>
-
-                                    </Card.Content>
-                                </Card>
-
-                                <Card style={styles.cardRating}>
-                                    <Card.Content>
-                                        <View style={{ alignItems: 'center' }}>
-                                            <Text style={{ fontSize: 12 }}>Most rate</Text>
-                                            <Text style={{ fontWeight: 'bold' }}>8</Text>
-                                        </View>
-
-                                    </Card.Content>
-                                </Card>
-
-                                <Card style={styles.cardRating}>
-                                    <Card.Content>
-                                        <View style={{ alignItems: 'center' }}>
-                                            <Text style={{ fontSize: 12 }}>Most rate</Text>
-                                            <Text style={{ fontWeight: 'bold' }}>8</Text>
-                                        </View>
-
-                                    </Card.Content>
-                                </Card>
+                            <View style={{ flexDirection: 'row', padding: 8, justifyContent: 'center' }}>
+                                {overallDelta > 0 ? <GoodLabel /> : <BadLabel />}
                             </View>
 
                         </View>
 
                         <Divider style={styles.divider} horizontalInset='true' bold='true' />
 
-                        <View style={[styles.container, { paddingHorizontal: 16 }]}>
-                            <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                        <View style={[styles.container, { paddingHorizontal: 16, paddingBottom: 16 }]}>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                                 <Text style={[styles.title, { textAlign: 'left' }]}>Reviews</Text>
                                 <Button icon={"filter-variant"} textColor={"#000000"} style={styles.buttonOutline}>
                                     <Text>
@@ -197,14 +162,16 @@ const styles = StyleSheet.create({
     },
 
     header: {
-        backgroundColor: '#E76766',
+        backgroundColor: '#f2a6a6',
         width: '100%',
-        padding: 16,
+        paddingVertical: 8,
+        paddingHorizontal: 16,
         flexDirection: 'row',
+        alignItems: 'center'
     },
 
     headerTitle: {
-        color: '#ffffff',
+        color: '#000',
         fontSize: 18,
         fontWeight: 'bold',
         textAlignVertical: 'bottom',
@@ -212,7 +179,7 @@ const styles = StyleSheet.create({
     },
 
     headerText: {
-        color: '#ffffff',
+        color: '#000',
         fontSize: 14,
         textAlignVertical: 'bottom',
         // fontFamily: "Roboto-Regular",
@@ -346,12 +313,15 @@ const styles = StyleSheet.create({
     },
 
     cardRating: {
-        width: 90,
-        height: 80,
+        width: null,
+        height: null,
         backgroundColor: "#F9E6E6",
         borderRadius: 20,
         elevation: 3,
         marginHorizontal: 4,
+        paddingVertical: 8,
+        paddingHorizontal: 12,
+        alignItems: 'center',
     },
 
     imageIcon: {
@@ -387,4 +357,30 @@ const theme = {
         primary: styles.primColor,
         secondary: styles.secColor,
     },
+};
+
+const GoodLabel = () => {
+    return (
+        <View style={[styles.cardRating, { backgroundColor: '#C1E6D5', flexDirection: 'row' }]}>
+            <Image
+                source={require('./assets/up-chevron.png')}
+                style={{ height: 18, width: 18, tintColor: '#1de320' }}
+            />
+            <Text style={{ fontSize: 12, marginHorizontal: 4 }}>increase recently</Text>
+        </View>
+
+    );
+};
+
+const BadLabel = () => {
+    return (
+        <View style={[styles.cardRating, { backgroundColor: '#F4C7CA', flexDirection: 'row' }]}>
+            <Image
+                source={require('./assets/up-chevron.png')}
+                style={{ height: 18, width: 18, tintColor: '#D3212C', transform: [{ rotate: '180deg' }] }}
+            />
+            <Text style={{ fontSize: 12, marginHorizontal: 4 }}>decrease recently</Text>
+        </View>
+
+    );
 };

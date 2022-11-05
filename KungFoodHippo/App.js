@@ -251,7 +251,7 @@ const styles = StyleSheet.create({
   backgroundColor: "#FFFFFF",
 
   fab: {
-    margin: 10,
+    marginLeft: 16,
     backgroundColor: 'white',
     borderRadius: 30,
   },
@@ -270,8 +270,7 @@ const theme = {
     paddingHorizontal: 20,
     paddingVertical: 10,
     flexDirection: 'row',
-    alignItems: 'center',
-    borderRadius: 5,
+    borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
     textAlign: 'center'
@@ -319,7 +318,7 @@ const theme = {
   logo: {
     width: 30,
     height: 30,
-    right: 15,
+    right: 8,
     justifyContent: 'center',
   },
 
