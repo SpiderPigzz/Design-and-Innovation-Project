@@ -365,7 +365,7 @@ export function ListingScreen({ route, navigation }) {
             </Portal>
 
             <SafeAreaView style={[restaurantStyle.container, { flexDirection: 'column' }]}>
-                <View style={[restaurantStyle.searchBoxWrapper, { flex: 1, minHeight: 60, marginHorizontal: 10, marginVertical: 16 }]}>
+                <View style={[restaurantStyle.searchBoxWrapper, { flex: 1, minHeight: 60, marginHorizontal: 16, marginVertical: 10 }]}>
 
                     <TextInput placeholder={queryString}
                         onChangeText={onChangeSearch}
@@ -377,7 +377,7 @@ export function ListingScreen({ route, navigation }) {
                 </View>
                 {stateNearby ? <></> :
                     <View style={{ flex: 1, minHeight: 40 }}>
-                        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={restaurantStyle.filterBar}>
+                        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={restaurantStyle.filterBar}>
                             <Button icon={"all-inclusive"} textColor={"#000000"} buttonColor={selectState[0] ? '#f2a6a6' : '#FFFFFF'} style={restaurantStyle.button} onPress={() => {
                                 setSelectState(selectArray('All'))
                             }}>
@@ -508,9 +508,9 @@ export function ListingScreen({ route, navigation }) {
                 }
 
 
-                {stateNearby ? <Text style={[restaurantStyle.textBold, { flex: 1, minHeight: 20, margin: 8, fontSize: 18 }]}>
-                    Listing available restaurants for group order
-                </Text> : <Text style={[restaurantStyle.textBold, { flex: 1, minHeight: 20, margin: 4 }]}>
+                {stateNearby ? <Text style={[restaurantStyle.textBold, { flex: 1, minHeight: 40, marginHorizontal: 20, marginVertical: 4, fontSize: 20 }]}>
+                    Listing available restaurants for{'\n'}Group Order
+                </Text> : <Text style={[restaurantStyle.textBold, { flex: 1, minHeight: 20, marginHorizontal: 20, marginVertical: 4 }]}>
                     Searching for '{searchDisplay}'
                 </Text>}
 
@@ -578,10 +578,10 @@ export const restaurantStyle = StyleSheet.create({
 
     button: {
         margin: 4,
-        borderWidth: 2,
+        borderWidth: 1.5,
         color: "#000000",
         borderColor: "#000000",
-        borderRadius: 15,
+        borderRadius: 20,
         tintColor: "#000000"
     },
 
@@ -612,11 +612,11 @@ export const restaurantStyle = StyleSheet.create({
     },
 
     filterBar: {
-
+        paddingHorizontal: 16,
     },
 
     restaurantList: {
-        paddingHorizontal: 12
+        //paddingHorizontal: 16,
     },
 
 

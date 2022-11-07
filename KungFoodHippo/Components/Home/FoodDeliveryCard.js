@@ -16,7 +16,7 @@ export function FoodDeliveryCard() {
                         </Text>
                     </View>
 
-                    <View style={{ marginVertical: 4, marginLeft: 50 }}>
+                    <View style={{ marginVertical: 4, marginLeft: 40 }}>
 
                         <ImageBackground style={[styles.Image, { justifyContent: 'space-between' }]} imageStyle={{ borderRadius: 10 }} source={require('../../assets/images/food_delivery.png')}>
 
@@ -99,10 +99,11 @@ export const styles = StyleSheet.create({
     },
 
     cardSec: {
-        width: "95.5%",
+        //width: "95.5%",
         paddingVertical: 8,
         paddingHorizontal: 16,
-        marginLeft: 10,
+        //marginHorizontal: 16,
+        marginBottom: 4,
         elevation: 3,
         borderWidth: 0,
         backgroundColor: "#E76766",

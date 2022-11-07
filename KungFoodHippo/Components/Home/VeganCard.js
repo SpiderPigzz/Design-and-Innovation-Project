@@ -6,16 +6,25 @@ export function VeganCard() {
 
         <Card style={styles.cardSec}>
             <View>
-                <View style={{ flexDirection: 'row' }}>
-                    <View style={{ marginTop: 20 }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                    <View style={{ paddingVertical: 10 }}>
 
                         <Text style={styles.textBold}>
                             Vegan
                         </Text>
-                    </View>
-                    <View style={{  alignContent: 'center',marginTop:0 }}>
 
-                        <ImageBackground style={[styles.Image, { justifyContent: 'center', top:25}]} imageStyle={{ borderRadius: 10 }} source={require('../../assets/images/veganfoodv1.png')}>
+                        <View style={{ marginTop: 10 }}>
+
+                            <Text style={styles.text}>
+                                Salads and{'\n'}
+                                others 15% off
+                            </Text>
+                        </View>
+                    </View>
+                    
+                    <View style={{ alignSelf: 'center', marginLeft: 4 }}>
+
+                        <ImageBackground style={[styles.Image, { justifyContent: 'center' }]} imageStyle={{ borderRadius: 10 }} source={require('../../assets/images/veganfoodv1.png')}>
 
                         </ImageBackground>
 
@@ -24,14 +33,7 @@ export function VeganCard() {
                 </View>
 
 
-                <View style={{ bottom:10 }}>
 
-                    <Text style={styles.text}>
-                        Salads and{'\n'}
-                        others {'\n'}
-                        15% off
-                    </Text>
-                </View>
 
 
 
@@ -109,10 +111,10 @@ export const styles = StyleSheet.create({
 
     cardSec: {
         flex: 1,
-        paddingVertical: 8,
-        paddingHorizontal: 16,
-        marginLeft: 10,
-        marginVertical: 8,
+        //paddingVertical: 8,
+        padding: 14,
+        marginLeft: 12,
+        marginBottom: 4,
         elevation: 3,
         borderWidth: 0,
         backgroundColor: "#e2a8b7",
@@ -132,8 +134,8 @@ export const styles = StyleSheet.create({
 
     Image: {
         width: 70,
-        height:70,
-        marginLeft:20,
+        height: 70,
+        //marginLeft:20,
 
 
     },

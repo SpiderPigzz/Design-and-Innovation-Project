@@ -71,15 +71,16 @@ export function HomeScreen({ navigation, route }) {
             logoHeight={300}
             logoWidth={300}
         >
-            <View style={[style1.container]}>
+            <View style={style1.container}>
                 <Portal>
                     <FloatingButton setVisibility={isFocused} navigation={navigation} />
                 </Portal>
-                <ScrollView style={style1.container} vertical={true}>
+
+                <ScrollView style={style1.container2} vertical={true}>
                     
-                    <View style={style1.searchBoxWrapper1}>
-                        <Text style={{ fontSize: 24, fontStyle:'italic', fontWeight: "bold"}}>Hello {userName} ! {'\n'}</Text>
-                        <Text style={{ fontSize:18, fontStyle:'italic', bottom: 30}}>What would you like to eat today?</Text>
+                    <View style={style1.heading}>
+                        <Text style={{ fontSize: 24, fontStyle:'italic', fontWeight: "bold"}}>Hello {userName} !</Text>
+                        <Text style={{ fontSize:18, fontStyle:'italic'}}>What would you like to eat today?</Text>
                     </View>
 
                     <TouchableOpacity
@@ -88,15 +89,17 @@ export function HomeScreen({ navigation, route }) {
                         })}>
                         <View style={style1.searchBoxWrapper} >
                             <TextInput placeholder={'Search for restaurants'} />
-                            <Image source={require('./assets/images/search.png')} />
+                            <Image 
+                                source={require('./assets/images/search.png')}
+                                style={{ height: 20, width: 20, tintColor: '#e76766', alignSelf: 'center' }}
+                            />
                         </View>
                     </TouchableOpacity>
                     
 
- {/* HOT DEALS / FAV / OFFERS / ORDER LATER*/}
-                    <View style={{marginTop: 15}}/>
+                    {/* HOT DEALS / FAV / OFFERS / ORDER LATER*/}
 
-                    <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
+                    <View style={{flexDirection: 'row', justifyContent: 'space-evenly', margin: 16}}>
 
                         <TouchableOpacity
                             onPress={() => navigation.navigate('Listing', {
@@ -148,9 +151,9 @@ export function HomeScreen({ navigation, route }) {
 
                     </View>
 
-{/* FOOD DELIVERY CARD*/}
+                    {/* FOOD DELIVERY CARD*/}
 
-                    <View style={{marginTop: 15}}>
+                    <View style={{ marginHorizontal: 16 }}>
                         <TouchableOpacity
                             onPress={() => navigation.navigate('Listing', {
                                 queryString: 'Search for restaurants'
@@ -158,7 +161,7 @@ export function HomeScreen({ navigation, route }) {
                             <FoodDeliveryCard></FoodDeliveryCard>
                         </TouchableOpacity>
 
-                        <View style={{ flexDirection: "row", justifyContent: "space-evenly" }}>
+                        <View style={{ flexDirection: "row", justifyContent: "space-evenly", marginVertical: 8 }}>
                             <View style={[style1.FDCard]}>
                                 <TouchableOpacity
                                     onPress={() => navigation.navigate('Listing', {
@@ -194,9 +197,9 @@ export function HomeScreen({ navigation, route }) {
 
                     </View>
 
-{/* CUISINES CARD*/}
+                    {/* CUISINES CARD*/}
 
-                    <View style={{marginTop: 15}}>
+                    <View style={{ marginTop: 16, marginHorizontal: 16 }}>
                         {/* <userContext.Consumer>
                     {name => <Text style={style1.cuisineText}>{name}</Text>}
                     </userContext.Consumer> */}
@@ -256,17 +259,20 @@ export function HomeScreen({ navigation, route }) {
                         </View>
                     </View>
 
-{/* RECOMMENDED FOR YOU*/}
+                    {/* RECOMMENDED FOR YOU*/}
 
                     <View style={style1.ListingWrapper}>
                         <Text style={style1.subHeadingWrapper}>
                             Recommended For You
                         </Text>
-                        <Image source={require('./assets/images/Rightarrow.png')} style={style1.arrowWrapper} />
+                        <Image
+                                source={require('./assets/rightArrowHead.png')}
+                                style={{ height: 16, width: 16, alignSelf: 'center' }}
+                            />
                     </View>
                     <ScrollView
                         contentContainerStyle={[style1.foodListingWrapper]} horizontal={true} >
-                        <View style={{ margin: 10, flex: 1, justifyContent: 'space-evenly', flexDirection: 'row' }} horizontal={true}>
+                        <View style={{ marginBottom: 8,flex: 1, justifyContent: 'space-evenly', flexDirection: 'row' }} horizontal={true}>
                             <TouchableOpacity
                                 onPress={() => navigation.navigate('Listing', {
                                     queryString: 'Takagiramen'
@@ -300,32 +306,35 @@ export function HomeScreen({ navigation, route }) {
 }
 const style1 = StyleSheet.create({
     cuisineText: {
-        fontWeight: 'bold', fontSize: 24, alignSelf: "flex-start", marginHorizontal: 10,
+        fontWeight: 'bold', 
+        fontSize: 24, 
+        //alignSelf: "flex-start"
     },
     cuisinesCard: {
         flexDirection: 'row',
         flex: 1,
     },
     FDCard: {
-        marginLeft: 10,
         backgroundColor: '#fff',
         flex: 1,
+        //marginLeft: 10,
     },
     FDCard2: {
         backgroundColor: '#fff',
         flex: 1,
-        marginRight: 10,
+        justifyContent: 'space-between',
+        //marginRight: 10,
     },
     container: {
         backgroundColor: '#fff',
         display: 'flex',
         flex: 1,
-        marginHorizontal: 2,
     },
     container2: {
         backgroundColor: '#fff',
         display: 'flex',
         flex: 1,
+        //paddingHorizontal: 16,
 
     },
     //Searchtext:{
@@ -336,20 +345,18 @@ const style1 = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         backgroundColor: '#EC8C8C' + 20,
-        padding: 10,
+        paddingVertical: 10,
+        paddingHorizontal: 16,
         borderRadius: 5,
-        marginLeft: 10,
-        width: '96%',
+        height: 48,
+        marginHorizontal: 16,
+        //width: '96%',
     },
-    searchBoxWrapper1: {
+    heading: {
         //flexDirection: 'column',
         //justifyContent: 'center',
-        backgroundColor: '#FFFFFF',
-        padding: 10,
-        marginBottom:-20,
-        borderRadius: 5,
-        marginLeft: 10,
-        width: '100%',
+        marginHorizontal: 16,
+        marginVertical: 10,
     },
     categoryCard: {
 
@@ -447,7 +454,9 @@ const style1 = StyleSheet.create({
     ListingWrapper: {
         flexDirection: 'row',
         flex: 1,
-        marginTop: 10,
+        marginTop: 16,
+        marginHorizontal: 16,
+        justifyContent: 'space-between'
     },
     foodListingWrapper: {
         flex: 1,
@@ -455,10 +464,8 @@ const style1 = StyleSheet.create({
 
     },
     subHeadingWrapper: {
-        marginTop:5,
+        //marginTop:5,
         fontSize: 20,
-        marginRight: 10,
-        marginLeft: 10,
         fontWeight:"bold",
     },
     arrowWrapper: {

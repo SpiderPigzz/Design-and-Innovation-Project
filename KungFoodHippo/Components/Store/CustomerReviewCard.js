@@ -218,6 +218,7 @@ const styles = StyleSheet.create({
     },
 
     cardSec: {
+        marginHorizontal: 16,
         marginVertical: 8,
         padding: 8,
         elevation: 3,

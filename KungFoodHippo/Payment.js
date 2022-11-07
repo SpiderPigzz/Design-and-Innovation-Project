@@ -70,24 +70,22 @@ export function PaymentScreen({ navigation, route }) {
 
     <View style={[styles.container]}>
 
-      <View style={{
-        flexDirection: 'row',
-      }}>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
         <Pressable
           onPress={toggle}
           style={({ pressed }) => [
-            { backgroundColor: delivery ? '#E76766' : '#F9E6E6' },
+            { backgroundColor: delivery ? '#E76766' : '#F9E6E6', elevation: delivery ? 5 : 0 },
             styles.button
           ]}>
-          <Text style={{ fontWeight: "bold" }} >Delivery</Text>
+          <Text style={{ fontWeight: delivery ? "bold" : "normal", fontSize: 16 }} >Delivery</Text>
         </Pressable>
         <Pressable
           onPress={toggle}
           style={({ pressed }) => [
-            { backgroundColor: delivery ? '#F9E6E6' : '#E76766' },
+            { backgroundColor: delivery ? '#F9E6E6' : '#E76766', elevation: delivery ? 0 : 5 },
             styles.button
           ]}>
-          <Text style={{ fontWeight: "bold" }} >Pick Up</Text>
+          <Text style={{ fontWeight: delivery ? "normal" : "bold", fontSize: 16 }} >Pick Up</Text>
         </Pressable>
       </View>
 
@@ -99,17 +97,14 @@ export function PaymentScreen({ navigation, route }) {
 
         <View style={styles.viewbox}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <View style={{
-              flexDirection: 'row',
-              alignItems: 'center'
-            }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <MaterialIcons name="gps-fixed" size={24} color="#E76766" />
-              <Text style={styles.header}> {delivery ? 'Delivery Address' : 'Pick Up Address'} </Text>
+              <Text style={[styles.header, { marginLeft: 4 }]}> {delivery ? 'Delivery Address' : 'Pick Up Address'} </Text>
             </View>
             <View>{delivery ? (
               <TouchableOpacity
                 onPress={() => setAddressModalVisible(!addressModalVisible)}
-                style={styles.edit}
+                style={[styles.edit, { right: -10 }]}
               >
                 <Button labelStyle={{ fontSize: 25 }} icon="square-edit-outline">
                   <Text style={styles.selectedText}>Edit</Text>
@@ -117,55 +112,61 @@ export function PaymentScreen({ navigation, route }) {
 
               </TouchableOpacity>) : null}
             </View>
-
-
-            <View style={styles.centeredView}>
-              <Modal
-                multiline={true}
-                animationType="slide"
-                transparent={true}
-                visible={addressModalVisible}
-                onRequestClose={() => {
-                  setAddressModalVisible(!addressModalVisible);
-                }}
-              >
-                <View style={styles.centeredView}>
-                  <View style={styles.modalView}>
-                    <Text style={styles.modalText}>Please input your new address:</Text>
-                    <TextInput
-                      style={styles.addressInput}
-                      onChangeText={setAddress}
-                      value={newAddress}
-                      placeholder="eg. 42 nanyang avenue"
-                    />
-                    <Text style={styles.modalText}>Please input the postal code:</Text>
-                    <TextInput
-                      style={styles.addressInput}
-                      onChangeText={setPostalCode}
-                      value={postalCode}
-                      //convert postal code to lat and long
-                      placeholder="eg. 685478"
-                      keyboardType='numeric'
-                    />
-                    <Pressable
-                      style={[styles.modalButton]}
-                      onPress={() =>
-                        setAddressModalVisible(!addressModalVisible) +
-                        setNewAddressVisible(newAddress)
-                      }
-                    >
-                      <Text style={styles.textStyle}>Confirm</Text>
-                    </Pressable>
-                  </View>
-                </View>
-              </Modal>
-            </View>
-
-
-
-
-
           </View>
+
+
+
+          <Modal
+            multiline={true}
+            animationType="fade"
+            transparent={true}
+            visible={addressModalVisible}
+            onRequestClose={() => {
+              setAddressModalVisible(!addressModalVisible);
+            }}
+          >
+            <View style={{ backgroundColor: "#000000aa", flex: 1, justifyContent: "center" }}>
+
+              <View style={styles.modalView}>
+                <TouchableOpacity
+                  style={[styles.buttonNavigation, { alignSelf: 'flex-start' }]}
+                  onPress={() => setAddressModalVisible(false)}
+                >
+                  <Image
+                    source={require('./assets/Cross.png')}
+                    style={{ height: 16, width: 16 }}
+                  />
+                </TouchableOpacity>
+                <Text style={styles.modalText}>Please input your new address:</Text>
+                <TextInput
+                  style={styles.addressInput}
+                  onChangeText={setAddress}
+                  value={newAddress}
+                  placeholder="eg. 42 nanyang avenue"
+                />
+                <Text style={styles.modalText}>Please input the postal code:</Text>
+                <TextInput
+                  style={styles.addressInput}
+                  onChangeText={setPostalCode}
+                  value={postalCode}
+                  //convert postal code to lat and long
+                  placeholder="eg. 685478"
+                  keyboardType='numeric'
+                />
+                <Pressable
+                  style={[styles.modalButton]}
+                  onPress={() =>
+                    setAddressModalVisible(!addressModalVisible) +
+                    setNewAddressVisible(newAddress)
+                  }
+                >
+                  <Text style={styles.textStyle}>Confirm</Text>
+                </Pressable>
+              </View>
+            </View>
+          </Modal>
+
+
           <View style={styles.mapbox}>
             {delivery ? (
               newAddressVisible ? (
@@ -229,48 +230,52 @@ export function PaymentScreen({ navigation, route }) {
         </View>
 
 
-        <View style={styles.centeredView}>
-          <Modal
-            animationType="slide"
-            transparent={true}
-            visible={instructionModalVisible}
-            onRequestClose={() => {
-              setInstructionModalVisible(!instructionModalVisible);
-            }}
-          >
-            <View style={styles.centeredView}>
-              <View style={styles.modalView}>
-                <Text style={styles.modalText}>Please input your instructions:</Text>
-                <TextInput
-                  style={styles.instructionInput}
-                  onChangeText={setInstruction}
-                  value={instruction}
-                  placeholder="Intructions"
+
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={instructionModalVisible}
+          onRequestClose={() => {
+            setInstructionModalVisible(!instructionModalVisible);
+          }}
+        >
+          <View style={{ backgroundColor: "#000000aa", flex: 1, justifyContent: "center" }}>
+            <View style={styles.modalView}>
+              <TouchableOpacity
+                style={[styles.buttonNavigation, { alignSelf: 'flex-start' }]}
+                onPress={() => setInstructionModalVisible(false)}
+              >
+                <Image
+                  source={require('./assets/Cross.png')}
+                  style={{ height: 16, width: 16 }}
                 />
-                <Pressable
-                  style={[styles.modalButton]}
-                  onPress={() =>
-                    setInstructionModalVisible(!instructionModalVisible) +
-                    setNewInstructionVisible(true)
-                  }
-                >
-                  <Text style={styles.textStyle}>Confirm</Text>
-                </Pressable>
-              </View>
+              </TouchableOpacity>
+              <Text style={styles.modalText}>Please input your instructions:</Text>
+              <TextInput
+                style={styles.instructionInput}
+                onChangeText={setInstruction}
+                value={instruction}
+                placeholder="Intructions"
+              />
+              <Pressable
+                style={[styles.modalButton]}
+                onPress={() =>
+                  setInstructionModalVisible(!instructionModalVisible) +
+                  setNewInstructionVisible(true)
+                }
+              >
+                <Text style={styles.textStyle}>Confirm</Text>
+              </Pressable>
             </View>
-          </Modal>
-        </View>
+          </View>
+        </Modal>
+
 
 
         <View style={styles.payment}>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <View style={{
-              flexDirection: 'row',
-              alignItems: 'center'
-            }}>
-              <Entypo name="wallet" size={20} color="black" />
-              <Text style={styles.header}>Payment Method</Text>
-            </View>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <Entypo name="wallet" size={20} color="black" />
+            <Text style={[styles.header, { marginLeft: 8 }]}>Payment Method</Text>
           </View>
           <RadioButton.Group style={styles.radiogroup} onValueChange={newValue => setValue(newValue)} value={value}>
             <View style={styles.radiobutton}>
@@ -298,22 +303,29 @@ export function PaymentScreen({ navigation, route }) {
 
       <Divider style={styles.divider} horizontalInset='true' bold='true' />
 
-      <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignSelf: 'stretch' }}>
-        <View style={{
-          flexDirection: 'row',
-          alignItems: 'baseline'
-        }}>
-          <Text style={styles.header}>Total</Text>
-          <Text fontSize={20}>(include GST)</Text>
+      <View style={{ marginBottom: 6 }}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 16 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <Text style={[styles.backgroundText, {}]}>Total</Text>
+            <Text style={[styles.infoText, { marginHorizontal: 4 }]}>(includes GST)</Text>
+          </View>
+          <Text style={styles.text}>{"S$"}{totalCheckout}</Text>
         </View>
-        <Text style={styles.header}>S${totalCheckout}</Text>
-      </View>
 
-      <TouchableOpacity
-        style={styles.order}
-        onPress={() => navigation.navigate('Cooking')}>
-        <Text style={styles.buttonText}>Place Order</Text>
-      </TouchableOpacity>
+        {/*<View style={{ flexDirection: 'row', justifyContent: 'space-around', alignSelf: 'stretch' }}>
+          <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
+            <Text style={styles.header}>Total</Text>
+            <Text fontSize={20}>(include GST)</Text>
+          </View>
+          <Text style={styles.header}>S${totalCheckout}</Text>
+        </View>*/}
+
+        <TouchableOpacity
+          style={styles.order}
+          onPress={() => navigation.navigate('Cooking')}>
+          <Text style={styles.buttonText}>Place Order</Text>
+        </TouchableOpacity>
+      </View>
     </View>
 
   );
@@ -332,9 +344,9 @@ const styles = StyleSheet.create({
   modalView: {
     flex: 0,
     margin: 20,
+    padding: 30,
     backgroundColor: "white",
     borderRadius: 20,
-    padding: 40,
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
@@ -346,45 +358,47 @@ const styles = StyleSheet.create({
     elevation: 5
   },
   modalText: {
-    margin: 15,
+    margin: 12,
     fontSize: 16,
 
   },
   textStyle: {
     color: 'white',
-    fontSize: 13,
+    fontSize: 16,
     fontWeight: 'bold',
-    alignSelf: 'center',
-    justifyContent: 'center'
+    textAlign: 'center',
+    textAlignVertical: 'bottom',
 
   },
 
   modalButton: {
     backgroundColor: "#E76766",
-    margin: 15,
-    borderRadius: 20,
-    width: 90,
-    elevation: 10,
-    shadowColor: '#52006A',
-    height: 45,
-    padding: 12,
+    marginTop: 16,
+    padding: 14,
+    height: 50,
+    width: 120,
+    //elevation: 10,
+    //shadowColor: '#52006A',
+    borderRadius: 15,
   },
   instructionInput: {
-    height: 80,
-    width: 150,
-    margin: 5,
+    height: 48,
+    width: '100%',
+    margin: 6,
+    paddingLeft: 14,
     borderWidth: 0.3,
     borderColor: 'grey',
-    padding: 10,
-    textAlign: 'left'
+    borderRadius: 5,
+    //textAlign: 'left'
   },
   addressInput: {
-    height: 50,
-    width: 240,
-    margin: 5,
+    height: 48,
+    width: '100%',
+    margin: 6,
+    paddingLeft: 14,
     borderWidth: 0.3,
     borderColor: 'grey',
-    padding: 10,
+    borderRadius: 5,
   },
   topbar: {
     width: 375,
@@ -395,26 +409,30 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: "column",
-    alignSelf: 'center'
+    //alignItems: 'center',
+    //justifyContent: 'center',
+    //flexDirection: "column",
+    //alignSelf: 'center'
   },
   button: {
-    borderRadius: 20,
-    margin: 20,
+    borderRadius: 30,
+    margin: 10,
     width: 150,
     height: 50,
-    padding: 15,
+    padding: 12,
     alignItems: 'center'
   },
   buttonText: {
     color: "white",
     textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: 16,
+    textAlign: 'center',
+    textAlignVertical: 'bottom',
   },
   divider: {
     backgroundColor: '#b8b8b880',
-    margin: 6,
+    margin: 8,
     alignSelf: 'stretch'
   },
   selected: {
@@ -437,14 +455,14 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   viewbox: {
-    padding: 10,
+    margin: 16,
+    padding: 14,
     backgroundColor: "#feeae9",
     borderRadius: 10,
-    margin: 16,
-    alignContent: 'flex-start',
+    //alignContent: 'flex-start',
     flexDirection: "column",
-    elevation: 20,
-    shadowColor: '#52006A',
+    elevation: 3,
+    //shadowColor: '#52006A',
   },
   mapbox: {
     margin: 10,
@@ -458,15 +476,18 @@ const styles = StyleSheet.create({
     height: 150,
   },
   payment: {
-    padding: 10,
+    marginHorizontal: 16,
+    marginVertical: 8,
+    padding: 12,
     backgroundColor: "white",
-    borderRadius: 20,
-    margin: 16,
-    alignContent: 'flex-start',
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "#0000001A",
+    //alignContent: 'flex-start',
     flexWrap: 'wrap',
     flexDirection: "column",
-    elevation: 20,
-    shadowColor: '#52006A',
+    elevation: 3,
+    //shadowColor: '#52006A',
 
   },
   add: {
@@ -479,10 +500,11 @@ const styles = StyleSheet.create({
   },
   order: {
     backgroundColor: "#E76766",
-    padding: 15,
-    borderRadius: 25,
-    margin: 5,
-    width: 300,
+    marginHorizontal: 16,
+    marginTop: 8,
+    padding: 16,
+    borderRadius: 15,
+    //width: 300,
   },
   cardSec: {
     marginTop: 20,
@@ -512,6 +534,30 @@ const styles = StyleSheet.create({
     height: 50,
     resizeMode: 'contain'
   },
+
+  text: {
+    color: "black",
+    fontSize: 14,
+    // fontFamily: "Roboto-Regular",
+    fontWeight: "bold",
+    textAlignVertical: 'bottom'
+  },
+
+  backgroundText: {
+    color: "#000000",
+    fontSize: 20,
+    // fontFamily: "Roboto-Regular",
+    fontWeight: "bold",
+    textAlignVertical: 'bottom'
+  },
+
+  infoText: {
+    color: "grey",
+    fontSize: 12,
+    // fontFamily: "Roboto-Regular",
+    textAlignVertical: 'bottom'
+  },
+
 });
 
 

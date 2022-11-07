@@ -104,7 +104,7 @@ export function FoodCard({ title, description, price, imageURI, shopID }) {
 
                             <View style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 8 }}>
                                 <Text style={[styles.backgroundText, { fontSize: 18, flex: 3 }]}>{title}</Text>
-                                <Text style={[styles.backgroundText, { fontSize: 18, fontWeight: "normal", paddingLeft: 10, flex: 1.2 }]}>S${(price / 10000).toFixed(2)}</Text>
+                                <Text style={[styles.backgroundText, { fontSize: 18, fontWeight: "normal", paddingLeft: 10, alignSelf: 'flex-end' }]}>S${(price / 10000).toFixed(2)}</Text>
                             </View>
 
                             <Text style={[styles.backgroundText, { fontWeight: 'normal', fontSize: 12, textAlign: "center" }]}>
@@ -266,6 +266,7 @@ const styles = StyleSheet.create({
 
     cardSec: {
         marginVertical: 8,
+        marginHorizontal: 16,
         paddingVertical: 8,
         paddingHorizontal: 16,
         elevation: 3,

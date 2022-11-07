@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Dimensions, Image, ScrollView, ActivityIndicator, FlatList, Pressable, Modal } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, Image, ScrollView, ActivityIndicator, FlatList, Pressable, Modal, TouchableOpacity } from 'react-native';
 import MapView, { Animated, Callout, Marker, Polyline } from 'react-native-maps';
 import * as React from 'react';
 import { useState, useEffect, useContext } from 'react';
@@ -328,13 +328,23 @@ export function MapScreen({ navigation }) {
       )
       }
 
+      <TouchableOpacity
+        style={[styles.buttonNavigation, { position: "absolute", left: 16, top: 8 }]}
+        activeOpacity={0.85}
+        onPress={() => navigation.goBack()}
+      >
+        <Image
+          source={require('./assets/ArrowLeft.png')}
+          style={[styles.iconPrimTint, { height: 18, width: 18, }]}
+        />
+      </TouchableOpacity>
 
-      <FAB
+      {/*<FAB
         color='#E76766'
         icon="arrow-left"
         style={styles.fab}
         onPress={() => navigation.goBack()}
-      />
+      />*/}
 
       <View
         style={{
@@ -384,7 +394,7 @@ export function MapScreen({ navigation }) {
                 <View style={styles.modalView}>
                   <Image style={{ paddingTop: 10, resizeMode: 'cover', height: 100, width: 100, }}
                     source={require('./assets/images/thumbsupgif.gif')} />
-                  <Text style={styles.modalText}>Your delivery is here!😘</Text>
+                  <Text style={styles.modalText}>Your delivery is here! 😘</Text>
                   <Text style={styles.modalText}>Thanks for shopping with Hippo</Text>
                   <Pressable
                     style={[styles.button, styles.buttonClose]}
@@ -634,6 +644,19 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
 
+  buttonNavigation: {
+    padding: 10,
+    backgroundColor: "#FFFFFF",
+    width: 42,
+    height: 42,
+    borderRadius: 50,
+    justifyContent: "center",
+    alignContent: "center",
+    alignItems: "center",
+    marginVertical: 5,
+    elevation: 5,
+  },
+
   card: {
     marginTop: 8,
     paddingVertical: 8,
@@ -652,6 +675,10 @@ const styles = StyleSheet.create({
     borderWidth: 0,
     backgroundColor: "#FFFFFF",
     borderRadius: 5
+  },
+
+  iconPrimTint: {
+    tintColor: "#E76766",
   },
 
   primColor: "#E76766",

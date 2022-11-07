@@ -117,8 +117,8 @@ export function ReviewScreen({ navigation, route }) {
 
                         <Divider style={styles.divider} horizontalInset='true' bold='true' />
 
-                        <View style={[styles.container, { paddingHorizontal: 16, paddingBottom: 16 }]}>
-                            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <View style={[styles.container, { paddingBottom: 16 }]}>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 16 }}>
                                 <Text style={[styles.title, { textAlign: 'left' }]}>Reviews</Text>
                                 <Button icon={"filter-variant"} textColor={"#000000"} style={styles.buttonOutline}>
                                     <Text>

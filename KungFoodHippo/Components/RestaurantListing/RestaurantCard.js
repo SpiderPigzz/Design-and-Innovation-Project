@@ -149,6 +149,7 @@ export const styles = StyleSheet.create({
         paddingVertical: 8,
         paddingHorizontal: 16,
         marginVertical: 8,
+        marginHorizontal: 16,
         elevation: 3,
         borderWidth: 0,
         backgroundColor: "#F9E6E6",

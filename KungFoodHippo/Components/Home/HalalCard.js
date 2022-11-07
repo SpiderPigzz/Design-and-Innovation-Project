@@ -6,23 +6,20 @@ export function HalalCard() {
 
         <Card style={styles.cardSec}>
             <View>
+                <ImageBackground 
+                    style={[styles.Image, { justifyContent: 'center', alignContent: 'center' }]} 
+                    imageStyle={{ borderRadius: 10 }} 
+                    source={require('../../assets/images/halalfood.png')}
+                />
 
-                <View style={{ marginVertical: 4, marginLeft: 2 , marginTop: 10,}}>
-
-                    <ImageBackground style={[styles.Image, { justifyContent: 'center'},{alignContent:'center'}]} imageStyle={{ borderRadius: 10 }} source={require('../../assets/images/halalfood.png')}>
-
-                    </ImageBackground>
-
-                </View>
-
-                <View style={{ marginTop: 25 }}>
+                <View style={{ marginTop: 40 }}>
                     <Text style={styles.textBold}>
-                        Halal Food{'\n'}
+                        Halal Food
                     </Text>
-                    
+
                     <Text style={styles.text}>
                         (Free delivery){'\n'}
-                        Everyday up to{'\n'}
+                        Every day up to{'\n'}
                         20% off
                     </Text>
 
@@ -104,9 +101,9 @@ export const styles = StyleSheet.create({
 
     cardSec: {
         flex: 1,
-        paddingVertical: 8,
-        paddingHorizontal: 16,
-        marginVertical: 8,
+        padding: 14,
+        //paddingHorizontal: 16,
+        //marginVertical: 8,
         elevation: 3,
         backgroundColor: "#fc9b95",
         borderRadius: 10

@@ -231,18 +231,18 @@ const styles = StyleSheet.create({
         elevation: 3,
         borderWidth: 0,
         backgroundColor: "#F9E6E6",
-        borderRadius: 5,
+        borderRadius: 10,
     },
 
     cardSec: {
-        marginTop: 8,
+        marginVertical: 8,
         paddingVertical: 8,
         paddingHorizontal: 16,
         elevation: 3,
         borderWidth: 1,
         borderColor: "#0000001A",
         backgroundColor: "#FFFFFF",
-        borderRadius: 5
+        borderRadius: 10,
     },
 
     imageIcon: {

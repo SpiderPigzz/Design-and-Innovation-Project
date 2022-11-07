@@ -6,8 +6,7 @@ import { StyleSheet, View, Image } from 'react-native';
 export function RecommendedItemCard() {
     return (
 
-        <Card style={[styles.cardSec, { marginHorizontal:0, marginTop: 4,
-            paddingVertical: 0, paddingHorizontal: 0}]}>
+        <Card style={[styles.cardSec, { marginHorizontal:0, marginTop: 4, paddingVertical: 0, paddingHorizontal: 0}]}>
             <Card.Content style={[{ justifyContent: 'center' }]}>
                 <Text style={[styles.backgroundText, {alignSelf:'center', fontSize:12}]}>Crispy Chicken</Text>
                 <View style={[{flexDirection:'row'}]}>

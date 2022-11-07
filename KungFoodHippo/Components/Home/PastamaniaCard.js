@@ -108,7 +108,7 @@ export const styles = StyleSheet.create({
         flex:1,
         paddingVertical: 8,
         paddingHorizontal: 16,
-        marginLeft: 10,
+        //marginLeft: 10,
         marginVertical: 8,
         elevation: 3,
         borderWidth: 0,

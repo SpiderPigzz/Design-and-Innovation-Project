@@ -113,7 +113,7 @@ export function StoreLocationScreen({ navigation, route }) {
         </MapView>)}
 
       <TouchableOpacity
-        style={[styles.buttonNavigation, { position: "absolute", left: 16, top: 16 }]}
+        style={[styles.buttonNavigation, { position: "absolute", left: 16, top: 8 }]}
         activeOpacity={0.85}
         onPress={() => navigation.navigate('Store', { shopID: shopID })}
       >

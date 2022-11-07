@@ -146,7 +146,7 @@ export function StoreScreen({ navigation, route }) {
             <View style={{ flex: 1 }}>
                 <Image source={defaultPhoto} style={{ height: 160, width: null }} />
                 <TouchableOpacity
-                    style={[styles.buttonNavigation, { position: "absolute", left: 16, top: 16 }]}
+                    style={[styles.buttonNavigation, { position: "absolute", left: 16, top: 8 }]}
                     activeOpacity={0.85}
                     onPress={() => navigation.navigate('Listing')}
                 >
@@ -157,72 +157,74 @@ export function StoreScreen({ navigation, route }) {
                 </TouchableOpacity>
             </View>
 
-            <View style={[styles.container, { paddingVertical: 8, flex: 4 }]}>
+            <View style={[styles.container, { paddingTop: 8, flex: 4 }]}>
                 <View style={{ flexDirection: "row", marginHorizontal: 16, marginBottom: 2 }}>
                     <Text style={[styles.title, { textAlign: "left" }]}>{restaurant}</Text>
                 </View>
 
-                <ScrollView style={{ paddingHorizontal: 16 }}>
-                    <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                        <View style={{ flexDirection: "row", justifyContent: "flex-start", paddingVertical: 4, paddingRight: 4, flex: 4.5 }}>
-                            <Image
-                                source={require('./assets/locationpin.png')}
-                                style={[styles.iconPrimTint, { height: 18, width: 12, alignSelf: "center" }]}
-                            />
-                            <Text numberOfLines={1} style={{ textAlignVertical: "center" }}>   {address}</Text>
-                        </View>
-                        <Button onPress={() => {navigation.navigate("Location", {shopAddress: address, shopID: shopID, shopName: restaurant, shopDescription: description})}}>
-                            <Text style={[styles.innerText, { textAlignVertical: "center", flex: 1 }]}>More info</Text>
-                        </Button>
-                    </View>
-
-
-                    <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                        <View style={{ flexDirection: "row", justifyContent: "flex-start", paddingVertical: 4 }}>
-                            <Image
-                                source={require('./assets/Time.png')}
-                                style={[styles.iconPrimTint, { height: 16, width: 16, alignSelf: "center" }]}
-                            />
-                            <Text style={{ fontWeight: "bold", textAlignVertical: "center" }}>  Delivery: 30 min</Text>
-                        </View>
-
-                        <View>
-                            <Button onPress={() => setVisible(true)}>
-                                <Text style={[styles.innerText, { textAlignVertical: "center" }]}>Change</Text>
+                <ScrollView>
+                    <View style={{ marginHorizontal: 16 }}>
+                        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                            <View style={{ flexDirection: "row", justifyContent: "flex-start", paddingVertical: 4, paddingRight: 4, flex: 4.5 }}>
+                                <Image
+                                    source={require('./assets/locationpin.png')}
+                                    style={[styles.iconPrimTint, { height: 18, width: 12, alignSelf: "center" }]}
+                                />
+                                <Text numberOfLines={1} style={{ textAlignVertical: "center" }}>   {address}</Text>
+                            </View>
+                            <Button onPress={() => { navigation.navigate("Location", { shopAddress: address, shopID: shopID, shopName: restaurant, shopDescription: description }) }}>
+                                <Text style={[styles.innerText, { textAlignVertical: "center", flex: 1 }]}>More info</Text>
                             </Button>
                         </View>
-                        
-                    </View>
 
-                    <Modal
-                        transparent={true}
-                        visible={visible}
-                        animationType="slide"
-                    >
-                        <View style={{ backgroundColor: "#000000aa", flex: 1, justifyContent: "flex-end" }}>
-                            <View style={{ backgroundColor: "#ffffff", marginHorizontal: 20, padding: 20, borderTopLeftRadius: 20, borderTopRightRadius:20 }}>
-                                <TouchableOpacity 
-                                    style={[styles.buttonNavigation, { position: "absolute", top: 10, left: 10, elevation: 0 }]}
-                                    onPress={() => setVisible(false)}
-                                >
-                                    <Image
-                                        source={require('./assets/Cross.png')}
-                                        style={{ height: 16, width: 16 }}
-                                    />
-                                </TouchableOpacity>
-                                <View style={{ marginTop: 26, flexDirection: 'row', justifyContent: 'center' }}>
-                                    <TouchableOpacity style={[styles.buttonTouchable, {width: 120}]}>
-                                        <Text>Delivery</Text>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity style={[styles.buttonTouchable, {width: 120}]}>
-                                        <Text>Self Pick-up</Text>
-                                    </TouchableOpacity>
-                                </View>
 
-                                {/* insert drop down box here */}
+                        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                            <View style={{ flexDirection: "row", justifyContent: "flex-start", paddingVertical: 4 }}>
+                                <Image
+                                    source={require('./assets/Time.png')}
+                                    style={[styles.iconPrimTint, { height: 16, width: 16, alignSelf: "center" }]}
+                                />
+                                <Text style={{ fontWeight: "bold", textAlignVertical: "center" }}>  Delivery: 30 min</Text>
                             </View>
+
+                            <View>
+                                <Button onPress={() => setVisible(true)}>
+                                    <Text style={[styles.innerText, { textAlignVertical: "center" }]}>Change</Text>
+                                </Button>
+                            </View>
+
                         </View>
-                    </Modal>
+
+                        <Modal
+                            transparent={true}
+                            visible={visible}
+                            animationType="slide"
+                        >
+                            <View style={{ backgroundColor: "#000000aa", flex: 1, justifyContent: "flex-end" }}>
+                                <View style={{ backgroundColor: "#ffffff", marginHorizontal: 20, padding: 20, borderTopLeftRadius: 20, borderTopRightRadius: 20 }}>
+                                    <TouchableOpacity
+                                        style={[styles.buttonNavigation, { position: "absolute", top: 10, left: 10, elevation: 0 }]}
+                                        onPress={() => setVisible(false)}
+                                    >
+                                        <Image
+                                            source={require('./assets/Cross.png')}
+                                            style={{ height: 16, width: 16 }}
+                                        />
+                                    </TouchableOpacity>
+                                    <View style={{ marginTop: 26, flexDirection: 'row', justifyContent: 'center' }}>
+                                        <TouchableOpacity style={[styles.buttonTouchable, { width: 120 }]}>
+                                            <Text>Delivery</Text>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity style={[styles.buttonTouchable, { width: 120 }]}>
+                                            <Text>Self Pick-up</Text>
+                                        </TouchableOpacity>
+                                    </View>
+
+                                    {/* insert drop down box here */}
+                                </View>
+                            </View>
+                        </Modal>
+                    </View>
 
                     {isLoading ? <ActivityIndicator /> : (
                         <View>
@@ -235,14 +237,14 @@ export function StoreScreen({ navigation, route }) {
                     )}
 
                     {/* navigation tab here */}
-                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 16, marginVertical: 4 }}>
                         {
                             listTab.map(e => (
                                 <TouchableOpacity
-                                    style={[styles.buttonTouchable, status === e.status && styles.buttonTouchableActive]}
+                                    style={[ status == e.status ? styles.buttonTouchableActive : styles.buttonTouchable ]}
                                     onPress={() => setStatusFilter(e.status)}
                                 >
-                                    <Text style={[styles.tabText, status === e.status && styles.buttonText]}>
+                                    <Text style={[ status == e.status ? styles.buttonText : styles.tabText ]}>
                                         {e.status}
                                     </Text>
                                 </TouchableOpacity>
@@ -335,7 +337,7 @@ const styles = StyleSheet.create({
         fontSize: 12,
         // fontFamily: "Roboto-Regular",
         fontWeight: "normal",
-        
+
     },
 
     tabText: {
@@ -382,7 +384,7 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         alignItems: "center",
         justifyContent: "center",
-        margin: 5,
+        margin: 4,
     },
 
     buttonTouchableActive: {

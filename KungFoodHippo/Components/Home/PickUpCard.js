@@ -25,8 +25,8 @@ export function PickUpCard() {
 
                 <View style={{bottom:10}}>
                     <Text style={styles.text}>
-                        Every up to {'\n'}
-                        10% off
+                        Every day up {'\n'}
+                        to 10% off
                     </Text>
                 </View>
 
@@ -103,10 +103,9 @@ export const styles = StyleSheet.create({
 
     cardSec: {
         flex: 1,
-        paddingVertical: 8,
-        paddingHorizontal: 16,
-        marginLeft: 10,
-        marginVertical: 8,
+        padding: 14,
+        marginLeft: 12,
+        marginTop: 8,
         elevation: 3,
         borderWidth: 0,
         backgroundColor: "#f9cccc",

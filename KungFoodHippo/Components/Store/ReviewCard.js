@@ -211,6 +211,7 @@ const styles = StyleSheet.create({
 
     card: {
         marginTop: 4,
+        marginHorizontal: 16,
         paddingVertical: 8,
         paddingHorizontal: 16,
         elevation: 3,
@@ -226,7 +227,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: "#0000001A",
         backgroundColor: "#FFFFFF",
-        borderRadius: 5
+        borderRadius: 10,
     },
 
     imageIcon: {

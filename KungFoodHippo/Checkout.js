@@ -124,9 +124,9 @@ export function CheckoutScreen({ navigation }) {
                     <Card style={[styles.cardSec, { margin: 16, flex: 3 }]}>
                         <Card.Content>
                         
-                            <View style={[styles.container, { flexDirection: 'row', justifyContent: 'space-around', }]}>
+                            <View style={[styles.container, { flexDirection: 'row', justifyContent: 'space-around' }]}>
                             
-                                <Image source={require('./assets/scooter-icon.png')} style={[styles.imageIcon, {}]}></Image>
+                                <Image source={require('./assets/scooter-icon.png')} style={styles.imageIcon}></Image>
                                 <View style={[styles.container, { flex: 1 }]}>
                                     <Text style={[styles.backgroundText, { fontWeight: 'bold', fontSize: 16, marginLeft:20 }]}>Ordering From:</Text>
                                     <FlatList
@@ -187,10 +187,10 @@ export function CheckoutScreen({ navigation }) {
                             <View style={[styles.container, { flexDirection: 'row', justifyContent: 'space-between' }]}>
                                 <View style={[styles.container, { flexDirection: 'row' }]}>
                                     <Button style={styles.iconPrimTint}  labelStyle={{fontSize: 30}} icon={'ticket-percent-outline'}></Button>
-                                    <Text style={[styles.text, { marginLeft: 8, textAlignVertical: 'center' }]}>Hippo Voucher</Text>
+                                    <Text style={[styles.text, { textAlignVertical: 'center' }]}>Hippo Voucher</Text>
                                 </View>
 
-                                <Button style={styles.iconPrimTint}  icon={'chevron-right'}></Button>
+                                <Button style={[styles.iconPrimTint, { alignSelf: 'center' }]} labelStyle={{fontSize: 26}} icon={'chevron-right'}></Button>
                             </View>
 
                             <Divider style={styles.divider} horizontalInset='true' bold='true' />
@@ -201,11 +201,11 @@ export function CheckoutScreen({ navigation }) {
                                         <Button style={styles.iconPrimTint} labelStyle={{fontSize: 30}} icon={'food-fork-drink'}></Button>
                                     </View>
 
-                                    <Text style={[styles.backgroundText, { marginLeft: 8, textAlignVertical: 'center', fontSize: 14 }]}>Cutlery</Text>
+                                    <Text style={[styles.backgroundText, { textAlignVertical: 'center', fontSize: 14 }]}>Cutlery</Text>
                                 </View>
                                 <Switch style={[{ marginRight: 8 }]} onValueChange={toggleSwitch} value={!cutlery} />
                             </View>
-                            <Text style={[styles.infoText, { marginHorizontal: 16, }]}>
+                            <Text style={[styles.infoText, { marginHorizontal: 16, marginBottom: 8 }]}>
                                 {cutlery ? (
                                     "We won’t bring cutlery. Thanks for helping us to reduce waste.") :
                                     ("")}
@@ -219,7 +219,7 @@ export function CheckoutScreen({ navigation }) {
                     <View style={[styles.container, { flex: 3, marginBottom: 8 }]}>
 
                         <View style={[styles.container, { flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 16 }]}>
-                            <View style={[styles.container, { flexDirection: 'row' }]}>
+                            <View style={[styles.container, { flexDirection: 'row', alignItems: 'center' }]}>
                                 <Text style={[styles.backgroundText, {}]}>Total</Text>
                                 <Text style={[styles.infoText, { marginHorizontal: 4 }]}>(includes GST)</Text>
                             </View>
@@ -360,18 +360,18 @@ const styles = StyleSheet.create({
         elevation: 3,
         borderWidth: 0,
         backgroundColor: "#F9E6E6",
-        borderRadius: 5,
+        borderRadius: 10,
     },
 
     cardSec: {
-        marginTop: 8,
+        marginTop: 10,
         paddingVertical: 8,
         paddingHorizontal: 16,
         elevation: 3,
         borderWidth: 1,
         borderColor: "#0000001A",
         backgroundColor: "#FFFFFF",
-        borderRadius: 5
+        borderRadius: 10,
     },
 
     imageIcon: {

@@ -164,7 +164,7 @@ export function MenuScreen({}) {
             {/* SUGGESTION */}
             <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'center', backgroundColor: '#FFFFFF'}}>
                 <View style={theme.Container}>   
-                    <Button labelStyle={{fontSize: 35}} icon = "shopping" onPress={() => navigation.navigate('Suggestion')} >   
+                    <Button labelStyle={{fontSize: 35}} icon = "shopping" >   
                         <Text style={theme.text}>Suggestions</Text>                            
                     </Button>                          
                 </View>     
