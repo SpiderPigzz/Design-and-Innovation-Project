@@ -128,11 +128,11 @@ export function CheckoutScreen({ navigation }) {
                             
                                 <Image source={require('./assets/scooter-icon.png')} style={styles.imageIcon}></Image>
                                 <View style={[styles.container, { flex: 1 }]}>
-                                    <Text style={[styles.backgroundText, { fontWeight: 'bold', fontSize: 16, marginLeft:20 }]}>Ordering From:</Text>
+                                    <Text style={[styles.backgroundText, { fontWeight: 'bold', fontSize: 16, marginLeft: 20 }]}>Ordering From:</Text>
                                     <FlatList
-                                        style={{flexDirection: 'column'}}
+                                        style={{flexDirection: 'column', marginBottom: 10}}
                                         data={shopNames}
-                                        renderItem={({ item }) => <Text style={[styles.text, { fontWeight: 'normal', flexWrap: 'wrap', flex: 1 , marginLeft:20}]}>{"•"}{item}</Text>}
+                                        renderItem={({ item }) => <Text style={[styles.text, { fontWeight: 'normal', flexWrap: 'wrap', flex: 1 , marginLeft:20}]}>{"• "}{item}</Text>}
                                     />
                                 </View>
                             </View>

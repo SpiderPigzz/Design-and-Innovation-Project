@@ -366,7 +366,7 @@ const GoodLabel = () => {
                 source={require('./assets/up-chevron.png')}
                 style={{ height: 18, width: 18, tintColor: '#1de320' }}
             />
-            <Text style={{ fontSize: 12, marginHorizontal: 4 }}>increase recently</Text>
+            <Text style={{ fontSize: 12, marginHorizontal: 4 }}>improved recently</Text>
         </View>
 
     );
@@ -379,7 +379,7 @@ const BadLabel = () => {
                 source={require('./assets/up-chevron.png')}
                 style={{ height: 18, width: 18, tintColor: '#D3212C', transform: [{ rotate: '180deg' }] }}
             />
-            <Text style={{ fontSize: 12, marginHorizontal: 4 }}>decrease recently</Text>
+            <Text style={{ fontSize: 12, marginHorizontal: 4 }}>worsened recently</Text>
         </View>
 
     );

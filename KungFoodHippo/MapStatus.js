@@ -50,54 +50,56 @@ export function MapScreen({ navigation }) {
     resolve => setTimeout(resolve, ms)
   );
 
-  const getMapData = async() => {
+  const getMapData = async () => {
     await fetch(url + orderAddressPath + userEmail)
-        .then((response) => response.json())
-        .then(async (json) => {
-          await fetch(convertor + json[0]['customer.address'] + key)
-            .then((addressResponse) => addressResponse.json())
-            .then((convertedAddress) => {
-              setHomeAddress(convertedAddress['results'][0]['geometry']['location']);
-              console.log(convertedAddress['results'][0]['geometry']['location'])
-            })
-            .catch((error) => console.error(error))
-            .finally(() => setLoading(false));
-          setData(json[0]['shop.name']);
-          console.log(json);
-          return json
-          // console.log(json);
-        })
-        .then(async (json) => {
-          // for (var i = 0; i < json.length; i++) {
-          //   var location = await fetch(convertor + json[i]['address'].replace('#', '') + key)
-          //   .then((response) => {
-          //     return response.json()})
-          //   .then((googleJson) =>{
-          //     locationArray.push(googleJson['results'][0]['geometry']['location']);
-          //   })
-          // setData([json]))
-          //}
-          await fetch(url + coordinatePath + userEmail)
-            .then((response) => response.json())
-            .then((json) => {
-              setPosition(json);
-              return json
-              // console.log(json);
-            })
+      .then((response) => response.json())
+      .then(async (json) => {
+        await fetch(convertor + json[0]['customer.address'] + key)
+          .then((addressResponse) => addressResponse.json())
+          .then((convertedAddress) => {
+            setHomeAddress(convertedAddress['results'][0]['geometry']['location']);
+            console.log(convertedAddress['results'][0]['geometry']['location'])
+          })
+          .catch((error) => console.error(error))
+          .finally(() => setLoading(false));
+        setData(json[0]['shop.name']);
+        console.log(json);
+        return json
+        // console.log(json);
+      })
+      .then(async (json) => {
+        // for (var i = 0; i < json.length; i++) {
+        //   var location = await fetch(convertor + json[i]['address'].replace('#', '') + key)
+        //   .then((response) => {
+        //     return response.json()})
+        //   .then((googleJson) =>{
+        //     locationArray.push(googleJson['results'][0]['geometry']['location']);
+        //   })
+        // setData([json]))
+        //}
+        await fetch(url + coordinatePath + userEmail)
+          .then((response) => response.json())
+          .then((json) => {
+            setPosition(json);
+            return json
+            // console.log(json);
+          })
 
 
-          //return (locationArray);
-        })
-        .catch((error) => console.error(error))
-        .finally(() => {
-          setLoading(false)
-        });
+        //return (locationArray);
+      })
+      .catch((error) => console.error(error))
+      .finally(() => {
+        setLoading(false)
+      });
   }
   //for extracting address
   useEffect(() => {
     if (isFocused) {
       getMapData();
     }
+    setShouldShow(true);
+    setModalVisible(false);
   }, [isFocused]);
 
   // useEffect(() => {
@@ -110,6 +112,58 @@ export function MapScreen({ navigation }) {
   //     .catch((error) => console.error(error))
   //     .finally(() => setLoading(false));
   // }, []);
+
+  const DeliveryStatus = () => {
+    return (
+      <View
+        style={{
+          position: 'absolute',
+          bottom: 20,
+          left: 10,
+          right: 10,
+          alignItems: 'flex-start',
+          justifyContent: 'center',
+          backgroundColor: 'rgba(255, 255, 255, 0.99)',
+          borderRadius: 10,
+          padding: 16,
+        }}
+      >
+        <View style={{ flexDirection: 'row' }}>
+          <View style={{ flexDirection: "column", alignItems: 'flex-start' }}>
+            <Text style={{ color: 'grey', fontSize: 16 }}>Estimated Arrival</Text>
+            <Text style={{ color: 'black', fontSize: 30, fontWeight: 'bold' }}>45-55 Minutes</Text>
+            <Progress.Bar
+              size={30}
+              style={styles.ProgressBar}
+              indeterminate={true}
+              width={200}
+              borderWidth={3}
+              height={10}
+              borderRadius={10}
+              animationType='timing'
+              color="#D60665"
+            />
+          </View>
+  
+          <Pressable
+            // style={[styles.button, styles.buttonOpen]}
+            onPress={() => { setModalVisible(true), setShouldShow(false) }}>
+            <View style={{ padding: 10, }}>
+              <Image style={{ paddingTop: 10, resizeMode: 'cover', height: 100, width: 100, }}
+                source={require('./assets/images/delivery.gif')} />
+            </View>
+          </Pressable>
+  
+        </View>
+  
+        <View style={{ flexDirection: 'column', alignItems: 'flex-start', paddingLeft: 10 }}>
+          <Text style={{ padding: 5, paddingLeft: 0, fontSize: 16, fontStyle: 'italic' }}>{userName}, Your order is on it's way!</Text>
+        </View>
+  
+      </View>
+  
+    );
+  };
 
   return (
     <View style={styles.container}>
@@ -251,7 +305,7 @@ export function MapScreen({ navigation }) {
 
           {position.map((shop, index) => {
             try {
-              
+
               if (position.length > 0 && position != null) {
                 if (index > 0) {
                   return (
@@ -345,43 +399,9 @@ export function MapScreen({ navigation }) {
         style={styles.fab}
         onPress={() => navigation.goBack()}
       />*/}
+      {shouldShow ? <DeliveryStatus/> : null}
 
-      <View
-        style={{
-          position: 'absolute',
-          bottom: 20,
-          left: 10,
-          right: 10,
-          alignItems: 'flex-start',
-          justifyContent: 'center',
-          backgroundColor: 'rgba(255, 255, 255, 0.99)',
-          borderRadius: 10,
-        }}>
-        <View style={{ flexDirection: 'row' }}>
-          <View style={{ flexDirection: "column", alignItems: 'flex-start', padding: 10 }}>
-            {shouldShow ? (
-              <Text style={{ color: 'grey', fontSize: 16 }}>Estimated Arrival</Text>
-            ) : null}
-            {shouldShow ? (
-              <Text style={{ color: 'black', fontSize: 30, fontWeight: 'bold' }}>45-55 Minutes</Text>
-            ) : null}
-            {shouldShow ? (
-              <Progress.Bar
-                size={30}
-                style={styles.ProgressBar}
-                indeterminate={true}
-                width={200}
-                borderWidth={3}
-                height={10}
-                borderRadius={10}
-                animationType='timing'
-                color="#D60665"
-              />
-            ) : null}
-
-          </View>
-
-          <View style={styles.centeredView}>
+          
             <Modal
               animationType="slide"
               transparent={true}
@@ -390,7 +410,7 @@ export function MapScreen({ navigation }) {
                 //Alert.alert("Modal has been closed.");
                 setModalVisible(!modalVisible);
               }}>
-              <View style={styles.centeredView}>
+              <View style={{ backgroundColor: "#000000aa", flex: 1, justifyContent: "center" }}>
                 <View style={styles.modalView}>
                   <Image style={{ paddingTop: 10, resizeMode: 'cover', height: 100, width: 100, }}
                     source={require('./assets/images/thumbsupgif.gif')} />
@@ -404,29 +424,7 @@ export function MapScreen({ navigation }) {
                 </View>
               </View>
             </Modal>
-          </View>
-
-          {shouldShow ? (
-            <Pressable
-              // style={[styles.button, styles.buttonOpen]}
-              onPress={() => { setModalVisible(true), setShouldShow(!shouldShow) }}>
-              <View style={{ padding: 10, }}>
-                <Image style={{ paddingTop: 10, resizeMode: 'cover', height: 100, width: 100, }}
-                  source={require('./assets/images/delivery.gif')} />
-              </View>
-            </Pressable>
-          ) : null}
-
-        </View>
-
-        {shouldShow ? (
-          <View style={{ flexDirection: 'column', alignItems: 'flex-start', paddingLeft: 10 }}>
-            <Text style={{ padding: 5, paddingLeft: 0, fontSize: 16, fontStyle: 'italic' }}>{userName}, Your order is on it's way!</Text>
-          </View>
-        ) : null}
-
-
-      </View>
+          
 
     </View>
 
@@ -476,7 +474,8 @@ const styles = StyleSheet.create({
   textStyle: {
     color: "white",
     fontWeight: "bold",
-    textAlign: "center"
+    textAlign: "center",
+    fontSize: 16,
   },
   modalText: {
     marginBottom: 15,
@@ -494,6 +493,7 @@ const styles = StyleSheet.create({
   },
   ProgressBar: {
     position: 'relative',
+    marginVertical: 4,
   },
   bubble: {
     flexDirection: 'column',

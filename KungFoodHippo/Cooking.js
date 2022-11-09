@@ -66,7 +66,7 @@ export function CookingScreen({ navigation }) {
             <View style={{flex: 1, justifyContent:'space-evenly', alignItems:'center', flexDirection: "column"}}>
                 
                 <Image source={require("./assets/videos/loading-cooking.gif")} style={style1.cooking}></Image>
-                <Text style={{fontWeight: 'bold',textAlign: 'center', color: 'black', fontSize: 24, flex: 1, flexWrap: 'wrap',}}>{loadingText}</Text>
+                <Text style={{fontWeight: 'bold',textAlign: 'center', color: 'black', fontSize: 24, flex: 1, flexWrap: 'wrap', margin: 8}}>{loadingText}</Text>
             </View>
             </ImageBackground>
 
@@ -79,7 +79,7 @@ const style1 = StyleSheet.create({
     container: {
         backgroundColor: '#FFFFFF',
         flex: 1,
-        marginHorizontal: 5,
+        //marginHorizontal: 5,
         flexDirection: "row"
     },
     //Searchtext:{
