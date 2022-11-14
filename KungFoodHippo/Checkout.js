@@ -48,7 +48,41 @@ export function CheckoutScreen({ navigation }) {
 
     const orderPath = "getOrderAddress/"
 
-
+    const clearCart = async () => {
+        await data.map((userData) => {
+            console.log(userData['shop.ID']);
+            try {
+                var submitOrder = {
+                    'customer.email': userEmail,
+                    'shop.ID': userData['shop.ID'],
+                    'dish.name': userData['dish.name'],
+                    'quantity': 0
+                };
+                var formBody = [];
+                for (var property in submitOrder) {
+                    var encodedKey = encodeURIComponent(property);
+                    var encodedValue = encodeURIComponent(submitOrder[property]);
+                    formBody.push(encodedKey + "=" + encodedValue);
+                }
+                formBody = formBody.join("&");
+    
+                const requestOptions = {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+                    body: formBody
+                };
+                fetch('http://dip.totallynormal.website/updateCart', requestOptions)
+                    .then(response => {
+                        console.log(response.status)
+                        console.log(formBody)
+                    })
+            }
+            catch (error) {
+                console.error(error);
+            }
+        });
+        
+    }
 
     useEffect(() => {
         navigation.addListener('focus', () => {
@@ -227,6 +261,7 @@ export function CheckoutScreen({ navigation }) {
                         </View>
 
                         <Button style={[styles.button, { marginHorizontal: 16, borderRadius: 15 }]} android_ripple={{ color: 'white', borderless: false }} onPress={() => {
+                            clearCart();
                             navigation.navigate('Payment', { totalCheckout: totalPrice });
                         }}>
                             <Text style={styles.buttonText}>Checkout</Text>
