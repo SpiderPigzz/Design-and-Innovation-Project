@@ -40,7 +40,12 @@ export function PaymentScreen({ navigation, route }) {
 
   const { userEmail, userName, userToken } = useContext(userContext);
   const [isLoading, setLoading] = useState(true);
-  const [orderData, setOrderData] = useState();
+  //const [orderData, setOrderData] = useState();
+  const [customerName, setCustomerName] = useState();
+  const [shopName, setShopName] = useState();
+  const [customerAddress, setCustomerAddress] = useState();
+  const [shopAddress, setShopAddress] = useState();
+
 
   const { totalCheckout } = route.params;
 
@@ -48,7 +53,11 @@ export function PaymentScreen({ navigation, route }) {
     try {
       const response = await fetch('http://dip.totallynormal.website/getOrderAddress/' + userEmail);
       const json = await response.json();
-      setOrderData(json[0]);
+      //setOrderData(json[0]);
+      setCustomerName(json[0]['customer.name']);
+      setShopName(json[0]['shop.name']);
+      setCustomerAddress(json[0]['customer.address']);
+      setShopAddress(json[0]['shop.address']);
 
     } catch (error) {
       console.error(error);
@@ -203,30 +212,12 @@ export function PaymentScreen({ navigation, route }) {
             <Text style={styles.header}> {delivery ? (<Text> {newAddressVisible ? 'New Address' : 'Home'}</Text>) : 'Restaurant'} </Text>
             <View>
               {isLoading ? <ActivityIndicator /> : (
-                <Text style={styles.smallText}>
-                  {delivery ? "  " + orderData['customer.name'] : (
-                    <FlatList
-                      contentContainerStyle={{ margin: 4 }}
-                      data={orderData['shop.name']}
-                      renderItem={({ item }) => <Text style={styles.smallText}>{" • "}{item}</Text>}
-                    />
-                  )}
-                </Text> //This one need to get the value using json['key'] because the key got '.' so the phone is confused when you put data.customer.name
+                <Text style={styles.smallText}> {delivery ? "  " + customerName : shopName} </Text> //This one need to get the value using json['key'] because the key got '.' so the phone is confused when you put data.customer.name
               )}
             </View>
             <View>
               {isLoading ? <ActivityIndicator /> : (
-                <Text style={styles.smallText}> 
-                  {delivery ? (<Text> {newAddressVisible ? newAddress : " " + orderData['customer.address']}</Text>) : (
-                    <View>
-                      <FlatList
-                        contentContainerStyle={{ margin: 4 }}
-                        data={orderData['shop.address']}
-                        renderItem={({ item }) => <Text style={[styles.smallText, {flexWrap: 'wrap', minWidth: 100, maxWidth: 300}]}>{" • "}{item}</Text>}
-                      />
-                    </View>
-                  )}
-                </Text>
+                <Text style={styles.smallText}> {delivery ? (<Text> {newAddressVisible ? newAddress : " " + customerAddress}</Text>) : shopAddress} </Text>
               )}
             </View>
 
