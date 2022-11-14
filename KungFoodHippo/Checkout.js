@@ -49,7 +49,7 @@ export function CheckoutScreen({ navigation }) {
     const orderPath = "getOrderAddress/"
 
     const clearCart = async () => {
-        await data.map((userData) => {
+        data.map((userData) => {
             console.log(userData['shop.ID']);
             try {
                 var submitOrder = {
@@ -74,7 +74,7 @@ export function CheckoutScreen({ navigation }) {
                 fetch('http://dip.totallynormal.website/updateCart', requestOptions)
                     .then(response => {
                         console.log(response.status)
-                        console.log(formBody)
+                        console.log("formBody")
                     })
             }
             catch (error) {
