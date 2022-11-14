@@ -7,6 +7,7 @@ import { Appbar } from 'react-native-paper';
 import ProgressBarMultiStep from "react-native-progress-bar-multi-step";
 import MapView, { Animated, Callout, Marker, Polyline } from 'react-native-maps';
 import { ScrollView } from 'react-native-gesture-handler';
+import { NavigationContainer, useIsFocused } from '@react-navigation/native';
 import { userContext } from './App.js';
 
 
@@ -45,6 +46,7 @@ export function PaymentScreen({ navigation, route }) {
   const [shopName, setShopName] = useState();
   const [customerAddress, setCustomerAddress] = useState();
   const [shopAddress, setShopAddress] = useState();
+  const isFocused = useIsFocused();
 
 
   const { totalCheckout } = route.params;
@@ -67,8 +69,10 @@ export function PaymentScreen({ navigation, route }) {
   }
 
   useEffect(() => {
-    getOrderFromDatabase();
-  }, []);
+    if (isFocused) {
+      getOrderFromDatabase();
+    }
+  }, [isFocused]);
 
   const toggle = () => {
     setDeliveryMethod(!delivery);
@@ -249,7 +253,7 @@ export function PaymentScreen({ navigation, route }) {
               onPress={() => setInstructionModalVisible(true)}
             >
               <Text style={styles.selectedText}>
-                {newInstructionVisible ? 'Instructions:' + instruction : '+ Add Delivery Instructions'}
+                {newInstructionVisible ? 'Instructions: ' + instruction : '+ Add Delivery Instructions'}
               </Text>
             </TouchableOpacity>
           ) : null}
