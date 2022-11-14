@@ -26,6 +26,7 @@ const GOOGLE_MAPS_APIKEY = 'AIzaSyC5TVAWgFHBs_ABdfzbsgzHbdJJecaQiO0';
 const url = 'http://dip.totallynormal.website/';
 const orderAddressPath = "getOrderAddress/";
 const coordinatePath = "getOrderLocation/";
+
 const convertor = 'https://maps.googleapis.com/maps/api/geocode/json?address=';
 const key = '&key=AIzaSyC5TVAWgFHBs_ABdfzbsgzHbdJJecaQiO0';
 
@@ -46,9 +47,55 @@ export function MapScreen({ navigation }) {
   const { userEmail, userName, userToken } = useContext(userContext);
   const isFocused = useIsFocused();
 
+  const cartPath = "getCart/" + userEmail;
+
   const delay = ms => new Promise(
     resolve => setTimeout(resolve, ms)
   );
+
+  const clearCart = async () => {
+    fetch(url + cartPath)
+      .then((response) => response.json())
+      .then((json) => {
+        console.log(json);
+
+        var data = json;
+
+        data.map((userData) => {
+          console.log(userData['shop.ID']);
+          try {
+            var submitOrder = {
+              'customer.email': userEmail,
+              'shop.ID': userData['shop.ID'],
+              'dish.name': userData['dish.name'],
+              'quantity': 0
+            };
+            var formBody = [];
+            for (var property in submitOrder) {
+              var encodedKey = encodeURIComponent(property);
+              var encodedValue = encodeURIComponent(submitOrder[property]);
+              formBody.push(encodedKey + "=" + encodedValue);
+            }
+            formBody = formBody.join("&");
+
+            const requestOptions = {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+              body: formBody
+            };
+            fetch('http://dip.totallynormal.website/updateCart', requestOptions)
+              .then(response => {
+                console.log(response.status)
+                console.log("formBody")
+              })
+          }
+          catch (error) {
+            console.error(error);
+          }
+        });
+      });
+
+  }
 
   const getMapData = async () => {
     await fetch(url + orderAddressPath + userEmail)
@@ -144,7 +191,7 @@ export function MapScreen({ navigation }) {
               color="#D60665"
             />
           </View>
-  
+
           <Pressable
             // style={[styles.button, styles.buttonOpen]}
             onPress={() => { setModalVisible(true), setShouldShow(false) }}>
@@ -153,15 +200,15 @@ export function MapScreen({ navigation }) {
                 source={require('./assets/images/delivery.gif')} />
             </View>
           </Pressable>
-  
+
         </View>
-  
+
         <View style={{ flexDirection: 'column', alignItems: 'flex-start', marginTop: 10 }}>
           <Text style={{ fontSize: 16, fontStyle: 'italic' }}>{userName}, Your order is on it's way!</Text>
         </View>
-  
+
       </View>
-  
+
     );
   };
 
@@ -399,32 +446,36 @@ export function MapScreen({ navigation }) {
         style={styles.fab}
         onPress={() => navigation.goBack()}
       />*/}
-      {shouldShow ? <DeliveryStatus/> : null}
+      {shouldShow ? <DeliveryStatus /> : null}
 
-          
-            <Modal
-              animationType="slide"
-              transparent={true}
-              visible={modalVisible}
-              onRequestClose={() => {
-                //Alert.alert("Modal has been closed.");
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          //Alert.alert("Modal has been closed.");
+          setModalVisible(!modalVisible);
+        }}>
+        <View style={{ backgroundColor: "#000000aa", flex: 1, justifyContent: "center" }}>
+          <View style={styles.modalView}>
+            <Image style={{ paddingTop: 10, resizeMode: 'cover', height: 100, width: 100, }}
+              source={require('./assets/images/thumbsupgif.gif')} />
+            <Text style={styles.modalText}>Your delivery is here! 😘</Text>
+            <Text style={styles.modalText}>Thanks for shopping with Hippo</Text>
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => { 
+                clearCart();
                 setModalVisible(!modalVisible);
-              }}>
-              <View style={{ backgroundColor: "#000000aa", flex: 1, justifyContent: "center" }}>
-                <View style={styles.modalView}>
-                  <Image style={{ paddingTop: 10, resizeMode: 'cover', height: 100, width: 100, }}
-                    source={require('./assets/images/thumbsupgif.gif')} />
-                  <Text style={styles.modalText}>Your delivery is here! 😘</Text>
-                  <Text style={styles.modalText}>Thanks for shopping with Hippo</Text>
-                  <Pressable
-                    style={[styles.button, styles.buttonClose]}
-                    onPress={() => { setModalVisible(!modalVisible), navigation.navigate('Home') }}>
-                    <Text style={styles.textStyle}>Go to Home</Text>
-                  </Pressable>
-                </View>
-              </View>
-            </Modal>
-          
+                navigation.navigate('Home');
+                }}>
+              <Text style={styles.textStyle}>Go to Home</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+
 
     </View>
 
