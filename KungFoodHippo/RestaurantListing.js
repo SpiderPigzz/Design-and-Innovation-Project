@@ -509,7 +509,7 @@ export function ListingScreen({ route, navigation }) {
 
 
                 {stateNearby ? <Text style={[restaurantStyle.textBold, { flex: 1, minHeight: 40, marginHorizontal: 20, marginVertical: 4, fontSize: 20 }]}>
-                    Listing available restaurants for{'\n'}Group Order
+                    Listing available restaurants for{'\n'}Bundle Delivery
                 </Text> : <Text style={[restaurantStyle.textBold, { flex: 1, minHeight: 20, marginHorizontal: 20, marginVertical: 4 }]}>
                     Searching for '{searchDisplay}'
                 </Text>}
