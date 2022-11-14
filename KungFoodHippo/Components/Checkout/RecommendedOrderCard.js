@@ -6,7 +6,7 @@ import { RecommendedItemCard } from './RecommendedItemCard.js';
 export function RecommendedOrderCard() {
     return (
 
-        <Card style={[styles.card, {marginHorizontal:10, marginVertical:8,paddingVertical: 4,
+        <Card style={[styles.card, {marginHorizontal:10, marginVertical:8,paddingVertical: 8,
             paddingHorizontal: 4}]}>
             {/*<Card.Content style={[styles.container, {justifyContent:'flex-start', backgroundColor:styles.secColor}]}>*/}
                 <View style={[styles.container, {flexDirection:'row', justifyContent:'flex-start', backgroundColor:styles.secColor}]}>

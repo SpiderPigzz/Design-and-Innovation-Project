@@ -203,12 +203,30 @@ export function PaymentScreen({ navigation, route }) {
             <Text style={styles.header}> {delivery ? (<Text> {newAddressVisible ? 'New Address' : 'Home'}</Text>) : 'Restaurant'} </Text>
             <View>
               {isLoading ? <ActivityIndicator /> : (
-                <Text style={styles.smallText}> {delivery ? "  " + orderData['customer.name'] : orderData['shop.name']} </Text> //This one need to get the value using json['key'] because the key got '.' so the phone is confused when you put data.customer.name
+                <Text style={styles.smallText}>
+                  {delivery ? "  " + orderData['customer.name'] : (
+                    <FlatList
+                      contentContainerStyle={{ margin: 4 }}
+                      data={orderData['shop.name']}
+                      renderItem={({ item }) => <Text style={styles.smallText}>{" • "}{item}</Text>}
+                    />
+                  )}
+                </Text> //This one need to get the value using json['key'] because the key got '.' so the phone is confused when you put data.customer.name
               )}
             </View>
             <View>
               {isLoading ? <ActivityIndicator /> : (
-                <Text style={styles.smallText}> {delivery ? (<Text> {newAddressVisible ? newAddress : " " + orderData['customer.address']}</Text>) : orderData['shop.address']} </Text>
+                <Text style={styles.smallText}> 
+                  {delivery ? (<Text> {newAddressVisible ? newAddress : " " + orderData['customer.address']}</Text>) : (
+                    <View>
+                      <FlatList
+                        contentContainerStyle={{ margin: 4 }}
+                        data={orderData['shop.address']}
+                        renderItem={({ item }) => <Text style={[styles.smallText, {flexWrap: 'wrap', minWidth: 100, maxWidth: 300}]}>{" • "}{item}</Text>}
+                      />
+                    </View>
+                  )}
+                </Text>
               )}
             </View>
 
@@ -360,7 +378,7 @@ const styles = StyleSheet.create({
   modalText: {
     margin: 12,
     fontSize: 16,
-
+    textAlign: 'center',
   },
   textStyle: {
     color: 'white',

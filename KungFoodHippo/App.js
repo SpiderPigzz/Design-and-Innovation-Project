@@ -270,7 +270,7 @@ const theme = {
     paddingHorizontal: 20,
     paddingVertical: 10,
     flexDirection: 'row',
-    borderRadius: 15,
+    borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
     textAlign: 'center'

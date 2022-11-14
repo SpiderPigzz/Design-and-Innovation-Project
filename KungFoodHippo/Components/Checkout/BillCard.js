@@ -87,32 +87,34 @@ export function BillCard({ dishName, quantity, description, category, price, ima
                     <Text style={[styles.text]}>Edit</Text> */}
                 </View>
 
-                <View style={[styles.container, { flexDirection: 'row', justifyContent: 'space-between' }]}>
+                <View style={[styles.container, { flexDirection: 'row', justifyContent: 'space-between', marginTop: 8 }]}>
 
                     <ImageBackground style={[styles.Image]} imageStyle={{ borderRadius: 10 }} source={showDefault}></ImageBackground>
                     <View style={[styles.container, { flexDirection: 'column', flex: 1 }]}>
                         <Text style={[styles.backgroundText, { fontWeight: 'bold', fontSize: 14, fontStyle:'italic', color:'#454545', textAlignVertical: 'top', marginHorizontal: 8 }]}>{category}</Text>
                         <Text numberOfLines={8} style={[styles.backgroundText, { fontWeight: 'normal', fontSize: 12, color:'#787878' , fontStyle:'italic', textAlignVertical: 'top', marginHorizontal: 8, flexWrap: 'wrap', flex: 1 }]}>{description}</Text>
                     </View>
-                    <View style={[styles.container, { flexDirection: 'column', justifyContent: 'space-evenly' }]}>
-                        <View style={{ flexDirection: "row", justifyContent: "center", paddingVertical: 24 }}>
+                    <View style={[styles.container, { flexDirection: 'column', justifyContent: 'space-between' }]}>
+                        <View style={{ flexDirection: "row", justifyContent: "center", paddingTop: 8 }}>
                             <TouchableOpacity
-                                style={{ backgroundColor: count > 0 ? "#E76766" : "#c0c0c0", width: 36, height: 36, borderRadius: 50, justifyContent: "center" }}
+                                style={{ backgroundColor: count > 0 ? "#E76766" : "#c0c0c0", width: 32, height: 32, borderRadius: 50, justifyContent: "center", alignItems: 'center' }}
                                 onPress={subtract}
                             >
-                                <Text style={[styles.buttonText, { fontSize: 30 }]}>-</Text>
+                                <Text style={[styles.buttonText, { fontSize: 26 }]}>-</Text>
                             </TouchableOpacity>
                             <Text style={[styles.backgroundText, { fontSize: 24, textAlignVertical: "center", paddingHorizontal: 30 }]}>{count}</Text>
                             <TouchableOpacity
-                                style={{ backgroundColor: "#E76766", width: 36, height: 36, borderRadius: 50, justifyContent: "center" }}
+                                style={{ backgroundColor: "#E76766", width: 32, height: 32, borderRadius: 50, justifyContent: "center", alignItems: 'center' }}
                                 onPress={add}
                             >
-                                <Text style={[styles.buttonText, { fontSize: 30 }]}>+</Text>
+                                <Text style={[styles.buttonText, { fontSize: 24 }]}>+</Text>
                             </TouchableOpacity>
                         </View>
-                        <Text style={[styles.text, { textAlignVertical: 'top' }]}>{count}{"pcs"}</Text>
-                        <Text style={[styles.text, { textAlignVertical: 'top' }]}>{"S$"}{processedPrice}/ea</Text>
-                        <Text style={[styles.text, { fontSize: 15, textAlignVertical: 'top' }]}>Total: {"S$"}{totalItemPrice}</Text>
+                        <View>
+                            <Text style={[styles.text, { textAlignVertical: 'top' }]}>{count}{"pcs"}</Text>
+                            <Text style={[styles.text, { textAlignVertical: 'top' }]}>{"S$"}{processedPrice}/ea</Text>
+                            <Text style={[styles.text, { fontSize: 15, textAlignVertical: 'top' }]}>Total: {"S$"}{totalItemPrice}</Text>
+                        </View>
                     </View>
 
                 </View>

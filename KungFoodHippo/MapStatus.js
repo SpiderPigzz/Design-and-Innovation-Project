@@ -156,8 +156,8 @@ export function MapScreen({ navigation }) {
   
         </View>
   
-        <View style={{ flexDirection: 'column', alignItems: 'flex-start', paddingLeft: 10 }}>
-          <Text style={{ padding: 5, paddingLeft: 0, fontSize: 16, fontStyle: 'italic' }}>{userName}, Your order is on it's way!</Text>
+        <View style={{ flexDirection: 'column', alignItems: 'flex-start', marginTop: 10 }}>
+          <Text style={{ fontSize: 16, fontStyle: 'italic' }}>{userName}, Your order is on it's way!</Text>
         </View>
   
       </View>
